@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumcraft:flux_crystal",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "examplemod:taint_fibre",
+              "properties": {
+                "growth3": "true"
+              }
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+} 

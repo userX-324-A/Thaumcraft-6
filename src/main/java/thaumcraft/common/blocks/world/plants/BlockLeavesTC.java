@@ -1,137 +1,86 @@
 package thaumcraft.common.blocks.world.plants;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.loot.LootContext;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.server.ServerWorld;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.config.ConfigItems;
-import thaumcraft.common.world.aura.AuraHandler;
 
+public class BlockLeavesTC extends LeavesBlock {
+    private final boolean isSilverwood;
 
-public class BlockLeavesTC extends BlockLeaves
-{
-    public BlockLeavesTC(String name) {
-        setDefaultState(blockState.getBaseState().withProperty((IProperty)BlockLeavesTC.CHECK_DECAY, (Comparable)true).withProperty((IProperty)BlockLeavesTC.DECAYABLE, (Comparable)true));
-        setCreativeTab(ConfigItems.TABTC);
-        setUnlocalizedName(name);
-        setRegistryName("thaumcraft", name);
+    public BlockLeavesTC(boolean isSilverwood, AbstractBlock.Properties properties) {
+        super(properties);
+        this.isSilverwood = isSilverwood;
+        this.registerDefaultState(this.stateDefinition.any()
+            .setValue(DISTANCE, 7)
+            .setValue(PERSISTENT, Boolean.FALSE));
     }
-    
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+
+    @Override
+    public boolean isFlammable(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+        return true;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
         return 60;
     }
-    
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
         return 30;
     }
-    
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return Blocks.LEAVES.getBlockLayer();
+
+    @Override
+    public BlockState getStateForPlacement(BlockState state, Direction facing, BlockState state2, World world, BlockPos pos1, BlockPos pos2, PlayerEntity player) {
+        return super.getStateForPlacement(state, facing, state2, world, pos1, pos2, player)
+            .setValue(PERSISTENT, Boolean.TRUE);
     }
-    
-    public boolean isOpaqueCube(IBlockState state) {
-        return Blocks.LEAVES.isOpaqueCube(state);
-    }
-    
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        if (placer != null && placer instanceof EntityPlayer) {
-            worldIn.setBlockState(pos, state.withProperty((IProperty)BlockLeavesTC.DECAYABLE, (Comparable)false));
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
+        super.randomTick(state, worldIn, pos, random);
+        if (this.isSilverwood && !state.getValue(PERSISTENT) && state.getValue(DISTANCE) == 7) {
         }
     }
-    
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        setGraphicsLevel(!isOpaqueCube(blockState));
-        return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-    }
-    
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return (state.getBlock() == BlocksTC.leafSilverwood) ? MapColor.LIGHT_BLUE : super.getMapColor(state, worldIn, pos);
-    }
-    
-    public int damageDropped(IBlockState state) {
-        return 0;
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-        list.add(new ItemStack(this));
-    }
-    
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
-        return new ItemStack(this);
-    }
-    
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (!worldIn.isRemote && state.getBlock() == BlocksTC.leafSilverwood && (boolean)state.getValue((IProperty)BlockLeavesTC.DECAYABLE) && AuraHandler.getVis(worldIn, pos) < AuraHandler.getAuraBase(worldIn, pos)) {
-            AuraHandler.addVis(worldIn, pos, 0.01f);
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        List<ItemStack> drops = super.getDrops(state, builder);
+        Random random = builder.getLevel().random;
+
+        if (!state.getValue(PERSISTENT) && random.nextInt(20) == 0) {
         }
-        super.updateTick(worldIn, pos, state, rand);
-    }
-    
-    public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty((IProperty)BlockLeavesTC.DECAYABLE, (Comparable)((meta & 0x4) == 0x0)).withProperty((IProperty)BlockLeavesTC.CHECK_DECAY, (Comparable)((meta & 0x8) > 0));
-    }
-    
-    public int getMetaFromState(IBlockState state) {
-        int i = 0;
-        if (!(boolean)state.getValue(BlockLeavesTC.DECAYABLE)) {
-            i |= 0x4;
+
+        if (this.isSilverwood && !state.getValue(PERSISTENT) && random.nextInt( (int)(20 * 0.75) ) == 0) {
         }
-        if (state.getValue(BlockLeavesTC.CHECK_DECAY)) {
-            i |= 0x8;
-        }
-        return i;
+        return drops;
     }
-    
-    protected int getSaplingDropChance(IBlockState state) {
-        return 75;
+
+    @Override
+    protected boolean decaying(BlockState state) {
+        return !state.getValue(PERSISTENT) && state.getValue(DISTANCE) == 7;
     }
-    
-    protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance) {
-        if (state.getBlock() == BlocksTC.leafSilverwood && worldIn.rand.nextInt((int)(chance * 0.75)) == 0) {
-            spawnAsEntity(worldIn, pos, new ItemStack(ItemsTC.nuggets, 1, 5));
-        }
-    }
-    
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return (state.getBlock() == BlocksTC.leafSilverwood) ? Item.getItemFromBlock(BlocksTC.saplingSilverwood) : Item.getItemFromBlock(BlocksTC.saplingGreatwood);
-    }
-    
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, BlockLeavesTC.CHECK_DECAY, BlockLeavesTC.DECAYABLE);
-    }
-    
-    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-        IBlockState state = world.getBlockState(pos);
-        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack(this)));
-    }
-    
-    public BlockPlanks.EnumType getWoodType(int meta) {
-        return null;
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(DISTANCE) == 7 && !state.getValue(PERSISTENT);
     }
 }

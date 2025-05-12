@@ -1,52 +1,51 @@
 package thaumcraft.common.blocks.world.plants;
+
 import java.util.Random;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.BushBlock;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import thaumcraft.common.config.ConfigItems;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+public class BlockPlantCinderpearl extends BushBlock {
+    protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 
-public class BlockPlantCinderpearl extends BlockBush
-{
-    public BlockPlantCinderpearl() {
-        super(Material.PLANTS);
-        setUnlocalizedName("cinderpearl");
-        setRegistryName("thaumcraft", "cinderpearl");
-        setCreativeTab(ConfigItems.TABTC);
-        setSoundType(SoundType.PLANT);
-        setLightLevel(0.5f);
+    public BlockPlantCinderpearl(AbstractBlock.Properties properties) {
+        super(properties);
     }
-    
-    protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.STAINED_HARDENED_CLAY || state.getBlock() == Blocks.HARDENED_CLAY;
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
-    
-    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
-        return EnumPlantType.Desert;
+
+    @Override
+    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        Block block = state.getBlock();
+        return block == Blocks.SAND || block == Blocks.RED_SAND || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL || block == Blocks.FARMLAND || state.isIn(BlockTags.TERRACOTTA);
     }
-    
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         if (rand.nextBoolean()) {
-            float xr = pos.getX() + 0.5f + (rand.nextFloat() - rand.nextFloat()) * 0.1f;
-            float yr = pos.getY() + 0.6f + (rand.nextFloat() - rand.nextFloat()) * 0.1f;
-            float zr = pos.getZ() + 0.5f + (rand.nextFloat() - rand.nextFloat()) * 0.1f;
-            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, xr, yr, zr, 0.0, 0.0, 0.0);
-            world.spawnParticle(EnumParticleTypes.FLAME, xr, yr, zr, 0.0, 0.0, 0.0);
+            float xr = (float)pos.getX() + 0.5F + (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+            float yr = (float)pos.getY() + 0.6F + (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+            float zr = (float)pos.getZ() + 0.5F + (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+            worldIn.addParticle(ParticleTypes.SMOKE, xr, yr, zr, 0.0D, 0.0D, 0.0D);
+            worldIn.addParticle(ParticleTypes.FLAME, xr, yr, zr, 0.0D, 0.0D, 0.0D);
         }
     }
-    
-    public Block.EnumOffsetType getOffsetType() {
-        return Block.EnumOffsetType.XZ;
-    }
+
+    // The getOffsetType is handled by the properties passed in the constructor if needed
+    // setOffsetType(Block.OffsetType.XZ)
 }

@@ -6,9 +6,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import thaumcraft.common.lib.utils.Utils;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.api.distmarker.Dist;
+
+import java.util.function.Supplier;
 
 
-public class PacketItemToClientContainer implements IMessage, IMessageHandler<PacketItemToClientContainer, IMessage>
+public class PacketItemToClientContainer implements IMessage
 {
     private int windowId;
     private int slot;
@@ -23,6 +29,10 @@ public class PacketItemToClientContainer implements IMessage, IMessageHandler<Pa
         item = itemIn;
     }
     
+    public PacketItemToClientContainer(PacketBuffer buffer) {
+        fromBytes(buffer);
+    }
+    
     public void toBytes(ByteBuf dos) {
         dos.writeInt(windowId);
         dos.writeInt(slot);
@@ -35,20 +45,18 @@ public class PacketItemToClientContainer implements IMessage, IMessageHandler<Pa
         item = Utils.readItemStackFromBuffer(dat);
     }
     
-    public IMessage onMessage(PacketItemToClientContainer message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
+    public static void handle(PacketItemToClientContainer message, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
                 try {
-                    if (Minecraft.getMinecraft().player.openContainer != null && Minecraft.getMinecraft().player.openContainer.windowId == message.windowId) {
-                        Minecraft.getMinecraft().player.openContainer.putStackInSlot(message.slot, message.item);
+                     if (Minecraft.getInstance().player.openContainer != null && Minecraft.getInstance().player.openContainer.windowId == message.windowId) {
+                        Minecraft.getInstance().player.openContainer.putStackInSlot(message.slot, message.item);
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            });
         });
-        return null;
+        ctx.get().setPacketHandled(true);
     }
 }

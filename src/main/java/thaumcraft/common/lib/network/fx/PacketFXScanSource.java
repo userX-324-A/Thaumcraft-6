@@ -1,21 +1,22 @@
 package thaumcraft.common.lib.network.fx;
+
 import io.netty.buffer.ByteBuf;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.Supplier;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXGeneric;
@@ -23,7 +24,7 @@ import thaumcraft.common.lib.utils.BlockUtils;
 import thaumcraft.common.lib.utils.Utils;
 
 
-public class PacketFXScanSource implements IMessage, IMessageHandler<PacketFXScanSource, IMessage>
+public class PacketFXScanSource
 {
     private long loc;
     private int size;
@@ -49,29 +50,29 @@ public class PacketFXScanSource implements IMessage, IMessageHandler<PacketFXSca
         this.size = size;
     }
     
-    public void toBytes(ByteBuf buffer) {
+    public void encode(PacketBuffer buffer) {
         buffer.writeLong(loc);
         buffer.writeByte(size);
     }
     
-    public void fromBytes(ByteBuf buffer) {
+    public PacketFXScanSource(PacketBuffer buffer) {
         loc = buffer.readLong();
         size = buffer.readByte();
     }
     
-    @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketFXScanSource message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                startScan(Minecraft.getMinecraft().player.world, BlockPos.fromLong(message.loc), message.size);
+    @OnlyIn(Dist.CLIENT)
+    public static void handle(PacketFXScanSource message, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player != null) {
+                startScan(mc.player.world, BlockPos.fromLong(message.loc), message.size);
             }
         });
-        return null;
+        ctx.get().setPacketHandled(true);
     }
     
-    @SideOnly(Side.CLIENT)
-    public void startScan(World world, BlockPos pos, int r) {
+    @OnlyIn(Dist.CLIENT)
+    public static void startScan(World world, BlockPos pos, int r) {
         int range = 4 + r * 4;
         ArrayList<BlockPos> positions = new ArrayList<BlockPos>();
         for (int xx = -range; xx <= range; ++xx) {
@@ -121,7 +122,8 @@ public class PacketFXScanSource implements IMessage, IMessageHandler<PacketFXSca
         }
     }
     
-    private void calcGroup(World world, BlockPos start, ArrayList<BlockPos> coll, ArrayList<BlockPos> positions) {
+    @OnlyIn(Dist.CLIENT)
+    private static void calcGroup(World world, BlockPos start, ArrayList<BlockPos> coll, ArrayList<BlockPos> positions) {
         IBlockState bs = world.getBlockState(start);
     Label_0132:
         for (int x = -1; x <= 1; ++x) {
@@ -142,7 +144,8 @@ public class PacketFXScanSource implements IMessage, IMessageHandler<PacketFXSca
         }
     }
     
-    private int getOreColor(World world, BlockPos pos) {
+    @OnlyIn(Dist.CLIENT)
+    private static int getOreColor(World world, BlockPos pos) {
         IBlockState bi = world.getBlockState(pos);
         if (bi.getBlock() != Blocks.AIR && bi.getBlock() != Blocks.BEDROCK) {
             ItemStack is = BlockUtils.getSilkTouchDrop(bi);

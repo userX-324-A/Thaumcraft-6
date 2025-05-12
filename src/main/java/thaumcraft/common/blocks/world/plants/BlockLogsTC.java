@@ -1,103 +1,59 @@
 package thaumcraft.common.blocks.world.plants;
-import com.google.common.collect.UnmodifiableIterator;
-import java.util.Iterator;
-import net.minecraft.block.Block;
+
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.common.blocks.BlockTC;
+import net.minecraftforge.common.ToolType;
 
+public class BlockLogsTC extends RotatedPillarBlock {
 
-public class BlockLogsTC extends BlockTC
-{
-    public static PropertyEnum AXIS;
-    
-    public BlockLogsTC(String name) {
-        super(Material.WOOD, name);
-        setHarvestLevel("axe", 0);
-        setHardness(2.0f);
-        setResistance(5.0f);
-        setSoundType(SoundType.WOOD);
-        setDefaultState(blockState.getBaseState().withProperty(BlockLogsTC.AXIS, (Comparable)EnumFacing.Axis.Y));
+    private final boolean isSilverwood;
+
+    public BlockLogsTC(boolean isSilverwood, MaterialColor topColor, MaterialColor barkColor) {
+        super(AbstractBlock.Properties.of(Material.WOOD, state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? topColor : barkColor)
+                .strength(2.0F, 5.0F)
+                .sound(SoundType.WOOD)
+                .harvestTool(ToolType.AXE)
+                .harvestLevel(0)
+                .flammable(5, 5) // fireSpreadSpeed, flammability
+        );
+        this.isSilverwood = isSilverwood;
     }
-    
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int metadata, EntityLivingBase entity) {
-        return super.getStateForPlacement(world, pos, side, hitX, hitY, hitZ, metadata, entity).withProperty(BlockLogsTC.AXIS, (Comparable)side.getAxis());
+
+    @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        return this.isSilverwood ? 5 : super.getLightValue(state, world, pos);
     }
-    
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return (state.getBlock() == BlocksTC.logSilverwood) ? 5 : super.getLightValue(state, world, pos);
-    }
-    
-    public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-        IBlockState state = world.getBlockState(pos);
-        for (IProperty<?> prop : state.getProperties().keySet()) {
-            if (prop.getName().equals("axis")) {
-                world.setBlockState(pos, state.cycleProperty((IProperty)prop));
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
-        return new ItemStack(Item.getItemFromBlock(this));
-    }
-    
-    public IBlockState getStateFromMeta(int meta) {
-        int axis = meta % 3;
-        return getDefaultState().withProperty(BlockLogsTC.AXIS, (Comparable)EnumFacing.Axis.values()[axis]);
-    }
-    
-    public int getMetaFromState(IBlockState state) {
-        return ((EnumFacing.Axis)state.getValue(BlockLogsTC.AXIS)).ordinal();
-    }
-    
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, BlockLogsTC.AXIS);
-    }
-    
-    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
+
+    @Override
+    public boolean canSustainLeaves(BlockState state, IBlockReader world, BlockPos pos) {
         return true;
     }
-    
-    public boolean isWood(IBlockAccess world, BlockPos pos) {
-        return true;
-    }
-    
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        byte b0 = 4;
-        int i = b0 + 1;
-        if (worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
-            for (BlockPos blockpos1 : BlockPos.getAllInBox(pos.add(-b0, -b0, -b0), pos.add(b0, b0, b0))) {
-                IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
-                if (iblockstate1.getBlock().isLeaves(iblockstate1, worldIn, blockpos1)) {
-                    iblockstate1.getBlock().beginLeavesDecay(iblockstate1, worldIn, blockpos1);
+
+    @Override
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) { // Only proceed if the block is actually changing to something else
+            int i = 4; // Search radius for leaves
+            int j = i + 1;
+            if (worldIn.isAreaLoaded(pos.offset(-j, -j, -j), pos.offset(j, j, j))) {
+                for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-i, -i, -i), pos.offset(i, i, i))) {
+                    BlockState iblockstate = worldIn.getBlockState(blockpos);
+                    if (iblockstate.isSuffocating(worldIn, blockpos)) { // A simple check, might need refinement for specific leaf blocks
+                        // In 1.16.5, leaf decay is typically handled by the leaf blocks themselves
+                        // when they receive a block update and find no logs nearby.
+                        // However, forcing an update can sometimes be useful.
+                        worldIn.neighborChanged(blockpos, this, pos);
+                    }
                 }
             }
         }
-    }
-    
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return 5;
-    }
-    
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return 5;
-    }
-    
-    static {
-        AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class);
+        super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 }

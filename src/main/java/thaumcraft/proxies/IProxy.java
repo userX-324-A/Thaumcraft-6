@@ -1,29 +1,34 @@
 package thaumcraft.proxies;
-import net.minecraft.item.ItemBlock;
+// import net.minecraft.item.ItemBlock; // Obsolete for model registration in this manner
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent; // Changed
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent; // Added for client-specific init
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent; // Changed
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent; // Added
+// import net.minecraftforge.fml.common.event.FMLPostInitializationEvent; // Replaced
+// import net.minecraftforge.fml.common.event.FMLPreInitializationEvent; // Replaced
 
 public interface IProxy
 {
-    void preInit(FMLPreInitializationEvent p0);
+    void preInit(FMLCommonSetupEvent event); // Changed parameter
     
-    void init(FMLInitializationEvent p0);
+    void init(FMLCommonSetupEvent event);    // Changed parameter
     
-    void postInit(FMLPostInitializationEvent p0);
+    void postInit(); // Changed: No specific event, called from commonSetup or dedicated client/server setup
     
-    World getClientWorld();
+    void clientInit(FMLClientSetupEvent event); // Added for client-specific setup like renderers, keybindings
     
-    boolean getSingleplayer();
+    World getClientWorld(); // Needs review: Minecraft.getInstance().world
     
-    World getWorld(int p0);
+    boolean getSingleplayer(); // Needs review: Minecraft.getInstance().isSingleplayer()
     
-    boolean isShiftKeyDown();
+    // World getWorld(int dimensionId); // Needs major review/rework due to dimension changes, commenting out for now
     
-    void registerModel(ItemBlock p0);
+    boolean isShiftKeyDown(); // Needs review: e.g., Screen.hasShiftDown()
     
-    void checkInterModComs(FMLInterModComms.IMCEvent p0);
+    // void registerModel(ItemBlock itemBlock); // Obsolete: Model registration is now event-based and JSON-driven
+    
+    void enqueueInterModComs(InterModEnqueueEvent event); // Renamed and parameter changed
+    
+    void processInterModComs(InterModProcessEvent event); // Added for processing IMC
 }

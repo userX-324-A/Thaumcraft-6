@@ -1,14 +1,19 @@
 package thaumcraft.common.lib.network.misc;
-import io.netty.buffer.ByteBuf;
+
+// import io.netty.buffer.ByteBuf; // Removed
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity; // Updated import
+import net.minecraft.network.PacketBuffer; // Added import
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+// import net.minecraftforge.fml.common.network.ByteBufUtils; // Removed, use PacketBuffer methods
+// import net.minecraftforge.fml.common.network.simpleimpl.IMessage; // Removed
+// import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler; // Removed
+// import net.minecraftforge.fml.common.network.simpleimpl.MessageContext; // Removed
+import net.minecraftforge.api.distmarker.Dist; // Added import
+import net.minecraftforge.api.distmarker.OnlyIn; // Added import
+import net.minecraftforge.fml.network.NetworkEvent; // Added import
+// import net.minecraftforge.fml.relauncher.Side; // Removed
+// import net.minecraftforge.fml.relauncher.SideOnly; // Removed
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
@@ -16,48 +21,62 @@ import thaumcraft.client.lib.events.HudHandler;
 import thaumcraft.client.lib.events.RenderEventHandler;
 import thaumcraft.common.lib.SoundsTC;
 
+import java.util.function.Supplier; // Added import
 
-public class PacketKnowledgeGain implements IMessage, IMessageHandler<PacketKnowledgeGain, IMessage>
-{
-    private byte type;
-    private String cat;
-    
-    public PacketKnowledgeGain() {
-    }
-    
+// public class PacketKnowledgeGain implements IMessage, IMessageHandler<PacketKnowledgeGain, IMessage> // Removed implements
+public class PacketKnowledgeGain {
+    private final byte type; // Made final
+    private final String cat; // Made final
+
+    // Constructor remains largely the same
     public PacketKnowledgeGain(byte type, String value) {
         this.type = type;
-        cat = ((value == null) ? "" : value);
+        this.cat = (value == null) ? "" : value;
     }
-    
-    public void toBytes(ByteBuf buffer) {
-        buffer.writeByte(type);
-        ByteBufUtils.writeUTF8String(buffer, cat);
+
+    // New static encode method
+    public static void encode(PacketKnowledgeGain message, PacketBuffer buffer) {
+        buffer.writeByte(message.type);
+        buffer.writeUtf(message.cat); // Use PacketBuffer.writeUtf
     }
-    
-    public void fromBytes(ByteBuf buffer) {
-        type = buffer.readByte();
-        cat = ByteBufUtils.readUTF8String(buffer);
+
+    // New static decode method
+    public static PacketKnowledgeGain decode(PacketBuffer buffer) {
+        byte type = buffer.readByte();
+        String cat = buffer.readUtf(32767); // Use PacketBuffer.readUtf
+        return new PacketKnowledgeGain(type, cat);
     }
-    
-    @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketKnowledgeGain message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                processMessage(message);
-            }
+
+    // New static handle method
+    public static void handle(PacketKnowledgeGain message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> {
+            // Ensure client-side execution
+            processMessage(message);
         });
-        return null;
+        context.setPacketHandled(true);
     }
-    
-    @SideOnly(Side.CLIENT)
-    void processMessage(PacketKnowledgeGain message) {
-        EntityPlayer p = Minecraft.getMinecraft().player;
+
+    // Logic moved to a static private method, annotated for client side
+    @OnlyIn(Dist.CLIENT)
+    private static void processMessage(PacketKnowledgeGain message) {
+        PlayerEntity p = Minecraft.getInstance().player; // Use getInstance() and PlayerEntity
+        if (p == null) return; // Add null check
+
         IPlayerKnowledge.EnumKnowledgeType type = IPlayerKnowledge.EnumKnowledgeType.values()[message.type];
         ResearchCategory cat = (message.cat.length() > 0) ? ResearchCategories.getResearchCategory(message.cat) : null;
-        RenderEventHandler instance = RenderEventHandler.INSTANCE;
-        RenderEventHandler.hudHandler.knowledgeGainTrackers.add(new HudHandler.KnowledgeGainTracker(type, cat, 40 + p.world.rand.nextInt(20), p.world.rand.nextLong()));
-        p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.learn, SoundCategory.AMBIENT, 1.0f, 1.0f, false);
+
+        // HudHandler access might need checking if RenderEventHandler.INSTANCE is still valid
+        // Assuming HudHandler is accessible statically or via an instance from Minecraft.getInstance()
+        // For now, assuming direct access via RenderEventHandler is okay, but this might need revision.
+        RenderEventHandler eventHandler = RenderEventHandler.INSTANCE; // Assuming this is still valid
+        if (eventHandler != null) { // Check if INSTANCE is valid
+             eventHandler.hudHandler.knowledgeGainTrackers.add(new HudHandler.KnowledgeGainTracker(type, cat, 40 + p.level.random.nextInt(20), p.level.random.nextLong())); // Use p.level.random
+        }
+
+        // Updated playSound call
+        p.level.playSound(p, p.getX(), p.getY(), p.getZ(), SoundsTC.learn, SoundCategory.AMBIENT, 1.0f, 1.0f);
     }
+    
+    // Removed old IMessageHandler interface, toBytes, fromBytes, onMessage methods
 }

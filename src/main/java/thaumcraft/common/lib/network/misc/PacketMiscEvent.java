@@ -1,89 +1,83 @@
 package thaumcraft.common.lib.network.misc;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkEvent;
 import thaumcraft.client.lib.events.RenderEventHandler;
 import thaumcraft.common.config.ModConfig;
 import thaumcraft.common.lib.SoundsTC;
 
+import java.util.function.Supplier;
 
-public class PacketMiscEvent implements IMessage, IMessageHandler<PacketMiscEvent, IMessage>
+
+public class PacketMiscEvent
 {
-    private byte type;
-    private int value;
-    public static byte WARP_EVENT = 0;
-    public static byte MIST_EVENT = 1;
-    public static byte MIST_EVENT_SHORT = 2;
-    
-    public PacketMiscEvent() {
-        value = 0;
-    }
+    private final byte type;
+    private final int value;
+    public static final byte WARP_EVENT = 0;
+    public static final byte MIST_EVENT = 1;
+    public static final byte MIST_EVENT_SHORT = 2;
     
     public PacketMiscEvent(byte type) {
-        value = 0;
-        this.type = type;
+        this(type, 0);
     }
     
     public PacketMiscEvent(byte type, int value) {
-        this.value = 0;
         this.type = type;
         this.value = value;
     }
     
-    public void toBytes(ByteBuf buffer) {
-        buffer.writeByte(type);
-        if (value != 0) {
-            buffer.writeInt(value);
-        }
+    public static void encode(PacketMiscEvent message, PacketBuffer buffer) {
+        buffer.writeByte(message.type);
+        buffer.writeInt(message.value);
     }
     
-    public void fromBytes(ByteBuf buffer) {
-        type = buffer.readByte();
-        if (buffer.isReadable()) {
-            value = buffer.readInt();
-        }
+    public static PacketMiscEvent decode(PacketBuffer buffer) {
+        byte type = buffer.readByte();
+        int value = buffer.readInt();
+        return new PacketMiscEvent(type, value);
     }
     
-    @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketMiscEvent message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                processMessage(message);
-            }
+    public static void handle(PacketMiscEvent message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> {
+            Dist dist = Dist.CLIENT;
+            processMessage(message, dist);
         });
-        return null;
+        context.setPacketHandled(true);
     }
     
-    @SideOnly(Side.CLIENT)
-    void processMessage(PacketMiscEvent message) {
-        EntityPlayer p = Minecraft.getMinecraft().player;
-        switch (message.type) {
-            case 0: {
-                if (!ModConfig.CONFIG_GRAPHICS.nostress) {
-                    p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.heartbeat, SoundCategory.AMBIENT, 1.0f, 1.0f, false);
+    @OnlyIn(Dist.CLIENT)
+    private static void processMessage(PacketMiscEvent message, Dist dist) {
+        if (dist == Dist.CLIENT) {
+            PlayerEntity p = Minecraft.getInstance().player;
+            if (p == null) return;
+
+            switch (message.type) {
+                case WARP_EVENT: {
+                    if (!ModConfig.CONFIG_GRAPHICS.nostress) {
+                        p.level.playSound(p, p.getX(), p.getY(), p.getZ(), SoundsTC.heartbeat, SoundCategory.AMBIENT, 1.0f, 1.0f);
+                        break;
+                    }
                     break;
                 }
-                break;
-            }
-            case 1: {
-                RenderEventHandler.fogFiddled = true;
-                RenderEventHandler.fogDuration = 2400;
-                break;
-            }
-            case 2: {
-                RenderEventHandler.fogFiddled = true;
-                if (RenderEventHandler.fogDuration < 200) {
-                    RenderEventHandler.fogDuration = 200;
+                case MIST_EVENT: {
+                    RenderEventHandler.fogFiddled = true;
+                    RenderEventHandler.fogDuration = 2400;
                     break;
                 }
-                break;
+                case MIST_EVENT_SHORT: {
+                    RenderEventHandler.fogFiddled = true;
+                    if (RenderEventHandler.fogDuration < 200) {
+                        RenderEventHandler.fogDuration = 200;
+                        break;
+                    }
+                    break;
+                }
             }
         }
     }

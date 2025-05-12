@@ -1,18 +1,19 @@
 package thaumcraft.common.lib.network.fx;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkEvent;
+import java.util.function.Supplier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thaumcraft.client.fx.FXDispatcher;
 
 
-public class PacketFXSlash implements IMessage, IMessageHandler<PacketFXSlash, IMessage>
+public class PacketFXSlash
 {
     private int source;
     private int target;
@@ -25,30 +26,42 @@ public class PacketFXSlash implements IMessage, IMessageHandler<PacketFXSlash, I
         this.target = target;
     }
     
-    public void toBytes(ByteBuf buffer) {
+    public void encode(PacketBuffer buffer) {
         buffer.writeInt(source);
         buffer.writeInt(target);
     }
     
-    public void fromBytes(ByteBuf buffer) {
+    public PacketFXSlash(PacketBuffer buffer) {
         source = buffer.readInt();
         target = buffer.readInt();
     }
     
-    @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketFXSlash message, MessageContext ctx) {
-        Minecraft mc = FMLClientHandler.instance().getClient();
-        WorldClient world = mc.world;
-        Entity var2 = getEntityByID(message.source, mc, world);
-        Entity var3 = getEntityByID(message.target, mc, world);
-        if (var2 != null && var3 != null) {
-            FXDispatcher.INSTANCE.drawSlash(var2.posX, var2.getEntityBoundingBox().minY + var2.height / 2.0f, var2.posZ, var3.posX, var3.getEntityBoundingBox().minY + var3.height / 2.0f, var3.posZ, 8);
-        }
-        return null;
+    @OnlyIn(Dist.CLIENT)
+    public static void handle(PacketFXSlash message, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            World world = mc.world;
+            if (world == null) return;
+
+            Entity sourceEntity = getEntityByID(message.source, mc, world);
+            Entity targetEntity = getEntityByID(message.target, mc, world);
+
+            if (sourceEntity != null && targetEntity != null) {
+                FXDispatcher.INSTANCE.drawSlash(
+                        sourceEntity.getPosX(),
+                        sourceEntity.getBoundingBox().minY + sourceEntity.getHeight() / 2.0f,
+                        sourceEntity.getPosZ(),
+                        targetEntity.getPosX(),
+                        targetEntity.getBoundingBox().minY + targetEntity.getHeight() / 2.0f,
+                        targetEntity.getPosZ(),
+                        8);
+            }
+        });
+        ctx.get().setPacketHandled(true);
     }
     
-    @SideOnly(Side.CLIENT)
-    private Entity getEntityByID(int par1, Minecraft mc, WorldClient world) {
-        return (par1 == mc.player.getEntityId()) ? mc.player : world.getEntityByID(par1);
+    @OnlyIn(Dist.CLIENT)
+    private static Entity getEntityByID(int par1, Minecraft mc, World world) {
+        return (mc.player != null && par1 == mc.player.getEntityId()) ? mc.player : world.getEntityByID(par1);
     }
 }

@@ -1,30 +1,32 @@
 package thaumcraft.common.blocks.basic;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import thaumcraft.common.blocks.BlockTC;
-
 
 public class BlockStoneTC extends BlockTC
 {
-    private boolean spawn;
+    private final boolean spawn;
     
-    public BlockStoneTC(String name, boolean spawn) {
-        super(Material.ROCK, name);
+    public BlockStoneTC(boolean spawn, AbstractBlock.Properties properties) {
+        super(properties);
         this.spawn = spawn;
-        setHardness(2.0f);
-        setResistance(10.0f);
-        setSoundType(SoundType.STONE);
     }
     
-    public boolean isBeaconBase(IBlockAccess world, BlockPos pos, BlockPos beacon) {
+    public boolean canSpawnEntities() {
+        return this.spawn;
+    }
+    
+    @Override
+    public boolean isBeaconBase(BlockState state, IBlockReader world, BlockPos pos, BlockPos beaconPos) {
         return true;
     }
     
-    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-        return blockHardness >= 0.0f;
+    @Override
+    public boolean canEntityDestroy(BlockState state, IBlockReader world, BlockPos pos, Entity entity) {
+        return state.getDestroySpeed(world, pos) >= 0.0f;
     }
 }

@@ -1,13 +1,16 @@
 package thaumcraft.common.lib.network.fx;
+
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 import thaumcraft.client.fx.FXDispatcher;
 
+import java.util.function.Supplier;
 
-public class PacketFXPollute implements IMessage, IMessageHandler<PacketFXPollute, IMessage>
+
+public class PacketFXPollute
 {
     private int x;
     private int y;
@@ -31,24 +34,29 @@ public class PacketFXPollute implements IMessage, IMessageHandler<PacketFXPollut
         this(pos, amt);
     }
     
-    public void toBytes(ByteBuf buffer) {
+    public void encode(PacketBuffer buffer) {
         buffer.writeInt(x);
         buffer.writeInt(y);
         buffer.writeInt(z);
         buffer.writeByte(amount);
     }
     
-    public void fromBytes(ByteBuf buffer) {
+    public PacketFXPollute(PacketBuffer buffer) {
         x = buffer.readInt();
         y = buffer.readInt();
         z = buffer.readInt();
         amount = buffer.readByte();
     }
     
-    public IMessage onMessage(PacketFXPollute message, MessageContext ctx) {
-        for (int a = 0; a < Math.min(40, message.amount); ++a) {
-            FXDispatcher.INSTANCE.drawPollutionParticles(new BlockPos(message.x, message.y, message.z));
-        }
-        return null;
+    public static void handle(PacketFXPollute message, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player != null) {
+                 for (int a = 0; a < Math.min(40, message.amount); ++a) {
+                     FXDispatcher.INSTANCE.drawPollutionParticles(new BlockPos(message.x, message.y, message.z));
+                 }
+            }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }

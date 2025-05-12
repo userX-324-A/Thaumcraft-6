@@ -1,20 +1,18 @@
 package thaumcraft.common.lib.network.fx;
-import io.netty.buffer.ByteBuf;
+
 import java.util.Random;
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.network.NetworkEvent;
 import thaumcraft.api.casters.FocusEffect;
 import thaumcraft.api.casters.FocusEngine;
 import thaumcraft.api.casters.IFocusElement;
 
-
-public class PacketFXFocusPartImpact implements IMessage, IMessageHandler<PacketFXFocusPartImpact, IMessage>
+public class PacketFXFocusPartImpact
 {
     double x;
     double y;
@@ -24,53 +22,67 @@ public class PacketFXFocusPartImpact implements IMessage, IMessageHandler<Packet
     public PacketFXFocusPartImpact() {
     }
     
-    public PacketFXFocusPartImpact(double x, double y, double z, String[] parts) {
+    public PacketFXFocusPartImpact(double x, double y, double z, String[] partsArray) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.parts = "";
-        for (int a = 0; a < parts.length; ++a) {
+        StringBuilder sb = new StringBuilder();
+        for (int a = 0; a < partsArray.length; ++a) {
             if (a > 0) {
-                this.parts += "%";
+                sb.append("%");
             }
-            this.parts += parts[a];
+            sb.append(partsArray[a]);
         }
+        this.parts = sb.toString();
+    }
+
+    private PacketFXFocusPartImpact(double x, double y, double z, String partsString) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.parts = partsString;
     }
     
-    public void toBytes(ByteBuf buffer) {
-        buffer.writeFloat((float) x);
-        buffer.writeFloat((float) y);
-        buffer.writeFloat((float) z);
-        ByteBufUtils.writeUTF8String(buffer, parts);
+    public static void encode(PacketFXFocusPartImpact msg, FriendlyByteBuf buf) {
+        buf.writeFloat((float) msg.x);
+        buf.writeFloat((float) msg.y);
+        buf.writeFloat((float) msg.z);
+        buf.writeUtf(msg.parts);
     }
     
-    public void fromBytes(ByteBuf buffer) {
-        x = buffer.readFloat();
-        y = buffer.readFloat();
-        z = buffer.readFloat();
-        parts = ByteBufUtils.readUTF8String(buffer);
+    public static PacketFXFocusPartImpact decode(FriendlyByteBuf buf) {
+        double x = buf.readFloat();
+        double y = buf.readFloat();
+        double z = buf.readFloat();
+        String partsStr = buf.readUtf();
+        return new PacketFXFocusPartImpact(x, y, z, partsStr);
     }
     
-    public IMessage onMessage(PacketFXFocusPartImpact message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                processMessage(message);
-            }
+    public static void handle(PacketFXFocusPartImpact msg, Supplier<NetworkEvent.Context> ctxSupplier) {
+        NetworkEvent.Context ctx = ctxSupplier.get();
+        ctx.enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                performClientEffects(msg);
+            });
         });
-        return null;
+        ctx.setPacketHandled(true);
     }
     
-    @SideOnly(Side.CLIENT)
-    void processMessage(PacketFXFocusPartImpact message) {
+    private static void performClientEffects(PacketFXFocusPartImpact message) {
+        if (Minecraft.getInstance().level == null) return;
+
         String[] partKeys = message.parts.split("%");
+        if (partKeys.length == 0) return;
+
         int amt = Math.max(1, 15 / partKeys.length);
-        Random r = Minecraft.getMinecraft().world.rand;
+        Random r = Minecraft.getInstance().level.random;
+        
         for (String k : partKeys) {
             IFocusElement part = FocusEngine.getElement(k);
-            if (part != null && part instanceof FocusEffect) {
+            if (part instanceof FocusEffect) {
+                FocusEffect focusEffect = (FocusEffect) part;
                 for (int a = 0; a < amt; ++a) {
-                    ((FocusEffect)part).renderParticleFX(Minecraft.getMinecraft().world, message.x, message.y, message.z, r.nextGaussian() * 0.15, r.nextGaussian() * 0.15, r.nextGaussian() * 0.15);
+                    focusEffect.renderParticleFX(Minecraft.getInstance().level, message.x, message.y, message.z, r.nextGaussian() * 0.15, r.nextGaussian() * 0.15, r.nextGaussian() * 0.15);
                 }
             }
         }
