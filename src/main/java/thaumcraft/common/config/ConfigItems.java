@@ -2,6 +2,8 @@ package thaumcraft.common.config;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -13,6 +15,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import thaumcraft.api.OreDictionaryEntries;
@@ -147,9 +152,7 @@ public class ConfigItems
     public static ItemStack FLUX_CRYSTAL;
     
     public static void initMisc() {
-        // OreDictionaryEntries.initializeOreDictionary(); // TODO: Convert to Tags system
-        
-        // These assume ThaumcraftApiHelper.makeCrystal uses ItemsTC.CRYSTAL_ESSENCE.get() or similar internally
+        OreDictionaryEntries.initializeOreDictionary();
         ConfigItems.AIR_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.AIR);
         ConfigItems.FIRE_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.FIRE);
         ConfigItems.WATER_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.WATER);
@@ -157,26 +160,150 @@ public class ConfigItems
         ConfigItems.ORDER_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.ORDER);
         ConfigItems.ENTROPY_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.ENTROPY);
         ConfigItems.FLUX_CRYSTAL = ThaumcraftApiHelper.makeCrystal(Aspect.FLUX);
-        
-        // Initialize the starting book. This seems to be a standard Written Book with custom NBT.
-        ConfigItems.startBook = new ItemStack(Items.WRITTEN_BOOK);
         NBTTagCompound contents = new NBTTagCompound();
-        // I18n.translateToLocal is legacy. Should be new StringTextComponent(key).getString() or similar for NBT.
-        // For now, leaving as is, but this will need an update for proper localization.
-        contents.putString("author", "Azanor"); // Standard author tag
-        contents.putString("title", I18n.translateToLocal("book.start.title")); // Legacy I18n
+        contents.setInteger("generation", 3);
+        contents.setString("title", I18n.translateToLocal("book.start.title"));
         NBTTagList pages = new NBTTagList();
-        pages.appendTag(NBTTagString.valueOf("{ \"text\": \"" + I18n.translateToLocal("book.start.1") + "\" }")); // Legacy I18n, formatting for 1.16.5 book NBT
-        pages.appendTag(NBTTagString.valueOf("{ \"text\": \"" + I18n.translateToLocal("book.start.2") + "\" }")); // Legacy I18n
-        pages.appendTag(NBTTagString.valueOf("{ \"text\": \"" + I18n.translateToLocal("book.start.3") + "\" }")); // Legacy I18n
+        pages.appendTag(new NBTTagString(I18n.translateToLocal("book.start.1")));
+        pages.appendTag(new NBTTagString(I18n.translateToLocal("book.start.2")));
+        pages.appendTag(new NBTTagString(I18n.translateToLocal("book.start.3")));
         contents.setTag("pages", pages);
         ConfigItems.startBook.setTagCompound(contents);
     }
     
+    public static void initItems(IForgeRegistry<Item> iForgeRegistry) {
+        iForgeRegistry.register((ItemsTC.thaumonomicon = new ItemThaumonomicon()));
+        iForgeRegistry.register((ItemsTC.curio = new ItemCurio()));
+        iForgeRegistry.register((ItemsTC.lootBag = new ItemLootBag()));
+        iForgeRegistry.register((ItemsTC.primordialPearl = new ItemPrimordialPearl()));
+        iForgeRegistry.register((ItemsTC.pechWand = new ItemPechWand()));
+        iForgeRegistry.register((ItemsTC.celestialNotes = new ItemCelestialNotes()));
+        iForgeRegistry.register((ItemsTC.amber = new ItemTCBase("amber")));
+        iForgeRegistry.register((ItemsTC.quicksilver = new ItemTCBase("quicksilver")));
+        iForgeRegistry.register((ItemsTC.ingots = new ItemTCBase("ingot", "thaumium", "void", "brass")));
+        iForgeRegistry.register((ItemsTC.nuggets = new ItemTCBase("nugget", "iron", "copper", "tin", "silver", "lead", "quicksilver", "thaumium", "void", "brass", "quartz", "rareearth")));
+        iForgeRegistry.register((ItemsTC.clusters = new ItemTCBase("cluster", "iron", "gold", "copper", "tin", "silver", "lead", "cinnabar", "quartz")));
+        iForgeRegistry.register((ItemsTC.fabric = new ItemTCBase("fabric")));
+        iForgeRegistry.register((ItemsTC.visResonator = new ItemTCBase("vis_resonator")));
+        iForgeRegistry.register((ItemsTC.tallow = new ItemTCBase("tallow")));
+        iForgeRegistry.register((ItemsTC.mechanismSimple = new ItemTCBase("mechanism_simple")));
+        iForgeRegistry.register((ItemsTC.mechanismComplex = new ItemTCBase("mechanism_complex")));
+        iForgeRegistry.register((ItemsTC.plate = new ItemTCBase("plate", "brass", "iron", "thaumium", "void")));
+        iForgeRegistry.register((ItemsTC.filter = new ItemTCBase("filter")));
+        iForgeRegistry.register((ItemsTC.morphicResonator = new ItemTCBase("morphic_resonator")));
+        iForgeRegistry.register((ItemsTC.salisMundus = new ItemMagicDust()));
+        iForgeRegistry.register((ItemsTC.mirroredGlass = new ItemTCBase("mirrored_glass")));
+        iForgeRegistry.register((ItemsTC.voidSeed = new ItemTCBase("void_seed")));
+        iForgeRegistry.register((ItemsTC.mind = new ItemTCBase("mind", "clockwork", "biothaumic")));
+        iForgeRegistry.register((ItemsTC.modules = new ItemTCBase("module", "vision", "aggression")));
+        iForgeRegistry.register((ItemsTC.crystalEssence = new ItemCrystalEssence()));
+        iForgeRegistry.register((ItemsTC.chunks = new ItemChunksEdible()));
+        iForgeRegistry.register((ItemsTC.tripleMeatTreat = new ItemTripleMeatTreat()));
+        iForgeRegistry.register((ItemsTC.brain = new ItemZombieBrain()));
+        iForgeRegistry.register((ItemsTC.label = new ItemLabel()));
+        iForgeRegistry.register((ItemsTC.phial = new ItemPhial()));
+        iForgeRegistry.register((ItemsTC.alumentum = new ItemAlumentum()));
+        iForgeRegistry.register((ItemsTC.jarBrace = new ItemTCBase("jar_brace")));
+        iForgeRegistry.register((ItemsTC.bottleTaint = new ItemBottleTaint()));
+        iForgeRegistry.register((ItemsTC.sanitySoap = new ItemSanitySoap()));
+        iForgeRegistry.register((ItemsTC.bathSalts = new ItemBathSalts()));
+        iForgeRegistry.register((ItemsTC.turretPlacer = new ItemTurretPlacer()));
+        iForgeRegistry.register((ItemsTC.causalityCollapser = new ItemCausalityCollapser()));
+        iForgeRegistry.register((ItemsTC.scribingTools = new ItemScribingTools()));
+        iForgeRegistry.register((ItemsTC.thaumometer = new ItemThaumometer()));
+        iForgeRegistry.register((ItemsTC.resonator = new ItemResonator()));
+        iForgeRegistry.register((ItemsTC.sanityChecker = new ItemSanityChecker()));
+        iForgeRegistry.register((ItemsTC.handMirror = new ItemHandMirror()));
+        iForgeRegistry.register((ItemsTC.thaumiumAxe = new ItemThaumiumAxe(ThaumcraftMaterials.TOOLMAT_THAUMIUM)));
+        iForgeRegistry.register((ItemsTC.thaumiumSword = new ItemThaumiumSword(ThaumcraftMaterials.TOOLMAT_THAUMIUM)));
+        iForgeRegistry.register((ItemsTC.thaumiumShovel = new ItemThaumiumShovel(ThaumcraftMaterials.TOOLMAT_THAUMIUM)));
+        iForgeRegistry.register((ItemsTC.thaumiumPick = new ItemThaumiumPickaxe(ThaumcraftMaterials.TOOLMAT_THAUMIUM)));
+        iForgeRegistry.register((ItemsTC.thaumiumHoe = new ItemThaumiumHoe(ThaumcraftMaterials.TOOLMAT_THAUMIUM)));
+        iForgeRegistry.register((ItemsTC.voidAxe = new ItemVoidAxe(ThaumcraftMaterials.TOOLMAT_VOID)));
+        iForgeRegistry.register((ItemsTC.voidSword = new ItemVoidSword(ThaumcraftMaterials.TOOLMAT_VOID)));
+        iForgeRegistry.register((ItemsTC.voidShovel = new ItemVoidShovel(ThaumcraftMaterials.TOOLMAT_VOID)));
+        iForgeRegistry.register((ItemsTC.voidPick = new ItemVoidPickaxe(ThaumcraftMaterials.TOOLMAT_VOID)));
+        iForgeRegistry.register((ItemsTC.voidHoe = new ItemVoidHoe(ThaumcraftMaterials.TOOLMAT_VOID)));
+        iForgeRegistry.register((ItemsTC.elementalAxe = new ItemElementalAxe(ThaumcraftMaterials.TOOLMAT_ELEMENTAL)));
+        iForgeRegistry.register((ItemsTC.elementalSword = new ItemElementalSword(ThaumcraftMaterials.TOOLMAT_ELEMENTAL)));
+        iForgeRegistry.register((ItemsTC.elementalShovel = new ItemElementalShovel(ThaumcraftMaterials.TOOLMAT_ELEMENTAL)));
+        iForgeRegistry.register((ItemsTC.elementalPick = new ItemElementalPickaxe(ThaumcraftMaterials.TOOLMAT_ELEMENTAL)));
+        iForgeRegistry.register((ItemsTC.elementalHoe = new ItemElementalHoe(ThaumcraftMaterials.TOOLMAT_ELEMENTAL)));
+        iForgeRegistry.register((ItemsTC.primalCrusher = new ItemPrimalCrusher()));
+        iForgeRegistry.register((ItemsTC.crimsonBlade = new ItemCrimsonBlade()));
+        iForgeRegistry.register((ItemsTC.grappleGun = new ItemGrappleGun()));
+        iForgeRegistry.register((ItemsTC.grappleGunTip = new ItemTCBase("grapple_gun_tip")));
+        iForgeRegistry.register((ItemsTC.grappleGunSpool = new ItemTCBase("grapple_gun_spool")));
+        iForgeRegistry.register((ItemsTC.goggles = new ItemGoggles()));
+        iForgeRegistry.register((ItemsTC.thaumiumHelm = new ItemThaumiumArmor("thaumium_helm", ThaumcraftMaterials.ARMORMAT_THAUMIUM, 2, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.thaumiumChest = new ItemThaumiumArmor("thaumium_chest", ThaumcraftMaterials.ARMORMAT_THAUMIUM, 2, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.thaumiumLegs = new ItemThaumiumArmor("thaumium_legs", ThaumcraftMaterials.ARMORMAT_THAUMIUM, 2, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.thaumiumBoots = new ItemThaumiumArmor("thaumium_boots", ThaumcraftMaterials.ARMORMAT_THAUMIUM, 2, EntityEquipmentSlot.FEET)));
+        iForgeRegistry.register((ItemsTC.clothChest = new ItemRobeArmor("cloth_chest", ThaumcraftMaterials.ARMORMAT_SPECIAL, 1, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.clothLegs = new ItemRobeArmor("cloth_legs", ThaumcraftMaterials.ARMORMAT_SPECIAL, 2, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.clothBoots = new ItemRobeArmor("cloth_boots", ThaumcraftMaterials.ARMORMAT_SPECIAL, 1, EntityEquipmentSlot.FEET)));
+        iForgeRegistry.register((ItemsTC.travellerBoots = new ItemBootsTraveller()));
+        iForgeRegistry.register((ItemsTC.fortressHelm = new ItemFortressArmor("fortress_helm", ThaumcraftMaterials.ARMORMAT_FORTRESS, 4, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.fortressChest = new ItemFortressArmor("fortress_chest", ThaumcraftMaterials.ARMORMAT_FORTRESS, 4, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.fortressLegs = new ItemFortressArmor("fortress_legs", ThaumcraftMaterials.ARMORMAT_FORTRESS, 4, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.voidHelm = new ItemVoidArmor("void_helm", ThaumcraftMaterials.ARMORMAT_VOID, 2, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.voidChest = new ItemVoidArmor("void_chest", ThaumcraftMaterials.ARMORMAT_VOID, 2, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.voidLegs = new ItemVoidArmor("void_legs", ThaumcraftMaterials.ARMORMAT_VOID, 2, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.voidBoots = new ItemVoidArmor("void_boots", ThaumcraftMaterials.ARMORMAT_VOID, 2, EntityEquipmentSlot.FEET)));
+        iForgeRegistry.register((ItemsTC.voidRobeHelm = new ItemVoidRobeArmor("void_robe_helm", ThaumcraftMaterials.ARMORMAT_VOIDROBE, 4, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.voidRobeChest = new ItemVoidRobeArmor("void_robe_chest", ThaumcraftMaterials.ARMORMAT_VOIDROBE, 4, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.voidRobeLegs = new ItemVoidRobeArmor("void_robe_legs", ThaumcraftMaterials.ARMORMAT_VOIDROBE, 4, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.crimsonPlateHelm = new ItemCultistPlateArmor("crimson_plate_helm", ThaumcraftMaterials.ARMORMAT_CULTIST_PLATE, 4, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.crimsonPlateChest = new ItemCultistPlateArmor("crimson_plate_chest", ThaumcraftMaterials.ARMORMAT_CULTIST_PLATE, 4, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.crimsonPlateLegs = new ItemCultistPlateArmor("crimson_plate_legs", ThaumcraftMaterials.ARMORMAT_CULTIST_PLATE, 4, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.crimsonBoots = new ItemCultistBoots()));
+        iForgeRegistry.register((ItemsTC.crimsonRobeHelm = new ItemCultistRobeArmor("crimson_robe_helm", ThaumcraftMaterials.ARMORMAT_CULTIST_ROBE, 4, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.crimsonRobeChest = new ItemCultistRobeArmor("crimson_robe_chest", ThaumcraftMaterials.ARMORMAT_CULTIST_ROBE, 4, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.crimsonRobeLegs = new ItemCultistRobeArmor("crimson_robe_legs", ThaumcraftMaterials.ARMORMAT_CULTIST_ROBE, 4, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.crimsonPraetorHelm = new ItemCultistLeaderArmor("crimson_praetor_helm", 4, EntityEquipmentSlot.HEAD)));
+        iForgeRegistry.register((ItemsTC.crimsonPraetorChest = new ItemCultistLeaderArmor("crimson_praetor_chest", 4, EntityEquipmentSlot.CHEST)));
+        iForgeRegistry.register((ItemsTC.crimsonPraetorLegs = new ItemCultistLeaderArmor("crimson_praetor_legs", 4, EntityEquipmentSlot.LEGS)));
+        iForgeRegistry.register((ItemsTC.baubles = new ItemBaubles()));
+        iForgeRegistry.register((ItemsTC.amuletVis = new ItemAmuletVis()));
+        iForgeRegistry.register((ItemsTC.charmVerdant = new ItemVerdantCharm()));
+        iForgeRegistry.register((ItemsTC.bandCuriosity = new ItemCuriosityBand()));
+        iForgeRegistry.register((ItemsTC.charmVoidseer = new ItemVoidseerCharm()));
+        iForgeRegistry.register((ItemsTC.ringCloud = new ItemCloudRing()));
+        iForgeRegistry.register((ItemsTC.charmUndying = new ItemCharmUndying()));
+        iForgeRegistry.register((ItemsTC.creativeFluxSponge = new ItemCreativeFluxSponge()));
+        iForgeRegistry.register((ItemsTC.enchantedPlaceholder = new ItemEnchantmentPlaceholder()));
+        iForgeRegistry.register((ItemsTC.casterBasic = new ItemCaster("caster_basic", 0)));
+        iForgeRegistry.register((ItemsTC.focus1 = new ItemFocus("focus_1", 15)));
+        iForgeRegistry.register((ItemsTC.focus2 = new ItemFocus("focus_2", 25)));
+        iForgeRegistry.register((ItemsTC.focus3 = new ItemFocus("focus_3", 50)));
+        iForgeRegistry.register((ItemsTC.focusPouch = new ItemFocusPouch()));
+        iForgeRegistry.register((ItemsTC.golemBell = new ItemGolemBell()));
+        iForgeRegistry.register((ItemsTC.golemPlacer = new ItemGolemPlacer()));
+        iForgeRegistry.register((ItemsTC.seals = new ItemSealPlacer()));
+    }
+    
     public static void init() {
-        initMisc(); // Keep this call
-        // initResearch(); // This was called from CommonProxy.init, will be handled later
-        // initPotions(); // This was called from CommonProxy.init, will be handled later
+        FocusEngine.registerElement(FocusMediumRoot.class, new ResourceLocation("thaumcraft", "textures/foci/root.png"), 10066329);
+        FocusEngine.registerElement(FocusMediumTouch.class, new ResourceLocation("thaumcraft", "textures/foci/touch.png"), 11371909);
+        FocusEngine.registerElement(FocusMediumBolt.class, new ResourceLocation("thaumcraft", "textures/foci/bolt.png"), 11377029);
+        FocusEngine.registerElement(FocusMediumProjectile.class, new ResourceLocation("thaumcraft", "textures/foci/projectile.png"), 11382149);
+        FocusEngine.registerElement(FocusMediumCloud.class, new ResourceLocation("thaumcraft", "textures/foci/cloud.png"), 10071429);
+        FocusEngine.registerElement(FocusMediumMine.class, new ResourceLocation("thaumcraft", "textures/foci/mine.png"), 8760709);
+        FocusEngine.registerElement(FocusMediumPlan.class, new ResourceLocation("thaumcraft", "textures/foci/plan.png"), 8760728);
+        FocusEngine.registerElement(FocusMediumSpellBat.class, new ResourceLocation("thaumcraft", "textures/foci/spellbat.png"), 8760748);
+        FocusEngine.registerElement(FocusEffectFire.class, new ResourceLocation("thaumcraft", "textures/foci/fire.png"), 16734721);
+        FocusEngine.registerElement(FocusEffectFrost.class, new ResourceLocation("thaumcraft", "textures/foci/frost.png"), 14811135);
+        FocusEngine.registerElement(FocusEffectAir.class, new ResourceLocation("thaumcraft", "textures/foci/air.png"), 16777086);
+        FocusEngine.registerElement(FocusEffectEarth.class, new ResourceLocation("thaumcraft", "textures/foci/earth.png"), 5685248);
+        FocusEngine.registerElement(FocusEffectFlux.class, new ResourceLocation("thaumcraft", "textures/foci/flux.png"), 8388736);
+        FocusEngine.registerElement(FocusEffectBreak.class, new ResourceLocation("thaumcraft", "textures/foci/break.png"), 9063176);
+        FocusEngine.registerElement(FocusEffectRift.class, new ResourceLocation("thaumcraft", "textures/foci/rift.png"), 3084645);
+        FocusEngine.registerElement(FocusEffectExchange.class, new ResourceLocation("thaumcraft", "textures/foci/exchange.png"), 5735255);
+        FocusEngine.registerElement(FocusEffectCurse.class, new ResourceLocation("thaumcraft", "textures/foci/curse.png"), 6946821);
+        FocusEngine.registerElement(FocusEffectHeal.class, new ResourceLocation("thaumcraft", "textures/foci/heal.png"), 14548997);
+        FocusEngine.registerElement(FocusModScatter.class, new ResourceLocation("thaumcraft", "textures/foci/scatter.png"), 10066329);
+        FocusEngine.registerElement(FocusModSplitTarget.class, new ResourceLocation("thaumcraft", "textures/foci/split_target.png"), 10066329);
+        FocusEngine.registerElement(FocusModSplitTrajectory.class, new ResourceLocation("thaumcraft", "textures/foci/split_trajectory.png"), 10066329);
     }
     
     public static void preInitSeals() {
@@ -198,7 +325,38 @@ public class ConfigItems
         SealHandler.registerSeal(new SealBreakerAdvanced());
     }
     
+    @SideOnly(Side.CLIENT)
+    public static void initModelsAndVariants() {
+        for (IThaumcraftItems itemVariantHolder : ConfigItems.ITEM_VARIANT_HOLDERS) {
+            initModelAndVariants(itemVariantHolder);
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private static void initModelAndVariants(IThaumcraftItems item) {
+        if (item.getCustomMesh() != null) {
+            ModelLoader.setCustomMeshDefinition(item.getItem(), item.getCustomMesh());
+            for (int i = 0; i < item.getVariantNames().length; ++i) {
+                ModelBakery.registerItemVariants(item.getItem(), item.getCustomModelResourceLocation(item.getVariantNames()[i]));
+            }
+        }
+        else if (item.getItem() == ItemsTC.seals) {
+            for (int i = 0; i < item.getVariantNames().length; ++i) {
+                ModelLoader.setCustomModelResourceLocation(item.getItem(), item.getVariantMeta()[i], new ModelResourceLocation(item.getItem().getRegistryName() + "_" + item.getVariantNames()[i], null));
+            }
+        }
+        else if (!item.getItem().getHasSubtypes()) {
+            ModelLoader.setCustomModelResourceLocation(item.getItem(), 0, new ModelResourceLocation(item.getItem().getRegistryName(), null));
+        }
+        else {
+            for (int i = 0; i < item.getVariantNames().length; ++i) {
+                ModelLoader.setCustomModelResourceLocation(item.getItem(), item.getVariantMeta()[i], item.getCustomModelResourceLocation(item.getVariantNames()[i]));
+            }
+        }
+    }
+    
     static {
+        ConfigItems.startBook = new ItemStack(Items.WRITTEN_BOOK);
         ConfigItems.TABTC = new CreativeTabThaumcraft(CreativeTabs.getNextID(), "thaumcraft");
         ITEM_VARIANT_HOLDERS = new ArrayList<IThaumcraftItems>();
     }

@@ -4,15 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.casters.FocusEffect;
 import thaumcraft.api.casters.FocusEngine;
 import thaumcraft.api.casters.FocusMediumRoot;
@@ -28,8 +28,10 @@ public class ItemFocus extends ItemTCBase
 {
     private int maxComplexity;
     
-    public ItemFocus(String name, int complexity, Item.Properties props) {
-        super(name, props);
+    public ItemFocus(String name, int complexity) {
+        super(name);
+        maxStackSize = 1;
+        setMaxDamage(0);
         maxComplexity = complexity;
     }
     
@@ -38,7 +40,7 @@ public class ItemFocus extends ItemTCBase
             return 16777215;
         }
         int color = 16777215;
-        if (!focusstack.getTagCompound().contains("color")) {
+        if (!focusstack.getTagCompound().hasKey("color")) {
             FocusPackage core = getPackage(focusstack);
             if (core != null) {
                 FocusEffect[] fe = core.getFocusEffects();
@@ -58,41 +60,38 @@ public class ItemFocus extends ItemTCBase
                 }
                 Color c2 = new Color(r, g, b);
                 color = c2.getRGB();
-                focusstack.getOrCreateTag().putInt("color", color);
+                focusstack.setTagInfo("color", new NBTTagInt(color));
             }
         }
         else {
-            color = focusstack.getTagCompound().getInt("color");
+            color = focusstack.getTagCompound().getInteger("color");
         }
         return color;
     }
     
     public String getSortingHelper(ItemStack focusstack) {
-        if (focusstack == null || focusstack.isEmpty() || !focusstack.hasTag()) {
+        if (focusstack == null || focusstack.isEmpty() || !focusstack.hasTagCompound()) {
             return null;
         }
-        int sh = focusstack.getOrCreateTag().getInt("srt");
+        int sh = focusstack.getTagCompound().getInteger("srt");
         if (sh == 0) {
-            FocusPackage focusPackage = getPackage(focusstack);
-            if (focusPackage != null) {
-                sh = focusPackage.getSortingHelper();
-                focusstack.getOrCreateTag().putInt("srt", sh);
-            }
+            sh = getPackage(focusstack).getSortingHelper();
+            focusstack.setTagInfo("srt", new NBTTagInt(sh));
         }
-        return focusstack.getDisplayName().getString() + sh;
+        return focusstack.getDisplayName() + sh;
     }
     
     public static void setPackage(ItemStack focusstack, FocusPackage core) {
         NBTTagCompound tag = core.serialize();
-        focusstack.addTagElement("package", tag);
+        focusstack.setTagInfo("package", tag);
     }
     
     public static FocusPackage getPackage(ItemStack focusstack) {
         if (focusstack == null || focusstack.isEmpty()) {
             return null;
         }
-        NBTTagCompound tag = focusstack.getShareTag() != null ? focusstack.getShareTag().getCompound("package") : null;
-        if (tag != null && !tag.isEmpty()) {
+        NBTTagCompound tag = focusstack.getSubCompound("package");
+        if (tag != null) {
             FocusPackage p = new FocusPackage();
             p.deserialize(tag);
             return p;
@@ -100,17 +99,18 @@ public class ItemFocus extends ItemTCBase
         return null;
     }
     
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         addFocusInformation(stack, worldIn, tooltip, flagIn);
     }
     
-    public void addFocusInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    @SideOnly(Side.CLIENT)
+    public void addFocusInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         FocusPackage p = getPackage(stack);
         if (p != null) {
             float al = getVisCost(stack);
             String amount = ItemStack.DECIMALFORMAT.format(al);
-            tooltip.add(new StringTextComponent(amount + " ").append(new TranslationTextComponent("item.Focus.cost1")));
+            tooltip.add(amount + " " + I18n.translateToLocal("item.Focus.cost1"));
             for (IFocusElement fe : p.nodes) {
                 if (fe instanceof FocusNode && !(fe instanceof FocusMediumRoot)) {
                     buildInfo(tooltip, (FocusNode)fe, 0);
@@ -119,49 +119,39 @@ public class ItemFocus extends ItemTCBase
         }
     }
     
-    private void buildInfo(List<ITextComponent> list, FocusNode node, int depth) {
+    private void buildInfo(List list, FocusNode node, int depth) {
         if (node instanceof FocusNode && !(node instanceof FocusMediumRoot)) {
-            String indentation = "";
+            String t0 = "";
             for (int a = 0; a < depth; ++a) {
-                indentation += "  ";
+                t0 += "  ";
             }
-
-            MutableTextComponent lineComponent = new StringTextComponent(indentation);
-
-            lineComponent.append(new TranslationTextComponent(node.getUnlocalizedName()).withStyle(TextFormatting.DARK_PURPLE));
-
-            if (node.getSettingList() != null && !node.getSettingList().isEmpty()) {
-                lineComponent.append(new StringTextComponent(" [").withStyle(TextFormatting.DARK_AQUA));
-                boolean firstSetting = true;
+            t0 = t0 + TextFormatting.DARK_PURPLE + I18n.translateToLocal(node.getUnlocalizedName());
+            if (!node.getSettingList().isEmpty()) {
+                t0 = t0 + TextFormatting.DARK_AQUA + " [";
+                boolean q = false;
                 for (String st : node.getSettingList()) {
                     NodeSetting ns = node.getSetting(st);
-                    if (ns != null) {
-                        if (!firstSetting) {
-                            lineComponent.append(new StringTextComponent(", ").withStyle(TextFormatting.DARK_AQUA));
-                        }
-                        lineComponent.append(new StringTextComponent(ns.getLocalizedName() + " " + ns.getValueText()).withStyle(TextFormatting.DARK_AQUA));
-                        firstSetting = false;
-                    }
+                    t0 = t0 + (q ? ", " : "") + ns.getLocalizedName() + " " + ns.getValueText();
+                    q = true;
                 }
-                lineComponent.append(new StringTextComponent("]").withStyle(TextFormatting.DARK_AQUA));
+                t0 += "]";
             }
-            list.add(lineComponent);
-
+            list.add(t0);
             if (node instanceof FocusModSplit) {
                 FocusModSplit split = (FocusModSplit)node;
-                if (split.getSplitPackages() != null) {
-                    for (FocusPackage p : split.getSplitPackages()) {
-                        if (p != null && p.nodes != null) {
-                            for (IFocusElement fe : p.nodes) {
-                                if (fe instanceof FocusNode && !(fe instanceof FocusMediumRoot)) {
-                                    buildInfo(list, (FocusNode)fe, depth + 1);
-                                }
-                            }
+                for (FocusPackage p : split.getSplitPackages()) {
+                    for (IFocusElement fe : p.nodes) {
+                        if (fe instanceof FocusNode && !(fe instanceof FocusMediumRoot)) {
+                            buildInfo(list, (FocusNode)fe, depth + 1);
                         }
                     }
                 }
             }
         }
+    }
+    
+    public EnumRarity getRarity(ItemStack focusstack) {
+        return EnumRarity.RARE;
     }
     
     public float getVisCost(ItemStack focusstack) {

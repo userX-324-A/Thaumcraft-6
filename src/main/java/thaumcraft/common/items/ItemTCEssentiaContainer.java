@@ -1,4 +1,6 @@
 package thaumcraft.common.items;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
 import thaumcraft.api.items.ItemGenericEssentiaContainer;
@@ -45,5 +47,18 @@ public class ItemTCEssentiaContainer extends ItemGenericEssentiaContainer implem
     @Override
     public int[] getVariantMeta() {
         return VARIANTS_META;
+    }
+    
+    @Override
+    public ItemMeshDefinition getCustomMesh() {
+        return null;
+    }
+    
+    @Override
+    public ModelResourceLocation getCustomModelResourceLocation(String variant) {
+        if (variant.equals(BASE_NAME)) {
+            return new ModelResourceLocation("thaumcraft:" + BASE_NAME);
+        }
+        return new ModelResourceLocation("thaumcraft:" + BASE_NAME, variant);
     }
 }

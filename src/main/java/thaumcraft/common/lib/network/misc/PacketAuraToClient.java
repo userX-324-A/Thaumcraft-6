@@ -1,48 +1,48 @@
 package thaumcraft.common.lib.network.misc;
-
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import thaumcraft.client.lib.events.HudHandler;
 import thaumcraft.common.world.aura.AuraChunk;
 
-import java.util.function.Supplier;
 
-
-public class PacketAuraToClient
+public class PacketAuraToClient implements IMessage, IMessageHandler<PacketAuraToClient, IMessage>
 {
-    private final short base;
-    private final float vis;
-    private final float flux;
-
-    public PacketAuraToClient(AuraChunk ac) {
-        this.base = ac.getBase();
-        this.vis = ac.getVis();
-        this.flux = ac.getFlux();
+    short base;
+    float vis;
+    float flux;
+    
+    public PacketAuraToClient() {
     }
     
-    private PacketAuraToClient(short base, float vis, float flux) {
-        this.base = base;
-        this.vis = vis;
-        this.flux = flux;
+    public PacketAuraToClient(AuraChunk ac) {
+        base = ac.getBase();
+        vis = ac.getVis();
+        flux = ac.getFlux();
     }
-
-    public void encode(PacketBuffer buffer) {
-        buffer.writeShort(base);
-        buffer.writeFloat(vis);
-        buffer.writeFloat(flux);
+    
+    public void toBytes(ByteBuf dos) {
+        dos.writeShort(base);
+        dos.writeFloat(vis);
+        dos.writeFloat(flux);
     }
-
-    public static PacketAuraToClient decode(PacketBuffer buffer) {
-        short base = buffer.readShort();
-        float vis = buffer.readFloat();
-        float flux = buffer.readFloat();
-        return new PacketAuraToClient(base, vis, flux);
+    
+    public void fromBytes(ByteBuf dat) {
+        base = dat.readShort();
+        vis = dat.readFloat();
+        flux = dat.readFloat();
     }
-
-    public static void handle(PacketAuraToClient message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            HudHandler.currentAura = new AuraChunk(null, message.base, message.vis, message.flux);
+    
+    public IMessage onMessage(PacketAuraToClient message, MessageContext ctx) {
+        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+            @Override
+            public void run() {
+                HudHandler.currentAura = new AuraChunk(null, message.base, message.vis, message.flux);
+            }
         });
-        ctx.get().setPacketHandled(true);
+        return null;
     }
 }

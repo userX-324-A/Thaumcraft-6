@@ -1,4 +1,6 @@
 package thaumcraft.common.items;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,8 +14,12 @@ public class ItemTCBase extends Item implements IThaumcraftItems
     protected String[] VARIANTS;
     protected int[] VARIANTS_META;
     
-    public ItemTCBase(String name, Item.Properties props, String... variants) {
-        super(props);
+    public ItemTCBase(String name, String... variants) {
+        setRegistryName(name);
+        setUnlocalizedName(name);
+        setCreativeTab(ConfigItems.TABTC);
+        setNoRepair();
+        setHasSubtypes(variants.length > 1);
         BASE_NAME = name;
         if (variants.length == 0) {
             VARIANTS = new String[] { name };
@@ -25,24 +31,20 @@ public class ItemTCBase extends Item implements IThaumcraftItems
         for (int m = 0; m < VARIANTS.length; ++m) {
             VARIANTS_META[m] = m;
         }
-        if (VARIANTS.length > 1) {
-            this.setHasSubtypes(true);
-        }
+        ConfigItems.ITEM_VARIANT_HOLDERS.add(this);
     }
     
-    @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        if (getHasSubtypes() && itemStack.getDamageValue() < VARIANTS.length && VARIANTS[itemStack.getDamageValue()] != BASE_NAME) {
-            return String.format(super.getTranslationKey() + ".%s", VARIANTS[itemStack.getDamageValue()]);
+    public String getUnlocalizedName(ItemStack itemStack) {
+        if (hasSubtypes && itemStack.getMetadata() < VARIANTS.length && VARIANTS[itemStack.getMetadata()] != BASE_NAME) {
+            return String.format(super.getUnlocalizedName() + ".%s", VARIANTS[itemStack.getMetadata()]);
         }
-        return super.getTranslationKey(itemStack);
+        return super.getUnlocalizedName(itemStack);
     }
     
-    @Override
-    public void fillItemCategory(CreativeTabs tab, NonNullList<ItemStack> items) {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (tab == ConfigItems.TABTC || tab == CreativeTabs.SEARCH) {
             if (!getHasSubtypes()) {
-                super.fillItemCategory(tab, items);
+                super.getSubItems(tab, items);
             }
             else {
                 for (int meta = 0; meta < VARIANTS.length; ++meta) {
@@ -64,22 +66,14 @@ public class ItemTCBase extends Item implements IThaumcraftItems
         return VARIANTS_META;
     }
     
-    /**
-     * @deprecated Model handling has changed significantly. This will be removed or refactored.
-     */
-    /* @Deprecated // Method removed
     public ItemMeshDefinition getCustomMesh() {
         return null;
-    }*/
+    }
     
-    /**
-     * @deprecated Model handling has changed significantly. This will be removed or refactored.
-     */
-    /* @Deprecated // Method removed
     public ModelResourceLocation getCustomModelResourceLocation(String variant) {
         if (variant.equals(BASE_NAME)) {
             return new ModelResourceLocation("thaumcraft:" + BASE_NAME);
         }
         return new ModelResourceLocation("thaumcraft:" + BASE_NAME, variant);
-    }*/
+    }
 }

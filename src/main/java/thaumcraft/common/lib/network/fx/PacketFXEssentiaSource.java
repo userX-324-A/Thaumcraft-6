@@ -1,13 +1,13 @@
 package thaumcraft.common.lib.network.fx;
-
-import net.minecraft.network.PacketBuffer;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import thaumcraft.common.lib.events.EssentiaHandler;
-import java.util.function.Supplier;
 
 
-public class PacketFXEssentiaSource
+public class PacketFXEssentiaSource implements IMessage, IMessageHandler<PacketFXEssentiaSource, IMessage>
 {
     private int x;
     private int y;
@@ -17,10 +17,10 @@ public class PacketFXEssentiaSource
     private byte dz;
     private int color;
     private int ext;
-
+    
     public PacketFXEssentiaSource() {
     }
-
+    
     public PacketFXEssentiaSource(BlockPos p1, byte dx, byte dy, byte dz, int color, int e) {
         x = p1.getX();
         y = p1.getY();
@@ -32,18 +32,7 @@ public class PacketFXEssentiaSource
         ext = e;
     }
     
-    public PacketFXEssentiaSource(PacketBuffer buffer) {
-        x = buffer.readInt();
-        y = buffer.readInt();
-        z = buffer.readInt();
-        color = buffer.readInt();
-        dx = buffer.readByte();
-        dy = buffer.readByte();
-        dz = buffer.readByte();
-        ext = buffer.readShort();
-    }
-
-    public void toBytes(PacketBuffer buffer) {
+    public void toBytes(ByteBuf buffer) {
         buffer.writeInt(x);
         buffer.writeInt(y);
         buffer.writeInt(z);
@@ -53,16 +42,31 @@ public class PacketFXEssentiaSource
         buffer.writeByte(dz);
         buffer.writeShort(ext);
     }
-
-
-    public static void handle(PacketFXEssentiaSource message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            int tx = message.x - message.dx;
-            int ty = message.y - message.dy;
-            int tz = message.z - message.dz;
-            String key = message.x + ":" + message.y + ":" + message.z + ":" + tx + ":" + ty + ":" + tz + ":" + message.color;
+    
+    public void fromBytes(ByteBuf buffer) {
+        x = buffer.readInt();
+        y = buffer.readInt();
+        z = buffer.readInt();
+        color = buffer.readInt();
+        dx = buffer.readByte();
+        dy = buffer.readByte();
+        dz = buffer.readByte();
+        ext = buffer.readShort();
+    }
+    
+    public IMessage onMessage(PacketFXEssentiaSource message, MessageContext ctx) {
+        int tx = message.x - message.dx;
+        int ty = message.y - message.dy;
+        int tz = message.z - message.dz;
+        String key = message.x + ":" + message.y + ":" + message.z + ":" + tx + ":" + ty + ":" + tz + ":" + message.color;
+        if (EssentiaHandler.sourceFX.containsKey(key)) {
+            EssentiaHandler.EssentiaSourceFX sf = EssentiaHandler.sourceFX.get(key);
+            EssentiaHandler.sourceFX.remove(key);
+            EssentiaHandler.sourceFX.put(key, sf);
+        }
+        else {
             EssentiaHandler.sourceFX.put(key, new EssentiaHandler.EssentiaSourceFX(new BlockPos(message.x, message.y, message.z), new BlockPos(tx, ty, tz), message.color, message.ext));
-        });
-        ctx.get().setPacketHandled(true);
+        }
+        return null;
     }
 }

@@ -17,7 +17,7 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -28,7 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -57,19 +57,20 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
     DecimalFormat myFormatter;
     ArrayList<BlockPos> checked;
     
-    public ItemCaster(String name, int area, Item.Properties props) {
-        super(name, props);
+    public ItemCaster(String name, int area) {
+        super(name);
         this.area = 0;
         myFormatter = new DecimalFormat("#######.#");
         checked = new ArrayList<BlockPos>();
         this.area = area;
-        this.addProperty(new ResourceLocation("focus"), new IItemPropertyGetter() {
-            public float getValue(ItemStack stack, @Nullable ClientLevel worldIn, @Nullable LivingEntity entityIn, int seed) {
-                if (stack.getItem() instanceof ItemCaster) {
-                    ItemFocus f = ((ItemCaster)stack.getItem()).getFocus(stack);
-                    if (f != null) {
-                        return 1.0f;
-                    }
+        maxStackSize = 1;
+        setMaxDamage(0);
+        addPropertyOverride(new ResourceLocation("focus"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+                ItemFocus f = ((ItemCaster)stack.getItem()).getFocus(stack);
+                if (stack.getItem() instanceof ItemCaster && f != null) {
+                    return 1.0f;
                 }
                 return 0.0f;
             }
@@ -93,6 +94,11 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
         return newStack.getItem() != oldStack.getItem();
     }
     
+    public boolean isDamageable() {
+        return false;
+    }
+    
+    @SideOnly(Side.CLIENT)
     public boolean isFull3D() {
         return true;
     }
@@ -195,10 +201,10 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
     
     @Override
     public ItemFocus getFocus(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("focus", 10)) {
-            CompoundNBT nbt = stack.getTag().getCompound("focus");
-            ItemStack fs = ItemStack.of(nbt);
-            if (!fs.isEmpty() && fs.getItem() instanceof ItemFocus) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("focus")) {
+            NBTTagCompound nbt = stack.getTagCompound().getCompoundTag("focus");
+            ItemStack fs = new ItemStack(nbt);
+            if (fs != null && !fs.isEmpty()) {
                 return (ItemFocus)fs.getItem();
             }
         }
@@ -207,49 +213,43 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
     
     @Override
     public ItemStack getFocusStack(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("focus", 10)) {
-            CompoundNBT nbt = stack.getTag().getCompound("focus");
-            return ItemStack.of(nbt);
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("focus")) {
+            NBTTagCompound nbt = stack.getTagCompound().getCompoundTag("focus");
+            return new ItemStack(nbt);
         }
-        return ItemStack.EMPTY;
+        return null;
     }
     
     @Override
     public void setFocus(ItemStack stack, ItemStack focus) {
         if (focus == null || focus.isEmpty()) {
-            if (stack.hasTag()) {
-                stack.getTag().remove("focus");
-            }
+            stack.getTagCompound().removeTag("focus");
         }
         else {
-            stack.getOrCreateTag().put("focus", focus.save(new CompoundNBT()));
+            stack.setTagInfo("focus", focus.writeToNBT(new NBTTagCompound()));
         }
     }
     
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (stack.hasTag()) {
-            String costText = "";
-            ItemStack focusStack = getFocusStack(stack);
-            if (focusStack != null && !focusStack.isEmpty()) {
-                Item item = focusStack.getItem();
-                if (item instanceof ItemFocus) {
-                    ItemFocus focusItem = (ItemFocus) item;
-                    float amt = focusItem.getVisCost(focusStack);
-                    if (amt > 0.0f) {
-                        costText = "§r" + myFormatter.format(amt) + " " + new TranslationTextComponent("item.Focus.cost1").getString();
-                    }
+    public EnumRarity getRarity(ItemStack itemstack) {
+        return EnumRarity.UNCOMMON;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (stack.hasTagCompound()) {
+            String text = "";
+            ItemStack focus = getFocusStack(stack);
+            if (focus != null && !focus.isEmpty()) {
+                float amt = ((ItemFocus)focus.getItem()).getVisCost(focus);
+                if (amt > 0.0f) {
+                    text = "§r" + myFormatter.format(amt) + " " + I18n.translateToLocal("item.Focus.cost1");
                 }
             }
-            tooltip.add(new StringTextComponent("").append(new TranslationTextComponent("tc.vis.cost").withStyle(TextFormatting.ITALIC, TextFormatting.AQUA)).append(" " + costText));
+            tooltip.add(TextFormatting.ITALIC + "" + TextFormatting.AQUA + I18n.translateToLocal("tc.vis.cost") + " " + text);
         }
-
-        ItemStack focus = getFocusStack(stack);
-        if (focus != null && !focus.isEmpty()) {
-            tooltip.add(focus.getHoverName().copy().withStyle(TextFormatting.BOLD, TextFormatting.ITALIC, TextFormatting.GREEN));
-            Item item = focus.getItem();
-            if (item instanceof ItemFocus) {
-                 ((ItemFocus)item).addFocusInformation(focus, worldIn, tooltip, flagIn);
-            }
+        if (getFocus(stack) != null) {
+            tooltip.add(TextFormatting.BOLD + "" + TextFormatting.ITALIC + "" + TextFormatting.GREEN + getFocus(stack).getItemStackDisplayName(getFocusStack(stack)));
+            getFocus(stack).addFocusInformation(getFocusStack(stack), worldIn, tooltip, flagIn);
         }
     }
     

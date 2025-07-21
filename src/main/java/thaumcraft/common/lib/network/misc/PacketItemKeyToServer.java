@@ -1,25 +1,28 @@
 package thaumcraft.common.lib.network.misc;
-
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import thaumcraft.api.casters.ICaster;
 import thaumcraft.common.items.casters.CasterManager;
 import thaumcraft.common.items.tools.ItemElementalShovel;
 
-import java.util.function.Supplier;
 
-
-public class PacketItemKeyToServer
+public class PacketItemKeyToServer implements IMessage, IMessageHandler<PacketItemKeyToServer, IMessage>
 {
-    private final byte key;
-    private final byte mod;
+    private byte key;
+    private byte mod;
+    
+    public PacketItemKeyToServer() {
+    }
     
     public PacketItemKeyToServer(int key) {
         this.key = (byte)key;
-        this.mod = 0;
+        mod = 0;
     }
     
     public PacketItemKeyToServer(int key, int mod) {
@@ -27,45 +30,47 @@ public class PacketItemKeyToServer
         this.mod = (byte)mod;
     }
     
-    private PacketItemKeyToServer(byte key, byte mod) {
-        this.key = key;
-        this.mod = mod;
-    }
-    
-    public void encode(PacketBuffer buffer) {
+    public void toBytes(ByteBuf buffer) {
         buffer.writeByte(key);
         buffer.writeByte(mod);
     }
     
-    public static PacketItemKeyToServer decode(PacketBuffer buffer) {
-        return new PacketItemKeyToServer(buffer.readByte(), buffer.readByte());
+    public void fromBytes(ByteBuf buffer) {
+        key = buffer.readByte();
+        mod = buffer.readByte();
     }
     
-    public static void handle(PacketItemKeyToServer message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayerEntity player = ctx.get().getSender();
-            if (player == null) return;
-
-            World world = player.world;
-
-            ItemStack mainHandStack = player.getHeldItemMainhand();
-            ItemStack offHandStack = player.getHeldItemOffhand();
-
-            if (message.key == 1) {
-                boolean handled = false;
-                if (!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof ICaster) {
-                    CasterManager.toggleMisc(mainHandStack, world, player, message.mod);
-                    handled = true;
+    public IMessage onMessage(PacketItemKeyToServer message, MessageContext ctx) {
+        IThreadListener mainThread = ctx.getServerHandler().player.getServerWorld();
+        mainThread.addScheduledTask(new Runnable() {
+            @Override
+            public void run() {
+                World world = ctx.getServerHandler().player.getServerWorld();
+                if (world == null) {
+                    return;
                 }
-                if (!handled && !offHandStack.isEmpty() && offHandStack.getItem() instanceof ICaster) {
-                    CasterManager.toggleMisc(offHandStack, world, player, message.mod);
-                    handled = true;
-                }
-                if (!handled && !mainHandStack.isEmpty() && mainHandStack.getItem() instanceof ItemElementalShovel) {
-                    ItemElementalShovel.setOrientation(mainHandStack, (byte) (ItemElementalShovel.getOrientation(mainHandStack) + 1));
+                Entity player = ctx.getServerHandler().player;
+                if (player != null && player instanceof EntityPlayer) {
+                    boolean flag = false;
+                    if (((EntityPlayer)player).getHeldItemMainhand() != null) {
+                        if (message.key == 1 && ((EntityPlayer)player).getHeldItemMainhand().getItem() instanceof ICaster) {
+                            CasterManager.toggleMisc(((EntityPlayer)player).getHeldItemMainhand(), world, (EntityPlayer)player, message.mod);
+                            flag = true;
+                        }
+                        if (!flag && message.key == 1 && ((EntityPlayer)player).getHeldItemOffhand().getItem() instanceof ICaster) {
+                            CasterManager.toggleMisc(((EntityPlayer)player).getHeldItemOffhand(), world, (EntityPlayer)player, message.mod);
+                        }
+                        if (message.key == 1 && ((EntityPlayer)player).getHeldItemMainhand().getItem() instanceof ItemElementalShovel) {
+                            ItemElementalShovel itemElementalShovel = (ItemElementalShovel)((EntityPlayer)player).getHeldItemMainhand().getItem();
+                            byte b = ItemElementalShovel.getOrientation(((EntityPlayer)player).getHeldItemMainhand());
+                            ItemElementalShovel itemElementalShovel2 = (ItemElementalShovel)((EntityPlayer)player).getHeldItemMainhand().getItem();
+                            ItemElementalShovel.setOrientation(((EntityPlayer)player).getHeldItemMainhand(), (byte)(b + 1));
+                            flag = true;
+                        }
+                    }
                 }
             }
         });
-        ctx.get().setPacketHandled(true);
+        return null;
     }
 }

@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 sourceSets { main { output.resourcesDir = output.classesDir } } //essential for Idea to load resources
 
 minecraft {
-    mappings channel: 'snapshot', version: '20210309-1.16.5'
+    mappings channel: 'snapshot', version: '20171003-1.12'
     accessTransformer = file('src/main/resources/META-INF/tc_at.cfg') //one
     runs {
         client {
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     implementation fg.deobf('curse.maven:baubles-227083:2518667')
 }
 

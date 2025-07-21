@@ -35,17 +35,6 @@ import thaumcraft.common.world.biomes.BiomeGenEldritch;
 import thaumcraft.common.world.biomes.BiomeGenMagicalForest;
 import thaumcraft.common.world.biomes.BiomeHandler;
 import thaumcraft.proxies.ProxyBlock;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import thaumcraft.common.registration.ModBlocks;
-import thaumcraft.common.registration.ModItems;
-import thaumcraft.common.registration.ModTileEntities;
-import thaumcraft.common.tiles.TileCondenser;
-import thaumcraft.common.tiles.TileStabilizer;
-import thaumcraft.common.tiles.TileVoidSiphon;
-import thaumcraft.common.tiles.TileBanner;
-import thaumcraft.common.tiles.TileHole;
-import thaumcraft.common.tiles.TileBarrierStone;
 
 
 @Mod.EventBusSubscriber
@@ -53,11 +42,9 @@ public class Registrar
 {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        // Register blocks using the new DeferredRegister system
-        ModBlocks.BLOCKS.register(event.getRegistry());
-        
-        // Register tile entities
-        ModTileEntities.TILE_ENTITIES.register(event.getRegistry());
+        ConfigBlocks.initBlocks(event.getRegistry());
+        ConfigBlocks.initTileEntities();
+        ConfigBlocks.initMisc();
     }
     
     @SideOnly(Side.CLIENT)
@@ -68,8 +55,9 @@ public class Registrar
     
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        // Register items using the new DeferredRegister system
-        ModItems.ITEMS.register(event.getRegistry());
+        ConfigItems.preInitSeals();
+        ConfigItems.initItems(event.getRegistry());
+        ConfigItems.initMisc();
     }
     
     @SideOnly(Side.CLIENT)

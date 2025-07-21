@@ -1,4 +1,6 @@
 package thaumcraft.common.items.consumables;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -6,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.IThaumcraftItems;
-import thaumcraft.common.lib.SoundsTC;
 
 
 public class ItemChunksEdible extends ItemFood implements IThaumcraftItems
@@ -56,5 +57,16 @@ public class ItemChunksEdible extends ItemFood implements IThaumcraftItems
     
     public Item getItem() {
         return this;
+    }
+    
+    public ItemMeshDefinition getCustomMesh() {
+        return null;
+    }
+    
+    public ModelResourceLocation getCustomModelResourceLocation(String variant) {
+        if (variant.equals("chunk")) {
+            return new ModelResourceLocation("thaumcraft:chunk");
+        }
+        return new ModelResourceLocation("thaumcraft:chunk", variant);
     }
 }

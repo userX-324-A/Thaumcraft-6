@@ -1,20 +1,18 @@
 package thaumcraft.common.lib.network.fx;
-
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
-import java.util.function.Supplier;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.Thaumcraft;
 import thaumcraft.client.fx.other.FXSonic;
 
 
-public class PacketFXSonic
+public class PacketFXSonic implements IMessage, IMessageHandler<PacketFXSonic, IMessage>
 {
     private int source;
     
@@ -25,27 +23,21 @@ public class PacketFXSonic
         this.source = source;
     }
     
-    public void encode(PacketBuffer buffer) {
+    public void toBytes(ByteBuf buffer) {
         buffer.writeInt(source);
     }
     
-    public PacketFXSonic(PacketBuffer buffer) {
+    public void fromBytes(ByteBuf buffer) {
         source = buffer.readInt();
     }
     
-    @OnlyIn(Dist.CLIENT)
-    public static void handle(PacketFXSonic message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Minecraft mc = Minecraft.getInstance();
-            World world = mc.world;
-            if (world == null) return;
-
-            Entity p = world.getEntityByID(message.source);
-            if (p != null) {
-                FXSonic fb = new FXSonic(world, p.getPosX(), p.getPosY(), p.getPosZ(), p, 10);
-                mc.particles.addEffect(fb);
-            }
-        });
-        ctx.get().setPacketHandled(true);
+    @SideOnly(Side.CLIENT)
+    public IMessage onMessage(PacketFXSonic message, MessageContext ctx) {
+        Entity p = Thaumcraft.proxy.getClientWorld().getEntityByID(message.source);
+        if (p != null) {
+            FXSonic fb = new FXSonic(Thaumcraft.proxy.getClientWorld(), p.posX, p.posY, p.posZ, p, 10);
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(fb);
+        }
+        return null;
     }
 }

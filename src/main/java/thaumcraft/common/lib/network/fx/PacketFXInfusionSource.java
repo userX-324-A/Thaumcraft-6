@@ -1,72 +1,62 @@
 package thaumcraft.common.lib.network.fx;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.PacketBuffer;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import thaumcraft.Thaumcraft;
 import thaumcraft.common.tiles.crafting.TileInfusionMatrix;
 import thaumcraft.common.tiles.crafting.TilePedestal;
-import java.util.function.Supplier;
 
 
-public class PacketFXInfusionSource
+public class PacketFXInfusionSource implements IMessage, IMessageHandler<PacketFXInfusionSource, IMessage>
 {
     private long p1;
     private long p2;
     private int color;
-
+    
     public PacketFXInfusionSource() {
     }
-
+    
     public PacketFXInfusionSource(BlockPos pos, BlockPos pos2, int color) {
         p1 = pos.toLong();
         p2 = pos2.toLong();
         this.color = color;
     }
     
-    public PacketFXInfusionSource(PacketBuffer buffer) {
-        p1 = buffer.readLong();
-        p2 = buffer.readLong();
-        color = buffer.readInt();
-    }
-
-    public void toBytes(PacketBuffer buffer) {
+    public void toBytes(ByteBuf buffer) {
         buffer.writeLong(p1);
         buffer.writeLong(p2);
         buffer.writeInt(color);
     }
-
-
-    public static void handle(PacketFXInfusionSource message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ClientWorld world = Minecraft.getInstance().level;
-            if (world == null) return;
-
-            BlockPos p1Pos = BlockPos.of(message.p1);
-            BlockPos p2Pos = BlockPos.of(message.p2);
-            String key = p2Pos.getX() + ":" + p2Pos.getY() + ":" + p2Pos.getZ() + ":" + message.color;
-            
-            TileEntity tile = world.getBlockEntity(p1Pos);
-            if (tile instanceof TileInfusionMatrix) {
-                int count = 15;
-                TileEntity pedestalTile = world.getBlockEntity(p2Pos);
-                if (pedestalTile instanceof TilePedestal) {
-                    count = 60;
-                }
-                TileInfusionMatrix is = (TileInfusionMatrix) tile;
-                if (is.sourceFX.containsKey(key)) {
-                    TileInfusionMatrix.SourceFX sf = is.sourceFX.get(key);
-                    sf.ticks = count;
-                    // No need to put it back explicitly unless the map implementation requires it 
-                    // for ordering, but HashMap/ConcurrentHashMap don't.
-                    // is.sourceFX.put(key, sf); 
-                } else {
-                    is.sourceFX.put(key, is.new SourceFX(p2Pos, count, message.color));
-                }
+    
+    public void fromBytes(ByteBuf buffer) {
+        p1 = buffer.readLong();
+        p2 = buffer.readLong();
+        color = buffer.readInt();
+    }
+    
+    public IMessage onMessage(PacketFXInfusionSource message, MessageContext ctx) {
+        BlockPos p1 = BlockPos.fromLong(message.p1);
+        BlockPos p2 = BlockPos.fromLong(message.p2);
+        String key = p2.getX() + ":" + p2.getY() + ":" + p2.getZ() + ":" + message.color;
+        TileEntity tile = Thaumcraft.proxy.getClientWorld().getTileEntity(p1);
+        if (tile != null && tile instanceof TileInfusionMatrix) {
+            int count = 15;
+            if (Thaumcraft.proxy.getClientWorld().getTileEntity(p2) != null && Thaumcraft.proxy.getClientWorld().getTileEntity(p2) instanceof TilePedestal) {
+                count = 60;
             }
-        });
-        ctx.get().setPacketHandled(true);
+            TileInfusionMatrix is = (TileInfusionMatrix)tile;
+            if (is.sourceFX.containsKey(key)) {
+                TileInfusionMatrix.SourceFX sf = is.sourceFX.get(key);
+                sf.ticks = count;
+                is.sourceFX.put(key, sf);
+            }
+            else {
+                is.sourceFX.put(key, is.new SourceFX(p2, count, message.color));
+            }
+        }
+        return null;
     }
 }
