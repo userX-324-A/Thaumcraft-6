@@ -1,0 +1,27 @@
+{
+    "type": "thaumcraft:arcane_workbench",
+    "key": {
+        "W": {
+            "tag": "minecraft:planks"
+        },
+        "I": {
+            "tag": "forge:ingots/iron"
+        },
+        "L": {
+            "item": "minecraft:leather"
+        }
+    },
+    "pattern": [
+        "WW ",
+        "LLI",
+        "WW "
+    ],
+    "result": {
+        "item": "thaumcraft:bellows"
+    },
+    "vis": {
+        "aer": 1
+    }
+}
+
+

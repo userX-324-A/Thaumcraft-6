@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "thaumcraft:thaumium_ingot"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:thaumium_horse_armor"
+  }
+}

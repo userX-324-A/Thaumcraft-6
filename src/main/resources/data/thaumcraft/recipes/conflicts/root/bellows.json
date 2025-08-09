@@ -1,0 +1,24 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        " L ",
+        "WBW",
+        " L "
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:leather"
+        },
+        "W": {
+            "tag": "minecraft:planks"
+        },
+        "B": {
+            "item": "minecraft:air"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:bellows"
+    },
+    "vis": 15,
+    "research": "BELLOWS"
+} 

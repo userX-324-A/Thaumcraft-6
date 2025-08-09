@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "thaumcraft:ore_amber"
+  },
+  "result": "thaumcraft:amber",
+  "experience": 1.0,
+  "cookingtime": 200
+}
+
+
+

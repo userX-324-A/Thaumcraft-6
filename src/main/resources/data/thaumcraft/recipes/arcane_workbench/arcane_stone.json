@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:arcane_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "thaumcraft:crystal_essence"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:arcane_stone",
+    "count": 9
+  },
+  "vis": 0,
+  "research": "FIRSTSTEPS"
+} 

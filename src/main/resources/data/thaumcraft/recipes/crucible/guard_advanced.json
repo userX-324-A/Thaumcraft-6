@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SEALGUARD&&MINDBIOTHAUMIC",
+  "aspects": {
+    "senses": 20,
+    "mind": 20
+  },
+  "catalyst": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:guard"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:guard_advanced"
+    }
+  }
+}

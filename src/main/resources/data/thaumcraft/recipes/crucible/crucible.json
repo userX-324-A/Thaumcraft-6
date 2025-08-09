@@ -1,0 +1,21 @@
+{
+  "type": "thaumcraft:crucible",
+  "ingredients": [
+    {
+      "item": "minecraft:cauldron"
+    },
+    {
+      "item": "thaumcraft:salis_mundus"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:crucible"
+  },
+  "aspects": [
+    {
+      "aspect": "aqua",
+      "amount": 5
+    }
+  ],
+  "research": "UNLOCKALCHEMY@1"
+} 

@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "VERDANTHEART",
+  "instability": 3,
+  "aspects": {
+    "herba": 50,
+    "victus": 25
+  },
+  "central_ingredient": { "item": "thaumcraft:baubles" },
+  "components": [
+    { "item": "minecraft:golden_apple" },
+    { "item": "minecraft:vine" }
+  ],
+  "result": { "item": "thaumcraft:charm_verdant" }
+}
+
+

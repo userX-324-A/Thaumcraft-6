@@ -44,15 +44,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.common.Tags;
 import thaumcraft.api.internal.WeightedRandomLoot;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.codechicken.lib.vec.Cuboid6;
 import thaumcraft.codechicken.lib.vec.Rotation;
 import thaumcraft.codechicken.lib.vec.Vector3;
-import thaumcraft.common.lib.network.PacketHandler;
-import thaumcraft.common.lib.network.misc.PacketBiomeChange;
+// import thaumcraft.common.network.NetworkHandler; // 1.16.5 channel (not used here yet)
+// import thaumcraft.common.network.msg.ClientBiomeChangeMessage;
 
 
 public class Utils
@@ -136,9 +135,19 @@ public class Utils
         byte[] array = chunk.getBiomeArray();
         array[(pos.getZ() & 0xF) << 4 | (pos.getX() & 0xF)] = (byte)(Biome.getIdForBiome(biome) & 0xFF);
         chunk.setBiomeArray(array);
-        if (sync && !world.isRemote) {
-            PacketHandler.INSTANCE.sendToAllAround(new PacketBiomeChange(pos.getX(), pos.getZ(), (short)Biome.getIdForBiome(biome)), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), world.getHeight(pos).getY(), pos.getZ(), 32.0));
+        if (sync && !world.isRemote && world instanceof net.minecraft.world.server.ServerWorld) {
+            net.minecraft.world.server.ServerWorld sw = (net.minecraft.world.server.ServerWorld) world;
+            thaumcraft.common.network.NetworkHandler.sendToAllAround(
+                    new thaumcraft.common.network.msg.ClientBiomeChangeMessage(pos, netForgeBiomeId(biome)),
+                    sw,
+                    pos,
+                    128.0
+            );
         }
+    }
+
+    private static net.minecraft.util.ResourceLocation netForgeBiomeId(Biome biome) {
+        return biome.getRegistryName();
     }
     
     public static boolean resetBiomeAt(World world, BlockPos pos) {
@@ -165,26 +174,9 @@ public class Utils
     }
     
     public static boolean isOreBlock(World world, BlockPos pos) {
-        IBlockState bi = world.getBlockState(pos);
-        if (bi.getBlock() != Blocks.AIR && bi.getBlock() != Blocks.BEDROCK) {
-            ItemStack is = BlockUtils.getSilkTouchDrop(bi);
-            if (is == null || is.isEmpty()) {
-                int md = bi.getBlock().getMetaFromState(bi);
-                is = new ItemStack(bi.getBlock(), 1, md);
-            }
-            if (is == null || is.isEmpty() || is.getItem() == null) {
-                return false;
-            }
-            int[] od = OreDictionary.getOreIDs(is);
-            if (od != null && od.length > 0) {
-                for (int id : od) {
-                    if (OreDictionary.getOreName(id) != null && OreDictionary.getOreName(id).toUpperCase().contains("ORE")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        return block != Blocks.AIR && block != Blocks.BEDROCK && Tags.Blocks.ORES.contains(block);
     }
     
     public static int setNibble(int data, int nibble, int nibbleIndex) {
@@ -687,3 +679,4 @@ public class Utils
         Utils.oreDictLogs = new ArrayList<List>();
     }
 }
+

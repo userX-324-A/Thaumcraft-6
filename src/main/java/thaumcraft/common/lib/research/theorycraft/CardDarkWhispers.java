@@ -57,3 +57,4 @@ public class CardDarkWhispers extends TheorycraftCard
         return true;
     }
 }
+

@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "VERDANTCHARMS",
+  "instability": 5,
+  "aspects": {
+    "victus": 80,
+    "cognitio": 80
+  },
+  "central_ingredient": { "item": "thaumcraft:charm_verdant" },
+  "components": [
+    { "item": "minecraft:golden_apple" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"victus\",amount:1}]}" },
+    { "item": "minecraft:potion", "nbt": "{Potion:\"minecraft:strong_healing\"}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"cognitio\",amount:1}]}" }
+  ],
+  "result": { "item": "thaumcraft:charm_verdant", "nbt": "{type:1b}" }
+}
+
+

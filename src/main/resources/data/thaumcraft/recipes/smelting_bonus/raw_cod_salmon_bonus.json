@@ -1,0 +1,8 @@
+{
+  "type": "thaumcraft:smelting_bonus",
+  "input": { "tag": "forge:raw_fishes" },
+  "bonus": { "item": "thaumcraft:chunks", "count": 1, "nbt": "{type:3}" },
+  "chance": 0.33
+}
+
+

@@ -1,0 +1,27 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "SCS",
+        "WFW",
+        "SCS"
+    ],
+    "key": {
+        "S": {
+            "item": "minecraft:string"
+        },
+        "C": {
+            "item": "minecraft:carpet"
+        },
+        "W": {
+            "item": "minecraft:planks"
+        },
+        "F": {
+            "item": "thaumcraft:filter"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:arcane_pattern_crafter"
+    },
+    "vis": 25,
+    "research": "GOLEMANCY"
+} 

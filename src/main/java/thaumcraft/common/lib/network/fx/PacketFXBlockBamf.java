@@ -108,3 +108,4 @@ public class PacketFXBlockBamf implements IMessage, IMessageHandler<PacketFXBloc
         }
     }
 }
+

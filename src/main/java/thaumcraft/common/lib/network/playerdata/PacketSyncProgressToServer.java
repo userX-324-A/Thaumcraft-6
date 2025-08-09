@@ -8,7 +8,8 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.util.NonNullList;
+import thaumcraft.common.lib.utils.TagUtils;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchEntry;
@@ -92,8 +93,8 @@ public class PacketSyncProgressToServer implements IMessage, IMessageHandler<Pac
                         ts = (ItemStack)o[a];
                     }
                     else {
-                        NonNullList<ItemStack> nnl = OreDictionary.getOres((String)o[a]);
-                        ts = nnl.get(0);
+                        NonNullList<ItemStack> nnl = TagUtils.getItemsForOreName((String)o[a]);
+                        ts = nnl.isEmpty() ? ItemStack.EMPTY : nnl.get(0);
                         ore = true;
                     }
                     if (!InventoryUtils.isPlayerCarryingAmount(player, ts, ore)) {
@@ -107,8 +108,8 @@ public class PacketSyncProgressToServer implements IMessage, IMessageHandler<Pac
                         ts2 = (ItemStack)o[a];
                     }
                     else {
-                        NonNullList<ItemStack> nnl = OreDictionary.getOres((String)o[a]);
-                        ts2 = nnl.get(0);
+                        NonNullList<ItemStack> nnl = TagUtils.getItemsForOreName((String)o[a]);
+                        ts2 = nnl.isEmpty() ? ItemStack.EMPTY : nnl.get(0);
                         ore2 = true;
                     }
                     InventoryUtils.consumePlayerItem(player, ts2, true, ore2);
@@ -146,3 +147,4 @@ public class PacketSyncProgressToServer implements IMessage, IMessageHandler<Pac
         return true;
     }
 }
+

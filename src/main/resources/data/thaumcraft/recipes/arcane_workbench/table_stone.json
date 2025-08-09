@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "pattern": [
+    "PPP",
+    "S S",
+    "S S"
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:stone"
+    },
+    "S": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:table_stone",
+    "count": 2
+  },
+  "vis": 0,
+  "research": ""
+} 

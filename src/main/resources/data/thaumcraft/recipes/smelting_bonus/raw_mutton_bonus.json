@@ -1,0 +1,8 @@
+{
+  "type": "thaumcraft:smelting_bonus",
+  "input": { "item": "minecraft:mutton" },
+  "bonus": { "item": "thaumcraft:chunks", "count": 1, "nbt": "{type:5}" },
+  "chance": 0.33
+}
+
+

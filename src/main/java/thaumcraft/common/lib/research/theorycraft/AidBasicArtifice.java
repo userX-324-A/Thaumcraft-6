@@ -16,3 +16,4 @@ public class AidBasicArtifice implements ITheorycraftAid
         return new Class[] { CardCalibrate.class, CardTinker.class, CardMindOverMatter.class };
     }
 }
+

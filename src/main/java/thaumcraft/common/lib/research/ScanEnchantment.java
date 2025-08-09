@@ -43,3 +43,4 @@ public class ScanEnchantment implements IScanThing
         return "!" + enchantment.getName();
     }
 }
+

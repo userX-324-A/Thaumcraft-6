@@ -28,3 +28,4 @@ public interface ITheorycraftAid {
 	public Class<TheorycraftCard>[] getCards();
 
 }
+

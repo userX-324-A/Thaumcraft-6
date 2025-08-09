@@ -1,0 +1,18 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "FORTRESSMASK",
+  "instability": 5,
+  "aspects": {
+    "sensus": 40,
+    "auram": 20,
+    "tutamen": 20
+  },
+  "central_ingredient": { "item": "thaumcraft:fortress_helm" },
+  "components": [
+    { "item": "minecraft:slime_ball" },
+    { "item": "thaumcraft:goggles" }
+  ],
+  "result": { "item": "thaumcraft:fortress_helm", "nbt": "{goggles:1b}" }
+}
+
+

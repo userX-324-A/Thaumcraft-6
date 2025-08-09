@@ -1,43 +1,16 @@
 package thaumcraft.api.potions;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectType;
 
-public class PotionVisExhaust extends Potion
-{
-    public static Potion instance = null; // will be instantiated at runtime
-    private int statusIconIndex = -1;
-    
-    public PotionVisExhaust(boolean par2, int par3)
-    {
-    	super(par2,par3);
-    	setIconIndex(5, 1);
-    	setPotionName("potion.vis_exhaust");
-    	setEffectiveness(0.25D);
+public class PotionVisExhaust extends Effect {
+    public PotionVisExhaust(EffectType type, int liquidColor) {
+        super(type, liquidColor);
     }
     
-	@Override
-	public boolean isBadEffect() {
-		return true;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getStatusIconIndex() {
-		Minecraft.getMinecraft().renderEngine.bindTexture(rl);
-		return super.getStatusIconIndex();
-	}
-	
-	static ResourceLocation rl = new ResourceLocation("thaumcraft","textures/misc/potions.png");
-	
-	@Override
-	public void performEffect(EntityLivingBase target, int par2) {
-		
-	}
-    
-    
+    @Override
+    public void applyEffectTick(LivingEntity target, int par2) {
+    }
 }
+

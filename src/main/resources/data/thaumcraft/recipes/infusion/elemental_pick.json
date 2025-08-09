@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "ELEMENTALTOOLS",
+  "instability": 1,
+  "aspects": {
+    "ignis": 30,
+    "metallum": 30,
+    "sensus": 30
+  },
+  "central_ingredient": { "item": "thaumcraft:thaumium_pick" },
+  "components": [
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"ignis\",amount:1}]}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"ignis\",amount:1}]}" },
+    { "item": "thaumcraft:quartz_nugget" },
+    { "item": "thaumcraft:plank_greatwood" }
+  ],
+  "result": { "item": "thaumcraft:elemental_pick" }
+}
+
+

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "VV",
+    "VS",
+    " S"
+  ],
+  "key": {
+    "V": {
+      "item": "thaumcraft:void_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:void_axe"
+  }
+} 

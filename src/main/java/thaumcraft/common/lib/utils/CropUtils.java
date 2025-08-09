@@ -119,3 +119,4 @@ public class CropUtils
         CropUtils.lampBlacklist = new ArrayList<String>();
     }
 }
+

@@ -1,6 +1,6 @@
 package thaumcraft.api.research;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 
 public class ResearchAddendum {
@@ -16,7 +16,7 @@ public class ResearchAddendum {
 	}
 	
 	public String getTextLocalized() {
-		return I18n.translateToLocal(getText());
+		return I18n.get(getText());
 	}
 	/**
 	 * @param text the text to set
@@ -52,3 +52,4 @@ public class ResearchAddendum {
 	}
 	
 }
+

@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "ELEMENTALTOOLS",
+  "instability": 1,
+  "aspects": {
+    "aer": 30,
+    "motus": 30,
+    "aversio": 30
+  },
+  "central_ingredient": { "item": "thaumcraft:thaumium_sword" },
+  "components": [
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" },
+    { "item": "thaumcraft:quartz_nugget" },
+    { "item": "thaumcraft:plank_greatwood" }
+  ],
+  "result": { "item": "thaumcraft:elemental_sword" }
+}
+
+

@@ -88,3 +88,4 @@ public class CardSynthesis extends TheorycraftCard
         return true;
     }
 }
+

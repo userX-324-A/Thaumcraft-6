@@ -116,3 +116,4 @@ public class CardCelestial extends TheorycraftCard
         return true;
     }
 }
+

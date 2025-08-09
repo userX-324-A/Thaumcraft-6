@@ -1,0 +1,16 @@
+{
+    "type": "thaumcraft:arcane_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bookshelf"
+        },
+        {
+            "item": "thaumcraft:salis_mundus"
+        }
+    ],
+    "result": {
+        "item": "thaumcraft:thaumonomicon"
+    },
+    "vis": 10,
+    "research": "FIRSTSTEPS"
+} 

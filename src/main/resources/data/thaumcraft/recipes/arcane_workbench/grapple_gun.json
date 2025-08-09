@@ -1,0 +1,37 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "  S",
+    "TII",
+    " BW"
+  ],
+  "key": {
+    "S": {
+      "item": "thaumcraft:grapple_gun_spool"
+    },
+    "T": {
+      "item": "thaumcraft:grapple_gun_tip"
+    },
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:grapple_gun",
+    "count": 1
+  },
+  "vis": 75,
+  "crystals": {
+    "air": 1,
+    "fire": 1
+  }
+}
+
+
+

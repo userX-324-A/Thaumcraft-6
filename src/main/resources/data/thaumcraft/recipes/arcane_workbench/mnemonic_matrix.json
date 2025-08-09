@@ -1,0 +1,29 @@
+{
+    "type": "thaumcraft:arcane_workbench",
+    "key": {
+        "B": {
+            "item": "thaumcraft:mind",
+            "nbt": "{mind:0}"
+        },
+        "A": {
+            "tag": "forge:gems/amber"
+        },
+        "I": {
+            "tag": "forge:plates/iron"
+        }
+    },
+    "pattern": [
+        "IAI",
+        "ABA",
+        "IAI"
+    ],
+    "result": {
+        "item": "thaumcraft:brain_box"
+    },
+    "vis": {
+        "terra": 1,
+        "ordo": 1
+    }
+}
+
+

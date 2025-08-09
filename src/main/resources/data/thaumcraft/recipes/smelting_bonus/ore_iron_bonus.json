@@ -1,0 +1,8 @@
+{
+  "type": "thaumcraft:smelting_bonus",
+  "input": { "tag": "forge:ores/iron" },
+  "bonus": { "item": "minecraft:iron_nugget" },
+  "chance": 0.33
+}
+
+

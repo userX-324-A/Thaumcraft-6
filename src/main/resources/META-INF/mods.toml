@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="thaumcraft"
+version="1.0.0"
+displayName="Thaumcraft 6"
+authors="Azanor, GrigLog"
+description='''
+Recompiled Thaumcraft 6
+'''
+
+[[dependencies.thaumcraft]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.thaumcraft]]
+    modId="curios"
+    mandatory=true
+    versionRange="[4.0.8.2,)"
+    ordering="NONE"
+    side="BOTH" 

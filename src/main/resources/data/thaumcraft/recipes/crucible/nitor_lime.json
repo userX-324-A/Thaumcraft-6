@@ -1,0 +1,14 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "NITOR",
+  "aspects": {
+    "sensus": 1,
+    "lux": 1
+  },
+  "catalyst": {
+    "item": "thaumcraft:nitor_yellow"
+  },
+  "result": {
+    "item": "thaumcraft:nitor_lime"
+  }
+} 

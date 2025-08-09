@@ -23,3 +23,4 @@ public interface IInfusionStabiliser {
 	public boolean canStabaliseInfusion(World world, BlockPos pos);
 
 }
+

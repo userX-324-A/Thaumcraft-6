@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "W W"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_slab"
+    },
+    "W": {
+      "tag": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:table_stone"
+  }
+}

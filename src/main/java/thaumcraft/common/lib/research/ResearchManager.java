@@ -37,8 +37,9 @@ import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchEvent;
 import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.config.ModConfig;
-import thaumcraft.common.lib.network.PacketHandler;
-import thaumcraft.common.lib.network.misc.PacketKnowledgeGain;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import thaumcraft.common.network.NetworkHandler;
+import thaumcraft.common.network.msg.ClientKnowledgeGainMessage;
 
 
 public class ResearchManager
@@ -58,9 +59,10 @@ public class ResearchManager
         int kp = knowledge.getKnowledge(type, category);
         knowledge.addKnowledge(type, category, amount);
         int kr = knowledge.getKnowledge(type, category) - kp;
-        if (amount > 0) {
+        if (amount > 0 && player instanceof ServerPlayerEntity) {
             for (int a = 0; a < kr; ++a) {
-                PacketHandler.INSTANCE.sendTo(new PacketKnowledgeGain((byte)type.ordinal(), (category == null) ? null : category.key), (EntityPlayerMP)player);
+                NetworkHandler.sendTo((ServerPlayerEntity) player,
+                        new ClientKnowledgeGainMessage((byte) type.ordinal(), (category == null) ? null : category.key));
             }
         }
         ResearchManager.syncList.put(player.getName(), true);
@@ -606,3 +608,4 @@ public class ResearchManager
         ResearchManager.craftingReferences = new LinkedHashSet<Integer>();
     }
 }
+

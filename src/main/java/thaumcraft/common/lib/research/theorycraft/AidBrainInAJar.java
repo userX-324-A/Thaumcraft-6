@@ -16,3 +16,4 @@ public class AidBrainInAJar implements ITheorycraftAid
         return new Class[] { CardDarkWhispers.class };
     }
 }
+

@@ -1,36 +1,25 @@
 package thaumcraft.api.research;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class ScanMaterial implements IScanThing {
-	
-	String research;	
-	Material[] mats;
-	
-	public ScanMaterial(Material mat) {
-		research = "!"+mat.getClass().getTypeName();
-		mats = new Material[] {mat};
-	}
-
-	public ScanMaterial(String research, Material ... mats) {
-		this.research = research;
-		this.mats = mats;
-	}
-	
-	@Override
-	public boolean checkThing(EntityPlayer player, Object obj) {		
-		if (obj!=null && obj instanceof BlockPos) {
-			for (Material mat:mats) 
-				if (player.world.getBlockState((BlockPos) obj).getMaterial()==mat) 
-					return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public String getResearchKey(EntityPlayer player, Object object) {		
-		return research;
-	}
+    private String research;
+    private Material mat;
+    
+    public ScanMaterial(String research, Material mat) {
+        this.research = research;
+        this.mat = mat;
+    }
+    
+    @Override
+    public boolean checkThing(PlayerEntity player, Object obj) {
+        return false;
+    }
+    
+    @Override
+    public String getResearchKey(PlayerEntity player, Object object) {
+        return null;
+    }
 }
+

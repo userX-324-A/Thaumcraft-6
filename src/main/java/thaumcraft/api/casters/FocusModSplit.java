@@ -1,42 +1,39 @@
 package thaumcraft.api.casters;
+
 import java.util.ArrayList;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import java.util.List;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.common.util.Constants;
 
-
-
-public abstract class FocusModSplit extends FocusMod {
-	
-	private ArrayList<FocusPackage> packages = new ArrayList<>(); 
-
-	public ArrayList<FocusPackage> getSplitPackages() {
-		return packages;
-	}
-	
-	public void deserialize(NBTTagCompound nbt) {
-		NBTTagList nodelist = nbt.getTagList("packages", (byte)10);
-		packages.clear();
-		for (int x=0;x<nodelist.tagCount();x++) {
-			NBTTagCompound nodenbt = nodelist.getCompoundTagAt(x);
-			FocusPackage fp = new FocusPackage();
-			fp.deserialize(nodenbt);
-			packages.add(fp);
-		}
-	}
-	
-	public NBTTagCompound serialize() {
-		NBTTagCompound nbt = new NBTTagCompound();		
-		NBTTagList nodelist = new NBTTagList();
-		for (FocusPackage node:packages) {
-			nodelist.appendTag(node.serialize());
-		}
-		nbt.setTag("packages", nodelist);		
-		return nbt;
-	}
-	
-	@Override
-	public float getPowerMultiplier() {
-		return .75f;
-	}
-
+public class FocusModSplit extends FocusNode {
+    private List<FocusPackage> packages;
+    
+    public FocusModSplit() {
+        this.packages = new ArrayList<FocusPackage>();
+    }
+    
+    public List<FocusPackage> getSplitPackages() {
+        return this.packages;
+    }
+    
+    public void deserialize(CompoundNBT nbt) {
+        ListNBT list = nbt.getList("packages", Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < list.size(); ++i) {
+            FocusPackage fp = new FocusPackage();
+            fp.deserialize(list.getCompound(i));
+            this.packages.add(fp);
+        }
+    }
+    
+    public CompoundNBT serialize() {
+        CompoundNBT nbt = new CompoundNBT();
+        ListNBT list = new ListNBT();
+        for (FocusPackage fp : this.packages) {
+            list.add(fp.serialize());
+        }
+        nbt.put("packages", list);
+        return nbt;
+    }
 }
+

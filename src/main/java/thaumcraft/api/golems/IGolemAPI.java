@@ -1,5 +1,5 @@
 package thaumcraft.api.golems;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
  */
 public interface IGolemAPI {
 	
-	public EntityLivingBase getGolemEntity();
+	public LivingEntity getGolemEntity();
 	
 	public IGolemProperties getProperties();
 	
@@ -69,3 +69,4 @@ public interface IGolemAPI {
 	public boolean isInCombat();
 	
 }
+

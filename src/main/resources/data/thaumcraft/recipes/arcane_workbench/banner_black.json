@@ -1,0 +1,25 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:banner",
+  "research": "BASEINFUSION",
+  "vis": 10,
+  "pattern": [
+    "WS",
+    "WS",
+    "WB"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:black_wool"
+    },
+    "S": {
+      "tag": "minecraft:stick"
+    },
+    "B": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:banner_black"
+  }
+} 

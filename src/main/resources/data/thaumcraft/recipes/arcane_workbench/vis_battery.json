@@ -1,0 +1,32 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "SSS",
+    "SRS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "thaumcraft:slab_arcane_stone"
+    },
+    "R": {
+      "item": "thaumcraft:vis_resonator"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:vis_battery",
+    "count": 1
+  },
+  "vis": 50,
+  "crystals": {
+    "air": 2,
+    "fire": 2,
+    "water": 2,
+    "earth": 2,
+    "order": 2,
+    "entropy": 2
+  }
+}
+
+
+

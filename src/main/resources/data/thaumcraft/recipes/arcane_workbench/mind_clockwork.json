@@ -1,0 +1,32 @@
+{
+    "type": "thaumcraft:arcane_workbench",
+    "key": {
+        "G": {
+            "item": "thaumcraft:mechanism_simple"
+        },
+        "B": {
+            "tag": "forge:plates/brass"
+        },
+        "P": {
+            "tag": "forge:glass_panes"
+        },
+        "C": {
+            "item": "minecraft:comparator"
+        }
+    },
+    "pattern": [
+        " P ",
+        "PGP",
+        "BCB"
+    ],
+    "result": {
+        "item": "thaumcraft:mind",
+        "nbt": "{mind:0}"
+    },
+    "vis": {
+        "ignis": 1,
+        "ordo": 1
+    }
+}
+
+

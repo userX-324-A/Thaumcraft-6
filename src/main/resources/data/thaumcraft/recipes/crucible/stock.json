@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SEALSTOCK",
+  "aspects": {
+    "mind": 10,
+    "desire": 10
+  },
+  "catalyst": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:fill"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:stock"
+    }
+  }
+}

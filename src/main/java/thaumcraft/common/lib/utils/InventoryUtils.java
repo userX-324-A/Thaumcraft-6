@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.IngredientNBT;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftInvHelper;
 import thaumcraft.api.crafting.IngredientNBTTC;
 import thaumcraft.api.items.ItemsTC;
@@ -461,12 +461,8 @@ public class InventoryUtils
             return m1.equals(m2);
         }
         if (filter.useOre && !stack0.isEmpty()) {
-            int[] oreIDs;
-            int[] od = oreIDs = OreDictionary.getOreIDs(stack0);
-            for (int i : oreIDs) {
-                if (ThaumcraftInvHelper.containsMatch(false, new ItemStack[] { stack1 }, OreDictionary.getOres(OreDictionary.getOreName(i), false))) {
-                    return true;
-                }
+            if (TagUtils.itemsShareAnyForgeTag(stack0, stack1)) {
+                return true;
             }
         }
         boolean t1 = true;
@@ -577,7 +573,7 @@ public class InventoryUtils
             }
         }
         else if (input instanceof String) {
-            List<ItemStack> q4 = OreDictionary.getOres((String)input, false);
+            NonNullList<ItemStack> q4 = TagUtils.getItemsForOreName((String)input);
             if (q4 != null && q4.size() > 0) {
                 int idx = (int)((counter + System.currentTimeMillis() / 1000L) % q4.size());
                 it = cycleItemStack(q4.get(idx), counter++);
@@ -586,3 +582,4 @@ public class InventoryUtils
         return it;
     }
 }
+

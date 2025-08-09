@@ -32,13 +32,12 @@ public class ResearchCategory {
     
     public AspectList formula;
 	
+	public ResearchCategory(String key, String researchkey, ResourceLocation icon, ResourceLocation background) {
+		this(key, researchkey, null, icon, background, null);
+	}
+	
 	public ResearchCategory(String key, String researchkey, AspectList formula, ResourceLocation icon, ResourceLocation background) {
-		this.key = key;
-		researchKey = researchkey;
-		this.icon = icon;
-		this.background = background;
-		background2 = null;
-		this.formula = formula;
+		this(key, researchkey, formula, icon, background, null);
 	}
 	
 	public ResearchCategory(String key, String researchKey, AspectList formula, ResourceLocation icon, ResourceLocation background, ResourceLocation background2) {
@@ -78,4 +77,8 @@ public class ResearchCategory {
 	//Research
 	public Map<String, ResearchEntry> research = new HashMap<String,ResearchEntry>();	
 	
+	public ResearchCategory() {
+		this.research = new HashMap<String, ResearchEntry>();
+	}
 }
+

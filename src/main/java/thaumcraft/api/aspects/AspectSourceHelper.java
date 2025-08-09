@@ -1,58 +1,57 @@
 package thaumcraft.api.aspects;
-import java.lang.reflect.Method;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import thaumcraft.api.aura.AuraHelper;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.FMLLog;
-
-
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class AspectSourceHelper {
-
-	static Method drainEssentia;
-	static Method findEssentia;
-	/**
-	 * This method is what is used to drain essentia from jars and other sources for things like 
-	 * infusion crafting or powering the arcane furnace. A record of possible sources are kept track of
-	 * and refreshed as needed around the calling tile entity. This also renders the essentia trail particles.
-	 * Only 1 essentia is drained at a time
-	 * @param tile the tile entity that is draining the essentia
-	 * @param aspect the aspect that you are looking for
-	 * @param direction the direction from which you wish to drain. EnumFacing.Unknown simply seeks in all directions. 
-	 * @param range how many blocks you wish to search for essentia sources. 
-	 * @return boolean returns true if essentia was found and removed from a source.
-	 */
-	public static boolean drainEssentia(TileEntity tile, Aspect aspect, EnumFacing direction, int range) {
-	    try {
-	        if(drainEssentia == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
-	            drainEssentia = fake.getMethod("drainEssentia", TileEntity.class, Aspect.class, EnumFacing.class, int.class);
-	        }
-	        return (Boolean) drainEssentia.invoke(null, tile, aspect, direction, range);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method drainEssentia");
-	    }
-		return false;
-	}
-	
-	/**
-	 * This method returns if there is any essentia of the passed type that can be drained. It in no way checks how
-	 * much there is, only if an essentia container nearby contains at least 1 point worth.
-	 * @param tile the tile entity that is checking the essentia
-	 * @param aspect the aspect that you are looking for
-	 * @param direction the direction from which you wish to drain. EnumFacing.Unknown simply seeks in all directions. 
-	 * @param range how many blocks you wish to search for essentia sources. 
-	 * @return boolean returns true if essentia was found and removed from a source.
-	 */
-	public static boolean findEssentia(TileEntity tile, Aspect aspect, EnumFacing direction, int range) {
-	    try {
-	        if(findEssentia == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
-	            findEssentia = fake.getMethod("findEssentia", TileEntity.class, Aspect.class, EnumFacing.class, int.class);
-	        }
-	        return (Boolean) findEssentia.invoke(null, tile, aspect, direction, range);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method findEssentia");
-	    }
-		return false;
-	}
+    private static final Logger LOGGER = LogManager.getLogger();
+    
+    public static boolean drainEssentia(TileEntity tile, Aspect aspect, Direction direction, int range) {
+        return drainEssentia(tile, aspect, direction, range, false);
+    }
+    
+    public static boolean drainEssentia(TileEntity tile, Aspect aspect, Direction direction, int range, boolean forti) {
+        if (tile == null || tile.isInvalid()) {
+            return false;
+        }
+        World world = tile.getWorld();
+        for (int a = 0; a < range; ++a) {
+            BlockPos pos = tile.getPos().offset(direction, a + 1);
+            TileEntity te = world.getTileEntity(pos);
+            if (te != null && !te.isInvalid() && te instanceof IEssentiaTransport) {
+                IEssentiaTransport et = (IEssentiaTransport)te;
+                if (et.getEssentiaType(direction.getOpposite()) == aspect && et.getEssentiaAmount(direction.getOpposite()) > 0 && et.getSuctionType(direction.getOpposite()) == null && et.takeEssentia(aspect, 1, direction.getOpposite()) == 1) {
+                    if (forti && world.rand.nextInt(10) == 0) {
+                        AuraHelper.pollute(world, pos, 1, true);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public static boolean findEssentia(TileEntity tile, Aspect aspect, Direction direction, int range) {
+        World world = tile.getWorld();
+        for (int a = 0; a < range; ++a) {
+            BlockPos pos = tile.getPos().offset(direction, a + 1);
+            TileEntity te = world.getTileEntity(pos);
+            if (te != null && !te.isInvalid() && te instanceof IEssentiaTransport) {
+                IEssentiaTransport et = (IEssentiaTransport)te;
+                if (et.getEssentiaType(direction.getOpposite()) == aspect && et.getEssentiaAmount(direction.getOpposite()) > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
+

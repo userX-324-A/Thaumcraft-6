@@ -52,3 +52,4 @@ public class PacketFXZap implements IMessage, IMessageHandler<PacketFXZap, IMess
         return null;
     }
 }
+

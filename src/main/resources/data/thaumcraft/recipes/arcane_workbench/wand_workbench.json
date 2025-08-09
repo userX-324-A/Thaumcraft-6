@@ -1,0 +1,38 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:wand_workbench",
+  "research": "FOCALMANIPULATION",
+  "vis": 100,
+  "crystals": {
+    "air": 1,
+    "water": 1
+  },
+  "pattern": [
+    "ISI",
+    "BRB",
+    "GTG"
+  ],
+  "key": {
+    "I": {
+      "item": "thaumcraft:slab_arcane_stone"
+    },
+    "S": {
+      "item": "thaumcraft:vis_resonator"
+    },
+    "B": {
+      "item": "thaumcraft:stone_arcane"
+    },
+    "R": {
+      "item": "thaumcraft:vis_resonator"
+    },
+    "T": {
+      "item": "thaumcraft:table_stone"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:wand_workbench"
+  }
+} 

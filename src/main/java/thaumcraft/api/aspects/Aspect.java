@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.text.WordUtils;
 import thaumcraft.api.research.ScanAspect;
 import thaumcraft.api.research.ScanningManager;
@@ -82,7 +82,7 @@ public class Aspect {
 	}
 	
 	public String getLocalizedDescription() {
-		return I18n.translateToLocal("tc.aspect."+tag);
+		return I18n.get("tc.aspect."+tag);
 	}
 	
 	public String getTag() {
@@ -211,3 +211,4 @@ public class Aspect {
 		
 		
 }
+

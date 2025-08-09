@@ -64,3 +64,4 @@ public class CardSynergy extends TheorycraftCard
         return false;
     }
 }
+

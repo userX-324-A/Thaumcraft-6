@@ -11,3 +11,4 @@ public interface ISealGui {
 	public int[] getGuiCategories();
 	
 }
+

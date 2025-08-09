@@ -1,0 +1,36 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:caster_basic",
+  "research": "UNLOCKAUROMANCY@2",
+  "vis": 100,
+  "crystals": {
+    "air": 1,
+    "fire": 1,
+    "water": 1,
+    "earth": 1,
+    "order": 1,
+    "entropy": 1
+  },
+  "pattern": [
+    "III",
+    "LRL",
+    "LTL"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "R": {
+      "item": "thaumcraft:vis_resonator"
+    },
+    "T": {
+      "item": "thaumcraft:thaumometer"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:caster_basic"
+  }
+} 

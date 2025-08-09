@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "PLATES",
+  "ingredients": [
+    {
+      "item": "thaumcraft:void_ingot"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "ordo",
+      "amount": 5
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:plate",
+    "nbt": "{plate:\"void\"}"
+  }
+} 

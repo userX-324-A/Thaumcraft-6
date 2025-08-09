@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:arcane_shapeless",
+  "group": "thaumcraft:tube_valve",
+  "research": "TUBES",
+  "vis": 10,
+  "ingredients": [
+    {
+      "item": "thaumcraft:tube"
+    },
+    {
+      "item": "minecraft:lever"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:tube_valve"
+  }
+} 

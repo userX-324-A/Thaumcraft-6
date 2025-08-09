@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L L",
+    "L L",
+    " I "
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "I": {
+      "item": "thaumcraft:brass_ingot"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:bauble_girdle"
+  }
+}

@@ -1,69 +1,60 @@
 package thaumcraft.api.research.theorycraft;
-import java.util.ArrayList;
-import java.util.Random;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 
-
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class CardStudy extends TheorycraftCard {
-	
-	String cat = "BASICS";
-	
-	@Override
-	public NBTTagCompound serialize() {
-		NBTTagCompound nbt = super.serialize();
-		nbt.setString("cat", cat);
-		return nbt;
-	}
-
-	@Override
-	public void deserialize(NBTTagCompound nbt) {
-		super.deserialize(nbt);
-		cat = nbt.getString("cat");
-	}
-	
-	@Override
-	public String getResearchCategory() {
-		return cat;
-	}
-	
-	@Override
-	public boolean initialize(EntityPlayer player, ResearchTableData data) { 
-		Random r = new Random(getSeed());
-		ArrayList<String> list = data.getAvailableCategories(player);
-		cat = list.get(r.nextInt(list.size()));
-		return cat!=null;
-	}
-	
-	@Override
-	public boolean isAidOnly() {
-		return true;
-	}
-
-	@Override
-	public int getInspirationCost() {
-		return 1;
-	}
-	
-	@Override
-	public String getLocalizedName() {
-		return new TextComponentTranslation("card.study.name", TextFormatting.DARK_BLUE+""+TextFormatting.BOLD+new TextComponentTranslation("tc.research_category."+cat).getFormattedText()+TextFormatting.RESET).getUnformattedText();
-	}
-	
-	@Override
-	public String getLocalizedText() {
-		return new TextComponentTranslation("card.study.text", TextFormatting.BOLD+new TextComponentTranslation("tc.research_category."+cat).getFormattedText()+TextFormatting.RESET).getUnformattedText();
-	}
-	
-	@Override
-	public boolean activate(EntityPlayer player, ResearchTableData data) {		
-		data.addTotal(cat, MathHelper.getInt(player.getRNG(), 15, 25));		
-		return true;
-	}
-	
-	
+    private String cat;
+    
+    @Override
+    public CompoundNBT serialize() {
+        return null;
+    }
+    
+    @Override
+    public void deserialize(CompoundNBT nbt) {
+    }
+    
+    @Override
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
+        return false;
+    }
+    
+    @Override
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
+        return false;
+    }
+    
+    @Override
+    public String getResearchCategory() {
+        return null;
+    }
+    
+    @Override
+    public int getInspirationCost() {
+        return 0;
+    }
+    
+    @Override
+    public String getLocalizedName() {
+        return null;
+    }
+    
+    @Override
+    public String getLocalizedText() {
+        return null;
+    }
+    
+    @Override
+    public TheorycraftCard[] getMutations() {
+        return null;
+    }
+    
+    @Override
+    public boolean isAidOnly() {
+        return false;
+    }
 }
+

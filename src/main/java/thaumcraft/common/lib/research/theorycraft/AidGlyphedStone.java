@@ -17,3 +17,4 @@ public class AidGlyphedStone implements ITheorycraftAid
         return new Class[] { CardGlyphs.class };
     }
 }
+

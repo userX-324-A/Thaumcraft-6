@@ -1,101 +1,60 @@
 package thaumcraft.api.internal;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 
-
-public class WorldCoordinates implements Comparable
-{
+public class WorldCoordinates implements Comparable<WorldCoordinates> {
     public BlockPos pos;
-    
     public int dim;
-
-    public WorldCoordinates() {}
-
-    public WorldCoordinates(BlockPos pos, int d)
-    {
+    
+    public WorldCoordinates() {
+    }
+    
+    public WorldCoordinates(BlockPos pos, int d) {
         this.pos = pos;
-        dim = d;
+        this.dim = d;
     }
     
-    public WorldCoordinates(TileEntity tile)
-    {
-        pos = tile.getPos();
-        dim = tile.getWorld().provider.getDimension();
+    public WorldCoordinates(WorldCoordinates par1) {
+        this.pos = par1.pos;
+        this.dim = par1.dim;
     }
-
-    public WorldCoordinates(WorldCoordinates par1ChunkCoordinates)
-    {
-        pos = par1ChunkCoordinates.pos;
-        dim = par1ChunkCoordinates.dim;
+    
+    @Override
+    public int hashCode() {
+        return this.pos.hashCode() + this.dim;
     }
-
-    public boolean equals(Object par1Obj)
-    {
-        if (!(par1Obj instanceof WorldCoordinates))
-        {
-            return false;
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof WorldCoordinates) {
+            WorldCoordinates p = (WorldCoordinates)obj;
+            return this.pos.equals(p.pos) && this.dim == p.dim;
         }
-        else
-        {
-        	WorldCoordinates coordinates = (WorldCoordinates)par1Obj;
-            return pos.equals(coordinates.pos) && dim == coordinates.dim ;
+        return false;
+    }
+    
+    @Override
+    public int compareTo(WorldCoordinates o) {
+        if (this.pos.equals(o.pos)) {
+            return this.dim - o.dim;
         }
-    }
-
-    public int hashCode()
-    {
-        return pos.getX() + pos.getY() << 8 + pos.getZ() << 16 + dim << 24;
-    }
-
-    /**
-     * Compare the coordinate with another coordinate
-     */
-    public int compareWorldCoordinate(WorldCoordinates par1)
-    {
-        return dim == par1.dim ? pos.compareTo(par1.pos) : -1;
-    }
-
-    public void set(BlockPos pos, int d)
-    {
-        this.pos = pos;
-        dim = d;
-    }
-
-    /**
-     * Returns the squared distance between this coordinates and the coordinates given as argument.
-     */
-    public double getDistanceSquared(BlockPos pos)
-    {
-        return this.pos.distanceSq(pos);
-    }
-
-    /**
-     * Return the squared distance between this coordinates and the ChunkCoordinates given as argument.
-     */
-    public double getDistanceSquaredToWorldCoordinates(WorldCoordinates par1ChunkCoordinates)
-    {
-        return getDistanceSquared(par1ChunkCoordinates.pos);
-    }
-
-    public int compareTo(Object par1Obj)
-    {
-        return compareWorldCoordinate((WorldCoordinates)par1Obj);
+        return this.pos.compareTo(o.pos);
     }
     
-    public void readNBT(NBTTagCompound nbt) {
-    	int x = nbt.getInteger("w_x");
-    	int y = nbt.getInteger("w_y");
-    	int z = nbt.getInteger("w_z");
-    	pos = new BlockPos(x,y,z);
-    	dim = nbt.getInteger("w_d");
+    public void readNBT(CompoundNBT nbt) {
+        int x = nbt.getInt("x");
+        int y = nbt.getInt("y");
+        int z = nbt.getInt("z");
+        this.pos = new BlockPos(x, y, z);
+        this.dim = nbt.getInt("d");
     }
     
-    public void writeNBT(NBTTagCompound nbt) {
-    	nbt.setInteger("w_x",pos.getX());
-    	nbt.setInteger("w_y",pos.getY());
-    	nbt.setInteger("w_z",pos.getZ());
-    	nbt.setInteger("w_d",dim);
+    public void writeNBT(CompoundNBT nbt) {
+        nbt.putInt("x", this.pos.getX());
+        nbt.putInt("y", this.pos.getY());
+        nbt.putInt("z", this.pos.getZ());
+        nbt.putInt("d", this.dim);
     }
-    
 }
+

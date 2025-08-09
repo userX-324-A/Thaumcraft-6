@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "hedge_alchemy",
+  "input": {
+    "item": "thaumcraft:web"
+  },
+  "result": {
+    "item": "thaumcraft:web_result"
+  },
+  "aspects": [
+    {
+      "name": "aer",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

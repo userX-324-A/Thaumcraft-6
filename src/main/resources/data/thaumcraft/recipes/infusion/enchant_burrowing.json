@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:infusion_enchantment",
+  "research": "INFUSIONENCHANTMENT",
+  "enchantment": "BURROWING",
+  "instability": 4,
+  "aspects": {
+    "perditio": 250,
+    "aversio": 200
+  },
+  "central_ingredient": { "item": "minecraft:enchanted_book" },
+  "components": [
+    { "item": "minecraft:enchanted_book" },
+    { "tag": "forge:plates/iron" }
+  ]
+}
+
+

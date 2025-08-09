@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "BOTTLETAINT",
+  "aspects": {
+    "flux": 30,
+    "water": 30
+  },
+  "catalyst": {
+    "item": "thaumcraft:phial",
+    "nbt": {
+      "Aspect": {
+        "name": "flux",
+        "amount": 1
+      }
+    }
+  },
+  "result": {
+    "item": "thaumcraft:bottle_taint"
+  }
+} 

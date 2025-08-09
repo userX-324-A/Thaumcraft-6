@@ -74,3 +74,4 @@ public class ScanGeneric implements IScanThing
         return null;
     }
 }
+

@@ -79,3 +79,4 @@ public class PacketFXShield implements IMessage, IMessageHandler<PacketFXShield,
         return null;
     }
 }
+

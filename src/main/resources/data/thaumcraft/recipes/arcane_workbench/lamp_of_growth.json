@@ -1,0 +1,21 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        " E ",
+        "ELE",
+        " E "
+    ],
+    "key": {
+        "E": {
+            "item": "minecraft:emerald"
+        },
+        "L": {
+            "item": "thaumcraft:arcane_lamp"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:lamp_of_growth"
+    },
+    "vis": 50,
+    "research": "LAMPOFGROWTH"
+} 

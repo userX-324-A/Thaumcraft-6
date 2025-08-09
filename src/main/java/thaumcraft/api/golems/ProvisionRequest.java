@@ -1,139 +1,69 @@
 package thaumcraft.api.golems;
-import net.minecraft.entity.Entity;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import thaumcraft.api.golems.seals.ISealEntity;
-import thaumcraft.api.golems.tasks.Task;
+import net.minecraft.entity.Entity;
 
-
-public class ProvisionRequest { 
-	private ISealEntity seal;
-	private Entity entity;
-	private BlockPos pos;
-	private EnumFacing side;
-	private ItemStack stack;
-	private int id;
-	private int ui = 0;
-	private Task linkedTask;
-	private boolean invalid;
-	private long timeout;
-	
-	ProvisionRequest(ISealEntity seal, ItemStack stack) {
-		this.seal = seal;
-		this.stack = stack.copy();
-		String s = seal.getSealPos().pos.toString() + seal.getSealPos().face.name() +stack.toString();
-		if (stack.hasTagCompound()) s += stack.getTagCompound().toString();
-		id = s.hashCode();
-		timeout = System.currentTimeMillis() + 10000;
-	}
-	
-	ProvisionRequest(BlockPos pos, EnumFacing side, ItemStack stack) {
-		this.pos = pos;
-		this.side = side;
-		this.stack = stack.copy();
-		String s = pos.toString() + side.name() +stack.toString();
-		if (stack.hasTagCompound()) s += stack.getTagCompound().toString();
-		id = s.hashCode();
-		timeout = System.currentTimeMillis() + 10000;
-	}
-	
-	ProvisionRequest(Entity entity, ItemStack stack) {
-		this.entity = entity;
-		this.stack = stack.copy();
-		String s = entity.getEntityId() + stack.toString();
-		if (stack.hasTagCompound()) s += stack.getTagCompound().toString();
-		id = s.hashCode();
-		timeout = System.currentTimeMillis() + 10000;
-	}
-		
-	
-
-	public long getTimeout() {
-		return timeout;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public void setUI(int ui) {
-		this.ui = ui;
-	}
-
-	public ISealEntity getSeal() {
-		return seal;
-	}
-	
-	public Entity getEntity() {
-		return entity;
-	}
-	
-	public ItemStack getStack() {
-		return stack;
-	}
-	
-	public BlockPos getPos() {
-		return pos;
-	}
-
-	public void setPos(BlockPos pos) {
-		this.pos = pos;
-	}
-	
-	public EnumFacing getSide() {
-		return side;
-	}
-
-	public void setSide(EnumFacing side) {
-		this.side = side;
-	}
-
-	public Task getLinkedTask() {
-		return linkedTask;
-	}
-
-	public void setLinkedTask(Task linkedTask) {
-		this.linkedTask = linkedTask;
-		timeout = System.currentTimeMillis() + 120000;
-	}
-
-	public boolean isInvalid() {
-		return invalid;
-	}
-
-	public void setInvalid(boolean invalid) {
-		this.invalid = invalid;
-	}
-
-	@Override
-	public boolean equals(Object p_equals_1_)
-    {
-        if (this == p_equals_1_)
-        {
-            return true;
-        }
-        else if (!(p_equals_1_ instanceof ProvisionRequest))
-        {
-            return false;
-        }
-        else
-        {        	
-        	ProvisionRequest pr = (ProvisionRequest)p_equals_1_;        	
-            return id == pr.id && ui == pr.ui;
-        }
+public class ProvisionRequest {
+    private int id;
+    private ItemStack stack;
+    private BlockPos pos;
+    private Direction side;
+    private Entity anEntity;
+    private boolean invalid;
+    
+    public ProvisionRequest(int id, ItemStack stack, BlockPos pos, Direction side, Entity anEntity) {
+        this.id = id;
+        this.stack = stack;
+        this.pos = pos;
+        this.side = side;
+        this.anEntity = anEntity;
+        this.invalid = false;
     }
-	
-	private boolean isItemStackEqual(ItemStack first, ItemStack other)
-    {
-        return first.getCount() != other.getCount() ? false : 
-        	(first.getItem() != other.getItem() ? false : 
-        		(first.getItemDamage() != other.getItemDamage() ? false : 
-        			(first.getTagCompound() == null && other.getTagCompound() != null ? false : 
-        				first.getTagCompound() == null || first.getTagCompound().equals(other.getTagCompound()))));
+    
+    ProvisionRequest(BlockPos pos, Direction side, ItemStack stack) {
+        this.stack = stack;
+        this.pos = pos;
+        this.side = side;
+        this.invalid = false;
+    }
+    
+    public ProvisionRequest(Entity anEntity, ItemStack stack) {
+        this.stack = stack;
+        this.anEntity = anEntity;
+        this.invalid = false;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public boolean isInvalid() {
+        return this.invalid;
+    }
+    
+    public void setInvalid() {
+        this.invalid = true;
+    }
+    
+    public ItemStack getStack() {
+        return this.stack;
+    }
+    
+    public Entity getEntity() {
+        return this.anEntity;
+    }
+    
+    public BlockPos getPos() {
+        return this.pos;
+    }
+    
+    public Direction getSide() {
+        return this.side;
+    }
+    
+    public void setSide(Direction side) {
+        this.side = side;
     }
 }

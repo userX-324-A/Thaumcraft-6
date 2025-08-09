@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "VERDANTCHARMS",
+  "instability": 5,
+  "aspects": {
+    "lucrum": 80,
+    "aer": 80
+  },
+  "central_ingredient": { "item": "thaumcraft:charm_verdant" },
+  "components": [
+    { "item": "thaumcraft:triple_meat_treat" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"lucrum\",amount:1}]}" },
+    { "item": "minecraft:potion", "nbt": "{Potion:\"minecraft:strong_regeneration\"}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" }
+  ],
+  "result": { "item": "thaumcraft:charm_verdant", "nbt": "{type:2b}" }
+}
+
+

@@ -1,0 +1,25 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:goggles",
+  "research": "UNLOCKARTIFICE",
+  "vis": 50,
+  "pattern": [
+    "LGL",
+    "L L",
+    "TGT"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "G": {
+      "tag": "forge:ingots/brass"
+    },
+    "T": {
+      "item": "thaumcraft:thaumometer"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:goggles"
+  }
+} 

@@ -44,3 +44,4 @@ public class CardRealization extends TheorycraftCard
         return true;
     }
 }
+

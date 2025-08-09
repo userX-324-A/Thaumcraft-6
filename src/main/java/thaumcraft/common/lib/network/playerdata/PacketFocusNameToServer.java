@@ -52,3 +52,4 @@ public class PacketFocusNameToServer implements IMessage, IMessageHandler<Packet
         return null;
     }
 }
+

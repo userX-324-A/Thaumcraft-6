@@ -16,3 +16,4 @@ public class AidBasicInfusion implements ITheorycraftAid
         return new Class[] { CardMeasure.class, CardChannel.class, CardInfuse.class };
     }
 }
+

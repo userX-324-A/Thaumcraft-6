@@ -1,0 +1,15 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "NITOR",
+  "aspects": {
+    "ignis": 15,
+    "potentia": 15,
+    "lux": 15
+  },
+  "catalyst": {
+    "item": "minecraft:glowstone_dust"
+  },
+  "result": {
+    "item": "thaumcraft:nitor_yellow"
+  }
+} 

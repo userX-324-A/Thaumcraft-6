@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SEALCOLLECT&&MINDBIOTHAUMIC",
+  "aspects": {
+    "senses": 10,
+    "mind": 10
+  },
+  "catalyst": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:pickup"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:pickup_advanced"
+    }
+  }
+} 

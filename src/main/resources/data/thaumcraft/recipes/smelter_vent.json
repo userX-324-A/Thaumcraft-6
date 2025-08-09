@@ -1,0 +1,37 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "IMPROVEDSMELTING2",
+  "vis": {
+    "aer": 1,
+    "ignis": 0,
+    "aqua": 0,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    "IBI",
+    "MGF",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "M": {
+      "item": "thaumcraft:filter"
+    },
+    "G": {
+      "item": "thaumcraft:metal_alchemical"
+    },
+    "F": {
+      "item": "thaumcraft:filter"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:smelter_vent"
+  }
+}

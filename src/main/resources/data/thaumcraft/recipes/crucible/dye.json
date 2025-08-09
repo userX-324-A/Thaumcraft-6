@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "hedge_alchemy",
+  "input": {
+    "item": "thaumcraft:dye"
+  },
+  "result": {
+    "item": "thaumcraft:dye_result"
+  },
+  "aspects": [
+    {
+      "name": "terra",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

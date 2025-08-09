@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "minecraft:flint"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "thaumcraft:crystal_aer"
+    },
+    {
+      "item": "thaumcraft:crystal_ignis"
+    },
+    {
+      "item": "thaumcraft:crystal_aqua"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:salis_mundus",
+    "count": 1
+  }
+}

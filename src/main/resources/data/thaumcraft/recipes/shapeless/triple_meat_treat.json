@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thaumcraft:chunk_beef"
+    },
+    {
+      "item": "thaumcraft:chunk_pork"
+    },
+    {
+      "item": "thaumcraft:chunk_chicken"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:triple_meat_treat",
+    "count": 1
+  }
+}

@@ -86,3 +86,4 @@ public class PacketFXFocusEffect implements IMessage, IMessageHandler<PacketFXFo
         }
     }
 }
+

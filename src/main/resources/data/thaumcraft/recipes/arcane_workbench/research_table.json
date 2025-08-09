@@ -1,0 +1,27 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "pattern": [
+    "S S",
+    "BDB",
+    "T T"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_slab"
+    },
+    "B": {
+      "item": "minecraft:bowl"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "T": {
+      "item": "thaumcraft:table_wood"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:research_table"
+  },
+  "vis": 15,
+  "research": "FIRSTSTEPS"
+} 

@@ -1,0 +1,31 @@
+{
+    "type": "thaumcraft:arcane_workbench",
+    "key": {
+        "T": {
+            "item": "thaumcraft:tube"
+        },
+        "P": {
+            "item": "thaumcraft:mechanism_simple"
+        },
+        "R": {
+            "item": "thaumcraft:morphic_resonator"
+        },
+        "C": {
+            "item": "thaumcraft:metal_alchemical"
+        }
+    },
+    "pattern": [
+        " T ",
+        "RCP",
+        " T "
+    ],
+    "result": {
+        "item": "thaumcraft:centrifuge"
+    },
+    "vis": {
+        "ordo": 1,
+        "perditio": 1
+    }
+}
+
+

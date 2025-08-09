@@ -1,0 +1,28 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "SEALBUTCHER",
+  "instability": 0,
+  "aspects": {
+    "bestia": 10,
+    "sensus": 10,
+    "homo": 10
+  },
+  "central_ingredient": {
+    "item": "thaumcraft:seal",
+    "nbt": { "key": "thaumcraft:guard" }
+  },
+  "components": [
+    { "item": "minecraft:leather" },
+    { "tag": "forge:wool" },
+    { "item": "minecraft:rabbit_hide" },
+    { "item": "minecraft:porkchop" },
+    { "item": "minecraft:mutton" },
+    { "item": "minecraft:beef" }
+  ],
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": { "key": "thaumcraft:butcher" }
+  }
+}
+
+

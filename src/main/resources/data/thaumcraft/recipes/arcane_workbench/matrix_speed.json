@@ -1,0 +1,29 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:matrix_speed",
+  "research": "INFUSIONBOOST",
+  "vis": 500,
+  "crystals": {
+    "air": 1,
+    "order": 1
+  },
+  "pattern": [
+    "SNS",
+    "NGN",
+    "SNS"
+  ],
+  "key": {
+    "S": {
+      "item": "thaumcraft:stone_arcane"
+    },
+    "N": {
+      "item": "thaumcraft:nitor"
+    },
+    "G": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:matrix_speed"
+  }
+} 

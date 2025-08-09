@@ -1,7 +1,7 @@
 package thaumcraft.api.capabilities;
 import javax.annotation.Nonnull;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
 
@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.INBTSerializable;
  * from the <b>IInternalMethodHandler</b>. It does most of the heavy lifting for you. 
  *
  */
-public interface IPlayerWarp extends INBTSerializable<NBTTagCompound>
+public interface IPlayerWarp extends INBTSerializable<CompoundNBT>
 {
 
     /**
@@ -58,7 +58,7 @@ public interface IPlayerWarp extends INBTSerializable<NBTTagCompound>
 	/**
      * @param player the player to sync
      */
-	void sync(EntityPlayerMP player);
+	void sync(ServerPlayerEntity player);
 	
 	/**
      * @return the counter that is used to keep track of warp gains
@@ -71,3 +71,4 @@ public interface IPlayerWarp extends INBTSerializable<NBTTagCompound>
     void setCounter(int amount);
 	
 }
+

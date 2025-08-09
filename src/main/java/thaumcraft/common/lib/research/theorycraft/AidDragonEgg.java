@@ -17,3 +17,4 @@ public class AidDragonEgg implements ITheorycraftAid
         return new Class[] { CardDragonEgg.class };
     }
 }
+

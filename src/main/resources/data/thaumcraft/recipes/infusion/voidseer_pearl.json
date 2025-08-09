@@ -1,0 +1,20 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "VOIDSEERPEARL",
+  "instability": 8,
+  "aspects": {
+    "cognitio": 150,
+    "vacuos": 150,
+    "praecantatio": 100
+  },
+  "central_ingredient": { "item": "thaumcraft:baubles" },
+  "components": [
+    { "item": "thaumcraft:brain" },
+    { "item": "thaumcraft:void_seed" },
+    { "item": "thaumcraft:brain" },
+    { "item": "thaumcraft:primordial_pearl" }
+  ],
+  "result": { "item": "thaumcraft:charm_voidseer" }
+}
+
+

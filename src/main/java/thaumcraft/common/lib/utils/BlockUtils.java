@@ -39,7 +39,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import thaumcraft.Thaumcraft;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.items.ItemsTC;
@@ -309,8 +311,9 @@ public class BlockUtils
             }
             else {
                 ItemStack bs = new ItemStack(Item.getItemFromBlock(blockstate.getBlock()), 1, blockstate.getBlock().getMetaFromState(blockstate));
-                for (ItemStack stack : OreDictionary.getOres(splitString[0], false)) {
-                    if (OreDictionary.itemMatches(stack, bs, false)) {
+                NonNullList<ItemStack> candidates = TagUtils.getItemsForOreName(splitString[0]);
+                for (ItemStack stack : candidates) {
+                    if (stack.getItem() == bs.getItem()) {
                         return true;
                     }
                 }
@@ -392,3 +395,4 @@ public class BlockUtils
         }
     }
 }
+

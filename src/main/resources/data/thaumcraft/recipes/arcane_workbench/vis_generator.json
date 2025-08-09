@@ -1,0 +1,37 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "WSW",
+    "EPE",
+    "WRW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "item": "minecraft:redstone"
+    },
+    "E": {
+      "item": "thaumcraft:nugget_rareearth"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "R": {
+      "item": "thaumcraft:vis_resonator"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:vis_generator",
+    "count": 1
+  },
+  "vis": 25,
+  "crystals": {
+    "fire": 1,
+    "order": 1
+  }
+}
+
+
+

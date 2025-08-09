@@ -1,0 +1,37 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "POTIONSPRAYER",
+  "vis": {
+    "aer": 0,
+    "ignis": 1,
+    "aqua": 1,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    "BDB",
+    "IAI",
+    "ICI"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "D": {
+      "item": "minecraft:dispenser"
+    },
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "A": {
+      "item": "minecraft:brewing_stand"
+    },
+    "C": {
+      "item": "thaumcraft:metal_alchemical"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:potion_sprayer"
+  }
+}

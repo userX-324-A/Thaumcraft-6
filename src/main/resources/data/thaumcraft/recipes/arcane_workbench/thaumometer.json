@@ -1,0 +1,30 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:thaumometer",
+  "research": "FIRSTSTEPS@2",
+  "vis": 20,
+  "crystals": {
+    "air": 1,
+    "fire": 1,
+    "water": 1,
+    "earth": 1,
+    "order": 1,
+    "entropy": 1
+  },
+  "pattern": [
+    " I ",
+    "IGI",
+    " I "
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/gold"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:thaumometer"
+  }
+} 

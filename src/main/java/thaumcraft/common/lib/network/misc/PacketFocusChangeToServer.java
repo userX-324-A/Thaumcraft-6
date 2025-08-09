@@ -52,3 +52,4 @@ public class PacketFocusChangeToServer implements IMessage, IMessageHandler<Pack
         return null;
     }
 }
+

@@ -1,7 +1,7 @@
 package thaumcraft.api.research;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import thaumcraft.api.capabilities.IPlayerKnowledge.EnumKnowledgeType;
 
 
@@ -24,7 +24,7 @@ public class ResearchStage {
 	}
 	
 	public String getTextLocalized() {
-		return I18n.translateToLocal(getText());
+		return I18n.get(getText());
 	}
 	/**
 	 * @param text the text to set
@@ -171,3 +171,4 @@ public class ResearchStage {
     }
 	
 }
+

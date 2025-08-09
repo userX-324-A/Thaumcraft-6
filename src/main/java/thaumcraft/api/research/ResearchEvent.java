@@ -1,75 +1,49 @@
 package thaumcraft.api.research;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import thaumcraft.api.capabilities.IPlayerKnowledge.EnumKnowledgeType;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.eventbus.api.Event;
 
-/**
- * These events trigger whenever a players gains knowledge or progresses research. 
- * They can be cancelled to prevent the research gain.
- */
 public class ResearchEvent extends Event {
-
-	private EntityPlayer player;
-	
-	public ResearchEvent(EntityPlayer player)
-    {
+    private PlayerEntity player;
+    
+    public ResearchEvent(PlayerEntity player) {
         this.player = player;
     }
-
-    public EntityPlayer getPlayer()
-    {
-        return player;
+    
+    public PlayerEntity getPlayer() {
+        return this.player;
     }
-	
-	
-	public static class Knowledge extends ResearchEvent
-    {
-		private EnumKnowledgeType type;
-		private ResearchCategory category;
-		private int amount;
-		
-		public Knowledge(EntityPlayer player, EnumKnowledgeType type, ResearchCategory category, int amount)
-        {
+    
+    public static class Knowledge extends ResearchEvent {
+        private ResearchCategory category;
+        private int amount;
+        
+        public Knowledge(PlayerEntity player, ResearchCategory category, int amount) {
             super(player);
-            this.type = type;
             this.category = category;
             this.amount = amount;
         }
-
-		public EnumKnowledgeType getType() {
-			return type;
-		}
-
-		public ResearchCategory getCategory() {
-			return category;
-		}
-
-		public int getAmount() {
-			return amount;
-		}		
-		
+        
+        public ResearchCategory getCategory() {
+            return this.category;
+        }
+        
+        public int getAmount() {
+            return this.amount;
+        }
     }
-	
-	public static class Research extends ResearchEvent
-    {
-		private String researchKey;
-		
-		public Research(EntityPlayer player, String researchKey)
-        {
+    
+    public static class Research extends ResearchEvent {
+        private String researchKey;
+        
+        public Research(PlayerEntity player, String researchKey) {
             super(player);
             this.researchKey = researchKey;
         }
-		
-		public String getResearchKey() {
-			return researchKey;
-		}		
+        
+        public String getResearchKey() {
+            return this.researchKey;
+        }
     }
-
-	@Override
-	public boolean isCancelable() {
-		return true;
-	}
-	
-	
 }
+

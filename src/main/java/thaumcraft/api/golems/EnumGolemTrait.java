@@ -1,6 +1,6 @@
 package thaumcraft.api.golems;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 
 public enum EnumGolemTrait {
@@ -43,10 +43,10 @@ public enum EnumGolemTrait {
 	}
 	
 	public String getLocalizedName() {
-		return I18n.translateToLocal("golem.trait."+ name().toLowerCase());
+		return I18n.get("golem.trait."+ name().toLowerCase());
 	}
 	
 	public String getLocalizedDescription() {
-		return I18n.translateToLocal("golem.trait.text."+ name().toLowerCase());
+		return I18n.get("golem.trait.text."+ name().toLowerCase());
 	}
 }

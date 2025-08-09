@@ -1,0 +1,24 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "VOIDROBEARMOR",
+  "instability": 6,
+  "aspects": {
+    "metallum": 30,
+    "tutamen": 30,
+    "potentia": 25,
+    "alienis": 25,
+    "vacuos": 30
+  },
+  "central_ingredient": { "item": "thaumcraft:void_legs" },
+  "components": [
+    { "item": "thaumcraft:cloth_legs" },
+    { "tag": "forge:plates/void" },
+    { "tag": "forge:plates/void" },
+    { "item": "thaumcraft:salis_mundus" },
+    { "item": "thaumcraft:fabric" },
+    { "tag": "forge:leather" }
+  ],
+  "result": { "item": "thaumcraft:void_robe_legs" }
+}
+
+

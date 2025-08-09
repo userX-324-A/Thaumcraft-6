@@ -1,79 +1,50 @@
 package thaumcraft.common.items;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
+
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import thaumcraft.common.config.ConfigItems;
+import thaumcraft.api.items.IThaumcraftItems;
 
+public class ItemTCBase extends Item implements IThaumcraftItems {
+    protected final String BASE_NAME;
+    protected final String[] VARIANTS;
+    protected final int[] VARIANTS_META;
 
-public class ItemTCBase extends Item implements IThaumcraftItems
-{
-    protected String BASE_NAME;
-    protected String[] VARIANTS;
-    protected int[] VARIANTS_META;
-    
     public ItemTCBase(String name, String... variants) {
-        setRegistryName(name);
-        setUnlocalizedName(name);
-        setCreativeTab(ConfigItems.TABTC);
-        setNoRepair();
-        setHasSubtypes(variants.length > 1);
-        BASE_NAME = name;
+        super(new Item.Properties().group(ItemGroup.MISC));
+        this.setRegistryName(name);
+        this.BASE_NAME = name;
         if (variants.length == 0) {
-            VARIANTS = new String[] { name };
+            this.VARIANTS = new String[]{name};
+        } else {
+            this.VARIANTS = variants;
         }
-        else {
-            VARIANTS = variants;
+        this.VARIANTS_META = new int[this.VARIANTS.length];
+        for (int m = 0; m < this.VARIANTS.length; ++m) {
+            this.VARIANTS_META[m] = m;
         }
-        VARIANTS_META = new int[VARIANTS.length];
-        for (int m = 0; m < VARIANTS.length; ++m) {
-            VARIANTS_META[m] = m;
-        }
-        ConfigItems.ITEM_VARIANT_HOLDERS.add(this);
     }
-    
-    public String getUnlocalizedName(ItemStack itemStack) {
-        if (hasSubtypes && itemStack.getMetadata() < VARIANTS.length && VARIANTS[itemStack.getMetadata()] != BASE_NAME) {
-            return String.format(super.getUnlocalizedName() + ".%s", VARIANTS[itemStack.getMetadata()]);
-        }
-        return super.getUnlocalizedName(itemStack);
-    }
-    
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-        if (tab == ConfigItems.TABTC || tab == CreativeTabs.SEARCH) {
-            if (!getHasSubtypes()) {
-                super.getSubItems(tab, items);
-            }
-            else {
-                for (int meta = 0; meta < VARIANTS.length; ++meta) {
+
+    @Override
+    public void fillItemGroup(ItemGroup tab, NonNullList<ItemStack> items) {
+        if (this.isInGroup(tab)) {
+            if (this.getHasSubtypes()) {
+                for (int meta = 0; meta < this.VARIANTS.length; ++meta) {
                     items.add(new ItemStack(this, 1, meta));
                 }
+            } else {
+                super.fillItemGroup(tab, items);
             }
         }
     }
-    
-    public Item getItem() {
-        return this;
-    }
-    
-    public String[] getVariantNames() {
-        return VARIANTS;
-    }
-    
-    public int[] getVariantMeta() {
-        return VARIANTS_META;
-    }
-    
-    public ItemMeshDefinition getCustomMesh() {
-        return null;
-    }
-    
-    public ModelResourceLocation getCustomModelResourceLocation(String variant) {
-        if (variant.equals(BASE_NAME)) {
-            return new ModelResourceLocation("thaumcraft:" + BASE_NAME);
+
+    @Override
+    public String getTranslationKey(ItemStack itemStack) {
+        if (this.getHasSubtypes() && itemStack.getDamage() < this.VARIANTS.length && this.VARIANTS[itemStack.getDamage()] != this.BASE_NAME) {
+            return String.format(super.getTranslationKey() + ".%s", this.VARIANTS[itemStack.getDamage()]);
         }
-        return new ModelResourceLocation("thaumcraft:" + BASE_NAME, variant);
+        return super.getTranslationKey(itemStack);
     }
 }
+

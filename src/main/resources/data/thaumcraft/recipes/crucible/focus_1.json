@@ -1,0 +1,26 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "UNLOCKAUROMANCY",
+  "ingredients": [
+    {
+      "item": "thaumcraft:crystal_ordo"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "vitreus",
+      "amount": 20
+    },
+    {
+      "aspect": "praecantatio",
+      "amount": 10
+    },
+    {
+      "aspect": "auram",
+      "amount": 5
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:focus_1"
+  }
+} 

@@ -1,0 +1,21 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "CRYSTALFARMER",
+  "instability": 0,
+  "aspects": {
+    "ignis": 10,
+    "vitreus": 10,
+    "vinculum": 5
+  },
+  "central_ingredient": {
+    "item": "thaumcraft:crystal_essence",
+    "nbt": "{Aspects:[{key:\"ignis\",amount:1}]}"
+  },
+  "components": [
+    { "item": "minecraft:wheat_seeds" },
+    { "item": "thaumcraft:salis_mundus" }
+  ],
+  "result": { "item": "thaumcraft:crystal_fire" }
+}
+
+

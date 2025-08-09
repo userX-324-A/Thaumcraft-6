@@ -1,0 +1,29 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:sanity_checker",
+  "research": "WARP",
+  "vis": 20,
+  "crystals": {
+    "order": 1,
+    "entropy": 1
+  },
+  "pattern": [
+    "BN ",
+    "M N",
+    "BN "
+  ],
+  "key": {
+    "B": {
+      "item": "thaumcraft:brain"
+    },
+    "N": {
+      "item": "thaumcraft:nugget_brass"
+    },
+    "M": {
+      "item": "thaumcraft:mirrored_glass"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:sanity_checker"
+  }
+} 

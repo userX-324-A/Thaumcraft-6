@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    "XX"
+  ],
+  "key": {
+    "X": {
+      "item": "thaumcraft:iron_wood_log"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:iron_wood_planks",
+    "count": 4
+  }
+}

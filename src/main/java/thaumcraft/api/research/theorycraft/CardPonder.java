@@ -1,50 +1,58 @@
 package thaumcraft.api.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class CardPonder extends TheorycraftCard {
-
-	@Override
-	public int getInspirationCost() {
-		return 2;
-	}
-		
-	@Override
-	public String getLocalizedName() {
-		return new TextComponentTranslation("card.ponder.name").getUnformattedText();
-	}
-	
-	@Override
-	public String getLocalizedText() {
-		return new TextComponentTranslation("card.ponder.text").getUnformattedText();
-	}
-	
-	@Override
-	public boolean initialize(EntityPlayer player, ResearchTableData data) {
-		return data.categoriesBlocked.size()<data.categoryTotals.size();
-	}
-
-	@Override
-	public boolean activate(EntityPlayer player, ResearchTableData data) {
-		int a = 25;
-		int tries=0;
-		while (a>0 && tries<1000) {
-			tries++;
-			for (String category:data.categoryTotals.keySet()) {
-				if (data.categoriesBlocked.contains(category)) {
-					if (data.categoryTotals.size()<=1) return false;
-					continue;
-				}
-				data.addTotal(category, 1);
-				a--;
-				if (a<=0) break;
-			}
-		}
-		data.addTotal("BASICS", 5);
-		data.bonusDraws++;
-		return a!=20;
-	}
-	
-	
+    @Override
+    public CompoundNBT serialize() {
+        return null;
+    }
+    
+    @Override
+    public void deserialize(CompoundNBT nbt) {
+    }
+    
+    @Override
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
+        return false;
+    }
+    
+    @Override
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
+        return false;
+    }
+    
+    @Override
+    public String getResearchCategory() {
+        return null;
+    }
+    
+    @Override
+    public int getInspirationCost() {
+        return 0;
+    }
+    
+    @Override
+    public String getLocalizedName() {
+        return null;
+    }
+    
+    @Override
+    public String getLocalizedText() {
+        return null;
+    }
+    
+    @Override
+    public TheorycraftCard[] getMutations() {
+        return null;
+    }
+    
+    @Override
+    public boolean isAidOnly() {
+        return false;
+    }
 }
+

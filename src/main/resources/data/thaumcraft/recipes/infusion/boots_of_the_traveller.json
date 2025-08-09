@@ -1,0 +1,23 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "BOOTSTRAVELLER",
+  "instability": 1,
+  "aspects": {
+    "volatus": 100,
+    "motus": 100
+  },
+  "central_ingredient": {
+    "tag": "forge:boots"
+  },
+  "components": [
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" },
+    { "item": "thaumcraft:fabric" },
+    { "item": "thaumcraft:fabric" },
+    { "item": "minecraft:feather" },
+    { "tag": "forge:raw_fishes" }
+  ],
+  "result": { "item": "thaumcraft:traveller_boots" }
+}
+
+

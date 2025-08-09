@@ -8,5 +8,6 @@ package thaumcraft.api.crafting;
  *
  */
 public interface IArcaneWorkbench {
-
+    // Marker interface retained for API compatibility. 1.16 uses menus; workbench logic is in ArcaneWorkbenchMenu.
 }
+

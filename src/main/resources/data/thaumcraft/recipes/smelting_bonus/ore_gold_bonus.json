@@ -1,0 +1,8 @@
+{
+  "type": "thaumcraft:smelting_bonus",
+  "input": { "tag": "forge:ores/gold" },
+  "bonus": { "item": "minecraft:gold_nugget" },
+  "chance": 0.33
+}
+
+

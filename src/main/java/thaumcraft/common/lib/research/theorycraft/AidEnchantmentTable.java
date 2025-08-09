@@ -17,3 +17,4 @@ public class AidEnchantmentTable implements ITheorycraftAid
         return new Class[] { CardEnchantment.class };
     }
 }
+

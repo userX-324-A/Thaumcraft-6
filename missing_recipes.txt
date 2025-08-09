@@ -1,0 +1,7 @@
+This file will contain a list of all the recipes that need to be migrated from the old format to the new JSON format. 
+
+Infusion Recipes:
+  [done] Infusion Enchantments (Burrowing, Collector, Destructive, Refining, Sounding, Arcing, Essence, Lamplight)
+
+Smelting Recipes:
+  [done] Smelting Bonuses (custom recipe type)

@@ -117,3 +117,4 @@ public abstract class FocusNode implements IFocusElement {
 		return false;
 	}
 }
+

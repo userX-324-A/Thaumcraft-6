@@ -1,0 +1,18 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "METALLURGY@1",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/iron"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "instrumentum",
+      "amount": 5
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:brass_ingot"
+  }
+} 

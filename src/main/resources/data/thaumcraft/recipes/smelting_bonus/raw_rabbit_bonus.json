@@ -1,0 +1,8 @@
+{
+  "type": "thaumcraft:smelting_bonus",
+  "input": { "item": "minecraft:rabbit" },
+  "bonus": { "item": "thaumcraft:chunks", "count": 1, "nbt": "{type:4}" },
+  "chance": 0.33
+}
+
+

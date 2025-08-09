@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NSN",
+    "S S",
+    "NSN"
+  ],
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/brass"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:jar_brace",
+    "count": 2
+  }
+}
+
+
+

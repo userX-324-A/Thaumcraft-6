@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "METALPURIFICATION",
+  "ingredients": [
+    {
+      "tag": "forge:ores/iron"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "metallum",
+      "amount": 5
+    },
+    {
+      "aspect": "ordo",
+      "amount": 5
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:cluster_iron"
+  }
+} 

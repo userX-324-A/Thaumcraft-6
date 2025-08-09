@@ -1,0 +1,27 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "research": "INFUSIONSTABLE",
+  "vis": 250,
+  "crystals": {
+    "earth": 1,
+    "water": 1,
+    "entropy": 1
+  },
+  "pattern": [
+    "SRS",
+    "BVB",
+    "IMI"
+  ],
+  "key": {
+    "S": { "item": "thaumcraft:slab_arcane_stone" },
+    "R": { "item": "minecraft:redstone_block" },
+    "B": { "item": "thaumcraft:arcane_stone_block" },
+    "V": { "item": "thaumcraft:vis_resonator" },
+    "I": { "item": "thaumcraft:inlay" },
+    "M": { "item": "thaumcraft:mechanism_complex" }
+  },
+  "result": {
+    "item": "thaumcraft:stabilizer"
+  }
+}
+

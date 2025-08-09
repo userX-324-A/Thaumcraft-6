@@ -1,0 +1,21 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        " D ",
+        "DLD",
+        " D "
+    ],
+    "key": {
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "L": {
+            "item": "thaumcraft:arcane_lamp"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:lamp_of_fertility"
+    },
+    "vis": 50,
+    "research": "LAMPOFFERTILITY"
+} 

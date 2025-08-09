@@ -1,0 +1,35 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "TUBES",
+  "vis": {
+    "aer": 0,
+    "ignis": 0,
+    "aqua": 1,
+    "terra": 0,
+    "ordo": 1,
+    "perditio": 1
+  },
+  "pattern": [
+    "IVI",
+    "TWT",
+    "IVI"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "V": {
+      "item": "thaumcraft:tube_valve"
+    },
+    "T": {
+      "item": "thaumcraft:tube"
+    },
+    "W": {
+      "item": "thaumcraft:plank_greatwood"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:metal_alchemical",
+    "count": 2
+  }
+}

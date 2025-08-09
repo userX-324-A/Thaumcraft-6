@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "CLOUDRING",
+  "instability": 1,
+  "aspects": {
+    "aer": 50
+  },
+  "central_ingredient": { "item": "thaumcraft:bauble_ring" },
+  "components": [
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"aer\",amount:1}]}" },
+    { "item": "minecraft:feather" }
+  ],
+  "result": { "item": "thaumcraft:ring_cloud" }
+}
+
+

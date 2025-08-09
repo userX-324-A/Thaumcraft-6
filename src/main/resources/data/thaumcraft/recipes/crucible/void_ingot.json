@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "BASEELDRITCH",
+  "ingredients": [
+    {
+      "item": "thaumcraft:void_seed"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "metallum",
+      "amount": 10
+    },
+    {
+      "aspect": "vitium",
+      "amount": 5
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:void_ingot"
+  }
+} 

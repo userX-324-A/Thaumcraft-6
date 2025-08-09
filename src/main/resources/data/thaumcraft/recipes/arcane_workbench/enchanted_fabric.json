@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:enchanted_fabric",
+  "research": "UNLOCKINFUSION",
+  "vis": 5,
+  "pattern": [
+    " S ",
+    "SCS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "tag": "minecraft:string"
+    },
+    "C": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:fabric"
+  }
+} 

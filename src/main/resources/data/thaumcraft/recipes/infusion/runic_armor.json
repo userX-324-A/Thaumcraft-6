@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:infusion_runic",
+  "research": "RUNICSHIELDING",
+  "instability": 5,
+  "aspects": {
+    "tutamen": 40,
+    "vitreus": 20,
+    "potentia": 20
+  },
+  "central_ingredient": { "tag": "forge:armors" },
+  "components": [
+    { "item": "thaumcraft:salis_mundus" },
+    { "tag": "forge:gems/amber" }
+  ]
+}
+
+

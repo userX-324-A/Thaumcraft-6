@@ -1,0 +1,24 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "OQO",
+        "QEQ",
+        "OQO"
+    ],
+    "key": {
+        "O": {
+            "item": "minecraft:obsidian"
+        },
+        "Q": {
+            "item": "minecraft:quartz"
+        },
+        "E": {
+            "item": "minecraft:ender_eye"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:focal_manipulator"
+    },
+    "vis": 50,
+    "research": "FOCIMANIPULATION"
+} 

@@ -1,10 +1,79 @@
 package thaumcraft.api;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.internal.CommonInternals;
+import thaumcraft.api.internal.DummyInternalMethodHandler;
+import thaumcraft.api.internal.IInternalMethodHandler;
+
+/**
+ * Minimal API surface required by internal code for 1.16.5 port.
+ * Only members referenced elsewhere are implemented.
+ */
+public class ThaumcraftApi {
+
+    public static IInternalMethodHandler internalMethods = new DummyInternalMethodHandler();
+
+    public static class EntityTagsNBT {
+        public String name;
+        public Object value;
+
+        public EntityTagsNBT(String name, Object value) {
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    public static class EntityTags {
+        public String entityName;
+        public EntityTagsNBT[] nbts;
+        public AspectList aspects;
+
+        public EntityTags(String entityName, AspectList aspects, EntityTagsNBT... nbts) {
+            this.entityName = entityName;
+            this.nbts = nbts;
+            this.aspects = aspects;
+        }
+    }
+
+    public static class SmeltBonus {
+        public Object in;
+        public ItemStack out;
+        public float chance;
+
+        public SmeltBonus(Object in, ItemStack out, float chance) {
+            this.in = in;
+            this.out = out;
+            this.chance = chance;
+        }
+    }
+
+    /**
+     * Returns whether aspect tags have been registered for the given item.
+     */
+    public static boolean exists(ItemStack item) {
+        if (item == null) return false;
+        ItemStack stack = item.copy();
+        stack.setCount(1);
+        int id = CommonInternals.generateUniqueItemstackId(stack);
+        return CommonInternals.objectTags.containsKey(id);
+    }
+
+    // Placeholder hooks for catalog lookups used sparsely in the port. Retained for binary compatibility.
+    public static thaumcraft.api.crafting.IThaumcraftRecipe getCraftingRecipe(ResourceLocation key) {
+        return CommonInternals.getCatalogRecipe(key);
+    }
+}
+
+/*
+package thaumcraft.api;
 import java.util.Arrays;
 import java.util.HashMap;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
+//import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.GameData;
 import thaumcraft.api.aspects.AspectEventProxy;
 import thaumcraft.api.aspects.AspectList;
@@ -28,6 +97,7 @@ import thaumcraft.api.internal.WeightedRandomLoot;
  * IMPORTANT: If you are adding your own aspects to items it is a good idea to do it AFTER Thaumcraft adds its aspects, otherwise odd things may happen.
  *
  */
+/*
 public class ThaumcraftApi {
 	
 	/**
@@ -35,7 +105,7 @@ public class ThaumcraftApi {
 	 * This is used to access the varius methods described in <code>IInternalMethodHandler</code>
 	 * @see IInternalMethodHandler
 	 */
-	public static IInternalMethodHandler internalMethods = new DummyInternalMethodHandler();	
+	//public static IInternalMethodHandler internalMethods = new DummyInternalMethodHandler();	
 	
 	//RESEARCH/////////////////////////////////////////
 	
@@ -46,6 +116,7 @@ public class ThaumcraftApi {
 	 * There is a sample <code>_example.json.txt</code> file in <code>thaumcraft.api.research</code>
 	 * @param loc the resourcelocation of the json file
 	 */
+/*
 	public static void registerResearchLocation(ResourceLocation loc) {
 		if (!CommonInternals.jsonLocs.containsKey(loc.toString())) {
 			CommonInternals.jsonLocs.put(loc.toString(), loc);
@@ -71,6 +142,7 @@ public class ThaumcraftApi {
 	 * @param out The bonus item that can be produced from the smelting operation.
 	 * @param chance the base chance of the item being produced as a bonus. Default value is .33f
 	 */
+/*
 	public static void addSmeltingBonus(Object in, ItemStack out, float chance) {
 		if (in instanceof ItemStack || in instanceof String)
 			CommonInternals.smeltingBonus.add(new SmeltBonus(in,out,chance));
@@ -96,6 +168,7 @@ public class ThaumcraftApi {
 	 * @param registry
 	 * @param recipe
 	 */
+/*
 	public static void addFakeCraftingRecipe(ResourceLocation registry, Object recipe)
     {
 		getCraftingRecipesFake().put(registry, recipe);
@@ -108,6 +181,7 @@ public class ThaumcraftApi {
 	 * Recipes grouped under the same name will be displayed under one bookmark in thaumonomicon.
 	 * @param recipes a matrix of placable objects and what they will turn into
 	 */
+/*
 	public static void addMultiblockRecipeToCatalog(ResourceLocation registry, BluePrint recipe) {
 		getCraftingRecipes().put(registry, recipe);
 	}
@@ -144,6 +218,7 @@ public class ThaumcraftApi {
 		 * the items needed to craft this block - used for listing in the thaumonomicon and does not influance the actual recipe
 		 * @return
 		 */
+/*
 		public ItemStack[] getIngredientList() {
 			return ingredientList;
 		}
@@ -152,6 +227,7 @@ public class ThaumcraftApi {
 		 * This stack will be displayed instead of multipart object - used for recipe bookmark display in thaumonomicon only.
 		 * @return
 		 */
+/*
 		public ItemStack getDisplayStack() {
 			return displayStack;
 		}
@@ -175,10 +251,11 @@ public class ThaumcraftApi {
 	 * @param @param registry
 	 * @param recipe
 	 */
+/*
 	public static void addArcaneCraftingRecipe(ResourceLocation registry, IArcaneRecipe recipe)
     {		
-		recipe.setRegistryName(registry);
-	    GameData.register_impl(recipe);
+		//recipe.setRegistryName(registry);
+	    //GameData.register_impl(recipe);
     }
 	
 	/**
@@ -187,6 +264,7 @@ public class ThaumcraftApi {
 	 * @param registry
 	 * @param recipe
 	 */
+/*
 	public static void addInfusionCraftingRecipe(ResourceLocation registry, InfusionRecipe recipe)
     {
 		getCraftingRecipes().put(registry, recipe);
@@ -198,11 +276,12 @@ public class ThaumcraftApi {
 	 * @param stack the recipe result
 	 * @return the recipe
 	 */
+/*
 	public static InfusionRecipe getInfusionRecipe(ItemStack res) {
 		for (Object r:getCraftingRecipes().values()) {
 			if (r instanceof InfusionRecipe) {
 				if (((InfusionRecipe)r).getRecipeOutput() instanceof ItemStack) {
-					if (((ItemStack) ((InfusionRecipe)r).getRecipeOutput()).isItemEqual(res))
+					if (((ItemStack) ((InfusionRecipe)r).getRecipeOutput()).getItem() == res.getItem() && ((ItemStack) ((InfusionRecipe)r).getRecipeOutput()).getDamage() == res.getDamage())
 						return ((InfusionRecipe)r);
 				} 				
 			}
@@ -215,7 +294,7 @@ public class ThaumcraftApi {
 	 * Recipes grouped under the same name will be displayed under one bookmark in thaumonomicon.
 	 * @param recipes One or more recipes linked to the unique identifier. 
 	 */
-    
+/*
     public static void addCrucibleRecipe(ResourceLocation registry, CrucibleRecipe recipe) {
     	getCraftingRecipes().put(registry, recipe);
 	}
@@ -224,10 +303,11 @@ public class ThaumcraftApi {
 	 * @param stack the recipe result
 	 * @return the recipe
 	 */
+/*
 	public static CrucibleRecipe getCrucibleRecipe(ItemStack stack) {
 		for (Object r:getCraftingRecipes().values()) {
 			if (r instanceof CrucibleRecipe) {
-				if (((CrucibleRecipe)r).getRecipeOutput().isItemEqual(stack))
+				if (((CrucibleRecipe)r).getRecipeOutput().getItem() == stack.getItem() && ((CrucibleRecipe)r).getRecipeOutput().getDamage() == stack.getDamage())
 					return ((CrucibleRecipe)r);				
 			}
 		}
@@ -238,6 +318,7 @@ public class ThaumcraftApi {
 	 * @param hash the unique recipe code
 	 * @return the recipe
 	 */
+/*
 	public static CrucibleRecipe getCrucibleRecipeFromHash(int hash) {
 		for (Object recipe:getCraftingRecipes().values()) {
 			if (recipe instanceof CrucibleRecipe && ((CrucibleRecipe)recipe).hash==hash) 
@@ -256,22 +337,23 @@ public class ThaumcraftApi {
 	 * @param meta
 	 * @return 
 	 */
+/*
 	public static boolean exists(ItemStack item) {
 		ItemStack stack = item.copy();
 		stack.setCount(1);
 		AspectList tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
 		if (tmp==null) {
 			try {
-				stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
-				tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
-				if (item.getItemDamage()==OreDictionary.WILDCARD_VALUE && tmp==null) {
-					int index=0;
-					do {
-						stack.setItemDamage(index);
-						tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
-						index++;
-					} while (index<16 && tmp==null);
-				}
+				//stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
+				//tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
+				//if (item.getItemDamage()==OreDictionary.WILDCARD_VALUE && tmp==null) {
+				//	int index=0;
+				//	do {
+				//		stack.setItemDamage(index);
+				//		tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
+				//		index++;
+				//	} while (index<16 && tmp==null);
+				//}
 				if (tmp==null) return false;
 			} catch (Exception e) {
 			}
@@ -287,6 +369,7 @@ public class ThaumcraftApi {
 	 * @param item the item passed. Pass OreDictionary.WILDCARD_VALUE if all damage values of this item/block should have the same aspects
 	 * @param aspects A ObjectTags object of the associated aspects
 	 */
+/*
 	@Deprecated
 	public static void registerObjectTag(ItemStack item, AspectList aspects) {
 		(new AspectEventProxy()).registerObjectTag(item, aspects);
@@ -297,6 +380,7 @@ public class ThaumcraftApi {
 	 * THIS WILL BE REMOVED SOON(TM). DO NOT USE. 
 	 * I'M JUST LEAVING IT IN TO PREVENT CRASHES.
 	 */
+/*
 	@Deprecated
 	public static void registerObjectTag(ItemStack item, int[] meta, AspectList aspects) { }
 	
@@ -307,6 +391,7 @@ public class ThaumcraftApi {
 	 * @param oreDict the ore dictionary name
 	 * @param aspects A ObjectTags object of the associated aspects
 	 */
+/*
 	@Deprecated
 	public static void registerObjectTag(String oreDict, AspectList aspects) {
 		(new AspectEventProxy()).registerObjectTag(oreDict, aspects);
@@ -322,6 +407,7 @@ public class ThaumcraftApi {
 	 * @param item, pass OreDictionary.WILDCARD_VALUE to meta if all damage values of this item/block should have the same aspects
 	 * @param aspects A ObjectTags object of the associated aspects
 	 */
+/*
 	@Deprecated
 	public static void registerComplexObjectTag(ItemStack item, AspectList aspects ) {
 		(new AspectEventProxy()).registerComplexObjectTag(item, aspects);
@@ -335,6 +421,7 @@ public class ThaumcraftApi {
 	 * @param oreDict the ore dictionary name
 	 * @param aspects A ObjectTags object of the associated aspects
 	 */
+/*
 	@Deprecated
 	public static void registerComplexObjectTag(String oreDict, AspectList aspects) {
 		(new AspectEventProxy()).registerComplexObjectTag(oreDict, aspects);
@@ -372,6 +459,7 @@ public class ThaumcraftApi {
 	 * 	<br>ThaumcraftApi.registerEntityTag("Skeleton", (new AspectList()).add(Aspect.DEATH, 5));
 	 * 	<br>ThaumcraftApi.registerEntityTag("Skeleton", (new AspectList()).add(Aspect.DEATH, 8), new NBTTagByte("SkeletonType",(byte) 1));
 	 */
+/*
 	@Deprecated
 	public static void registerEntityTag(String entityName, AspectList aspects, EntityTagsNBT... nbt ) {
 		CommonInternals.scanEntities.add(new EntityTags(entityName,aspects,nbt));
@@ -385,8 +473,9 @@ public class ThaumcraftApi {
 	 * @param craftresult The item crafted
 	 * @param amount how much warp is gained
 	 */
+/*
 	public static void addWarpToItem(ItemStack craftresult, int amount) {
-		CommonInternals.warpMap.put(Arrays.asList(craftresult.getItem(),craftresult.getItemDamage()),amount);
+		//CommonInternals.warpMap.put(Arrays.asList(craftresult.getItem(),craftresult.getItemDamage()),amount);
 	}
 			
 	/**
@@ -394,11 +483,12 @@ public class ThaumcraftApi {
 	 * @param in itemstack or string
 	 * @return how much warp it will give
 	 */
+/*
 	public static int getWarp(ItemStack in) {
 		if (in==null) return 0;
-		if (in instanceof ItemStack && CommonInternals.warpMap.containsKey(Arrays.asList(in.getItem(),in.getItemDamage()))) {
-			return CommonInternals.warpMap.get(Arrays.asList(in.getItem(),in.getItemDamage()));
-		} 
+		//if (in instanceof ItemStack && CommonInternals.warpMap.containsKey(Arrays.asList(in.getItem(),in.getItemDamage()))) {
+		//	return CommonInternals.warpMap.get(Arrays.asList(in.getItem(),in.getItemDamage()));
+		//}
 		return 0;
 	}
 	
@@ -414,6 +504,7 @@ public class ThaumcraftApi {
 	 * @param bagTypes array of which type of bag to add this loot to. Multiple types can be specified
 	 * 0 = common, 1 = uncommon, 2 = rare
 	 */
+/*
 	public static void addLootBagItem(ItemStack item, int weight, int... bagTypes) {
 		if (bagTypes==null || bagTypes.length==0)
 			WeightedRandomLoot.lootBagCommon.add(new WeightedRandomLoot(item,weight));
@@ -439,12 +530,13 @@ public class ThaumcraftApi {
 	 * @param block
 	 * @param seed
 	 */
+/*
 	public static void registerSeed(Block block, ItemStack seed) {
-		CommonInternals.seedList.put(block.getUnlocalizedName(), seed);
+		CommonInternals.seedList.put(block.getRegistryName().toString(), seed);
 	}
 
 	public static ItemStack getSeed(Block block) {
-		return CommonInternals.seedList.get(block.getUnlocalizedName());
+		return CommonInternals.seedList.get(block.getRegistryName().toString());
 	}
 		
 		
@@ -551,5 +643,6 @@ public class ThaumcraftApi {
 	 * FMLInterModComms.sendMessage("Thaumcraft", "championWhiteList", "Thaumcraft.Wisp:1");
 	 */
 
-	
-}
+//}
+//*/
+

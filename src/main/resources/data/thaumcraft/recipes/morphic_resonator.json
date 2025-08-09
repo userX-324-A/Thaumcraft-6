@@ -1,0 +1,31 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "BASEALCHEMY",
+  "vis": {
+    "aer": 1,
+    "ignis": 1,
+    "aqua": 0,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    " G ",
+    "BSB",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "S": {
+      "item": "thaumcraft:nugget_quicksilver"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:morphic_resonator"
+  }
+}

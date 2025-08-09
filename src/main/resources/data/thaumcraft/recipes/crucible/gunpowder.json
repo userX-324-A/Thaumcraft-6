@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "hedge_alchemy",
+  "input": {
+    "item": "thaumcraft:gunpowder"
+  },
+  "result": {
+    "item": "thaumcraft:gunpowder_result"
+  },
+  "aspects": [
+    {
+      "name": "ignis",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

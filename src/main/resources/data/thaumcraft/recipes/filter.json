@@ -1,0 +1,27 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "BASEALCHEMY",
+  "vis": {
+    "aer": 0,
+    "ignis": 0,
+    "aqua": 1,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    "GWG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "W": {
+      "item": "thaumcraft:plank_silverwood"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:filter",
+    "count": 2
+  }
+}

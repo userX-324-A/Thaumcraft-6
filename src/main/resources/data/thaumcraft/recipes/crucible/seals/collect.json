@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SEALCOLLECT",
+  "aspects": {
+    "desire": 10
+  },
+  "catalyst": {
+    "item": "thaumcraft:seal"
+  },
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:pickup"
+    }
+  }
+} 

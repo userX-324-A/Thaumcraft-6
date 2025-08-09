@@ -1,0 +1,34 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "ESSENTIASMELTER",
+  "vis": {
+    "aer": 0,
+    "ignis": 0,
+    "aqua": 1,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    "WFW",
+    "SBS",
+    "WFW"
+  ],
+  "key": {
+    "W": {
+      "item": "thaumcraft:plank_greatwood"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "F": {
+      "item": "thaumcraft:filter"
+    },
+    "S": {
+      "tag": "forge:plates/brass"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:alembic"
+  }
+}

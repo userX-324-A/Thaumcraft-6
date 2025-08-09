@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:arcane_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:torch"
+    },
+    {
+      "item": "thaumcraft:alumentum"
+    },
+    {
+      "item": "thaumcraft:crystal_ignis"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:nitor_white"
+  },
+  "vis": 10,
+  "research": ""
+} 

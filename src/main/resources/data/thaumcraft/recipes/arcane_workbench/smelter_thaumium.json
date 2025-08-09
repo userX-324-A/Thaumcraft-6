@@ -1,0 +1,24 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "T T",
+        "TST",
+        "TBT"
+    ],
+    "key": {
+        "T": {
+            "item": "thaumcraft:ingot_thaumium"
+        },
+        "S": {
+            "item": "thaumcraft:smelter_basic"
+        },
+        "B": {
+            "item": "thaumcraft:bellows"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:smelter_thaumium"
+    },
+    "vis": 50,
+    "research": "THAUMIUMSMELTERY"
+} 

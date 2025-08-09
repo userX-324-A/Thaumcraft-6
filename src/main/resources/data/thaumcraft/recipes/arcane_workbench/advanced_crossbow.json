@@ -1,0 +1,30 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "PMP",
+    "PTP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:plates/iron"
+    },
+    "M": {
+      "item": "thaumcraft:mind_biothaumic"
+    },
+    "T": {
+      "item": "thaumcraft:turret_placer_basic"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:turret_placer_advanced",
+    "count": 1
+  },
+  "vis": 150,
+  "crystals": {
+    "air": 2
+  }
+}
+
+
+

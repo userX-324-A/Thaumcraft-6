@@ -1,0 +1,25 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:focus_pouch",
+  "research": "FOCUSPOUCH",
+  "vis": 25,
+  "pattern": [
+    "LGL",
+    "LBL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "B": {
+      "item": "thaumcraft:bauble_girdle"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:focus_pouch"
+  }
+} 

@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "hedge_alchemy",
+  "input": {
+    "item": "thaumcraft:slime"
+  },
+  "result": {
+    "item": "thaumcraft:slime_result"
+  },
+  "aspects": [
+    {
+      "name": "terra",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "V V",
+    "VVV",
+    "VVV"
+  ],
+  "key": {
+    "V": {
+      "item": "thaumcraft:void_ingot"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:void_chest"
+  }
+} 

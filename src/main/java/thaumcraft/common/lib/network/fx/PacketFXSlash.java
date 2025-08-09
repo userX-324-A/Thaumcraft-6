@@ -52,3 +52,4 @@ public class PacketFXSlash implements IMessage, IMessageHandler<PacketFXSlash, I
         return (par1 == mc.player.getEntityId()) ? mc.player : world.getEntityByID(par1);
     }
 }
+

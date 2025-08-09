@@ -1,0 +1,24 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "SPS",
+        "PTP",
+        "SPS"
+    ],
+    "key": {
+        "S": {
+            "item": "thaumcraft:stone_arcane"
+        },
+        "P": {
+            "item": "minecraft:piston"
+        },
+        "T": {
+            "item": "thaumcraft:table_stone"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:golem_press"
+    },
+    "vis": 25,
+    "research": "GOLEMANCY"
+} 

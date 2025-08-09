@@ -1,0 +1,39 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "BGI",
+    "WMW",
+    "S S"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bow"
+    },
+    "G": {
+      "item": "thaumcraft:mechanism_simple"
+    },
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "W": {
+      "item": "thaumcraft:plank_greatwood"
+    },
+    "M": {
+      "item": "thaumcraft:mind"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:turret_placer_basic",
+    "count": 1
+  },
+  "vis": 100,
+  "crystals": {
+    "air": 1
+  }
+}
+
+
+

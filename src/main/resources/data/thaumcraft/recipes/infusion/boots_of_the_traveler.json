@@ -1,0 +1,36 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "BOOTSTRAVELLER",
+  "instability": 2,
+  "aspects": {
+    "aer": 25,
+    "iter": 25,
+    "motus": 25
+  },
+  "central_ingredient": {
+    "item": "thaumcraft:void_boots"
+  },
+  "components": [
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "thaumcraft:fabric"
+    },
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "thaumcraft:fabric"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:boots_of_the_traveler"
+  }
+} 

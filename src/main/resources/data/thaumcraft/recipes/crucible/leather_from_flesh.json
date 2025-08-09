@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "HEDGEALCHEMY@1",
+  "ingredients": [
+    {
+      "item": "minecraft:rotten_flesh"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "aer",
+      "amount": 3
+    },
+    {
+      "aspect": "bestia",
+      "amount": 3
+    }
+  ],
+  "result": {
+    "item": "minecraft:leather"
+  }
+} 

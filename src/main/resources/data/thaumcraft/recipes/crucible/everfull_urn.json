@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "seals",
+  "input": {
+    "item": "thaumcraft:everfull_urn"
+  },
+  "result": {
+    "item": "thaumcraft:everfull_urn_result"
+  },
+  "aspects": [
+    {
+      "name": "aqua",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

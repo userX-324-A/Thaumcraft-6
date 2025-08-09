@@ -16,3 +16,4 @@ public class AidBasicAlchemy implements ITheorycraftAid
         return new Class[] { CardConcentrate.class, CardReactions.class, CardSynthesis.class };
     }
 }
+

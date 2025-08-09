@@ -1,66 +1,29 @@
 package thaumcraft.api.research;
-import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.internal.CommonInternals;
-
-
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 
 public class ScanOreDictionary implements IScanThing {
-	
-	String research;	
-	String[] entries;	
-	
-	public ConcurrentHashMap<Integer,Boolean> cache = new ConcurrentHashMap<>();
-
-	public ScanOreDictionary(String research, String ... entries) {
-		this.research = research;
-		this.entries = entries;
-	}
-	
-	@Override
-	public boolean checkThing(EntityPlayer player, Object obj) {	
-		ItemStack stack = null;
-		if (obj!=null) {
-			if (obj instanceof BlockPos) {
-				IBlockState state = player.world.getBlockState((BlockPos) obj);
-				stack = state.getBlock().getItem(player.world, (BlockPos) obj, state);			
-			}
-			else
-			if (obj instanceof ItemStack) 
-				stack = (ItemStack) obj;
-			else
-			if (obj instanceof EntityItem && ((EntityItem)obj).getItem()!=null) 
-				stack = ((EntityItem)obj).getItem();
-		}
-		
-		if (stack!=null && !stack.isEmpty()) {			
-			int hid = CommonInternals.generateUniqueItemstackId(stack);
-			if (cache.containsKey(hid)) {
-				return cache.get(hid);
-			}
-			
-			int[] ids = OreDictionary.getOreIDs(stack);
-			for (String entry:entries) {
-				for (int id:ids) {
-					if (OreDictionary.getOreName(id).equals(entry)) {
-						synchronized(cache) { cache.put(hid,true); }
-						return true;
-					}
-				}
-			}
-			synchronized(cache) { cache.put(hid,false); }
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public String getResearchKey(EntityPlayer player, Object object) {		
-		return research;
-	}
+    private String research;
+    private String ore;
+    
+    public ScanOreDictionary(String research, String ore) {
+        this.research = research;
+        this.ore = ore;
+    }
+    
+    @Override
+    public boolean checkThing(PlayerEntity player, Object obj) {
+        return false;
+    }
+    
+    @Override
+    public String getResearchKey(PlayerEntity player, Object object) {
+        return null;
+    }
 }
+

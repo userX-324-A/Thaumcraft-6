@@ -1,0 +1,18 @@
+{
+  "type": "thaumcraft:arcane_shaped",
+  "group": "thaumcraft:robe",
+  "research": "UNLOCKINFUSION",
+  "vis": 100,
+  "pattern": [
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "thaumcraft:fabric"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:cloth_boots"
+  }
+} 

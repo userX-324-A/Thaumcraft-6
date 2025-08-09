@@ -1,0 +1,34 @@
+{
+  "type": "thaumcraft:arcane_crafting",
+  "research": "ESSENTIASMELTERVOID",
+  "vis": {
+    "aer": 0,
+    "ignis": 3,
+    "aqua": 0,
+    "terra": 0,
+    "ordo": 0,
+    "perditio": 0
+  },
+  "pattern": [
+    "BFB",
+    "IGI",
+    "III"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "F": {
+      "item": "thaumcraft:smelter_basic"
+    },
+    "I": {
+      "tag": "forge:plates/void"
+    },
+    "G": {
+      "item": "thaumcraft:metal_alchemical_advanced"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:smelter_void"
+  }
+}

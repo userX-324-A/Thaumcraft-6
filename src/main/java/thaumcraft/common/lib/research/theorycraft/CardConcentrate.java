@@ -71,3 +71,4 @@ public class CardConcentrate extends TheorycraftCard
         return true;
     }
 }
+

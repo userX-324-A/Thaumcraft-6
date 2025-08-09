@@ -1,0 +1,24 @@
+{
+  "type": "thaumcraft:arcane",
+  "group": "thaumcraft:mechanism",
+  "research": "BASEARTIFICE",
+  "vis": 10,
+  "crystals": {
+    "fire": 1,
+    "water": 1
+  },
+  "ingredients": [
+    {
+      "item": "thaumcraft:plate_brass"
+    },
+    {
+      "item": "thaumcraft:plate_iron"
+    },
+    {
+      "tag": "minecraft:stick"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:mechanism_simple"
+  }
+} 

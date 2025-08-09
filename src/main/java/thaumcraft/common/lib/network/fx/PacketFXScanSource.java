@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.common.Tags;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.lib.utils.BlockUtils;
@@ -144,62 +144,19 @@ public class PacketFXScanSource implements IMessage, IMessageHandler<PacketFXSca
     
     private int getOreColor(World world, BlockPos pos) {
         IBlockState bi = world.getBlockState(pos);
-        if (bi.getBlock() != Blocks.AIR && bi.getBlock() != Blocks.BEDROCK) {
-            ItemStack is = BlockUtils.getSilkTouchDrop(bi);
-            if (is == null || is.isEmpty()) {
-                int md = bi.getBlock().getMetaFromState(bi);
-                is = new ItemStack(bi.getBlock(), 1, md);
-            }
-            if (is == null || is.isEmpty() || is.getItem() == null) {
-                return 12632256;
-            }
-            int[] od = OreDictionary.getOreIDs(is);
-            if (od != null && od.length > 0) {
-                for (int id : od) {
-                    if (OreDictionary.getOreName(id) != null) {
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("IRON")) {
-                            return 14200723;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("COAL")) {
-                            return 1052688;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("REDSTONE")) {
-                            return 16711680;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("GOLD")) {
-                            return 16576075;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("LAPIS")) {
-                            return 1328572;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("DIAMOND")) {
-                            return 6155509;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("EMERALD")) {
-                            return 1564002;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("QUARTZ")) {
-                            return 15064789;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("SILVER")) {
-                            return 14342653;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("TIN")) {
-                            return 15724539;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("COPPER")) {
-                            return 16620629;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("AMBER")) {
-                            return 16626469;
-                        }
-                        if (OreDictionary.getOreName(id).toUpperCase().contains("CINNABAR")) {
-                            return 10159368;
-                        }
-                    }
-                }
-            }
-        }
+        if (bi.getBlock() == Blocks.AIR || bi.getBlock() == Blocks.BEDROCK) return 12632256;
+        // Use vanilla/forge blocks to determine a best-effort color based on common ores
+        if (bi.getBlock() == Blocks.IRON_ORE) return C_IRON;
+        if (bi.getBlock() == Blocks.COAL_ORE) return C_COAL;
+        if (bi.getBlock() == Blocks.REDSTONE_ORE) return C_REDSTONE;
+        if (bi.getBlock() == Blocks.GOLD_ORE) return C_GOLD;
+        if (bi.getBlock() == Blocks.LAPIS_ORE) return C_LAPIS;
+        if (bi.getBlock() == Blocks.DIAMOND_ORE) return C_DIAMOND;
+        if (bi.getBlock() == Blocks.EMERALD_ORE) return C_EMERALD;
+        if (bi.getBlock() == Blocks.QUARTZ_ORE) return C_QUARTZ;
+        // For everything else, if it's tagged as an ore, use a neutral ore color
+        if (Tags.Blocks.ORES.contains(bi.getBlock())) return 0xC0C0C0; // generic ore gray
         return 12632256;
     }
 }
+

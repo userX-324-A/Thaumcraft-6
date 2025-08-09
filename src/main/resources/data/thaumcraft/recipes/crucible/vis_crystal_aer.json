@@ -1,0 +1,15 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "CRYSTALFARMER@2",
+  "aspects": {
+    "aer": 10,
+    "vitreus": 5
+  },
+  "catalyst": {
+    "item": "minecraft:quartz"
+  },
+  "result": {
+    "item": "thaumcraft:crystal_essence",
+    "nbt": "{Aspects:[{key:\"aer\",amount:1}]}"
+  }
+} 

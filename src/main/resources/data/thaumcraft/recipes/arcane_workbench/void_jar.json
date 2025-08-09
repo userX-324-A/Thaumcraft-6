@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:arcane_shapeless",
+  "group": "thaumcraft:void_jar",
+  "research": "WARDEDJARS",
+  "vis": 50,
+  "crystals": {
+    "entropy": 1
+  },
+  "ingredients": [
+    {
+      "item": "thaumcraft:jar_normal"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:jar_void"
+  }
+} 

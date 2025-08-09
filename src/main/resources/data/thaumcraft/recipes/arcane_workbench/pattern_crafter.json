@@ -1,0 +1,38 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "VH ",
+    "GCG",
+    " W "
+  ],
+  "key": {
+    "V": {
+      "item": "thaumcraft:vis_resonator"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "G": {
+      "item": "thaumcraft:mechanism_simple"
+    },
+    "C": {
+      "tag": "minecraft:workbench"
+    },
+    "W": {
+      "item": "thaumcraft:plank_greatwood"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:pattern_crafter",
+    "count": 1
+  },
+  "vis": 50,
+  "crystals": {
+    "earth": 1,
+    "water": 1,
+    "order": 1
+  }
+}
+
+
+

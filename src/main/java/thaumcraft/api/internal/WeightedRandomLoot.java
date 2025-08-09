@@ -22,3 +22,4 @@ public class WeightedRandomLoot extends WeightedRandom.Item {
     public static ArrayList<WeightedRandomLoot> lootBagRare = new ArrayList<WeightedRandomLoot>();
     
 }
+

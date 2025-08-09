@@ -16,3 +16,4 @@ public class AidBasicGolemancy implements ITheorycraftAid
         return new Class[] { CardSculpting.class, CardScripting.class, CardSynergy.class };
     }
 }
+

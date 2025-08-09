@@ -1,0 +1,19 @@
+{
+  "type": "thaumcraft:infusion",
+  "research": "ELEMENTALTOOLS",
+  "instability": 1,
+  "aspects": {
+    "terra": 60,
+    "fabrico": 30
+  },
+  "central_ingredient": { "item": "thaumcraft:thaumium_shovel" },
+  "components": [
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"terra\",amount:1}]}" },
+    { "item": "thaumcraft:crystal_essence", "nbt": "{Aspects:[{key:\"terra\",amount:1}]}" },
+    { "item": "thaumcraft:quartz_nugget" },
+    { "item": "thaumcraft:plank_greatwood" }
+  ],
+  "result": { "item": "thaumcraft:elemental_shovel" }
+}
+
+

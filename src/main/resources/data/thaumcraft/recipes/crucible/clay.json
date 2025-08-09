@@ -1,0 +1,17 @@
+{
+  "type": "thaumcraft:crucible",
+  "category": "hedge_alchemy",
+  "input": {
+    "item": "thaumcraft:clay"
+  },
+  "result": {
+    "item": "thaumcraft:clay_result"
+  },
+  "aspects": [
+    {
+      "name": "terra",
+      "amount": 1
+    }
+  ],
+  "visCost": 50
+}

@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SANESOAP",
+  "aspects": {
+    "mind": 75,
+    "eldritch": 50,
+    "order": 75,
+    "life": 50
+  },
+  "catalyst": {
+    "item": "thaumcraft:flesh_block"
+  },
+  "result": {
+    "item": "thaumcraft:sanity_soap"
+  }
+} 

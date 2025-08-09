@@ -2,10 +2,10 @@ package thaumcraft.api.casters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
-
+import thaumcraft.api.ThaumcraftApi;
 
 
 public class FocusEngine {	
@@ -54,20 +54,13 @@ public class FocusEngine {
 	 * @param nocopy set to true only if the focus package passed in is temporary and not attached to an actual focus. 
 	 * Use this to preserve any settings, targets, etc that has been set during package construction
 	 */
-	public static void castFocusPackage(EntityLivingBase caster, FocusPackage focusPackage, boolean nocopy) {
-		FocusPackage focusPackageCopy;
-		if (nocopy) 
-			focusPackageCopy = focusPackage;
-		else
-			focusPackageCopy = focusPackage.copy(caster);
-		
-		focusPackageCopy.initialize(caster);		
-		focusPackageCopy.setUniqueID(UUID.randomUUID());
-		for (FocusEffect effect:focusPackageCopy.getFocusEffects()) {
-			effect.onCast(caster);
-		}	
-		
-		runFocusPackage(focusPackageCopy, null, null);
+	public static void castFocusPackage(LivingEntity caster, FocusPackage focusPackage, boolean nocopy) {
+		if (caster != null && focusPackage != null) {
+			if (nocopy) {
+				focusPackage.initialize(caster);
+			}
+			ThaumcraftApi.internalMethods.castFocusPackage(caster, focusPackage);
+		}
 	}
 	
 	/**
@@ -75,7 +68,7 @@ public class FocusEngine {
 	 * @param caster
 	 * @param focusPackage
 	 */
-	public static void castFocusPackage(EntityLivingBase caster, FocusPackage focusPackage) {
+	public static void castFocusPackage(LivingEntity caster, FocusPackage focusPackage) {
 		castFocusPackage(caster,focusPackage,false);
 	}
 	
@@ -174,3 +167,4 @@ public class FocusEngine {
 	private static ArrayList<String> damageResistList = new ArrayList<>();
 
 }
+

@@ -1,0 +1,18 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "SS",
+        "SS"
+    ],
+    "key": {
+        "S": {
+            "item": "thaumcraft:stone_arcane_brick"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:stone_arcane",
+        "count": 4
+    },
+    "vis": 0,
+    "research": ""
+} 

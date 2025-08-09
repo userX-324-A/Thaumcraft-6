@@ -1,0 +1,18 @@
+{
+  "type": "thaumcraft:crucible",
+  "research": "SEALUSE",
+  "aspects": {
+    "craft": 20,
+    "senses": 10,
+    "mind": 20
+  },
+  "catalyst": {
+    "item": "thaumcraft:seal"
+  },
+  "result": {
+    "item": "thaumcraft:seal",
+    "nbt": {
+      "key": "thaumcraft:use"
+    }
+  }
+}

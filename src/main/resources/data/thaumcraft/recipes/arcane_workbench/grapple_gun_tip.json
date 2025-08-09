@@ -1,0 +1,30 @@
+{
+  "type": "thaumcraft:arcane_workbench",
+  "pattern": [
+    "BRB",
+    "RHR",
+    "BRB"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "R": {
+      "item": "thaumcraft:nugget_rareearth"
+    },
+    "H": {
+      "item": "minecraft:tripwire_hook"
+    }
+  },
+  "result": {
+    "item": "thaumcraft:grapple_gun_tip",
+    "count": 1
+  },
+  "vis": 25,
+  "crystals": {
+    "earth": 1
+  }
+}
+
+
+

@@ -1,0 +1,24 @@
+{
+    "type": "thaumcraft:arcane_shaped",
+    "pattern": [
+        "S S",
+        "SCS",
+        "SFS"
+    ],
+    "key": {
+        "S": {
+            "item": "thaumcraft:stone_arcane_brick"
+        },
+        "C": {
+            "item": "minecraft:cauldron"
+        },
+        "F": {
+            "item": "minecraft:furnace"
+        }
+    },
+    "result": {
+        "item": "thaumcraft:smelter_basic"
+    },
+    "vis": 25,
+    "research": "SMELTER"
+} 
