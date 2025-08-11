@@ -1,11 +1,11 @@
 package thaumcraft.common.network.msg;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
+import thaumcraft.client.hud.HudHooks;
 
 import java.util.function.Supplier;
 
@@ -42,15 +42,13 @@ public class ClientKnowledgeGainMessage {
 
     public static void handle(ClientKnowledgeGainMessage msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            // Placeholder hook for future HUD/sound feedback (RenderEventHandler/HudHandler port pending)
-            // We resolve the types now to validate data during development.
+            // Resolve types and invoke client HUD/sound hooks (no-op until client systems are ported)
             IPlayerKnowledge.EnumKnowledgeType type = IPlayerKnowledge.EnumKnowledgeType.values()[msg.typeOrdinal];
             ResearchCategory category = (msg.categoryKey == null || msg.categoryKey.isEmpty())
                     ? null
                     : ResearchCategories.getResearchCategory(msg.categoryKey);
-            // No-op for now. Future: enqueue HUD tracker and sound here.
-            // Guard read of client player to avoid classloading issues when running server-only.
-            Minecraft.getInstance();
+            HudHooks.onKnowledgeGained(type, category);
+            HudHooks.playKnowledgeGainSound();
         });
         ctx.get().setPacketHandled(true);
     }

@@ -54,11 +54,146 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.ClientNoteMessage::decode,
                 thaumcraft.common.network.msg.ClientNoteMessage::handle);
 
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientAuraMessage.class,
+                thaumcraft.common.network.msg.ClientAuraMessage::encode,
+                thaumcraft.common.network.msg.ClientAuraMessage::decode,
+                thaumcraft.common.network.msg.ClientAuraMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXBlockBamfMessage.class,
+                thaumcraft.common.network.msg.ClientFXBlockBamfMessage::encode,
+                thaumcraft.common.network.msg.ClientFXBlockBamfMessage::decode,
+                thaumcraft.common.network.msg.ClientFXBlockBamfMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXPolluteMessage.class,
+                thaumcraft.common.network.msg.ClientFXPolluteMessage::encode,
+                thaumcraft.common.network.msg.ClientFXPolluteMessage::decode,
+                thaumcraft.common.network.msg.ClientFXPolluteMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXBlockArcMessage.class,
+                thaumcraft.common.network.msg.ClientFXBlockArcMessage::encode,
+                thaumcraft.common.network.msg.ClientFXBlockArcMessage::decode,
+                thaumcraft.common.network.msg.ClientFXBlockArcMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXBlockMistMessage.class,
+                thaumcraft.common.network.msg.ClientFXBlockMistMessage::encode,
+                thaumcraft.common.network.msg.ClientFXBlockMistMessage::decode,
+                thaumcraft.common.network.msg.ClientFXBlockMistMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXBoreDigMessage.class,
+                thaumcraft.common.network.msg.ClientFXBoreDigMessage::encode,
+                thaumcraft.common.network.msg.ClientFXBoreDigMessage::decode,
+                thaumcraft.common.network.msg.ClientFXBoreDigMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXEssentiaSourceMessage.class,
+                thaumcraft.common.network.msg.ClientFXEssentiaSourceMessage::encode,
+                thaumcraft.common.network.msg.ClientFXEssentiaSourceMessage::decode,
+                thaumcraft.common.network.msg.ClientFXEssentiaSourceMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXFocusEffectMessage.class,
+                thaumcraft.common.network.msg.ClientFXFocusEffectMessage::encode,
+                thaumcraft.common.network.msg.ClientFXFocusEffectMessage::decode,
+                thaumcraft.common.network.msg.ClientFXFocusEffectMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXFocusPartImpactMessage.class,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactMessage::encode,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactMessage::decode,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXFocusPartImpactBurstMessage.class,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactBurstMessage::encode,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactBurstMessage::decode,
+                thaumcraft.common.network.msg.ClientFXFocusPartImpactBurstMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXInfusionSourceMessage.class,
+                thaumcraft.common.network.msg.ClientFXInfusionSourceMessage::encode,
+                thaumcraft.common.network.msg.ClientFXInfusionSourceMessage::decode,
+                thaumcraft.common.network.msg.ClientFXInfusionSourceMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXScanSourceMessage.class,
+                thaumcraft.common.network.msg.ClientFXScanSourceMessage::encode,
+                thaumcraft.common.network.msg.ClientFXScanSourceMessage::decode,
+                thaumcraft.common.network.msg.ClientFXScanSourceMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXShieldMessage.class,
+                thaumcraft.common.network.msg.ClientFXShieldMessage::encode,
+                thaumcraft.common.network.msg.ClientFXShieldMessage::decode,
+                thaumcraft.common.network.msg.ClientFXShieldMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXSlashMessage.class,
+                thaumcraft.common.network.msg.ClientFXSlashMessage::encode,
+                thaumcraft.common.network.msg.ClientFXSlashMessage::decode,
+                thaumcraft.common.network.msg.ClientFXSlashMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXSonicMessage.class,
+                thaumcraft.common.network.msg.ClientFXSonicMessage::encode,
+                thaumcraft.common.network.msg.ClientFXSonicMessage::decode,
+                thaumcraft.common.network.msg.ClientFXSonicMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXWispZapMessage.class,
+                thaumcraft.common.network.msg.ClientFXWispZapMessage::encode,
+                thaumcraft.common.network.msg.ClientFXWispZapMessage::decode,
+                thaumcraft.common.network.msg.ClientFXWispZapMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXZapMessage.class,
+                thaumcraft.common.network.msg.ClientFXZapMessage::encode,
+                thaumcraft.common.network.msg.ClientFXZapMessage::decode,
+                thaumcraft.common.network.msg.ClientFXZapMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientWarpMessage.class,
+                thaumcraft.common.network.msg.ClientWarpMessage::encode,
+                thaumcraft.common.network.msg.ClientWarpMessage::decode,
+                thaumcraft.common.network.msg.ClientWarpMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientItemToContainerMessage.class,
+                thaumcraft.common.network.msg.ClientItemToContainerMessage::encode,
+                thaumcraft.common.network.msg.ClientItemToContainerMessage::decode,
+                thaumcraft.common.network.msg.ClientItemToContainerMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientSealMessage.class,
+                thaumcraft.common.network.msg.ClientSealMessage::encode,
+                thaumcraft.common.network.msg.ClientSealMessage::decode,
+                thaumcraft.common.network.msg.ClientSealMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientSealFilterMessage.class,
+                thaumcraft.common.network.msg.ClientSealFilterMessage::encode,
+                thaumcraft.common.network.msg.ClientSealFilterMessage::decode,
+                thaumcraft.common.network.msg.ClientSealFilterMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientSyncWarpMessage.class,
+                thaumcraft.common.network.msg.ClientSyncWarpMessage::encode,
+                thaumcraft.common.network.msg.ClientSyncWarpMessage::decode,
+                thaumcraft.common.network.msg.ClientSyncWarpMessage::handle);
+
         // Serverbound
         CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestNoteMessage.class,
                 thaumcraft.common.network.msg.RequestNoteMessage::encode,
                 thaumcraft.common.network.msg.RequestNoteMessage::decode,
                 thaumcraft.common.network.msg.RequestNoteMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestFocusChangeMessage.class,
+                thaumcraft.common.network.msg.RequestFocusChangeMessage::encode,
+                thaumcraft.common.network.msg.RequestFocusChangeMessage::decode,
+                thaumcraft.common.network.msg.RequestFocusChangeMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestItemKeyMessage.class,
+                thaumcraft.common.network.msg.RequestItemKeyMessage::encode,
+                thaumcraft.common.network.msg.RequestItemKeyMessage::decode,
+                thaumcraft.common.network.msg.RequestItemKeyMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestMiscStringMessage.class,
+                thaumcraft.common.network.msg.RequestMiscStringMessage::encode,
+                thaumcraft.common.network.msg.RequestMiscStringMessage::decode,
+                thaumcraft.common.network.msg.RequestMiscStringMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestThaumatoriumRecipeMessage.class,
+                thaumcraft.common.network.msg.RequestThaumatoriumRecipeMessage::encode,
+                thaumcraft.common.network.msg.RequestThaumatoriumRecipeMessage::decode,
+                thaumcraft.common.network.msg.RequestThaumatoriumRecipeMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestStartTheoryMessage.class,
+                thaumcraft.common.network.msg.RequestStartTheoryMessage::encode,
+                thaumcraft.common.network.msg.RequestStartTheoryMessage::decode,
+                thaumcraft.common.network.msg.RequestStartTheoryMessage::handle);
     }
 
     private static int id() { return nextId++; }

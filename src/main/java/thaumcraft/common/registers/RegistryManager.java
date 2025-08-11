@@ -2,6 +2,7 @@ package thaumcraft.common.registers;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
@@ -17,6 +18,7 @@ public class RegistryManager {
     public static final DeferredRegister<TileEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Thaumcraft.MODID);
     public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Thaumcraft.MODID);
     public static final DeferredRegister<ContainerType<?>> MENUS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Thaumcraft.MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Thaumcraft.MODID);
 
 
     public static void register(IEventBus eventBus) {
@@ -25,5 +27,6 @@ public class RegistryManager {
         BLOCK_ENTITIES.register(eventBus);
         RECIPE_SERIALIZERS.register(eventBus);
         MENUS.register(eventBus);
+        SOUNDS.register(eventBus);
     }
 }
