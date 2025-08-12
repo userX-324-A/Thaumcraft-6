@@ -15,9 +15,27 @@ public class ResearchCategories {
             researchCategories.put(key, rl);
         }
     }
+
+    /**
+     * Clears all categories and their entries. To be used during full reloads.
+     */
+    public static void clearAll() {
+        for (ResearchCategory cat : researchCategories.values()) {
+            cat.clear();
+        }
+        researchCategories.clear();
+    }
     
     public static ResearchCategory getResearchCategory(String key) {
         return researchCategories.get(key);
+    }
+
+    public static ResearchEntry getResearch(String key) {
+        for (ResearchCategory cat : researchCategories.values()) {
+            ResearchEntry e = cat.research.get(key);
+            if (e != null) return e;
+        }
+        return null;
     }
     
     public static ITextComponent getCategoryName(String key) {

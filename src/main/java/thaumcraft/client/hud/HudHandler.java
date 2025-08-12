@@ -24,6 +24,7 @@ public final class HudHandler {
     private static final int DISPLAY_TICKS = 60; // ~3 seconds at 20 TPS
 
     private static final Deque<KnowledgeGainTracker> queue = new ArrayDeque<>();
+    private static final Deque<StringTextComponent> researchQueue = new ArrayDeque<>();
 
     // Minimal aura cache for HUD and other client feedback. Populated by ClientAuraMessage.
     public static volatile short auraBase;
@@ -39,6 +40,13 @@ public final class HudHandler {
             while (queue.size() > 6) {
                 queue.removeFirst();
             }
+        }
+    }
+
+    public static void enqueueResearchComplete(thaumcraft.api.research.ResearchEntry entry) {
+        synchronized (researchQueue) {
+            researchQueue.addLast(new StringTextComponent("Research complete: " + entry.getLocalizedName()));
+            while (researchQueue.size() > 4) researchQueue.removeFirst();
         }
     }
 
@@ -67,6 +75,16 @@ public final class HudHandler {
                 y += 10;
                 tracker.tick();
             }
+        }
+        // Render research completion messages below
+        synchronized (researchQueue) {
+            for (StringTextComponent msg : researchQueue) {
+                int textWidth = mc.font.width(msg.getString());
+                int x = (screenWidth - textWidth) / 2;
+                mc.font.draw(ms, msg, x, y, 0xFFFFFF);
+                y += 10;
+            }
+            researchQueue.clear();
         }
     }
 

@@ -21,6 +21,14 @@ public final class SoundsTC {
 
     public static final RegistryObject<SoundEvent> HEARTBEAT = RegistryManager.SOUNDS.register("heartbeat",
             () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "heartbeat")));
+
+    // Eldritch crab
+    public static final RegistryObject<SoundEvent> CRAB_TALK = RegistryManager.SOUNDS.register("crabtalk",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "crabtalk")));
+    public static final RegistryObject<SoundEvent> CRAB_DEATH = RegistryManager.SOUNDS.register("crabdeath",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "crabdeath")));
+    public static final RegistryObject<SoundEvent> CRAB_CLAW = RegistryManager.SOUNDS.register("crabclaw",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "crabclaw")));
 }
 
 

@@ -73,12 +73,12 @@ public class AspectHelper {
 	}
 
 	public static AspectList getEntityAspects(Entity entity) { 		
-		AspectList tags = null;               
-		String entityString = entity.getType().getRegistryName().toString();
-	    if (entity instanceof PlayerEntity) {
+        AspectList tags = null;               
+        String entityString = entity.getType().getRegistryName().toString();
+        if (entity instanceof PlayerEntity) {
 	    	tags = new AspectList();
 	    	tags.add(Aspect.MAN, 4);        	
-			Random rand = new Random(entity.getName().hashCode());
+            Random rand = new Random(entity.getName().getString().hashCode());
 	    	Aspect[] posa = Aspect.aspects.values().toArray(new Aspect[]{});
 			tags.add(posa[rand.nextInt(posa.length)], 15);
 	    	tags.add(posa[rand.nextInt(posa.length)], 15);
@@ -89,12 +89,12 @@ public class AspectHelper {
 				if (!et.entityName.equals(entityString)) continue;
 				if (et.nbts==null || et.nbts.length==0) {
 					tags = et.aspects;
-				} else {
-					CompoundNBT tc = new CompoundNBT();
-					entity.writeUnlessPassenger(tc);
+                } else {
+                    CompoundNBT tc = new CompoundNBT();
+                    entity.saveWithoutId(tc);
 					for (EntityTagsNBT nbt:et.nbts) {
 						if (tc.contains(nbt.name)) {
-							if (!ThaumcraftApiHelper.getNBTDataFromId(tc, tc.getTagId(nbt.name), nbt.name).equals(nbt.value)) continue f1; 
+                            if (!ThaumcraftApiHelper.getNBTDataFromId(tc, tc.getTagType(nbt.name), nbt.name).equals(nbt.value)) continue f1; 
 						} else {
 							continue f1;
 						}

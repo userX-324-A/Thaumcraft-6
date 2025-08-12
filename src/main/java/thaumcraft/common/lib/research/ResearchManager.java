@@ -5,23 +5,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import thaumcraft.Thaumcraft;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
@@ -37,8 +32,10 @@ import thaumcraft.api.research.ResearchEvent;
 import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.config.ModConfig;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import thaumcraft.common.network.NetworkHandler;
 import thaumcraft.common.network.msg.ClientKnowledgeGainMessage;
+import net.minecraftforge.registries.ForgeRegistries;
 
 
 public class ResearchManager
@@ -47,7 +44,7 @@ public class ResearchManager
     public static boolean noFlags;
     public static LinkedHashSet<Integer> craftingReferences;
     
-    public static boolean addKnowledge(EntityPlayer player, IPlayerKnowledge.EnumKnowledgeType type, ResearchCategory category, int amount) {
+    public static boolean addKnowledge(PlayerEntity player, IPlayerKnowledge.EnumKnowledgeType type, ResearchCategory category, int amount) {
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
         if (!type.hasFields()) {
             category = null;
@@ -64,11 +61,11 @@ public class ResearchManager
                         new ClientKnowledgeGainMessage((byte) type.ordinal(), (category == null) ? null : category.key));
             }
         }
-        ResearchManager.syncList.put(player.getName(), true);
+        ResearchManager.syncList.put(player.getName().getString(), true);
         return true;
     }
     
-    public static boolean completeResearch(EntityPlayer player, String researchkey, boolean sync) {
+    public static boolean completeResearch(PlayerEntity player, String researchkey, boolean sync) {
         boolean b = false;
         while (progressResearch(player, researchkey, sync)) {
             b = true;
@@ -76,7 +73,7 @@ public class ResearchManager
         return b;
     }
     
-    public static boolean completeResearch(EntityPlayer player, String researchkey) {
+    public static boolean completeResearch(PlayerEntity player, String researchkey) {
         boolean b = false;
         while (progressResearch(player, researchkey, true)) {
             b = true;
@@ -84,7 +81,7 @@ public class ResearchManager
         return b;
     }
     
-    public static boolean startResearchWithPopup(EntityPlayer player, String researchkey) {
+    public static boolean startResearchWithPopup(PlayerEntity player, String researchkey) {
         boolean b = progressResearch(player, researchkey, true);
         if (b) {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
@@ -94,11 +91,11 @@ public class ResearchManager
         return b;
     }
     
-    public static boolean progressResearch(EntityPlayer player, String researchkey) {
+    public static boolean progressResearch(PlayerEntity player, String researchkey) {
         return progressResearch(player, researchkey, true);
     }
     
-    public static boolean progressResearch(EntityPlayer player, String researchkey, boolean sync) {
+    public static boolean progressResearch(PlayerEntity player, String researchkey, boolean sync) {
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
         if (knowledge.isResearchComplete(researchkey) || !doesPlayerHaveRequisites(player, researchkey)) {
             return false;
@@ -137,9 +134,11 @@ public class ResearchManager
                 }
                 if (currentStage != null) {
                     warp += currentStage.getWarp();
-                    if (warp > 0 && !ModConfig.CONFIG_MISC.wussMode && !player.world.isRemote) {
+                    if (warp > 0
+                            && ModConfig.COMMON.enableResearchWarpGrants.get()
+                            && !ModConfig.COMMON.wussMode.get()
+                            && !player.level.isClientSide) {
                         if (warp > 1) {
-                            IPlayerWarp pw = ThaumcraftCapabilities.getWarp(player);
                             int w2 = warp / 2;
                             if (warp - w2 > 0) {
                                 ThaumcraftApi.internalMethods.addWarpToPlayer(player, warp - w2, IPlayerWarp.EnumWarpType.PERMANENT);
@@ -165,8 +164,8 @@ public class ResearchManager
                     }
                     if (re.getRewardItem() != null) {
                         for (ItemStack rs : re.getRewardItem()) {
-                            if (!player.inventory.addItemStackToInventory(rs.copy())) {
-                                player.entityDropItem(rs.copy(), 1.0f);
+                            if (!player.inventory.add(rs.copy())) {
+                                player.drop(rs.copy(), true);
                             }
                         }
                     }
@@ -184,8 +183,8 @@ public class ResearchManager
                             }
                             for (ResearchAddendum addendum : ri.getAddenda()) {
                                 if (addendum.getResearch() != null && Arrays.asList(addendum.getResearch()).contains(researchkey)) {
-                                    ITextComponent text = new TextComponentTranslation("tc.addaddendum", ri.getLocalizedName());
-                                    player.sendMessage(text);
+                                    ITextComponent text = new TranslationTextComponent("tc.addaddendum", ri.getLocalizedName());
+                                    player.sendMessage(text, player.getUUID());
                                     knowledge.setResearchFlag(ri.getKey(), IPlayerKnowledge.EnumResearchFlag.PAGE);
                                     break;
                                 }
@@ -203,15 +202,13 @@ public class ResearchManager
             }
         }
         if (sync) {
-            ResearchManager.syncList.put(player.getName(), true);
-            if (re != null) {
-                player.addExperience(5);
-            }
+            ResearchManager.syncList.put(player.getName().getString(), true);
+            // XP reward optional in later pass
         }
         return true;
     }
     
-    public static boolean doesPlayerHaveRequisites(EntityPlayer player, String key) {
+    public static boolean doesPlayerHaveRequisites(PlayerEntity player, String key) {
         ResearchEntry ri = ResearchCategories.getResearch(key);
         if (ri == null) {
             return true;
@@ -233,7 +230,7 @@ public class ResearchManager
     public static void parseAllResearch() {
         JsonParser parser = new JsonParser();
         for (ResourceLocation loc : CommonInternals.jsonLocs.values()) {
-            String s = "/assets/" + loc.getResourceDomain() + "/" + loc.getResourcePath();
+            String s = "/assets/" + loc.getNamespace() + "/" + loc.getPath();
             if (!s.endsWith(".json")) {
                 s += ".json";
             }
@@ -253,23 +250,23 @@ public class ResearchManager
                         }
                         catch (Exception e) {
                             e.printStackTrace();
-                            Thaumcraft.log.warn("Invalid research entry [" + a + "] found in " + loc.toString());
+                            Thaumcraft.LOGGER.warn("Invalid research entry [" + a + "] found in " + loc.toString());
                             --a;
                         }
                     }
-                    Thaumcraft.log.info("Loaded " + a + " research entries from " + loc.toString());
+                    Thaumcraft.LOGGER.info("Loaded " + a + " research entries from " + loc.toString());
                 }
                 catch (Exception e2) {
-                    Thaumcraft.log.warn("Invalid research file: " + loc.toString());
+                    Thaumcraft.LOGGER.warn("Invalid research file: " + loc.toString());
                 }
             }
             else {
-                Thaumcraft.log.warn("Research file not found: " + loc.toString());
+                Thaumcraft.LOGGER.warn("Research file not found: " + loc.toString());
             }
         }
     }
     
-    private static ResearchEntry parseResearchJson(JsonObject obj) throws Exception {
+    public static ResearchEntry parseResearchJson(JsonObject obj) throws Exception {
         ResearchEntry entry = new ResearchEntry();
         entry.setKey(obj.getAsJsonPrimitive("key").getAsString());
         if (entry.getKey() == null) {
@@ -561,11 +558,14 @@ public class ResearchManager
         }
         ItemStack stack = ItemStack.EMPTY;
         try {
-            Item it = Item.getByNameOrId(name);
+            Item it = ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));
             if (it != null) {
-                stack = new ItemStack(it, num, dam);
+                stack = new ItemStack(it, num);
                 if (nbt != null) {
-                    stack.setTagCompound(JsonToNBT.getTagFromJson(nbt));
+                    net.minecraft.nbt.INBT tag = net.minecraft.nbt.JsonToNBT.parseTag(nbt);
+                    if (tag instanceof CompoundNBT) {
+                        stack.setTag((CompoundNBT) tag);
+                    }
                 }
             }
         }
@@ -578,7 +578,8 @@ public class ResearchManager
         if (rl != null && !rl.research.containsKey(ri.getKey())) {
             for (ResearchEntry rr : rl.research.values()) {
                 if (rr.getDisplayColumn() == ri.getDisplayColumn() && rr.getDisplayRow() == ri.getDisplayRow()) {
-                    Thaumcraft.log.warn("Research [" + ri.getKey() + "] not added as it overlaps with existing research [" + rr.getKey() + "] at " + ri.getDisplayColumn() + "," + rr.getDisplayRow());
+                    Thaumcraft.LOGGER.warn("Research [{}] not added as it overlaps with existing research [{}] at {},{} (category: {})",
+                            ri.getKey(), rr.getKey(), ri.getDisplayColumn(), rr.getDisplayRow(), ri.getCategory());
                     return;
                 }
             }
@@ -597,8 +598,16 @@ public class ResearchManager
             }
         }
         else {
-            Thaumcraft.log.warn("Could not add invalid research entry " + ri.getKey());
+            Thaumcraft.LOGGER.warn("Could not add invalid research entry " + ri.getKey());
         }
+    }
+
+    /**
+     * Public helper for loaders to add parsed research entries into their categories
+     * with overlap checks and bounds updates.
+     */
+    public static void addResearchToCategoryPublic(ResearchEntry researchEntry) {
+        addResearchToCategory(researchEntry);
     }
     
     static {

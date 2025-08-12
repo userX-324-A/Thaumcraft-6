@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse .\src\main\resources\data\ -Filter *.json | Get-Content -Raw | Select-String -Pattern '"tag"\s*:\s*"([^"]+)"' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique

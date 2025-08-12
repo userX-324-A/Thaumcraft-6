@@ -9,8 +9,13 @@ public interface ISealEntity {
 	public void tickSealEntity(World world);
 
 	public ISeal getSeal();
+    // Non-API convenience setter used during NBT load
+    // Implementations in common may add this, but API remains stable for mods.
+    
 
 	public SealPos getSealPos();
+    // Non-API convenience setter used during placement or load
+    
 
 	public byte getPriority();
 

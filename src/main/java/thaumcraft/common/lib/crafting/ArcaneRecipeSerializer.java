@@ -19,6 +19,9 @@ public class ArcaneRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer
     public ArcaneRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
         String group = JSONUtils.getAsString(json, "group", "");
         String research = JSONUtils.getAsString(json, "research", "");
+        if (json.has("research") && research.isEmpty()) {
+            throw new JsonParseException("'research' must be a non-empty string when present");
+        }
         int vis = JSONUtils.getAsInt(json, "vis", 0);
         JsonObject crystalsObject = new JsonObject();
         if (json.has("crystals")) {

@@ -58,6 +58,32 @@ minecraft {
     }
 }
 
+// Temporarily exclude legacy (1.12-style) theorycraft implementations while porting
+sourceSets {
+    main {
+        java {
+            exclude 'thaumcraft/common/lib/research/theorycraft/**'
+            // Exclude legacy 1.12 utils until ported
+            exclude 'thaumcraft/common/lib/utils/**'
+            // Explicit legacy files (kept for clarity during port)
+            exclude 'thaumcraft/common/lib/utils/BlockStateUtils.java'
+            exclude 'thaumcraft/common/lib/utils/BlockUtils.java'
+            exclude 'thaumcraft/common/lib/utils/CropUtils.java'
+            exclude 'thaumcraft/common/lib/utils/EntityUtils.java'
+            exclude 'thaumcraft/common/lib/utils/InventoryUtils.java'
+            exclude 'thaumcraft/common/lib/utils/Utils.java'
+            // Exclude legacy arcane workbench (new tiles/menus live under common/)
+            exclude 'thaumcraft/world/crafting/arcane/**'
+            exclude 'thaumcraft/registry/Registration.java'
+            exclude 'thaumcraft/api/casters/**'
+            exclude 'thaumcraft/api/aspects/AspectSourceHelper.java'
+            // Messages referencing casters/focus engine (deferred)
+            exclude 'thaumcraft/common/network/msg/RequestFocusChangeMessage.java'
+            exclude 'thaumcraft/common/network/msg/RequestItemKeyMessage.java'
+        }
+    }
+}
+
 repositories {
     maven {
         name = "Progwml6 maven"

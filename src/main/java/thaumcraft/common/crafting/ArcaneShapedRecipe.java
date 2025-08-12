@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.registers.ModRecipes;
+// Optional client-only JEI ghost gating will be implemented separately; server safety is enforced in menu
 
 public class ArcaneShapedRecipe extends ShapedRecipe implements IArcaneRecipe {
     private final int vis;

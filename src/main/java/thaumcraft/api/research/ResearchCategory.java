@@ -75,10 +75,16 @@ public class ResearchCategory {
 	}
 
 	//Research
-	public Map<String, ResearchEntry> research = new HashMap<String,ResearchEntry>();	
+    public Map<String, ResearchEntry> research = new HashMap<String,ResearchEntry>(); 
 	
 	public ResearchCategory() {
 		this.research = new HashMap<String, ResearchEntry>();
 	}
+
+    public void clear() {
+        this.research.clear();
+        this.minDisplayColumn = this.minDisplayRow = 0;
+        this.maxDisplayColumn = this.maxDisplayRow = 0;
+    }
 }
 

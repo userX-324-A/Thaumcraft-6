@@ -21,8 +21,21 @@ public class DummyInternalMethodHandler implements IInternalMethodHandler {
     @Override public boolean progressResearch(PlayerEntity player, String researchkey) { return false; }
     @Override public boolean completeResearch(PlayerEntity player, String researchkey) { return false; }
     @Override public boolean doesPlayerHaveRequisites(PlayerEntity player, String researchkey) { return false; }
-    @Override public void addWarpToPlayer(PlayerEntity player, int amount, EnumWarpType type) { }
-    @Override public int getActualWarp(PlayerEntity player) { return 0; }
+    @Override public void addWarpToPlayer(PlayerEntity player, int amount, EnumWarpType type) {
+        thaumcraft.api.capabilities.IPlayerWarp cap = thaumcraft.api.capabilities.ThaumcraftCapabilities.getWarp(player);
+        if (cap == null || amount == 0) return;
+        int newVal = cap.add(type, amount);
+        if (player instanceof net.minecraft.entity.player.ServerPlayerEntity) {
+            cap.sync((net.minecraft.entity.player.ServerPlayerEntity) player);
+            thaumcraft.common.network.NetworkHandler.sendTo((net.minecraft.entity.player.ServerPlayerEntity) player,
+                    new thaumcraft.common.network.msg.ClientWarpMessage((byte) (type == EnumWarpType.PERMANENT ? 1 : (type == EnumWarpType.NORMAL ? 0 : 2)), amount));
+        }
+    }
+    @Override public int getActualWarp(PlayerEntity player) {
+        thaumcraft.api.capabilities.IPlayerWarp cap = thaumcraft.api.capabilities.ThaumcraftCapabilities.getWarp(player);
+        if (cap == null) return 0;
+        return Math.max(0, cap.get(EnumWarpType.NORMAL) + cap.get(EnumWarpType.PERMANENT));
+    }
     @Override public AspectList getObjectAspects(ItemStack is) { return new AspectList(is); }
     @Override public AspectList generateTags(ItemStack is) { return new AspectList(is); }
     @Override public float drainVis(World world, BlockPos pos, float amount, boolean simulate) { return 0; }

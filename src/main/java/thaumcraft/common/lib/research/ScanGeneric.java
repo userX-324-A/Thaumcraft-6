@@ -1,9 +1,7 @@
 package thaumcraft.common.lib.research;
-import java.util.Iterator;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectHelper;
@@ -18,12 +16,12 @@ import thaumcraft.api.research.ScanningManager;
 public class ScanGeneric implements IScanThing
 {
     @Override
-    public boolean checkThing(EntityPlayer player, Object obj) {
+    public boolean checkThing(PlayerEntity player, Object obj) {
         if (obj == null) {
             return false;
         }
         AspectList al = null;
-        if (obj instanceof Entity && !(obj instanceof EntityItem)) {
+        if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
             al = AspectHelper.getEntityAspects((Entity)obj);
         }
         else {
@@ -36,12 +34,12 @@ public class ScanGeneric implements IScanThing
     }
     
     @Override
-    public void onSuccess(EntityPlayer player, Object obj) {
+    public void onSuccess(PlayerEntity player, Object obj) {
         if (obj == null) {
             return;
         }
         AspectList al = null;
-        if (obj instanceof Entity && !(obj instanceof EntityItem)) {
+        if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
             al = AspectHelper.getEntityAspects((Entity)obj);
         }
         else {
@@ -58,18 +56,10 @@ public class ScanGeneric implements IScanThing
     }
     
     @Override
-    public String getResearchKey(EntityPlayer player, Object obj) {
-        if (obj instanceof Entity && !(obj instanceof EntityItem)) {
-            String s = EntityList.getEntityString((Entity)obj);
-            return "!" + s;
-        }
+    public String getResearchKey(PlayerEntity player, Object obj) {
         ItemStack is = ScanningManager.getItemFromParms(player, obj);
         if (is != null && !is.isEmpty()) {
-            String s2 = "!" + is.getItem().getRegistryName();
-            if (!is.isItemStackDamageable()) {
-                s2 += is.getItemDamage();
-            }
-            return s2;
+            return "!" + is.getItem().getRegistryName();
         }
         return null;
     }

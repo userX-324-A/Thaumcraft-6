@@ -35,6 +35,7 @@ public class RegistryManager {
         RECIPE_SERIALIZERS.register(eventBus);
         MENUS.register(eventBus);
         SOUNDS.register(eventBus);
+        ModFeatures.FEATURES.register(eventBus);
     }
 
     @Mod.EventBusSubscriber(modid = thaumcraft.Thaumcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -43,6 +44,10 @@ public class RegistryManager {
         public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
             event.put(thaumcraft.common.registers.ModEntities.FIRE_BAT.get(),
                     thaumcraft.common.entities.monster.FireBatEntity.createAttributes().build());
+            event.put(thaumcraft.common.registers.ModEntities.ELDRITCH_CRAB.get(),
+                    thaumcraft.common.entities.monster.EldritchCrabEntity.createAttributes().build());
+            event.put(thaumcraft.common.registers.ModEntities.TC_GOLEM.get(),
+                    thaumcraft.common.entities.golem.ThaumcraftGolemEntity.createAttributes().build());
         }
     }
 
@@ -81,6 +86,94 @@ public class RegistryManager {
                     default:
                         break;
                 }
+            }
+
+            // Worldgen: crystals in overworld caves, low chance in nether
+            net.minecraft.world.gen.GenerationStage.Decoration decoUnderground = net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_DECORATION;
+            if (event.getCategory() != net.minecraft.world.biome.Biome.Category.THEEND) {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> visCrystals = ModFeatures.VIS_CRYSTAL_CLUSTER.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(2);
+                event.getGeneration().addFeature(decoUnderground, visCrystals);
+            }
+
+            // Worldgen: aura seeding sparse near surface
+            net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> auraSeed = ModFeatures.AURA_SEED.get()
+                    .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                    .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                    .count(1);
+            event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.TOP_LAYER_MODIFICATION, auraSeed);
+
+            // Worldgen: trees
+            if (event.getCategory() == net.minecraft.world.biome.Biome.Category.FOREST || event.getCategory() == net.minecraft.world.biome.Biome.Category.PLAINS || event.getCategory() == net.minecraft.world.biome.Biome.Category.TAIGA) {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> greatwood = ModFeatures.GREATWOOD_TREE.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(1);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, greatwood);
+
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> silverwood = ModFeatures.SILVERWOOD_TREE.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(1);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, silverwood);
+            }
+
+            // Worldgen: plants
+            if (event.getCategory() == net.minecraft.world.biome.Biome.Category.DESERT || event.getCategory() == net.minecraft.world.biome.Biome.Category.SAVANNA) {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> cinder = ModFeatures.CINDERPEARL.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(2);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, cinder);
+            } else {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> shimmer = ModFeatures.SHIMMERLEAF.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(1);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, shimmer);
+            }
+
+            if (event.getCategory() != net.minecraft.world.biome.Biome.Category.THEEND) {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> vishroom = ModFeatures.VISHROOM.get()
+                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
+                        .count(1);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_DECORATION, vishroom);
+            }
+
+            // Worldgen: ores (overworld)
+            if (event.getCategory() != net.minecraft.world.biome.Biome.Category.NETHER && event.getCategory() != net.minecraft.world.biome.Biome.Category.THEEND) {
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> cinnabar = net.minecraft.world.gen.feature.Feature.ORE
+                        .configured(new net.minecraft.world.gen.feature.OreFeatureConfig(
+                                net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                thaumcraft.common.registers.ModBlocks.ORE_CINNABAR.get().defaultBlockState(),
+                                6))
+                        .range(32)
+                        .squared()
+                        .count(8);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_ORES, cinnabar);
+
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> quartz = net.minecraft.world.gen.feature.Feature.ORE
+                        .configured(new net.minecraft.world.gen.feature.OreFeatureConfig(
+                                net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                thaumcraft.common.registers.ModBlocks.ORE_QUARTZ.get().defaultBlockState(),
+                                8))
+                        .range(48)
+                        .squared()
+                        .count(8);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_ORES, quartz);
+
+                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> amber = net.minecraft.world.gen.feature.Feature.ORE
+                        .configured(new net.minecraft.world.gen.feature.OreFeatureConfig(
+                                net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                thaumcraft.common.registers.ModBlocks.ORE_AMBER.get().defaultBlockState(),
+                                6))
+                        .range(80)
+                        .squared()
+                        .count(3);
+                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_ORES, amber);
             }
         }
     }

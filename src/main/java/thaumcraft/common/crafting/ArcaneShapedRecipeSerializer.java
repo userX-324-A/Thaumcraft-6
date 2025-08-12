@@ -1,7 +1,6 @@
 package thaumcraft.common.crafting;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
@@ -20,6 +19,10 @@ public class ArcaneShapedRecipeSerializer extends ForgeRegistryEntry<IRecipeSeri
         ShapedRecipe recipe = VANILLA_SERIALIZER.fromJson(recipeId, json);
         int vis = JSONUtils.getAsInt(json, "vis", 0);
         String research = JSONUtils.getAsString(json, "research", "");
+        // Basic validation: if research is present, it must refer to a known research key at load time (best-effort)
+        if (json.has("research") && research.isEmpty()) {
+            throw new com.google.gson.JsonParseException("'research' must be a non-empty string when present");
+        }
         AspectList crystals = AspectList.parse(json, "crystals");
         return new ArcaneShapedRecipe(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getResultItem(), vis, research, crystals);
     }

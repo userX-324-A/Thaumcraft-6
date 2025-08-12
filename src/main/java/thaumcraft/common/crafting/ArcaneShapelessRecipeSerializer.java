@@ -19,6 +19,9 @@ public class ArcaneShapelessRecipeSerializer extends ForgeRegistryEntry<IRecipeS
         ShapelessRecipe recipe = VANILLA_SERIALIZER.fromJson(recipeId, json);
         int vis = JSONUtils.getAsInt(json, "vis", 0);
         String research = JSONUtils.getAsString(json, "research", "");
+        if (json.has("research") && research.isEmpty()) {
+            throw new com.google.gson.JsonParseException("'research' must be a non-empty string when present");
+        }
         AspectList crystals = AspectList.parse(json, "crystals");
         return new ArcaneShapelessRecipe(recipe.getId(), recipe.getGroup(), recipe.getResultItem(), recipe.getIngredients(), vis, research, crystals);
     }

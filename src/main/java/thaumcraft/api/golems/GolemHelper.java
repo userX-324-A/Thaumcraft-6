@@ -14,13 +14,20 @@ public class GolemHelper {
     public static HashMap<Integer, ArrayList<ProvisionRequest>> provisionRequests;
     
     public static void registerSeal(ISeal seal) {
+        thaumcraft.common.golems.seals.SealRegistry.register(seal);
     }
     
     public static ISeal getSeal(String key) {
-        return null;
+        return thaumcraft.common.golems.seals.SealRegistry.get(key);
     }
     
     public static ISealEntity getSealEntity(int dim, BlockPos pos) {
+        // Not implemented yet: dim-based lookup. SealEngine/SealWorldData provide per-world access.
+        return null;
+    }
+
+    public static ISealEntity getSealEntity(int dim, thaumcraft.api.golems.seals.SealPos pos) {
+        // Overload required by Task; not implemented yet
         return null;
     }
     

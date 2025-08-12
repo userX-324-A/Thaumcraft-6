@@ -134,6 +134,11 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.ClientFXWispZapMessage::decode,
                 thaumcraft.common.network.msg.ClientFXWispZapMessage::handle);
 
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientOpenThaumonomiconMessage.class,
+                thaumcraft.common.network.msg.ClientOpenThaumonomiconMessage::encode,
+                thaumcraft.common.network.msg.ClientOpenThaumonomiconMessage::decode,
+                thaumcraft.common.network.msg.ClientOpenThaumonomiconMessage::handle);
+
         CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientFXZapMessage.class,
                 thaumcraft.common.network.msg.ClientFXZapMessage::encode,
                 thaumcraft.common.network.msg.ClientFXZapMessage::decode,

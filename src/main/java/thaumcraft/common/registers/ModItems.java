@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import thaumcraft.common.items.tools.ItemThaumometer;
 
 public class ModItems {
 
@@ -64,7 +65,7 @@ public class ModItems {
 
     //Tools
     public static final RegistryObject<Item> SCRIBING_TOOLS = registerItem("scribing_tools");
-    public static final RegistryObject<Item> THAUMOMETER = registerItem("thaumometer");
+    public static final RegistryObject<Item> THAUMOMETER = RegistryManager.ITEMS.register("thaumometer", () -> new ItemThaumometer(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
     public static final RegistryObject<Item> THAUMIUM_AXE = registerItem("thaumium_axe");
     public static final RegistryObject<Item> THAUMIUM_SWORD = registerItem("thaumium_sword");
     public static final RegistryObject<Item> THAUMIUM_SHOVEL = registerItem("thaumium_shovel");
@@ -153,4 +154,12 @@ public class ModItems {
     // Testing: Fire Bat spawn egg
     public static final RegistryObject<Item> FIRE_BAT_SPAWN_EGG = RegistryManager.ITEMS.register("fire_bat_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.FIRE_BAT, 0x5b1d0f, 0xf27a2b, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+
+    // Eldritch Crab spawn egg
+    public static final RegistryObject<Item> ELDRITCH_CRAB_SPAWN_EGG = RegistryManager.ITEMS.register("eldritch_crab_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ELDRITCH_CRAB, 0x2a2a2a, 0x6e3020, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+
+    // Thaumcraft Golem spawn egg (for testing)
+    public static final RegistryObject<Item> TC_GOLEM_SPAWN_EGG = RegistryManager.ITEMS.register("tc_golem_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.TC_GOLEM, 0x7a5a2b, 0xc9b07c, new Item.Properties().tab(ItemGroup.TAB_MISC)));
 } 

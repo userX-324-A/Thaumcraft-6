@@ -120,6 +120,34 @@ $TagSpecs += @{ Namespace='forge'; Kind='items';  Path='stone'; Values=@('minecr
 # Thaumcraft-specific logical group
 $TagSpecs += @{ Namespace='thaumcraft'; Kind='items'; Path='crystals';  Values=@('thaumcraft:crystal_aer','thaumcraft:crystal_ignis','thaumcraft:crystal_aqua','thaumcraft:crystal_terra','thaumcraft:crystal_ordo','thaumcraft:crystal_perditio','#forge:gems/amber') }
 
+# Additional tags discovered in recipes/code
+
+# Synonym for recipes referencing 'thaumcraft:essentia_crystals'
+$TagSpecs += @{ Namespace='thaumcraft'; Kind='items'; Path='essentia_crystals'; Values=@('#thaumcraft:crystals') }
+
+# Vanilla conveniences that don't exist by default but are used by recipes
+$TagSpecs += @{ Namespace='minecraft'; Kind='items'; Path='workbench'; Values=@('minecraft:crafting_table') }
+$TagSpecs += @{ Namespace='minecraft'; Kind='items'; Path='stone';     Values=@('minecraft:stone') }
+$TagSpecs += @{ Namespace='minecraft'; Kind='items'; Path='string';    Values=@('minecraft:string') }
+$TagSpecs += @{ Namespace='minecraft'; Kind='items'; Path='stick';     Values=@('minecraft:stick') }
+
+# Forge convenience/compat tags used in recipes
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='gems/quartz';  Values=@('minecraft:quartz') }
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='cobblestone';  Values=@('minecraft:cobblestone') }
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='wool';         Values=@('#minecraft:wool') }
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='raw_fishes';   Values=@('minecraft:cod','minecraft:salmon') }
+
+# Armor groupings used by infusion recipes
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='boots'; Values=@('minecraft:leather_boots','minecraft:chainmail_boots','minecraft:iron_boots','minecraft:golden_boots','minecraft:diamond_boots','minecraft:netherite_boots') }
+$TagSpecs += @{ Namespace='forge'; Kind='items'; Path='armors'; Values=@(
+  'minecraft:leather_helmet','minecraft:leather_chestplate','minecraft:leather_leggings','minecraft:leather_boots',
+  'minecraft:chainmail_helmet','minecraft:chainmail_chestplate','minecraft:chainmail_leggings','minecraft:chainmail_boots',
+  'minecraft:iron_helmet','minecraft:iron_chestplate','minecraft:iron_leggings','minecraft:iron_boots',
+  'minecraft:golden_helmet','minecraft:golden_chestplate','minecraft:golden_leggings','minecraft:golden_boots',
+  'minecraft:diamond_helmet','minecraft:diamond_chestplate','minecraft:diamond_leggings','minecraft:diamond_boots',
+  'minecraft:netherite_helmet','minecraft:netherite_chestplate','minecraft:netherite_leggings','minecraft:netherite_boots'
+) }
+
 # ----------------------------------------------------------------------------
 # Generate all tag files
 # ----------------------------------------------------------------------------

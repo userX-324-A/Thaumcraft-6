@@ -1,6 +1,8 @@
 package thaumcraft.api.research;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 
 public class ScanBlock implements IScanThing {
     private String research;
@@ -11,12 +13,14 @@ public class ScanBlock implements IScanThing {
     
     @Override
     public boolean checkThing(PlayerEntity player, Object obj) {
-        return false;
+        if (!(obj instanceof BlockPos)) return false;
+        ItemStack is = ScanningManager.getItemFromParms(player, obj);
+        return is != null && !is.isEmpty();
     }
     
     @Override
     public String getResearchKey(PlayerEntity player, Object object) {
-        return null;
+        return research;
     }
 }
 

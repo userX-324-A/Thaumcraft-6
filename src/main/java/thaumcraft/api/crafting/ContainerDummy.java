@@ -9,7 +9,7 @@ public class ContainerDummy extends Container {
     }
     
     @Override
-    public boolean canInteractWith(PlayerEntity var1) {
+    public boolean stillValid(PlayerEntity var1) {
         return false;
     }
 }

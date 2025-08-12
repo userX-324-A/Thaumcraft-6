@@ -8,10 +8,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenManagerEvent;
+// ScreenManagerEvent is not used; relying on direct ScreenManager call on client setup
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.fml.client.registry.ScreenManager;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.Thaumcraft;

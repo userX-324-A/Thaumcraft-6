@@ -14,15 +14,16 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.util.math.AxisAlignedBB;
+import thaumcraft.api.crafting.ICrucibleRecipe;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.registers.ModBlockEntities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
 import java.util.List;
 import java.util.Collection;
 
@@ -39,11 +40,11 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
 
     // Server-side ticker
     public static void tick(World level, BlockPos pos, BlockState state, CrucibleBlockEntity be) {
-        if (level.isRemote) return;
+        if (level.isClientSide) return;
         be.counter++;
 
         // Simple heat logic: heat up if lava/fire/magma below, cool otherwise
-        BlockState below = level.getBlockState(pos.down());
+        BlockState below = level.getBlockState(pos.below());
         boolean heatSource = below.getBlock() == Blocks.LAVA || below.getBlock() == Blocks.FIRE || below.getBlock() == Blocks.MAGMA_BLOCK;
         short prevHeat = be.heat;
         if (be.tank.getFluidAmount() > 0) {
@@ -62,19 +63,38 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
         // Smelting/ingestion: absorb aspects from items when hot
         if (be.heat > 150 && be.tank.getFluidAmount() > 0 && (be.counter % 5 == 0)) {
             AxisAlignedBB box = new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
-            List<EntityItem> itemEntities = level.getEntitiesWithinAABB(EntityItem.class, box);
-            for (EntityItem entity : itemEntities) {
+            java.util.List<ItemEntity> itemEntities = level.getEntitiesOfClass(ItemEntity.class, box);
+            for (ItemEntity entity : itemEntities) {
                 ItemStack stack = entity.getItem();
                 if (stack.isEmpty()) continue;
                 // First try craft resolution against crucible recipes
                 ICrucibleRecipe match = findMatch(level, be.aspects, stack);
                 if (match != null && be.tank.getFluidAmount() >= 50) {
+                    // Research gate: if recipe requires research, ensure a nearby player knows it
+                    String req = match.getResearch();
+                    if (req != null && !req.isEmpty()) {
+                        AxisAlignedBB expand = new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).inflate(8);
+                        java.util.List<net.minecraft.entity.player.PlayerEntity> players = level.getEntitiesOfClass(net.minecraft.entity.player.PlayerEntity.class, expand);
+                        boolean allowed = players.isEmpty();
+                        if (!allowed) {
+                            net.minecraft.entity.player.PlayerEntity nearest = players.get(0);
+                            double best = nearest.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                            for (net.minecraft.entity.player.PlayerEntity p : players) {
+                                double d = p.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                                if (d < best) { nearest = p; best = d; }
+                            }
+                            allowed = thaumcraft.api.capabilities.ThaumcraftCapabilities.knowsResearch(nearest, req);
+                        }
+                        if (!allowed) {
+                            continue;
+                        }
+                    }
                     // consume aspects and water, spawn result
                     be.aspects = be.aspects.copy().remove(match.getAspects());
                     be.tank.drain(50, IFluidHandler.FluidAction.EXECUTE);
                     ItemStack out = match.getResultItem().copy();
-                    net.minecraft.entity.item.EntityItem drop = new net.minecraft.entity.item.EntityItem(level, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, out);
-                    level.addEntity(drop);
+                    ItemEntity drop = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, out);
+                    level.addFreshEntity(drop);
                     stack.shrink(1);
                     if (stack.isEmpty()) entity.remove(); else entity.setItem(stack);
                     be.setChanged();
@@ -112,14 +132,14 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
 
     @Override
     public void tick() {
-        if (world == null) return;
-        tick(world, pos, getBlockState(), this);
+        if (level == null) return;
+        tick(level, worldPosition, getBlockState(), this);
     }
 
     private static int countAdjacentBellows(World level, BlockPos pos) {
         int c = 0;
         for (Direction d : Direction.values()) {
-            TileEntity te = level.getTileEntity(pos.offset(d));
+            TileEntity te = level.getBlockEntity(pos.relative(d));
             if (te instanceof thaumcraft.common.blocks.world.BellowsBlockEntity) c++;
         }
         return c;
@@ -154,7 +174,7 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
     }
 
     @Override
-    public void remove() { super.remove(); fluidHandlerOptional.invalidate(); }
+    public void setRemoved() { super.setRemoved(); fluidHandlerOptional.invalidate(); }
 
     // Convenience methods used by older logic
     public int fill(FluidStack resource, IFluidHandler.FluidAction action) {

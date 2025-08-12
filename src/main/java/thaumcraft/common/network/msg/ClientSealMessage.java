@@ -28,6 +28,18 @@ public class ClientSealMessage {
 
     public ClientSealMessage() {}
 
+    public ClientSealMessage(BlockPos pos, Direction face, String type, byte priority, byte color, boolean locked, boolean redstone, String owner) {
+        this.pos = pos;
+        this.face = face;
+        this.type = type;
+        this.priority = priority;
+        this.color = color;
+        this.locked = locked;
+        this.redstone = redstone;
+        this.owner = owner == null ? "" : owner;
+        this.filtersize = 0;
+    }
+
     public static void encode(ClientSealMessage m, PacketBuffer buf) {
         buf.writeBlockPos(m.pos);
         buf.writeByte(m.face.get3DDataValue());
@@ -81,6 +93,15 @@ public class ClientSealMessage {
         });
         ctx.get().setPacketHandled(true);
     }
+
+    public BlockPos getPos() { return pos; }
+    public Direction getFace() { return face; }
+    public String getType() { return type; }
+    public byte getPriority() { return priority; }
+    public byte getColor() { return color; }
+    public boolean isLocked() { return locked; }
+    public boolean isRedstone() { return redstone; }
+    public String getOwner() { return owner; }
 }
 
 

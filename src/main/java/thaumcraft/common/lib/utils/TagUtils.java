@@ -1,8 +1,6 @@
 package thaumcraft.common.lib.utils;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,9 +8,8 @@ import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
@@ -32,12 +29,12 @@ public final class TagUtils {
 
     public static boolean isItemStackInTag(ItemStack stack, ResourceLocation tagId) {
         if (stack == null || stack.isEmpty()) return false;
-        ITag<Item> tag = ItemTags.getCollection().get(tagId);
+        ITag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(tagId);
         return tag != null && tag.contains(stack.getItem());
     }
 
     public static boolean isBlockInTag(Block block, ResourceLocation tagId) {
-        ITag<Block> tag = BlockTags.getCollection().get(tagId);
+        ITag<Block> tag = TagCollectionManager.getInstance().getBlocks().getTag(tagId);
         return tag != null && tag.contains(block);
     }
 
@@ -47,11 +44,11 @@ public final class TagUtils {
         if (tagId == null) {
             return out;
         }
-        ITag<Item> tag = ItemTags.getCollection().get(tagId);
+        ITag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(tagId);
         if (tag == null) {
             return out;
         }
-        for (Item item : tag.getAllElements()) {
+        for (Item item : tag.getValues()) {
             out.add(new ItemStack(item));
         }
         return out;
@@ -75,12 +72,10 @@ public final class TagUtils {
 
     private static Set<ResourceLocation> getForgeOwningTags(Item item) {
         Set<ResourceLocation> out = new HashSet<>();
-        List<ResourceLocation> owning = ItemTags.getCollection().getOwningTags(item);
-        if (owning != null) {
-            for (ResourceLocation rl : owning) {
-                if ("forge".equals(rl.getNamespace())) {
-                    out.add(rl);
-                }
+        // Forge exposes item.getTags() in 1.16.5 which lists all tag ids this item belongs to
+        for (ResourceLocation rl : item.getTags()) {
+            if ("forge".equals(rl.getNamespace())) {
+                out.add(rl);
             }
         }
         return out;

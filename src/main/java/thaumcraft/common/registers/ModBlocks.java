@@ -4,7 +4,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.block.AbstractBlock;
+import net.minecraftforge.fml.RegistryObject;
 import thaumcraft.common.blocks.world.*;
 
 import java.util.function.Supplier;
@@ -24,23 +25,23 @@ public class ModBlocks {
         RegistryManager.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private static BlockBehaviour.Properties block(Material material, SoundType soundType) {
-        return BlockBehaviour.Properties.of(material).sound(soundType);
+    private static AbstractBlock.Properties block(Material material, SoundType soundType) {
+        return AbstractBlock.Properties.of(material).sound(soundType);
     }
 
-    private static BlockBehaviour.Properties woodBlock() {
+    private static AbstractBlock.Properties woodBlock() {
         return block(Material.WOOD, SoundType.WOOD).strength(2.0F, 5.0F);
     }
 
-    private static BlockBehaviour.Properties stoneBlock() {
+    private static AbstractBlock.Properties stoneBlock() {
         return block(Material.STONE, SoundType.STONE).strength(2.0F, 6.0F);
     }
 
-    private static BlockBehaviour.Properties plantBlock() {
-        return block(Material.PLANT, SoundType.GRASS).strength(0.0F);
+    private static AbstractBlock.Properties plantBlock() {
+        return block(Material.PLANT, SoundType.GRASS).instabreak().noOcclusion();
     }
 
-    private static BlockBehaviour.Properties magicalDevice() {
+    private static AbstractBlock.Properties magicalDevice() {
         return block(Material.STONE, SoundType.STONE).strength(1.5f, 8.0f);
     }
 
@@ -63,6 +64,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> ANCIENT_ROCK = registerBlock("ancient_rock", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> CRUSTED_STONE = registerBlock("crusted_stone", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> ELDRITCH_STONE = registerBlock("eldritch_stone", () -> new Block(stoneBlock()));
+    // Ores
+    public static final RegistryObject<Block> ORE_CINNABAR = registerBlock("ore_cinnabar", () -> new Block(stoneBlock()));
+    public static final RegistryObject<Block> ORE_AMBER = registerBlock("ore_amber", () -> new Block(stoneBlock()));
+    public static final RegistryObject<Block> ORE_QUARTZ = registerBlock("ore_quartz", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> CRYSTAL_AIR = registerBlock("crystal_air", () -> new Block(plantBlock()));
     public static final RegistryObject<Block> CRYSTAL_FIRE = registerBlock("crystal_fire", () -> new Block(plantBlock()));
     public static final RegistryObject<Block> CRYSTAL_WATER = registerBlock("crystal_water", () -> new Block(plantBlock()));
@@ -94,12 +99,12 @@ public class ModBlocks {
     public static final RegistryObject<SlabBlock> SLAB_ARCANE_BRICK = registerBlock("slab_arcane_brick", () -> new SlabBlock(stoneBlock()));
     public static final RegistryObject<SlabBlock> SLAB_ANCIENT = registerBlock("slab_ancient", () -> new SlabBlock(stoneBlock()));
     public static final RegistryObject<SlabBlock> SLAB_ELDRITCH = registerBlock("slab_eldritch", () -> new SlabBlock(stoneBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_GREATWOOD = registerBlock("stairs_greatwood", () -> new StairBlock(() -> ModBlocks.PLANK_GREATWOOD.get().defaultBlockState(), woodBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_SILVERWOOD = registerBlock("stairs_silverwood", () -> new StairBlock(() -> ModBlocks.PLANK_SILVERWOOD.get().defaultBlockState(), woodBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_ARCANE_STONE = registerBlock("stairs_arcane_stone", () -> new StairBlock(() -> ModBlocks.ARCANE_STONE_BLOCK.get().defaultBlockState(), stoneBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_ARCANE_BRICK = registerBlock("stairs_arcane_brick", () -> new StairBlock(() -> ModBlocks.ARCANE_STONE_BRICK.get().defaultBlockState(), stoneBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_ANCIENT = registerBlock("stairs_ancient", () -> new StairBlock(() -> ModBlocks.ANCIENT_STONE.get().defaultBlockState(), stoneBlock()));
-    public static final RegistryObject<StairBlock> STAIRS_ELDRITCH = registerBlock("stairs_eldritch", () -> new StairBlock(() -> ModBlocks.ELDRITCH_STONE.get().defaultBlockState(), stoneBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_GREATWOOD = registerBlock("stairs_greatwood", () -> new StairsBlock(() -> ModBlocks.PLANK_GREATWOOD.get().defaultBlockState(), woodBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_SILVERWOOD = registerBlock("stairs_silverwood", () -> new StairsBlock(() -> ModBlocks.PLANK_SILVERWOOD.get().defaultBlockState(), woodBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_ARCANE_STONE = registerBlock("stairs_arcane_stone", () -> new StairsBlock(() -> ModBlocks.ARCANE_STONE_BLOCK.get().defaultBlockState(), stoneBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_ARCANE_BRICK = registerBlock("stairs_arcane_brick", () -> new StairsBlock(() -> ModBlocks.ARCANE_STONE_BRICK.get().defaultBlockState(), stoneBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_ANCIENT = registerBlock("stairs_ancient", () -> new StairsBlock(() -> ModBlocks.ANCIENT_STONE.get().defaultBlockState(), stoneBlock()));
+    public static final RegistryObject<StairsBlock> STAIRS_ELDRITCH = registerBlock("stairs_eldritch", () -> new StairsBlock(() -> ModBlocks.ELDRITCH_STONE.get().defaultBlockState(), stoneBlock()));
     public static final RegistryObject<Block> ARCANE_WORKBENCH = registerBlock("arcane_workbench", () -> new ArcaneWorkbenchBlock(magicalDevice().noOcclusion()));
     public static final RegistryObject<Block> ARCANE_WORKBENCH_CHARGER = registerBlock("arcane_workbench_charger", () -> new Block(magicalDevice()));
     public static final RegistryObject<Block> CRUCIBLE = registerBlock("crucible", () -> new CrucibleBlock(magicalDevice()));

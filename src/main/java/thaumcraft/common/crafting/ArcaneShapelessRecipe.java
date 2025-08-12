@@ -13,6 +13,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.registers.ModRecipes;
+// Optional client-only JEI ghost gating will be implemented separately; server safety is enforced in menu
 
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundNBT;
@@ -36,6 +37,8 @@ public class ArcaneShapelessRecipe extends ShapelessRecipe implements IArcaneRec
     public IRecipeType<?> getType() {
         return ModRecipes.ARCANE_RECIPE_TYPE;
     }
+
+    // keep default matches; gating occurs in ArcaneWorkbenchMenu
 
     @Override
     public int getVis() {

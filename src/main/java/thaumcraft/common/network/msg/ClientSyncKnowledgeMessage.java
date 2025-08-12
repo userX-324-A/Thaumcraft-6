@@ -7,6 +7,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchEntry;
 
 import java.util.function.Supplier;
 
@@ -23,12 +25,12 @@ public class ClientSyncKnowledgeMessage {
     }
 
     public static void encode(ClientSyncKnowledgeMessage msg, PacketBuffer buf) {
-        buf.writeCompoundTag(msg.data == null ? new CompoundNBT() : msg.data);
+        buf.writeNbt(msg.data == null ? new CompoundNBT() : msg.data);
     }
 
     public static ClientSyncKnowledgeMessage decode(PacketBuffer buf) {
         ClientSyncKnowledgeMessage msg = new ClientSyncKnowledgeMessage();
-        msg.data = buf.readCompoundTag();
+        msg.data = buf.readNbt();
         if (msg.data == null) msg.data = new CompoundNBT();
         return msg;
     }
@@ -40,7 +42,19 @@ public class ClientSyncKnowledgeMessage {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
             if (knowledge != null) {
                 knowledge.deserializeNBT(msg.data);
-                // Note: toast/popups logic should be invoked elsewhere on the next tick based on flags if needed
+                // Show toasts next tick for any POPUP flags, then clear POPUP
+                Minecraft.getInstance().tell(() -> {
+                    for (String key : knowledge.getResearchList()) {
+                        if (knowledge.hasResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP)) {
+                            ResearchEntry ri = ResearchCategories.getResearch(key);
+                            if (ri != null) {
+                                // TODO: Integrate a 1.16 toast or lightweight HUD notification
+                                thaumcraft.client.hud.HudHooks.queueResearchToast(ri);
+                            }
+                            knowledge.clearResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP);
+                        }
+                    }
+                });
             }
         });
         ctx.get().setPacketHandled(true);

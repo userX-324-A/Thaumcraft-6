@@ -1,9 +1,8 @@
 package thaumcraft.common.lib.research;
-import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.research.IScanThing;
 import thaumcraft.api.research.ScanningManager;
@@ -18,11 +17,11 @@ public class ScanEnchantment implements IScanThing
     }
     
     @Override
-    public boolean checkThing(EntityPlayer player, Object obj) {
+    public boolean checkThing(PlayerEntity player, Object obj) {
         return getEnchantment(player, obj) != null;
     }
     
-    private Enchantment getEnchantment(EntityPlayer player, Object obj) {
+    private Enchantment getEnchantment(PlayerEntity player, Object obj) {
         if (obj == null) {
             return null;
         }
@@ -39,8 +38,8 @@ public class ScanEnchantment implements IScanThing
     }
     
     @Override
-    public String getResearchKey(EntityPlayer player, Object obj) {
-        return "!" + enchantment.getName();
+    public String getResearchKey(PlayerEntity player, Object obj) {
+        return "!" + enchantment.getRegistryName();
     }
 }
 

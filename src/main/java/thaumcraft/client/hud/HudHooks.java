@@ -7,6 +7,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.research.ResearchCategory;
+import thaumcraft.api.research.ResearchEntry;
 
 /**
  * Temporary client hooks to bridge HUD/sound feedback during migration.
@@ -32,6 +33,15 @@ public final class HudHooks {
                     1.0f
             );
         }
+    }
+
+    public static void queueResearchToast(ResearchEntry entry) {
+        // Until a proper toast is ported, reuse the HUD text for research completion
+        if (entry == null) return;
+        // Could be extended to show a real Toast using net.minecraft.client.gui.toasts system
+        // For now, just enqueue a knowledge-like message
+        HudHandler.enqueueResearchComplete(entry);
+        playKnowledgeGainSound();
     }
 }
 

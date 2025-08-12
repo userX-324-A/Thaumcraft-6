@@ -10,7 +10,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.items.consumables.ItemPhial;
+// Avoid hard dependency on internal ItemPhial class; rely on API item identity
 
 public class RecipeJarLabel extends SpecialRecipe {
     public RecipeJarLabel(ResourceLocation idIn) {
@@ -27,7 +27,7 @@ public class RecipeJarLabel extends SpecialRecipe {
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ItemsTC.label) {
                     hasLabel = true;
-                } else if (stack.getItem() instanceof ItemPhial) {
+                } else if (stack.getItem() == ItemsTC.phial) {
                     hasPhial = true;
                 } else {
                     return false;
@@ -48,7 +48,7 @@ public class RecipeJarLabel extends SpecialRecipe {
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ItemsTC.label) {
                     label = stack;
-                } else if (stack.getItem() instanceof ItemPhial) {
+                } else if (stack.getItem() == ItemsTC.phial) {
                     phial = stack;
                 }
             }

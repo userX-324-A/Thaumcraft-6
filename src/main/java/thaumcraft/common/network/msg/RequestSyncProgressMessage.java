@@ -47,9 +47,9 @@ public class RequestSyncProgressMessage {
             if (player == null) return;
             // Parity with 1.12 logic, simplified to direct call
             boolean knows = thaumcraft.api.capabilities.ThaumcraftCapabilities.knowsResearch(player, msg.key);
-            if (player != null && msg.first != knows) {
+            if (msg.first != knows) {
                 if (msg.noFlags) ResearchManager.noFlags = true;
-                ResearchManager.progressResearch((net.minecraft.entity.player.EntityPlayer) player, msg.key);
+                ResearchManager.progressResearch(player, msg.key);
             }
         });
         ctx.get().setPacketHandled(true);
