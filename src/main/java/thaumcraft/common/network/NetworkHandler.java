@@ -194,6 +194,28 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.RequestStartTheoryMessage::encode,
                 thaumcraft.common.network.msg.RequestStartTheoryMessage::decode,
                 thaumcraft.common.network.msg.RequestStartTheoryMessage::handle);
+
+        // Player data serverbound (migrated from Packet*ToServer)
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestPlayerFlagMessage.class,
+                thaumcraft.common.network.msg.RequestPlayerFlagMessage::encode,
+                thaumcraft.common.network.msg.RequestPlayerFlagMessage::decode,
+                thaumcraft.common.network.msg.RequestPlayerFlagMessage::handle);
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestSyncProgressMessage.class,
+                thaumcraft.common.network.msg.RequestSyncProgressMessage::encode,
+                thaumcraft.common.network.msg.RequestSyncProgressMessage::decode,
+                thaumcraft.common.network.msg.RequestSyncProgressMessage::handle);
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestSyncResearchFlagsMessage.class,
+                thaumcraft.common.network.msg.RequestSyncResearchFlagsMessage::encode,
+                thaumcraft.common.network.msg.RequestSyncResearchFlagsMessage::decode,
+                thaumcraft.common.network.msg.RequestSyncResearchFlagsMessage::handle);
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestFocusNameMessage.class,
+                thaumcraft.common.network.msg.RequestFocusNameMessage::encode,
+                thaumcraft.common.network.msg.RequestFocusNameMessage::decode,
+                thaumcraft.common.network.msg.RequestFocusNameMessage::handle);
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestFocusNodesMessage.class,
+                thaumcraft.common.network.msg.RequestFocusNodesMessage::encode,
+                thaumcraft.common.network.msg.RequestFocusNodesMessage::decode,
+                thaumcraft.common.network.msg.RequestFocusNodesMessage::handle);
     }
 
     private static int id() { return nextId++; }

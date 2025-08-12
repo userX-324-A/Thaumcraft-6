@@ -1,7 +1,10 @@
 package thaumcraft.common.network.msg;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.network.NetworkEvent;
+import thaumcraft.api.casters.ICaster;
 
 import java.util.function.Supplier;
 
@@ -28,8 +31,18 @@ public class RequestFocusChangeMessage {
 
     public static void handle(RequestFocusChangeMessage msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getSender() == null) return;
-            // No-op until caster system is ported
+            PlayerEntity sender = ctx.get().getSender();
+            if (sender == null) return;
+            ItemStack main = sender.getMainHandItem();
+            ItemStack off = sender.getOffhandItem();
+            boolean applied = false;
+            if (!main.isEmpty() && main.getItem() instanceof ICaster) {
+                main.getOrCreateTag().putString("tc_focus", msg.focus);
+                applied = true;
+            }
+            if (!applied && !off.isEmpty() && off.getItem() instanceof ICaster) {
+                off.getOrCreateTag().putString("tc_focus", msg.focus);
+            }
         });
         ctx.get().setPacketHandled(true);
     }

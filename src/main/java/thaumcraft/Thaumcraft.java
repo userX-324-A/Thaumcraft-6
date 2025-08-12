@@ -1,6 +1,5 @@
 package thaumcraft;
 
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -32,10 +31,13 @@ public class Thaumcraft {
         ModBlocks.init();
         ModItems.init();
         ModBlockEntities.init();
+        ModEntities.init();
         ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
         RegistryManager.register(modEventBus);
 
         modEventBus.addListener(this::setup);
+        // Attributes will be registered when entity AI/attributes are finalized
+        // Attributes will be registered per-entity when AI/attributes are implemented
         modEventBus.addListener(this::doClientStuff);
         modEventBus.addListener(this::enqueueIMC);
         modEventBus.addListener(this::processIMC);
@@ -49,12 +51,24 @@ public class Thaumcraft {
         EssentiaTransportCapability.register();
         ModRecipes.registerRecipeTypes();
         NetworkHandler.init();
+        event.enqueueWork(() -> {
+            // FireBat spawn placement
+            net.minecraft.entity.EntitySpawnPlacementRegistry.register(
+                    thaumcraft.common.registers.ModEntities.FIRE_BAT.get(),
+                    net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
+                    net.minecraft.world.gen.Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                    thaumcraft.common.entities.monster.FireBatEntity::canSpawn);
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             net.minecraft.client.gui.ScreenManager.register(ModMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
             net.minecraft.client.gui.ScreenManager.register(ModMenus.THAUMATORIUM.get(), thaumcraft.common.client.screen.ThaumatoriumScreen::new);
+            // Register entity renderers
+            net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+                    thaumcraft.common.registers.ModEntities.FIRE_BAT.get(),
+                    manager -> new thaumcraft.common.client.render.FireBatRenderer(manager));
         });
     }
 

@@ -1,7 +1,9 @@
 package thaumcraft.common.registers;
 
-import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 public class ModItems {
 
@@ -147,4 +149,8 @@ public class ModItems {
     public static final RegistryObject<Item> GOLEM_BELL = registerItem("golem_bell");
     public static final RegistryObject<Item> GOLEM_PLACER = registerItem("golem_placer");
     public static final RegistryObject<Item> SEALS = registerItem("seals");
+
+    // Testing: Fire Bat spawn egg
+    public static final RegistryObject<Item> FIRE_BAT_SPAWN_EGG = RegistryManager.ITEMS.register("fire_bat_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.FIRE_BAT, 0x5b1d0f, 0xf27a2b, new Item.Properties().tab(ItemGroup.TAB_MISC)));
 } 

@@ -46,7 +46,12 @@ public class RequestStartTheoryMessage {
             if (world == null) return;
             TileEntity te = world.getBlockEntity(msg.pos);
             if (te instanceof ResearchTableBlockEntity) {
-                // TODO: implement startTheory once research table is ported
+                // Minimal placeholder: mark that a theory session is active and record aids
+                net.minecraft.nbt.CompoundNBT tag = te.getTileData();
+                tag.putBoolean("tc_theory_active", true);
+                net.minecraft.nbt.ListNBT list = new net.minecraft.nbt.ListNBT();
+                for (String s : msg.aids) list.add(net.minecraft.nbt.StringNBT.valueOf(s));
+                tag.put("tc_theory_aids", list);
             }
         });
         ctx.get().setPacketHandled(true);

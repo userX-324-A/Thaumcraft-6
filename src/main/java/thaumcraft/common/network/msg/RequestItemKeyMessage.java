@@ -1,8 +1,11 @@
 package thaumcraft.common.network.msg;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
+import thaumcraft.api.casters.ICaster;
 
 import java.util.function.Supplier;
 
@@ -31,10 +34,24 @@ public class RequestItemKeyMessage {
 
     public static void handle(RequestItemKeyMessage msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getSender() == null) return;
+            PlayerEntity sender = ctx.get().getSender();
+            if (sender == null) return;
             ServerWorld world = ctx.get().getSender().getLevel();
             if (world == null) return;
-            // TODO: Call appropriate item-handling hooks once items are ported.
+            if (msg.key == 1) {
+                ItemStack main = sender.getMainHandItem();
+                ItemStack off = sender.getOffhandItem();
+                boolean toggled = false;
+                if (!main.isEmpty() && main.getItem() instanceof ICaster) {
+                    int cur = main.getOrCreateTag().getInt("tc_misc");
+                    main.getOrCreateTag().putInt("tc_misc", cur ^ (1 << (msg.modifier & 7)));
+                    toggled = true;
+                }
+                if (!toggled && !off.isEmpty() && off.getItem() instanceof ICaster) {
+                    int cur = off.getOrCreateTag().getInt("tc_misc");
+                    off.getOrCreateTag().putInt("tc_misc", cur ^ (1 << (msg.modifier & 7)));
+                }
+            }
         });
         ctx.get().setPacketHandled(true);
     }

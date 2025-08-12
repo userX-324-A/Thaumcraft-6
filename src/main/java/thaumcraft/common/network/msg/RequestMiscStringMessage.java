@@ -1,6 +1,8 @@
 package thaumcraft.common.network.msg;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -33,10 +35,11 @@ public class RequestMiscStringMessage {
 
     public static void handle(RequestMiscStringMessage msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getSender() == null) return;
-            // id==0: logistics search string (parity with 1.12 ContainerLogistics)
-            if (msg.id == 0 && ctx.get().getSender().containerMenu instanceof thaumcraft.common.menu.ThaumatoriumMenu) {
-                // No logistics container yet in 1.16 port; leave stub for later. Intentionally no-op.
+            PlayerEntity sender = ctx.get().getSender();
+            if (sender == null) return;
+            if (msg.id == 0) {
+                // Placeholder: echo back to player for now; replace when Logistics GUI is ported
+                sender.displayClientMessage(new StringTextComponent("Search: " + msg.text), true);
             }
         });
         ctx.get().setPacketHandled(true);

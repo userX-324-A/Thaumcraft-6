@@ -41,7 +41,24 @@ public class RequestThaumatoriumRecipeMessage {
             if (world == null) return;
             TileEntity te = world.getBlockEntity(msg.pos);
             if (te instanceof ThaumatoriumBlockEntity) {
-                // TODO: implement selection once Thaumatorium logic is ported
+                // Minimal behavior: toggle current recipe hash in a transient list on the block entity NBT
+                net.minecraft.nbt.CompoundNBT tag = te.getTileData();
+                String list = tag.getString("tc_recipe_sel");
+                java.util.LinkedHashSet<Integer> set = new java.util.LinkedHashSet<>();
+                if (!list.isEmpty()) {
+                    for (String s : list.split(",")) {
+                        try { set.add(Integer.parseInt(s)); } catch (Exception ignored) {}
+                    }
+                }
+                if (set.contains(msg.recipeHash)) set.remove(msg.recipeHash); else set.add(msg.recipeHash);
+                StringBuilder sb = new StringBuilder();
+                boolean first = true;
+                for (Integer i : set) {
+                    if (!first) sb.append(',');
+                    sb.append(i);
+                    first = false;
+                }
+                tag.putString("tc_recipe_sel", sb.toString());
             }
         });
         ctx.get().setPacketHandled(true);
