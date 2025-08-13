@@ -20,20 +20,18 @@ public class ArcaneEarBlockEntity extends TileEntity implements ITickableTileEnt
 
     @Override
     public void tick() {
-        World level = world;
-        if (level == null || level.isRemote) return;
+        World level = this.level;
+        if (level == null || level.isClientSide) return;
 
-        BlockPos currentPos = pos;
+        BlockPos currentPos = this.worldPosition;
         if (mode == Mode.REDSTONE) {
-            boolean powered = level.isBlockPowered(currentPos);
-            int power = powered ? 15 : 0;
-            level.notifyNeighborsOfStateChange(currentPos, getBlockState().getBlock());
+            level.updateNeighborsAt(currentPos, getBlockState().getBlock());
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         try {
             mode = Mode.valueOf(tag.getString("Mode"));
         } catch (Exception ignored) {
@@ -42,10 +40,10 @@ public class ArcaneEarBlockEntity extends TileEntity implements ITickableTileEnt
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.putString("Mode", mode.name());
         tag.putInt("Note", note);
-        return super.write(tag);
+        return super.save(tag);
     }
 }
 

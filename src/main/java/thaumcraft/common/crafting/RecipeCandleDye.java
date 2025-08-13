@@ -22,13 +22,13 @@ public class RecipeCandleDye extends SpecialRecipe {
         boolean hasCandle = false;
         boolean hasDye = false;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 Item item = stack.getItem();
                 if (item instanceof DyeItem) {
                     hasDye = true;
-                } else if (Block.getBlockFromItem(item) instanceof BlockCandle) {
+                } else if (net.minecraft.block.Block.byItem(item) instanceof BlockCandle) {
                     hasCandle = true;
                 } else {
                     return false;
@@ -40,17 +40,17 @@ public class RecipeCandleDye extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack candle = ItemStack.EMPTY;
         ItemStack dye = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 Item item = stack.getItem();
                 if (item instanceof DyeItem) {
                     dye = stack;
-                } else if (Block.getBlockFromItem(item) instanceof BlockCandle) {
+                } else if (net.minecraft.block.Block.byItem(item) instanceof BlockCandle) {
                     candle = stack;
                 }
             }
@@ -64,7 +64,7 @@ public class RecipeCandleDye extends SpecialRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

@@ -24,8 +24,10 @@ public final class AuraEvents {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         tickCounter++;
-        // Every 20 ticks (~1s), sync to players their current chunk aura/flux
-        if (tickCounter % 20 != 0) return;
+        // Configurable cadence for aura sync to clients (HUD)
+        int cadence = thaumcraft.common.config.ModConfig.COMMON.auraSyncCadenceTicks.get();
+        if (cadence <= 0) return; // disabled
+        if (tickCounter % cadence != 0) return;
 
         net.minecraft.server.MinecraftServer server = net.minecraftforge.fml.server.ServerLifecycleHooks.getCurrentServer();
         if (server == null) return;

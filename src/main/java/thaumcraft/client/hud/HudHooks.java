@@ -1,6 +1,7 @@
 package thaumcraft.client.hud;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -8,6 +9,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 /**
  * Temporary client hooks to bridge HUD/sound feedback during migration.
@@ -36,11 +40,14 @@ public final class HudHooks {
     }
 
     public static void queueResearchToast(ResearchEntry entry) {
-        // Until a proper toast is ported, reuse the HUD text for research completion
         if (entry == null) return;
-        // Could be extended to show a real Toast using net.minecraft.client.gui.toasts system
-        // For now, just enqueue a knowledge-like message
-        HudHandler.enqueueResearchComplete(entry);
+        // Proper 1.16.5 toast using built-in SystemToast for reliability
+        Minecraft mc = Minecraft.getInstance();
+        if (mc != null) {
+            ITextComponent title = new TranslationTextComponent("research.complete");
+            ITextComponent desc = new StringTextComponent(entry.getLocalizedName());
+            SystemToast.add(mc.getToasts(), SystemToast.Type.TUTORIAL_HINT, title, desc);
+        }
         playKnowledgeGainSound();
     }
 }

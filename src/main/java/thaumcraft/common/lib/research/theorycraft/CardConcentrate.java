@@ -1,11 +1,10 @@
 package thaumcraft.common.lib.research.theorycraft;
 import java.util.Random;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
@@ -16,20 +15,20 @@ public class CardConcentrate extends TheorycraftCard
     Aspect aspect;
     
     @Override
-    public NBTTagCompound serialize() {
-        NBTTagCompound nbt = super.serialize();
-        nbt.setString("aspect", aspect.getTag());
+    public CompoundNBT serialize() {
+        CompoundNBT nbt = super.serialize();
+        nbt.putString("aspect", aspect.getTag());
         return nbt;
     }
     
     @Override
-    public void deserialize(NBTTagCompound nbt) {
+    public void deserialize(CompoundNBT nbt) {
         super.deserialize(nbt);
         aspect = Aspect.getAspect(nbt.getString("aspect"));
     }
     
     @Override
-    public boolean initialize(EntityPlayer player, ResearchTableData data) {
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
         Random r = new Random(getSeed());
         int num = r.nextInt(Aspect.getCompoundAspects().size());
         aspect = Aspect.getCompoundAspects().get(num);
@@ -48,25 +47,26 @@ public class CardConcentrate extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.concentrate.name").getFormattedText();
+        return new TranslationTextComponent("card.concentrate.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.concentrate.text", TextFormatting.BOLD + aspect.getName() + TextFormatting.RESET).getFormattedText();
+        return new TranslationTextComponent(
+                "card.concentrate.text",
+                TextFormatting.BOLD + aspect.getName() + TextFormatting.RESET
+        ).getString();
     }
     
     @Override
-    public ItemStack[] getRequiredItems() {
-        return new ItemStack[] { ThaumcraftApiHelper.makeCrystal(aspect) };
-    }
+    public ItemStack[] getRequiredItems() { return null; }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         data.addTotal(getResearchCategory(), 15);
         ++data.bonusDraws;
-        if (player.getRNG().nextFloat() < 0.33) {
-            data.addInspiration(1);
+        if (player.getRandom().nextFloat() < 0.33) {
+            data.inspiration += 1;
         }
         return true;
     }

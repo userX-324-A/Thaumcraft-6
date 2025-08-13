@@ -17,6 +17,7 @@ import thaumcraft.common.network.msg.RequestNoteMessage;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 import thaumcraft.common.client.screen.ThaumonomiconScreen;
@@ -72,6 +73,12 @@ public final class ClientEvents {
         if (keyOpenThaumonomicon.consumeClick()) {
             mc.setScreen(new ThaumonomiconScreen());
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
+        // Clear client-side seal cache on logout/world unload
+        thaumcraft.client.golems.ClientSealCache.clearAll();
     }
 }
 

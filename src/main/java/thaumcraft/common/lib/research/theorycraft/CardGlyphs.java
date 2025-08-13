@@ -1,7 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.research.ResearchCategories;
@@ -28,19 +28,19 @@ public class CardGlyphs extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.glyph.name").getFormattedText();
+        return new TranslationTextComponent("card.glyph.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.glyph.text").getFormattedText();
+        return new TranslationTextComponent("card.glyph.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         String[] s = ResearchCategories.researchCategories.keySet().toArray(new String[0]);
-        data.addTotal(s[player.getRNG().nextInt(s.length)], MathHelper.getInt(player.getRNG(), 10, 20));
-        data.addTotal("ELDRITCH", MathHelper.getInt(player.getRNG(), 10, 20));
+        data.addTotal(s[player.getRandom().nextInt(s.length)], MathHelper.nextInt(player.getRandom(), 10, 20));
+        data.addTotal("ELDRITCH", MathHelper.nextInt(player.getRandom(), 10, 20));
         ThaumcraftApi.internalMethods.addWarpToPlayer(player, 5, IPlayerWarp.EnumWarpType.TEMPORARY);
         return true;
     }

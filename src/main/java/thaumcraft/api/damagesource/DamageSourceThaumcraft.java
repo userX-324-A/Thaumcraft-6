@@ -21,7 +21,7 @@ public class DamageSourceThaumcraft extends DamageSource {
     }
     
     static {
-        DamageSourceThaumcraft.taint = new DamageSourceThaumcraft("taint").setDamageBypassesArmor().setMagicDamage();
+        DamageSourceThaumcraft.taint = (new DamageSourceThaumcraft("taint")).bypassArmor().setMagic();
         DamageSourceThaumcraft.swarm = new DamageSource("swarm");
         DamageSourceThaumcraft.tentacle = new DamageSource("tentacle");
     }

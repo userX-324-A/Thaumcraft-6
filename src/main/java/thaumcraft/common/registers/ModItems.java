@@ -57,20 +57,20 @@ public class ModItems {
     public static final RegistryObject<Item> CHUNKS = registerItem("chunks");
     public static final RegistryObject<Item> TRIPLE_MEAT_TREAT = registerItem("triple_meat_treat");
     public static final RegistryObject<Item> BRAIN = registerItem("brain");
-    public static final RegistryObject<Item> PHIAL = registerItem("phial");
-    public static final RegistryObject<Item> LABEL = registerItem("label");
+    public static final RegistryObject<Item> PHIAL = RegistryManager.ITEMS.register("phial", () -> new thaumcraft.common.items.ItemPhial(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> LABEL = RegistryManager.ITEMS.register("label", () -> new thaumcraft.common.items.ItemLabel(new Item.Properties().tab(ItemGroup.TAB_MISC)));
     public static final RegistryObject<Item> BOTTLE_TAINT = registerItem("bottle_taint");
-    public static final RegistryObject<Item> JAR_BRACE = registerItem("jar_brace");
-    public static final RegistryObject<Item> CAUSALITY_COLLAPSER = registerItem("causality_collapser");
+    public static final RegistryObject<Item> JAR_BRACE = RegistryManager.ITEMS.register("jar_brace", () -> new thaumcraft.common.items.ItemJarBrace(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> CAUSALITY_COLLAPSER = RegistryManager.ITEMS.register("causality_collapser", () -> new thaumcraft.common.items.ItemCausalityCollapser(new Item.Properties().tab(ItemGroup.TAB_MISC)));
 
     //Tools
-    public static final RegistryObject<Item> SCRIBING_TOOLS = registerItem("scribing_tools");
+    public static final RegistryObject<Item> SCRIBING_TOOLS = RegistryManager.ITEMS.register("scribing_tools", () -> new thaumcraft.common.items.tools.ItemScribingTools(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
     public static final RegistryObject<Item> THAUMOMETER = RegistryManager.ITEMS.register("thaumometer", () -> new ItemThaumometer(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
-    public static final RegistryObject<Item> THAUMIUM_AXE = registerItem("thaumium_axe");
-    public static final RegistryObject<Item> THAUMIUM_SWORD = registerItem("thaumium_sword");
-    public static final RegistryObject<Item> THAUMIUM_SHOVEL = registerItem("thaumium_shovel");
-    public static final RegistryObject<Item> THAUMIUM_PICK = registerItem("thaumium_pick");
-    public static final RegistryObject<Item> THAUMIUM_HOE = registerItem("thaumium_hoe");
+    public static final RegistryObject<Item> THAUMIUM_AXE = RegistryManager.ITEMS.register("thaumium_axe", () -> new thaumcraft.common.items.tools.ThaumiumAxeItem(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
+    public static final RegistryObject<Item> THAUMIUM_SWORD = RegistryManager.ITEMS.register("thaumium_sword", () -> new thaumcraft.common.items.tools.ThaumiumSwordItem(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
+    public static final RegistryObject<Item> THAUMIUM_SHOVEL = RegistryManager.ITEMS.register("thaumium_shovel", () -> new thaumcraft.common.items.tools.ThaumiumShovelItem(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
+    public static final RegistryObject<Item> THAUMIUM_PICK = RegistryManager.ITEMS.register("thaumium_pick", () -> new thaumcraft.common.items.tools.ThaumiumPickaxeItem(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
+    public static final RegistryObject<Item> THAUMIUM_HOE = RegistryManager.ITEMS.register("thaumium_hoe", () -> new thaumcraft.common.items.tools.ThaumiumHoeItem(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
     public static final RegistryObject<Item> ELEMENTAL_AXE = registerItem("elemental_axe");
     public static final RegistryObject<Item> ELEMENTAL_SWORD = registerItem("elemental_sword");
     public static final RegistryObject<Item> ELEMENTAL_SHOVEL = registerItem("elemental_shovel");
@@ -83,30 +83,55 @@ public class ModItems {
     public static final RegistryObject<Item> VOID_HOE = registerItem("void_hoe");
     public static final RegistryObject<Item> CRIMSON_BLADE = registerItem("crimson_blade");
     public static final RegistryObject<Item> PRIMAL_CRUSHER = registerItem("primal_crusher");
-    public static final RegistryObject<Item> SANITY_CHECKER = registerItem("sanity_checker");
-    public static final RegistryObject<Item> RESONATOR = registerItem("resonator");
-    public static final RegistryObject<Item> HAND_MIRROR = registerItem("hand_mirror");
-    public static final RegistryObject<Item> GRAPPLE_GUN = registerItem("grapple_gun");
+    public static final RegistryObject<Item> SANITY_CHECKER = RegistryManager.ITEMS.register("sanity_checker", () -> new thaumcraft.common.items.tools.ItemSanityChecker(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
+    public static final RegistryObject<Item> RESONATOR = RegistryManager.ITEMS.register("resonator", () -> new thaumcraft.common.items.tools.ItemResonator(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
+        @Override
+        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+            int r = thaumcraft.common.config.ModConfig.COMMON.resonatorScanRadius.get();
+            int t = thaumcraft.common.config.ModConfig.COMMON.resonatorHudCadenceTicks.get();
+            lines.add(new net.minecraft.util.text.StringTextComponent("Scan radius: "+r+" | HUD cadence: "+t+"t"));
+        }
+    });
+    public static final RegistryObject<Item> HAND_MIRROR = RegistryManager.ITEMS.register("hand_mirror", () -> new thaumcraft.common.items.tools.ItemHandMirror(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
+        @Override
+        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+            double cost = thaumcraft.common.config.ModConfig.COMMON.mirrorVisCost.get();
+            int cd = thaumcraft.common.config.ModConfig.COMMON.mirrorCooldownSeconds.get();
+            lines.add(new net.minecraft.util.text.StringTextComponent("Vis cost: "+(int)cost+" | Cooldown: "+cd+"s"));
+            lines.add(new net.minecraft.util.text.StringTextComponent("Sneak-Use to link; Use to teleport (cross-dimension supported)"));
+        }
+    });
+    public static final RegistryObject<Item> GRAPPLE_GUN = RegistryManager.ITEMS.register("grapple_gun", () -> new thaumcraft.common.items.tools.ItemGrappleGun(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
+        @Override
+        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+            double len = thaumcraft.common.config.ModConfig.COMMON.grappleMaxLength.get();
+            double spd = thaumcraft.common.config.ModConfig.COMMON.grappleReelSpeedPerTick.get();
+            boolean mit = thaumcraft.common.config.ModConfig.COMMON.grappleMitigateFallDamage.get();
+            lines.add(new net.minecraft.util.text.StringTextComponent("Max length: "+(int)len+" | Reel: "+String.format("%.2f", spd)+"/t"));
+            if (mit) lines.add(new net.minecraft.util.text.StringTextComponent("Fall damage mitigation: enabled"));
+            lines.add(new net.minecraft.util.text.StringTextComponent("Crouch to reel in."));
+        }
+    });
     public static final RegistryObject<Item> GRAPPLE_GUN_TIP = registerItem("grapple_gun_tip");
     public static final RegistryObject<Item> GRAPPLE_GUN_SPOOL = registerItem("grapple_gun_spool");
 
     //Armor
     public static final RegistryObject<Item> GOGGLES = registerItem("goggles");
     public static final RegistryObject<Item> TRAVELLER_BOOTS = registerItem("traveller_boots");
-    public static final RegistryObject<Item> THAUMIUM_HELM = registerItem("thaumium_helm");
-    public static final RegistryObject<Item> THAUMIUM_CHEST = registerItem("thaumium_chest");
-    public static final RegistryObject<Item> THAUMIUM_LEGS = registerItem("thaumium_legs");
-    public static final RegistryObject<Item> THAUMIUM_BOOTS = registerItem("thaumium_boots");
+    public static final RegistryObject<Item> THAUMIUM_HELM = RegistryManager.ITEMS.register("thaumium_helm", () -> new thaumcraft.common.items.armor.ThaumiumArmorItem(net.minecraft.inventory.EquipmentSlotType.HEAD, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> THAUMIUM_CHEST = RegistryManager.ITEMS.register("thaumium_chest", () -> new thaumcraft.common.items.armor.ThaumiumArmorItem(net.minecraft.inventory.EquipmentSlotType.CHEST, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> THAUMIUM_LEGS = RegistryManager.ITEMS.register("thaumium_legs", () -> new thaumcraft.common.items.armor.ThaumiumArmorItem(net.minecraft.inventory.EquipmentSlotType.LEGS, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> THAUMIUM_BOOTS = RegistryManager.ITEMS.register("thaumium_boots", () -> new thaumcraft.common.items.armor.ThaumiumArmorItem(net.minecraft.inventory.EquipmentSlotType.FEET, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> CLOTH_CHEST = registerItem("cloth_chest");
     public static final RegistryObject<Item> CLOTH_LEGS = registerItem("cloth_legs");
     public static final RegistryObject<Item> CLOTH_BOOTS = registerItem("cloth_boots");
     public static final RegistryObject<Item> FORTRESS_HELM = registerItem("fortress_helm");
     public static final RegistryObject<Item> FORTRESS_CHEST = registerItem("fortress_chest");
     public static final RegistryObject<Item> FORTRESS_LEGS = registerItem("fortress_legs");
-    public static final RegistryObject<Item> VOID_HELM = registerItem("void_helm");
-    public static final RegistryObject<Item> VOID_CHEST = registerItem("void_chest");
-    public static final RegistryObject<Item> VOID_LEGS = registerItem("void_legs");
-    public static final RegistryObject<Item> VOID_BOOTS = registerItem("void_boots");
+    public static final RegistryObject<Item> VOID_HELM = RegistryManager.ITEMS.register("void_helm", () -> new thaumcraft.common.items.armor.VoidArmorItem(net.minecraft.inventory.EquipmentSlotType.HEAD, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> VOID_CHEST = RegistryManager.ITEMS.register("void_chest", () -> new thaumcraft.common.items.armor.VoidArmorItem(net.minecraft.inventory.EquipmentSlotType.CHEST, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> VOID_LEGS = RegistryManager.ITEMS.register("void_legs", () -> new thaumcraft.common.items.armor.VoidArmorItem(net.minecraft.inventory.EquipmentSlotType.LEGS, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> VOID_BOOTS = RegistryManager.ITEMS.register("void_boots", () -> new thaumcraft.common.items.armor.VoidArmorItem(net.minecraft.inventory.EquipmentSlotType.FEET, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> VOID_ROBE_HELM = registerItem("void_robe_helm");
     public static final RegistryObject<Item> VOID_ROBE_CHEST = registerItem("void_robe_chest");
     public static final RegistryObject<Item> VOID_ROBE_LEGS = registerItem("void_robe_legs");
@@ -124,12 +149,13 @@ public class ModItems {
 
     //Baubles
     public static final RegistryObject<Item> BAUBLES = registerItem("baubles");
-    public static final RegistryObject<Item> AMULET_VIS = registerItem("amulet_vis");
-    public static final RegistryObject<Item> CHARM_VERDANT = registerItem("charm_verdant");
-    public static final RegistryObject<Item> CHARM_VOIDSEER = registerItem("charm_voidseer");
-    public static final RegistryObject<Item> BAND_CURIOSITY = registerItem("band_curiosity");
-    public static final RegistryObject<Item> RING_CLOUD = registerItem("ring_cloud");
-    public static final RegistryObject<Item> CHARM_UNDYING = registerItem("charm_undying");
+    public static final RegistryObject<Item> AMULET_VIS = RegistryManager.ITEMS.register("amulet_vis", () -> new thaumcraft.common.items.baubles.AmuletVisItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> RING_CURIOSITY = RegistryManager.ITEMS.register("ring_curiosity", () -> new thaumcraft.common.items.baubles.CurioItems.CuriosityRingItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> CHARM_VERDANT = RegistryManager.ITEMS.register("charm_verdant", () -> new thaumcraft.common.items.baubles.CurioItems.VerdantCharmItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> CHARM_VOIDSEER = RegistryManager.ITEMS.register("charm_voidseer", () -> new thaumcraft.common.items.baubles.CurioItems.VoidseerCharmItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> BAND_CURIOSITY = RegistryManager.ITEMS.register("band_curiosity", () -> new thaumcraft.common.items.baubles.CurioItems.CuriosityRingItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> RING_CLOUD = RegistryManager.ITEMS.register("ring_cloud", () -> new thaumcraft.common.items.baubles.CurioItems.CloudRingItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> CHARM_UNDYING = RegistryManager.ITEMS.register("charm_undying", () -> new thaumcraft.common.items.baubles.CurioItems.UndyingCharmItem(new Item.Properties().tab(ItemGroup.TAB_MISC)));
 
     //Misc
     public static final RegistryObject<Item> CREATIVE_PLACER = registerItem("creative_placer");
@@ -149,7 +175,16 @@ public class ModItems {
     //golems
     public static final RegistryObject<Item> GOLEM_BELL = registerItem("golem_bell");
     public static final RegistryObject<Item> GOLEM_PLACER = registerItem("golem_placer");
-    public static final RegistryObject<Item> SEALS = registerItem("seals");
+    public static final RegistryObject<Item> SEAL_PLACER = RegistryManager.ITEMS.register("seal_placer",
+            () -> new thaumcraft.common.golems.seals.ItemSealPlacer(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<Item> SEAL_FETCH = RegistryManager.ITEMS.register("seal_fetch",
+            () -> new thaumcraft.common.golems.seals.ItemSealPlacer(new Item.Properties().tab(ItemGroup.TAB_MISC), "thaumcraft:fetch"));
+    public static final RegistryObject<Item> SEAL_GUARD = RegistryManager.ITEMS.register("seal_guard",
+            () -> new thaumcraft.common.golems.seals.ItemSealPlacer(new Item.Properties().tab(ItemGroup.TAB_MISC), "thaumcraft:guard"));
+    public static final RegistryObject<Item> SEAL_HARVEST = RegistryManager.ITEMS.register("seal_harvest",
+            () -> new thaumcraft.common.golems.seals.ItemSealPlacer(new Item.Properties().tab(ItemGroup.TAB_MISC), "thaumcraft:harvest"));
+    public static final RegistryObject<Item> SEAL_EMPTY = RegistryManager.ITEMS.register("seal_empty",
+            () -> new thaumcraft.common.golems.seals.ItemSealPlacer(new Item.Properties().tab(ItemGroup.TAB_MISC), "thaumcraft:empty"));
 
     // Testing: Fire Bat spawn egg
     public static final RegistryObject<Item> FIRE_BAT_SPAWN_EGG = RegistryManager.ITEMS.register("fire_bat_spawn_egg",

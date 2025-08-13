@@ -1,15 +1,37 @@
 package thaumcraft.common.blocks.world;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import thaumcraft.common.capabilities.EssentiaTransportCapability;
 import thaumcraft.api.aspects.IEssentiaTransport;
+import thaumcraft.common.capabilities.EssentiaTransportCapability;
 import thaumcraft.common.registers.ModBlockEntities;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EssentiaValveBlockEntity extends TileEntity {
     private boolean open = true;
+    private final EssentiaTransportCapability.BasicEssentiaTransport tank = new EssentiaTransportCapability.BasicEssentiaTransport(8, 0);
+    private final LazyOptional<IEssentiaTransport> cap = LazyOptional.of(() -> tank);
 
     public EssentiaValveBlockEntity() { super(ModBlockEntities.ESSENTIA_VALVE.get()); }
+
+    public void setOpen(boolean open) { this.open = open; setChanged(); }
+    public boolean isOpen() { return open; }
+
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable net.minecraft.util.Direction side) {
+        if (capability == EssentiaTransportCapability.ESSENTIA_TRANSPORT) {
+            if (open) return cap.cast();
+            return LazyOptional.empty();
+        }
+        return super.getCapability(capability, side);
+    }
+
+    @Override
+    public void setRemoved() { super.setRemoved(); cap.invalidate(); }
 
     @Override
     public net.minecraft.nbt.CompoundNBT getUpdateTag() {
@@ -19,8 +41,8 @@ public class EssentiaValveBlockEntity extends TileEntity {
     }
 
     @Override
-    public void handleUpdateTag(net.minecraft.nbt.CompoundNBT tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(net.minecraft.block.BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+        super.handleUpdateTag(state, tag);
         if (tag.contains("open")) this.open = tag.getBoolean("open");
     }
 }

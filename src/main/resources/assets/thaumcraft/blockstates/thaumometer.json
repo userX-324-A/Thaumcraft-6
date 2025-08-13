@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "model": "thaumcraft:scanner.obj", 
-        "textures": {"#body": "thaumcraft:items/scanner","#pane": "thaumcraft:items/scanscreen"},
+        "textures": {"#body": "thaumcraft:item/scanner","#pane": "thaumcraft:item/scanscreen"},
         "custom": { "flip-v": true }
      },
     "variants": {
@@ -22,3 +22,4 @@
         }]
     }
 }
+

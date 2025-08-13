@@ -4,7 +4,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.network.NetworkEvent;
-import thaumcraft.api.casters.ICaster;
+import thaumcraft.Thaumcraft;
 
 import java.util.function.Supplier;
 
@@ -36,11 +36,13 @@ public class RequestFocusChangeMessage {
             ItemStack main = sender.getMainHandItem();
             ItemStack off = sender.getOffhandItem();
             boolean applied = false;
-            if (!main.isEmpty() && main.getItem() instanceof ICaster) {
+            if (!main.isEmpty() && main.getItem().getRegistryName() != null
+                    && Thaumcraft.MODID.equals(main.getItem().getRegistryName().getNamespace())) {
                 main.getOrCreateTag().putString("tc_focus", msg.focus);
                 applied = true;
             }
-            if (!applied && !off.isEmpty() && off.getItem() instanceof ICaster) {
+            if (!applied && !off.isEmpty() && off.getItem().getRegistryName() != null
+                    && Thaumcraft.MODID.equals(off.getItem().getRegistryName().getNamespace())) {
                 off.getOrCreateTag().putString("tc_focus", msg.focus);
             }
         });

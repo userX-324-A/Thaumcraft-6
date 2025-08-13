@@ -1,8 +1,8 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.item.Items;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
@@ -21,12 +21,12 @@ public class CardSculpting extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.sculpting.name").getFormattedText();
+        return new TranslationTextComponent("card.sculpting.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.sculpting.text").getFormattedText();
+        return new TranslationTextComponent("card.sculpting.text").getString();
     }
     
     @Override
@@ -40,7 +40,7 @@ public class CardSculpting extends TheorycraftCard
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         data.addTotal(getResearchCategory(), 20);
         ++data.bonusDraws;
         return true;

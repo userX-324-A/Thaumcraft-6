@@ -4,11 +4,12 @@
     "variants": {
         "normal": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/thaumonomicon" }
+            "textures": { "layer0": "thaumcraft:item/thaumonomicon" }
         },
         "cheat": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/thaumonomicon_cheat" }
+            "textures": { "layer0": "thaumcraft:item/thaumonomicon_cheat" }
         }
     }
 }
+

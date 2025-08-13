@@ -19,10 +19,7 @@ public class StabilizerBlock extends Block implements IInfusionStabiliserExt {
         return 0.25f;
     }
 
-    @Override
-    public int getLightValue(BlockState state) {
-        return 4;
-    }
+    // Light is defined via block properties in 1.16 registration; no override needed here.
 }
 
 

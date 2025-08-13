@@ -20,6 +20,7 @@ public class SealEntity implements ISealEntity {
     private boolean locked;
     private boolean redstone;
     private String owner;
+    private java.util.UUID ownerUuid;
     private BlockPos area;
 
     public SealEntity() {
@@ -85,10 +86,17 @@ public class SealEntity implements ISealEntity {
     public void setColor(byte color) { this.color = color; }
 
     @Override
-    public String getOwner() { return owner; }
+    public String getOwner() { return ownerUuid != null ? ownerUuid.toString() : owner; }
 
     @Override
-    public void setOwner(String owner) { this.owner = owner; }
+    public void setOwner(String owner) {
+        this.owner = owner == null ? "" : owner;
+        try { this.ownerUuid = java.util.UUID.fromString(this.owner); } catch (Exception ignored) { this.ownerUuid = null; }
+    }
+    public void setOwner(java.util.UUID owner) {
+        this.ownerUuid = owner;
+        this.owner = owner == null ? "" : owner.toString();
+    }
 
     @Override
     public boolean isLocked() { return locked; }
@@ -102,6 +110,8 @@ public class SealEntity implements ISealEntity {
     @Override
     public void setRedstoneSensitive(boolean redstone) { this.redstone = redstone; }
 
+    // No extra accessors beyond interface (keeps API clean)
+
     @Override
     public void readNBT(CompoundNBT nbt) {
         BlockPos p = BlockPos.of(nbt.getLong("pos"));
@@ -111,7 +121,11 @@ public class SealEntity implements ISealEntity {
         setColor(nbt.getByte("color"));
         setLocked(nbt.getBoolean("locked"));
         setRedstoneSensitive(nbt.getBoolean("redstone"));
-        setOwner(nbt.getString("owner"));
+        if (nbt.hasUUID("owner_uuid")) {
+            setOwner(nbt.getUUID("owner_uuid"));
+        } else {
+            setOwner(nbt.getString("owner"));
+        }
         if (seal != null) {
             seal.readCustomNBT(nbt);
             if (seal instanceof ISealConfigArea) {
@@ -137,7 +151,8 @@ public class SealEntity implements ISealEntity {
         nbt.putByte("color", getColor());
         nbt.putBoolean("locked", isLocked());
         nbt.putBoolean("redstone", isRedstoneSensitive());
-        nbt.putString("owner", getOwner());
+        if (ownerUuid != null) nbt.putUUID("owner_uuid", ownerUuid);
+        nbt.putString("owner", owner == null ? "" : owner);
         if (seal != null) {
             seal.writeCustomNBT(nbt);
             if (seal instanceof ISealConfigArea) {
@@ -165,6 +180,9 @@ public class SealEntity implements ISealEntity {
                 redstone,
                 owner
         );
+        if (seal instanceof ISealConfigArea && area != null) {
+            msg.setAreaLong(area.asLong());
+        }
         NetworkHandler.sendToAllAround(msg, (net.minecraft.world.server.ServerWorld) world, sealPos.pos, 64);
     }
 

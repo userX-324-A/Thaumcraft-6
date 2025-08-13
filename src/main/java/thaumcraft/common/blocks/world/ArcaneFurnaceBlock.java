@@ -6,11 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
 import javax.annotation.Nullable;
 
-public class ArcaneFurnaceBlock extends Block implements IForgeBlock {
+public class ArcaneFurnaceBlock extends Block {
     public ArcaneFurnaceBlock(Properties properties) {
         super(properties);
     }
@@ -25,11 +24,11 @@ public class ArcaneFurnaceBlock extends Block implements IForgeBlock {
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState state) { return true; }
+    public boolean hasAnalogOutputSignal(BlockState state) { return true; }
 
     @Override
-    public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
-        TileEntity te = world.getTileEntity(pos);
+    public int getAnalogOutputSignal(BlockState state, World world, BlockPos pos) {
+        TileEntity te = world.getBlockEntity(pos);
         if (te instanceof ArcaneFurnaceBlockEntity) {
             ArcaneFurnaceBlockEntity af = (ArcaneFurnaceBlockEntity) te;
             int progress = af.getCookTime();

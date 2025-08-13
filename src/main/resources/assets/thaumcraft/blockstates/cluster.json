@@ -4,35 +4,36 @@
     "variants": {
         "cinnabar": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_cinnabar" }
+            "textures": { "layer0": "thaumcraft:item/cluster_cinnabar" }
         },
         "copper": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_copper" }
+            "textures": { "layer0": "thaumcraft:item/cluster_copper" }
         },
         "gold": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_gold" }
+            "textures": { "layer0": "thaumcraft:item/cluster_gold" }
         },
         "iron": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_iron" }
+            "textures": { "layer0": "thaumcraft:item/cluster_iron" }
         },
         "lead": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_lead" }
+            "textures": { "layer0": "thaumcraft:item/cluster_lead" }
         },
         "silver": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_silver" }
+            "textures": { "layer0": "thaumcraft:item/cluster_silver" }
         },
         "tin": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_tin" }
+            "textures": { "layer0": "thaumcraft:item/cluster_tin" }
         },
         "quartz": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/cluster_quartz" }
+            "textures": { "layer0": "thaumcraft:item/cluster_quartz" }
         }
     }
 }
+

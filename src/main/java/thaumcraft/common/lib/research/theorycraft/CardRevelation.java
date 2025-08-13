@@ -1,7 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.research.ResearchCategories;
@@ -11,6 +11,8 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
 public class CardRevelation extends TheorycraftCard
 {
+    @Override
+    public boolean initialize(PlayerEntity player, ResearchTableData data) { return true; }
     @Override
     public int getInspirationCost() {
         return 1;
@@ -23,22 +25,21 @@ public class CardRevelation extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.revelation.name").getFormattedText();
+        return new TranslationTextComponent("card.revelation.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.revelation.text").getFormattedText();
+        return new TranslationTextComponent("card.revelation.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         String[] s = ResearchCategories.researchCategories.keySet().toArray(new String[0]);
-        data.addTotal(s[player.getRNG().nextInt(s.length)], MathHelper.getInt(player.getRNG(), 5, 10));
+        data.addTotal(s[player.getRandom().nextInt(s.length)], MathHelper.nextInt(player.getRandom(), 5, 10));
         data.addTotal("ELDRITCH", 30);
         ThaumcraftApi.internalMethods.addWarpToPlayer(player, 5, IPlayerWarp.EnumWarpType.TEMPORARY);
         ThaumcraftApi.internalMethods.addWarpToPlayer(player, 1, IPlayerWarp.EnumWarpType.NORMAL);
-        ++data.penaltyStart;
         return true;
     }
 }

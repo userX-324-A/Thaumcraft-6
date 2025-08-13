@@ -7,13 +7,9 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 public class AidBasicAlchemy implements ITheorycraftAid
 {
     @Override
-    public Object getAidObject() {
-        return BlocksTC.crucible;
-    }
+    public Object getAidObject() { return null; }
     
     @Override
-    public Class<TheorycraftCard>[] getCards() {
-        return new Class[] { CardConcentrate.class, CardReactions.class, CardSynthesis.class };
-    }
+    public Class<TheorycraftCard>[] getCards() { return new Class[] { CardConcentrate.class, CardReactions.class, CardSynthesis.class }; }
 }
 

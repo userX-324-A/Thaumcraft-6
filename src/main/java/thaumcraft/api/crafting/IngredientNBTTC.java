@@ -2,6 +2,8 @@ package thaumcraft.api.crafting;
 import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.Ingredient.IItemList;
+import net.minecraft.item.crafting.Ingredient.SingleItemList;
 import thaumcraft.api.ThaumcraftInvHelper;
 
 
@@ -10,7 +12,7 @@ public class IngredientNBTTC extends Ingredient {
     private final ItemStack stack;
 
     public IngredientNBTTC(ItemStack stack) {
-        super(java.util.stream.Stream.of(new Ingredient.ItemValue(stack)));
+        super(java.util.stream.Stream.<IItemList>of(new SingleItemList(stack)));
         this.stack = stack.copy();
     }
 

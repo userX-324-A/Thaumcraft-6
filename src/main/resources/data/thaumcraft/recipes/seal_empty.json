@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "thaumcraft:seal_placer" }
+  ],
+  "result": { "item": "thaumcraft:seal_empty", "count": 1 }
+}
+
+

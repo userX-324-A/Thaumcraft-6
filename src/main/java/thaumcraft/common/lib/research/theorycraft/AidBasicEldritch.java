@@ -7,9 +7,7 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 public class AidBasicEldritch implements ITheorycraftAid
 {
     @Override
-    public Object getAidObject() {
-        return BlocksTC.eldritch;
-    }
+    public Object getAidObject() { return null; }
     
     @Override
     public Class<TheorycraftCard>[] getCards() {

@@ -6,10 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlock;
 import javax.annotation.Nullable;
 
-public class HungryChestBlock extends Block implements IForgeBlock {
+public class HungryChestBlock extends Block {
     public HungryChestBlock(Properties properties) { super(properties); }
 
     @Override
@@ -22,14 +21,14 @@ public class HungryChestBlock extends Block implements IForgeBlock {
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity te = world.getTileEntity(pos);
+            TileEntity te = world.getBlockEntity(pos);
             if (te instanceof HungryChestBlockEntity) {
                 ((HungryChestBlockEntity) te).dropAllContents();
             }
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 }
 

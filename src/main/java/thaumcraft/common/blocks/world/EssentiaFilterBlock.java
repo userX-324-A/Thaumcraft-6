@@ -11,11 +11,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
 import javax.annotation.Nullable;
 
-public class EssentiaFilterBlock extends Block implements IForgeBlock {
+public class EssentiaFilterBlock extends Block {
     public EssentiaFilterBlock(Properties properties) { super(properties); }
 
     @Override
@@ -28,18 +27,18 @@ public class EssentiaFilterBlock extends Block implements IForgeBlock {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote) return ActionResultType.SUCCESS;
-        TileEntity be = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (world.isClientSide) return ActionResultType.SUCCESS;
+        TileEntity be = world.getBlockEntity(pos);
         if (be instanceof EssentiaFilterBlockEntity) {
-            ItemStack held = player.getHeldItem(hand);
+            ItemStack held = player.getItemInHand(hand);
             thaumcraft.api.aspects.Aspect chosen = null;
             if (!held.isEmpty() && held.getItem() instanceof thaumcraft.api.aspects.IEssentiaContainerItem) {
                 thaumcraft.api.aspects.AspectList list = ((thaumcraft.api.aspects.IEssentiaContainerItem) held.getItem()).getAspects(held);
                 if (list != null && list.size() > 0) chosen = list.getAspects()[0];
             }
             ((EssentiaFilterBlockEntity) be).setFilter(chosen);
-            world.notifyBlockUpdate(pos, state, state, 3);
+            world.sendBlockUpdated(pos, state, state, 3);
             return ActionResultType.CONSUME;
         }
         return ActionResultType.PASS;

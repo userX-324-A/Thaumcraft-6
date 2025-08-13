@@ -4,7 +4,7 @@
     {
         "transform": "forge:default-block",
         "model": "leaves",
-        "textures": { "all": "thaumcraft:blocks/leaves_greatwood" }
+        "textures": { "all": "thaumcraft:block/leaves_greatwood" }
     },
     "variants": {        
         "normal": [{}], "inventory": [{}],
@@ -12,3 +12,4 @@
         "decayable": { "true": {}, "false": {} }
     }        
 }
+

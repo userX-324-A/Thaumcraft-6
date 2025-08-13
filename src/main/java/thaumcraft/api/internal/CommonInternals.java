@@ -57,7 +57,7 @@ public class CommonInternals {
 	public static int generateUniqueItemstackIdStripped(ItemStack stack) {
     	ItemStack sc = stack.copy();
     	sc.setCount(1);
-    	sc.setTagCompound(null);
+        sc.setTag(null);
     	String ss = sc.serializeNBT().toString();
     	return ss.hashCode();
     }

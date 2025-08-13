@@ -106,6 +106,9 @@ public class ThaumcraftGolemEntity extends CreatureEntity implements IGolemAPI {
                 }
             });
         }
+
+        // Minimal task consumer goal
+        this.goalSelector.addGoal(3, new thaumcraft.common.entities.golem.goal.GolemConsumeTaskGoal(this));
     }
 
     @Override

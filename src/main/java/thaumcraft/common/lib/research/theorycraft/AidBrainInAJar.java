@@ -7,9 +7,7 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 public class AidBrainInAJar implements ITheorycraftAid
 {
     @Override
-    public Object getAidObject() {
-        return BlocksTC.jarBrain;
-    }
+    public Object getAidObject() { return null; }
     
     @Override
     public Class<TheorycraftCard>[] getCards() {

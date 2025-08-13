@@ -164,6 +164,11 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.ClientSealFilterMessage::decode,
                 thaumcraft.common.network.msg.ClientSealFilterMessage::handle);
 
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientSealPropsMessage.class,
+                thaumcraft.common.network.msg.ClientSealPropsMessage::encode,
+                thaumcraft.common.network.msg.ClientSealPropsMessage::decode,
+                thaumcraft.common.network.msg.ClientSealPropsMessage::handle);
+
         CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.ClientSyncWarpMessage.class,
                 thaumcraft.common.network.msg.ClientSyncWarpMessage::encode,
                 thaumcraft.common.network.msg.ClientSyncWarpMessage::decode,
@@ -175,15 +180,16 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.RequestNoteMessage::decode,
                 thaumcraft.common.network.msg.RequestNoteMessage::handle);
 
-        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestFocusChangeMessage.class,
-                thaumcraft.common.network.msg.RequestFocusChangeMessage::encode,
-                thaumcraft.common.network.msg.RequestFocusChangeMessage::decode,
-                thaumcraft.common.network.msg.RequestFocusChangeMessage::handle);
+        // Deferred until caster system is fully ported
+        // CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestFocusChangeMessage.class,
+        //         thaumcraft.common.network.msg.RequestFocusChangeMessage::encode,
+        //         thaumcraft.common.network.msg.RequestFocusChangeMessage::decode,
+        //         thaumcraft.common.network.msg.RequestFocusChangeMessage::handle);
 
-        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestItemKeyMessage.class,
-                thaumcraft.common.network.msg.RequestItemKeyMessage::encode,
-                thaumcraft.common.network.msg.RequestItemKeyMessage::decode,
-                thaumcraft.common.network.msg.RequestItemKeyMessage::handle);
+        // CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestItemKeyMessage.class,
+        //         thaumcraft.common.network.msg.RequestItemKeyMessage::encode,
+        //         thaumcraft.common.network.msg.RequestItemKeyMessage::decode,
+        //         thaumcraft.common.network.msg.RequestItemKeyMessage::handle);
 
         CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestMiscStringMessage.class,
                 thaumcraft.common.network.msg.RequestMiscStringMessage::encode,
@@ -221,6 +227,19 @@ public final class NetworkHandler {
                 thaumcraft.common.network.msg.RequestFocusNodesMessage::encode,
                 thaumcraft.common.network.msg.RequestFocusNodesMessage::decode,
                 thaumcraft.common.network.msg.RequestFocusNodesMessage::handle);
+
+        // Serverbound seal edits
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestSealPropsChangeMessage.class,
+                thaumcraft.common.network.msg.RequestSealPropsChangeMessage::encode,
+                thaumcraft.common.network.msg.RequestSealPropsChangeMessage::decode,
+                thaumcraft.common.network.msg.RequestSealPropsChangeMessage::handle);
+
+        CHANNEL.registerMessage(id(), thaumcraft.common.network.msg.RequestSealFilterChangeMessage.class,
+                thaumcraft.common.network.msg.RequestSealFilterChangeMessage::encode,
+                thaumcraft.common.network.msg.RequestSealFilterChangeMessage::decode,
+                thaumcraft.common.network.msg.RequestSealFilterChangeMessage::handle);
+
+        // Future: If we add a dedicated ClientSealTogglesMessage, register it above with other clientbound messages.
     }
 
     private static int id() { return nextId++; }

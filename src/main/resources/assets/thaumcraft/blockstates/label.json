@@ -6,16 +6,17 @@
             "model": "forge:item-layer",
             "transform": "forge:default-item",
             "textures": {
-                "layer0": "thaumcraft:items/label"
+                "layer0": "thaumcraft:item/label"
             }
         },
         "filled": {
             "model": "forge:item-layer",
             "transform": "forge:default-item",
             "textures": {
-                "layer0": "thaumcraft:items/label",
-                "layer1": "thaumcraft:items/label_overlay"
+                "layer0": "thaumcraft:item/label",
+                "layer1": "thaumcraft:item/label_overlay"
             }
         }
     }
 }
+

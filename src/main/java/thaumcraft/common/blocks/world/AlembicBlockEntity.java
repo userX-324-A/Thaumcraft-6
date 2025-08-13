@@ -27,8 +27,8 @@ public class AlembicBlockEntity extends TileEntity {
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         essentia.invalidate();
     }
 }

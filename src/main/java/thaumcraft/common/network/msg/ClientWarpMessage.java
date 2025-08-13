@@ -64,12 +64,7 @@ public class ClientWarpMessage {
 
             if (text != null) {
                 // show as status message (action bar) like 1.12 sendStatusMessage(..., true)
-                try {
-                    mc.player.displayClientMessage(text, true);
-                } catch (Throwable t) {
-                    // Fallback for older naming in some mappings
-                    mc.player.sendStatusMessage(text, true);
-                }
+                mc.player.displayClientMessage(text, true);
             }
         });
         ctx.get().setPacketHandled(true);

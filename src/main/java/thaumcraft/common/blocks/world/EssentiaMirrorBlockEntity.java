@@ -26,7 +26,7 @@ public class EssentiaMirrorBlockEntity extends TileEntity {
     }
 
     @Override
-    public void remove() { super.remove(); transport.invalidate(); }
+    public void setRemoved() { super.setRemoved(); transport.invalidate(); }
 }
 
 

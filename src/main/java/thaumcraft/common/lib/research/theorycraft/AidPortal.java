@@ -1,8 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import thaumcraft.api.research.theorycraft.ITheorycraftAid;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
-import thaumcraft.common.entities.monster.cult.EntityCultistPortalLesser;
 
 
 public class AidPortal implements ITheorycraftAid
@@ -33,15 +32,10 @@ public class AidPortal implements ITheorycraftAid
     public static class AidPortalNether extends AidPortal
     {
         public AidPortalNether() {
-            super(Blocks.PORTAL);
+            super(Blocks.NETHER_PORTAL);
         }
     }
     
-    public static class AidPortalCrimson extends AidPortal
-    {
-        public AidPortalCrimson() {
-            super(EntityCultistPortalLesser.class);
-        }
-    }
+    // Crimson portal entity not yet ported; gated out for now.
 }
 

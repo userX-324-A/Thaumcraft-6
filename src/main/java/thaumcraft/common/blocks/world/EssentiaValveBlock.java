@@ -12,15 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
 import javax.annotation.Nullable;
 
-public class EssentiaValveBlock extends Block implements IForgeBlock {
+public class EssentiaValveBlock extends Block {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public EssentiaValveBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(OPEN, Boolean.TRUE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, Boolean.TRUE));
     }
 
     @Override
@@ -33,13 +32,17 @@ public class EssentiaValveBlock extends Block implements IForgeBlock {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) { builder.add(OPEN); }
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) { builder.add(OPEN); }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote) return ActionResultType.SUCCESS;
-        boolean open = state.get(OPEN);
-        world.setBlockState(pos, state.with(OPEN, !open), 3);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (world.isClientSide) return ActionResultType.SUCCESS;
+        boolean open = state.getValue(OPEN);
+        world.setBlock(pos, state.setValue(OPEN, !open), 3);
+        TileEntity be = world.getBlockEntity(pos);
+        if (be instanceof EssentiaValveBlockEntity) {
+            ((EssentiaValveBlockEntity) be).setOpen(!open);
+        }
         return ActionResultType.CONSUME;
     }
 }

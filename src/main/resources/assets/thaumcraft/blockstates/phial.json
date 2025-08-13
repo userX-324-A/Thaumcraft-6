@@ -6,16 +6,17 @@
             "model": "forge:item-layer",
             "transform": "forge:default-item",
             "textures": {
-                "layer0": "thaumcraft:items/phial"
+                "layer0": "thaumcraft:item/phial"
             }
         },
         "filled": {
             "model": "forge:item-layer",
             "transform": "forge:default-item",
             "textures": {
-                "layer0": "thaumcraft:items/phial",
-                "layer1": "thaumcraft:items/phial_overlay"
+                "layer0": "thaumcraft:item/phial",
+                "layer1": "thaumcraft:item/phial_overlay"
             }
         }
     }
 }
+

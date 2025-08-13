@@ -22,8 +22,8 @@ public class RecipeJarLabel extends SpecialRecipe {
         boolean hasLabel = false;
         boolean hasPhial = false;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ItemsTC.label) {
                     hasLabel = true;
@@ -39,12 +39,12 @@ public class RecipeJarLabel extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack label = ItemStack.EMPTY;
         ItemStack phial = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ItemsTC.label) {
                     label = stack;
@@ -59,19 +59,19 @@ public class RecipeJarLabel extends SpecialRecipe {
         }
 
         AspectList aspects = ((IEssentiaContainerItem) phial.getItem()).getAspects(phial);
-        if (aspects == null || aspects.isEmpty()) {
+        if (aspects == null || aspects.size() == 0) {
             return ItemStack.EMPTY;
         }
 
         Aspect aspect = aspects.getAspects()[0];
-        ItemStack result = new ItemStack(ItemsTC.label, 1, 1);
+        ItemStack result = new ItemStack(ItemsTC.label, 1);
         ((IEssentiaContainerItem) result.getItem()).setAspects(result, new AspectList().add(aspect, 1));
 
         return result;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

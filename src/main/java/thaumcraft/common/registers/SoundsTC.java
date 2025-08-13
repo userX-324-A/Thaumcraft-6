@@ -29,6 +29,10 @@ public final class SoundsTC {
             () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "crabdeath")));
     public static final RegistryObject<SoundEvent> CRAB_CLAW = RegistryManager.SOUNDS.register("crabclaw",
             () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "crabclaw")));
+
+    // Causality collapser activation (customizable)
+    public static final RegistryObject<SoundEvent> CAUSALITY_COLLAPSE = RegistryManager.SOUNDS.register("causality_collapse",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "causality_collapse")));
 }
 
 

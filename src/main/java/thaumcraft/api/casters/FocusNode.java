@@ -58,19 +58,24 @@ public abstract class FocusNode implements IFocusElement {
 		return pack;
 	}
 	
-	public FocusPackage getRemainingPackage() {
-		FocusPackage p = getPackage();
-		List<IFocusElement> l = p.nodes.subList(p.index+1, p.nodes.size());
-		List<IFocusElement> l2 = Collections.synchronizedList(new ArrayList<>());	
-		for (IFocusElement fe:l) l2.add(fe);
-		FocusPackage p2 = new FocusPackage();
-		p2.setUniqueID(p.getUniqueID());
-		p2.world = p.world;
-		p2.multiplyPower(p.getPower());
-		p2.nodes = l2;
-		p2.setCasterUUID(p.getCasterUUID());		
-		return l2.isEmpty() ? null : p2;
-	}
+    public FocusPackage getRemainingPackage() {
+        FocusPackage p = getPackage();
+        if (p == null) return null;
+        List<IFocusElement> nodes = p.getNodes();
+        int start = p.getNodeIndex() + 1;
+        if (start < 0 || start >= nodes.size()) return null;
+        List<IFocusElement> l = nodes.subList(start, nodes.size());
+        List<IFocusElement> l2 = Collections.synchronizedList(new ArrayList<>());
+        for (IFocusElement fe : l) l2.add(fe);
+        FocusPackage p2 = new FocusPackage();
+        p2.setUniqueID(p.getUniqueID());
+        p2.multiplyPower(p.getPower());
+        for (IFocusElement fe : l2) {
+            p2.getNodes().add(fe);
+        }
+        p2.setCasterUUID(p.getCasterUUID());
+        return l2.isEmpty() ? null : p2;
+    }
 	
 	private FocusNode parent;
 	
@@ -99,9 +104,9 @@ public abstract class FocusNode implements IFocusElement {
 	public void initialize() {
 		NodeSetting[] set = createSettings();
 		if (set!=null) {
-			for (NodeSetting setting : set) {
-				settings.put(setting.key, setting);
-			}
+            for (NodeSetting setting : set) {
+                settings.put(setting.getKey(), setting);
+            }
 		}
 	}
 

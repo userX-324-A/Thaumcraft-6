@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            { "function": "minecraft:copy_name", "source": "block_entity" },
+            { "function": "minecraft:copy_nbt", "source": "block_entity", "ops": [
+              { "source": "HasBrace", "target": "BlockStateTag.braced", "op": "replace" },
+              { "source": "Aspect", "target": "Aspect", "op": "replace" },
+              { "source": "Amount", "target": "Amount", "op": "replace" }
+            ] }
+          ],
+          "name": "thaumcraft:essentia_jar_void"
+        }
+      ]
+    }
+  ]
+}
+
+

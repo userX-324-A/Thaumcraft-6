@@ -4,19 +4,20 @@
     "variants": {
         "brass": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/plate_brass" }
+            "textures": { "layer0": "thaumcraft:item/plate_brass" }
         },
         "thaumium": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/plate_thaumium" }
+            "textures": { "layer0": "thaumcraft:item/plate_thaumium" }
         },
         "void": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/plate_void" }
+            "textures": { "layer0": "thaumcraft:item/plate_void" }
         },
         "iron": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/plate_iron" }
+            "textures": { "layer0": "thaumcraft:item/plate_iron" }
         }
     }
 }
+

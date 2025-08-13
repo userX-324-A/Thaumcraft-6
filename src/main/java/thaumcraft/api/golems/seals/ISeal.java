@@ -48,14 +48,14 @@ public interface ISeal {
 
 	public void onRemoval(World world, BlockPos pos, Direction side);	
 	
-	public Object returnContainer(World world, PlayerEntity player, BlockPos pos, Direction side, ISealEntity seal);
+    public Object returnContainer(World world, PlayerEntity player, BlockPos pos, Direction side, ISealEntity seal);
 	
 	@OnlyIn(Dist.CLIENT)
-	public Object returnGui(World world, PlayerEntity player, BlockPos pos, Direction side, ISealEntity seal);
+    public Object returnGui(World world, PlayerEntity player, BlockPos pos, Direction side, ISealEntity seal);
 	
-	public EnumGolemTrait[] getRequiredTags();
+    public EnumGolemTrait[] getRequiredTags();
 	
-	public EnumGolemTrait[] getForbiddenTags();
+    public EnumGolemTrait[] getForbiddenTags();
 	
 }
 

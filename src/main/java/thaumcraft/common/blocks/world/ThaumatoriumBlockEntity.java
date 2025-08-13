@@ -28,6 +28,9 @@ public class ThaumatoriumBlockEntity extends TileEntity implements ITickableTile
         super(ModBlockEntities.THAUMATORIUM.get());
     }
 
+    // Expose an internal method the top shim can call to access essentia
+    LazyOptional<IEssentiaTransport> getEssentiaInternal() { return essentia; }
+
     @Override
     public void tick() {
         if (level == null || level.isClientSide) return;

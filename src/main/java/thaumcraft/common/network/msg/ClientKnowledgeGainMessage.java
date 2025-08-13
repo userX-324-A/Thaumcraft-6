@@ -28,7 +28,7 @@ public class ClientKnowledgeGainMessage {
         buf.writeByte(msg.typeOrdinal);
         buf.writeBoolean(msg.categoryKey != null && !msg.categoryKey.isEmpty());
         if (msg.categoryKey != null && !msg.categoryKey.isEmpty()) {
-            buf.writeString(msg.categoryKey);
+            buf.writeUtf(msg.categoryKey);
         }
     }
 
@@ -36,7 +36,7 @@ public class ClientKnowledgeGainMessage {
         ClientKnowledgeGainMessage msg = new ClientKnowledgeGainMessage();
         msg.typeOrdinal = buf.readByte();
         boolean hasCat = buf.readBoolean();
-        msg.categoryKey = hasCat ? buf.readString(64) : "";
+        msg.categoryKey = hasCat ? buf.readUtf(64) : "";
         return msg;
     }
 

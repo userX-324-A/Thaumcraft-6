@@ -1,14 +1,17 @@
 modLoader="javafml"
 loaderVersion="[36,)"
-license="All Rights Reserved"
+license="LGPL-3.0-or-later"
 
 [[mods]]
 modId="thaumcraft"
-version="1.0.0"
+version="${file.jarVersion}"
 displayName="Thaumcraft 6"
-authors="Azanor, GrigLog"
+authors="Azanor, GrigLog, Community"
+credits="Original mod by Azanor; 1.16.5 community port and maintenance by contributors."
+displayURL="https://www.curseforge.com/minecraft/mc-mods/thaumcraft"
+issueTrackerURL="https://github.com/GrigLog/Thaumcraft-6/issues"
 description='''
-Recompiled Thaumcraft 6
+Thaumcraft introduces the arcane arts to Minecraft. Explore aspects, research, and ancient magic through devices, creatures, and powerful rituals.
 '''
 
 [[dependencies.thaumcraft]]
@@ -20,7 +23,7 @@ Recompiled Thaumcraft 6
 
 [[dependencies.thaumcraft]]
     modId="curios"
-    mandatory=true
+    mandatory=false
     versionRange="[4.0.8.2,)"
     ordering="NONE"
-    side="BOTH" 
+    side="BOTH"

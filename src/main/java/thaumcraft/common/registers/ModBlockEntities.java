@@ -3,7 +3,6 @@ package thaumcraft.common.registers;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import thaumcraft.common.blocks.world.*;
-import thaumcraft.common.registers.ModBlocks;
 import thaumcraft.common.tiles.crafting.CrucibleBlockEntity;
 
 public class ModBlockEntities {
@@ -16,7 +15,7 @@ public class ModBlockEntities {
 
     public static final RegistryObject<TileEntityType<TubeBlockEntity>> TUBE = RegistryManager.BLOCK_ENTITIES.register(
             "tube",
-            () -> TileEntityType.Builder.of(TubeBlockEntity::new, ModBlocks.TUBE.get()).build(null)
+            () -> TileEntityType.Builder.of(TubeBlockEntity::new, ModBlocks.TUBE.get(), ModBlocks.ESSENTIA_TUBE.get()).build(null)
     );
 
     public static final RegistryObject<TileEntityType<PedestalBlockEntity>> PEDESTAL = RegistryManager.BLOCK_ENTITIES.register(
@@ -101,7 +100,7 @@ public class ModBlockEntities {
 
     public static final RegistryObject<TileEntityType<ThaumatoriumBlockEntity>> THAUMATORIUM = RegistryManager.BLOCK_ENTITIES.register(
             "thaumatorium",
-            () -> TileEntityType.Builder.of(ThaumatoriumBlockEntity::new, ModBlocks.THAUMATORIUM.get()).build(null)
+            () -> TileEntityType.Builder.of(ThaumatoriumBlockEntity::new, ModBlocks.THAUMATORIUM.get(), ModBlocks.THAUMATORIUM_TOP.get()).build(null)
     );
 
     public static final RegistryObject<TileEntityType<AlembicBlockEntity>> ALEMBIC = RegistryManager.BLOCK_ENTITIES.register(
@@ -127,6 +126,37 @@ public class ModBlockEntities {
     public static final RegistryObject<TileEntityType<LevitatorBlockEntity>> LEVITATOR = RegistryManager.BLOCK_ENTITIES.register(
             "levitator",
             () -> TileEntityType.Builder.of(LevitatorBlockEntity::new, ModBlocks.LEVITATOR.get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<EssentiaCentrifugeBlockEntity>> ESSENTIA_CENTRIFUGE_BE = RegistryManager.BLOCK_ENTITIES.register(
+            "essentia_centrifuge",
+            () -> TileEntityType.Builder.of(EssentiaCentrifugeBlockEntity::new, ModBlocks.ESSENTIA_CENTRIFUGE.get()).build(null)
+    );
+
+    // Missing registrations required by current block/entities
+    public static final RegistryObject<TileEntityType<ArcaneBoreBlockEntity>> ARCANE_BORE = RegistryManager.BLOCK_ENTITIES.register(
+            "arcane_bore",
+            () -> TileEntityType.Builder.of(ArcaneBoreBlockEntity::new, ModBlocks.ARCANE_BORE.get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<BrainInAJarBlockEntity>> BRAIN_IN_A_JAR = RegistryManager.BLOCK_ENTITIES.register(
+            "brain_in_a_jar",
+            () -> TileEntityType.Builder.of(BrainInAJarBlockEntity::new, ModBlocks.BRAIN_IN_A_JAR.get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<EssentiaJarBrainBlockEntity>> ESSENTIA_JAR_BRAIN = RegistryManager.BLOCK_ENTITIES.register(
+            "essentia_jar_brain",
+            () -> TileEntityType.Builder.of(EssentiaJarBrainBlockEntity::new, ModBlocks.ESSENTIA_JAR_BRAIN.get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<EssentiaJarVoidBlockEntity>> ESSENTIA_JAR_VOID = RegistryManager.BLOCK_ENTITIES.register(
+            "essentia_jar_void",
+            () -> TileEntityType.Builder.of(EssentiaJarVoidBlockEntity::new, ModBlocks.ESSENTIA_JAR_VOID.get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<PavingStoneBarrierBlockEntity>> PAVING_STONE_BARRIER = RegistryManager.BLOCK_ENTITIES.register(
+            "paving_stone_barrier",
+            () -> TileEntityType.Builder.of(PavingStoneBarrierBlockEntity::new, ModBlocks.PAVING_STONE_BARRIER.get()).build(null)
     );
 }
 

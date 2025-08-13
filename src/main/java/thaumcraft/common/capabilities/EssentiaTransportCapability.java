@@ -94,7 +94,7 @@ public class EssentiaTransportCapability {
         public int getEssentiaAmount(Direction face) { return storedAmount; }
 
         @Override
-        public int getMinimumSuction() { return 0; }
+        public int getMinimumSuction() { return 32; }
 
         @Override
         public int getSuction() { return suction; }

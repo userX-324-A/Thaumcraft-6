@@ -15,7 +15,7 @@ public class ClientSealMessage {
     private Direction face;
     private String type;
     private long area;
-    private boolean[] props;
+    private boolean[] props; // optional per-seal toggles
     private boolean blacklist;
     private byte filtersize;
     private NonNullList<ItemStack> filter;
@@ -58,9 +58,7 @@ public class ClientSealMessage {
             }
         }
         if (m.area != 0L) buf.writeLong(m.area);
-        if (m.props != null) {
-            for (boolean b : m.props) buf.writeBoolean(b);
-        }
+        if (m.props != null) for (boolean b : m.props) buf.writeBoolean(b);
     }
 
     public static ClientSealMessage decode(PacketBuffer buf) {
@@ -83,13 +81,33 @@ public class ClientSealMessage {
                 m.filterStackSize.set(a, (int) buf.readShort());
             }
         }
-        // area/props optional; will require seal system port to fully reconstruct
+        // Optional trailing fields. We can't know count of props; infer from remaining bytes.
+        if (buf.readableBytes() >= Long.BYTES) m.area = buf.readLong();
+        int remaining = buf.readableBytes();
+        if (remaining > 0) {
+            // Interpret remaining bytes as booleans; cap at reasonable length
+            int max = Math.min(remaining, 16);
+            m.props = new boolean[max];
+            for (int i = 0; i < max; i++) m.props[i] = buf.readBoolean();
+            // Drop any trailing bytes to avoid decode desync
+            while (buf.readableBytes() > 0) buf.readBoolean();
+        }
         return m;
     }
 
     public static void handle(ClientSealMessage msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            // TODO: integrate with golem seal client state when ported
+            if ("REMOVE".equals(msg.type)) {
+                thaumcraft.client.golems.ClientSealCache.remove(msg.pos, msg.face);
+            } else {
+                // Populate client cache for rendering/GUI. Partial fields supported.
+                Long areaOpt = msg.area == 0L ? null : msg.area;
+                thaumcraft.client.golems.ClientSealCache.upsert(
+                        msg.pos, msg.face, msg.type, msg.priority, msg.color, msg.locked, msg.redstone, msg.owner, areaOpt);
+                if (msg.props != null) {
+                    thaumcraft.client.golems.ClientSealCache.putToggles(msg.pos, msg.face, msg.props);
+                }
+            }
         });
         ctx.get().setPacketHandled(true);
     }
@@ -102,6 +120,11 @@ public class ClientSealMessage {
     public boolean isLocked() { return locked; }
     public boolean isRedstone() { return redstone; }
     public String getOwner() { return owner; }
+
+    public ClientSealMessage setAreaLong(long area) {
+        this.area = area;
+        return this;
+    }
 }
 
 

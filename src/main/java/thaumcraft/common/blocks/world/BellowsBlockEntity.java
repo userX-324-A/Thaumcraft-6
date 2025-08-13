@@ -15,9 +15,9 @@ public class BellowsBlockEntity extends TileEntity implements ITickableTileEntit
 
     @Override
     public void tick() {
-        if (world == null || !world.isRemote) return;
+        if (this.level == null || !this.level.isClientSide) return;
         if (firstRun) {
-            inflation = 0.35f + world.rand.nextFloat() * 0.55f;
+            inflation = 0.35f + this.level.random.nextFloat() * 0.55f;
             firstRun = false;
         }
         if (!direction && inflation > 0.35f) {

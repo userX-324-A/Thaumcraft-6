@@ -48,7 +48,6 @@ public class ClientSyncKnowledgeMessage {
                         if (knowledge.hasResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP)) {
                             ResearchEntry ri = ResearchCategories.getResearch(key);
                             if (ri != null) {
-                                // TODO: Integrate a 1.16 toast or lightweight HUD notification
                                 thaumcraft.client.hud.HudHooks.queueResearchToast(ri);
                             }
                             knowledge.clearResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP);

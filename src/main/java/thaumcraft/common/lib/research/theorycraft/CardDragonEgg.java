@@ -1,7 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
@@ -21,20 +21,25 @@ public class CardDragonEgg extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.dragonegg.name").getFormattedText();
+        return new TranslationTextComponent("card.dragonegg.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.dragonegg.text").getFormattedText();
+        return new TranslationTextComponent("card.dragonegg.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public String getResearchCategory() {
+        return "BASICS";
+    }
+    
+    @Override
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         String[] s = ResearchCategories.researchCategories.keySet().toArray(new String[0]);
         for (int a = 0; a < 10; ++a) {
-            String cat = s[player.getRNG().nextInt(s.length)];
-            data.addTotal(cat, MathHelper.getInt(player.getRNG(), 2, 5));
+            String cat = s[player.getRandom().nextInt(s.length)];
+            data.addTotal(cat, MathHelper.nextInt(player.getRandom(), 2, 5));
         }
         return true;
     }

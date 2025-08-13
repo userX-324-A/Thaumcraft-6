@@ -6,8 +6,9 @@
             "model": "forge:item-layer",
             "transform": "forge:default-item",
             "textures": {
-                "layer0": "thaumcraft:items/crystal_essence"
+                "layer0": "thaumcraft:item/crystal_essence"
             }
         }
     }
 }
+

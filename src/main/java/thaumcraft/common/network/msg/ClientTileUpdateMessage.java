@@ -25,13 +25,13 @@ public class ClientTileUpdateMessage {
 
     public static void encode(ClientTileUpdateMessage msg, PacketBuffer buf) {
         buf.writeBlockPos(msg.blockPos);
-        buf.writeCompoundTag(msg.updateTag);
+        buf.writeNbt(msg.updateTag);
     }
 
     public static ClientTileUpdateMessage decode(PacketBuffer buf) {
         ClientTileUpdateMessage msg = new ClientTileUpdateMessage();
         msg.blockPos = buf.readBlockPos();
-        msg.updateTag = buf.readCompoundTag();
+        msg.updateTag = buf.readNbt();
         if (msg.updateTag == null) msg.updateTag = new CompoundNBT();
         return msg;
     }
@@ -42,7 +42,7 @@ public class ClientTileUpdateMessage {
             if (mc.level == null) return;
             TileEntity te = mc.level.getBlockEntity(msg.blockPos);
             if (te != null) {
-                te.handleUpdateTag(msg.updateTag);
+                te.handleUpdateTag(mc.level.getBlockState(msg.blockPos), msg.updateTag);
                 mc.level.sendBlockUpdated(msg.blockPos,
                         mc.level.getBlockState(msg.blockPos),
                         mc.level.getBlockState(msg.blockPos),

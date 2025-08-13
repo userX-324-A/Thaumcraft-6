@@ -403,6 +403,15 @@
             }
         ]
     },
+  "causality_collapse": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "thaumcraft:evilportal",
+        "stream": false
+      }
+    ]
+  },
     "whispers": {
         "category": "ambient",
         "sounds": [
@@ -544,3 +553,4 @@
         ]
     }
 }
+

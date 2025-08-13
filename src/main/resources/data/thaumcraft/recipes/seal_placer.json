@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SI ",
+    " PS",
+    "  S"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "I": { "item": "minecraft:iron_ingot" },
+    "P": { "item": "minecraft:paper" }
+  },
+  "result": { "item": "thaumcraft:seal_placer" }
+}
+
+

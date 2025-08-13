@@ -14,12 +14,11 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlock;
 import net.minecraftforge.fml.network.NetworkHooks;
 import thaumcraft.common.menu.ArcaneWorkbenchMenu;
 import thaumcraft.common.registers.ModBlockEntities;
 
-public class ArcaneWorkbenchBlock extends Block implements IForgeBlock {
+public class ArcaneWorkbenchBlock extends Block {
     public ArcaneWorkbenchBlock(Properties properties) {
         super(properties);
     }
@@ -34,13 +33,12 @@ public class ArcaneWorkbenchBlock extends Block implements IForgeBlock {
         return ModBlockEntities.ARCANE_WORKBENCH.get().create();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote) return ActionResultType.SUCCESS;
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (world.isClientSide) return ActionResultType.SUCCESS;
         NetworkHooks.openGui((ServerPlayerEntity) player,
                 new SimpleNamedContainerProvider((id, inv, p) ->
-                        new ArcaneWorkbenchMenu(id, inv, IWorldPosCallable.of(world, pos)),
+                        new ArcaneWorkbenchMenu(id, inv, IWorldPosCallable.create(world, pos)),
                         new TranslationTextComponent("container.arcaneworkbench")),
                 buf -> buf.writeBlockPos(pos));
         return ActionResultType.CONSUME;

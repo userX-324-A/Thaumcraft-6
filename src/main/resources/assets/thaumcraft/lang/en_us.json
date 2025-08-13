@@ -1,0 +1,18 @@
+{
+  "item.thaumcraft.seal_placer": "Seal Placer",
+  "item.thaumcraft.seal_fetch": "Seal: Fetch",
+  "item.thaumcraft.seal_guard": "Seal: Guard",
+  "item.thaumcraft.seal_harvest": "Seal: Harvest",
+  "item.thaumcraft.seal_empty": "Seal: Empty",
+  "gui.thaumcraft.seal.priority": "Priority",
+  "gui.thaumcraft.seal.color": "Color",
+  "gui.thaumcraft.seal.locked": "Locked",
+  "gui.thaumcraft.seal.redstone": "Redstone",
+  "gui.thaumcraft.seal.area": "Area",
+  "gui.thaumcraft.seal.owner_only": "Only owner or creative may edit",
+  "gui.thaumcraft.seal.toggle": "Toggle",
+  "gui.thaumcraft.seal.blacklist": "Blacklist"
+}
+
+
+

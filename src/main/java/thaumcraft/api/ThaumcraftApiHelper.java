@@ -45,6 +45,30 @@ public class ThaumcraftApiHelper {
         return null;
     }
 
+    /**
+     * Minimal helper used by legacy NBT-matching rules to fetch a typed value from a CompoundNBT by id.
+     * The return type mirrors common Java primitives for simple tags to allow equals() comparisons
+     * against values provided in {@link thaumcraft.api.ThaumcraftApi.EntityTagsNBT}.
+     */
+    public static Object getNBTDataFromId(net.minecraft.nbt.CompoundNBT tag, byte typeId, String name) {
+        if (tag == null || name == null || !tag.contains(name)) return null;
+        switch (typeId) {
+            case 1: return tag.getByte(name);
+            case 2: return tag.getShort(name);
+            case 3: return tag.getInt(name);
+            case 4: return tag.getLong(name);
+            case 5: return tag.getFloat(name);
+            case 6: return tag.getDouble(name);
+            case 7: return tag.getByteArray(name);
+            case 8: return tag.getString(name);
+            case 9: return tag.getList(name, 0); // element type is unknown here
+            case 10: return tag.getCompound(name);
+            case 11: return tag.getIntArray(name);
+            case 12: return tag.getLongArray(name);
+            default: return tag.get(name); // Fallback to raw INBT
+        }
+    }
+
     // ---------------------------------------------------------------------
     // Tag-based helpers replacing legacy OreDictionary lookups (1.16.5)
     // ---------------------------------------------------------------------

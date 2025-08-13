@@ -1,7 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
@@ -22,17 +22,17 @@ public class CardTruth extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.truth.name").getFormattedText();
+        return new TranslationTextComponent("card.truth.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.truth.text").getFormattedText();
+        return new TranslationTextComponent("card.truth.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
-        data.addTotal("ELDRITCH", MathHelper.getInt(player.getRNG(), 10, 25));
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
+        data.addTotal("ELDRITCH", MathHelper.nextInt(player.getRandom(), 10, 25));
         ++data.bonusDraws;
         ThaumcraftApi.internalMethods.addWarpToPlayer(player, 3, IPlayerWarp.EnumWarpType.TEMPORARY);
         return true;

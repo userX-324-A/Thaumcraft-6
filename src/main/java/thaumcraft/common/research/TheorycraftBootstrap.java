@@ -21,7 +21,7 @@ public final class TheorycraftBootstrap {
             Thaumcraft.LOGGER.info("Theorycraft registration skipped by config");
             return;
         }
-        // Future: register cards and aids here, e.g. TheorycraftManager.registerCard(CardX.class)
+        // Registration will be enabled once theorycraft package is fully ported
     }
 }
 

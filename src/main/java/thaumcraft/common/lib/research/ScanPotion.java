@@ -28,7 +28,7 @@ public class ScanPotion implements IScanThing
         }
         if (obj instanceof LivingEntity) {
             LivingEntity e = (LivingEntity)obj;
-            for (EffectInstance effectInstance : e.getActivePotionEffects()) {
+            for (EffectInstance effectInstance : e.getActiveEffects()) {
                 if (effectInstance.getEffect() == effect) {
                     return effectInstance;
                 }

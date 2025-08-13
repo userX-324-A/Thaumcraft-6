@@ -7,9 +7,7 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 public class AidBasicArtifice implements ITheorycraftAid
 {
     @Override
-    public Object getAidObject() {
-        return BlocksTC.arcaneWorkbench;
-    }
+    public Object getAidObject() { return null; }
     
     @Override
     public Class<TheorycraftCard>[] getCards() {

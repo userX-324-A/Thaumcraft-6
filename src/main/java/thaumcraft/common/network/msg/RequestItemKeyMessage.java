@@ -5,7 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
-import thaumcraft.api.casters.ICaster;
+import thaumcraft.Thaumcraft;
 
 import java.util.function.Supplier;
 
@@ -42,12 +42,14 @@ public class RequestItemKeyMessage {
                 ItemStack main = sender.getMainHandItem();
                 ItemStack off = sender.getOffhandItem();
                 boolean toggled = false;
-                if (!main.isEmpty() && main.getItem() instanceof ICaster) {
+                if (!main.isEmpty() && main.getItem().getRegistryName() != null
+                        && Thaumcraft.MODID.equals(main.getItem().getRegistryName().getNamespace())) {
                     int cur = main.getOrCreateTag().getInt("tc_misc");
                     main.getOrCreateTag().putInt("tc_misc", cur ^ (1 << (msg.modifier & 7)));
                     toggled = true;
                 }
-                if (!toggled && !off.isEmpty() && off.getItem() instanceof ICaster) {
+                if (!toggled && !off.isEmpty() && off.getItem().getRegistryName() != null
+                        && Thaumcraft.MODID.equals(off.getItem().getRegistryName().getNamespace())) {
                     int cur = off.getOrCreateTag().getInt("tc_misc");
                     off.getOrCreateTag().putInt("tc_misc", cur ^ (1 << (msg.modifier & 7)));
                 }

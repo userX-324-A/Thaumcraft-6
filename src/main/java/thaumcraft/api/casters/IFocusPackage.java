@@ -15,11 +15,23 @@ public interface IFocusPackage {
     
     void setTarget(Entity target);
     
-    List<FocusEffect> getNodes();
+    List<IFocusElement> getNodes();
     
     int getNodeIndex();
     
     void setNodeIndex(int nodeIndex);
+
+    float getPower();
+
+    void multiplyPower(float pow);
+
+    java.util.UUID getUniqueID();
+
+    void setUniqueID(java.util.UUID id);
+
+    java.util.UUID getCasterUUID();
+
+    void setCasterUUID(java.util.UUID id);
     
     void deserialize(CompoundNBT nbt);
     

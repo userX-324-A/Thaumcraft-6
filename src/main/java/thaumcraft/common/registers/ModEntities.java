@@ -8,6 +8,7 @@ import thaumcraft.Thaumcraft;
 import thaumcraft.common.entities.monster.FireBatEntity;
 import thaumcraft.common.entities.monster.EldritchCrabEntity;
 import thaumcraft.common.entities.golem.ThaumcraftGolemEntity;
+import thaumcraft.common.entities.misc.GrappleProjectileEntity;
 
 /**
  * Entity type registry (1.16.5).
@@ -33,6 +34,11 @@ public final class ModEntities {
             () -> EntityType.Builder.of(ThaumcraftGolemEntity::new, EntityClassification.CREATURE)
                     .sized(0.6f, 1.1f)
                     .build(Thaumcraft.MODID + ":tc_golem"));
+
+    public static final RegistryObject<EntityType<GrappleProjectileEntity>> GRAPPLE_PROJECTILE = RegistryManager.ENTITIES.register("grapple_projectile",
+            () -> EntityType.Builder.<GrappleProjectileEntity>of(GrappleProjectileEntity::new, EntityClassification.MISC)
+                    .sized(0.25f, 0.25f)
+                    .build(Thaumcraft.MODID + ":grapple_projectile"));
 
 }
 

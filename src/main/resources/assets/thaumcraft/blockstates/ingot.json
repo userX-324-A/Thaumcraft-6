@@ -4,15 +4,16 @@
     "variants": {
         "brass": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/ingot_brass" }
+            "textures": { "layer0": "thaumcraft:item/ingot_brass" }
         },
         "thaumium": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/ingot_thaumium" }
+            "textures": { "layer0": "thaumcraft:item/ingot_thaumium" }
         },
         "void": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/ingot_void" }
+            "textures": { "layer0": "thaumcraft:item/ingot_void" }
         }
     }
 }
+

@@ -4,11 +4,12 @@
     "variants": {
         "vision": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/module_vision" }
+            "textures": { "layer0": "thaumcraft:item/module_vision" }
         },
         "aggression": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/module_aggression" }
+            "textures": { "layer0": "thaumcraft:item/module_aggression" }
         }
     }
 }
+

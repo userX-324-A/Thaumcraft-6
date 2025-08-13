@@ -8,9 +8,7 @@ import thaumcraft.api.research.theorycraft.TheorycraftCard;
 public class AidGlyphedStone implements ITheorycraftAid
 {
     @Override
-    public Object getAidObject() {
-        return new ItemStack(BlocksTC.stoneAncientGlyphed);
-    }
+    public Object getAidObject() { return null; }
     
     @Override
     public Class<TheorycraftCard>[] getCards() {

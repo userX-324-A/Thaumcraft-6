@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "braced=false": { "model": "thaumcraft:block/jar_normal" },
+    "braced=true":  { "model": "thaumcraft:block/jar_normal_braced" }
+  }
+}
+
+

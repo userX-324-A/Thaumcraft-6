@@ -1,6 +1,6 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
@@ -19,29 +19,29 @@ public class CardSynergy extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.synergy.name").getFormattedText();
+        return new TranslationTextComponent("card.synergy.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.synergy.text").getFormattedText();
+        return new TranslationTextComponent("card.synergy.text").getString();
     }
     
     @Override
-    public boolean initialize(EntityPlayer player, ResearchTableData data) {
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
         int tot = 0;
-        tot += data.getTotal("ARTIFICE");
-        tot += data.getTotal("ALCHEMY");
-        tot += data.getTotal("INFUSION");
+        tot += data.totalsByCategory.getOrDefault("ARTIFICE", 0);
+        tot += data.totalsByCategory.getOrDefault("ALCHEMY", 0);
+        tot += data.totalsByCategory.getOrDefault("INFUSION", 0);
         return tot >= 15;
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         int tot = 0;
-        tot += data.getTotal("ARTIFICE");
-        tot += data.getTotal("ALCHEMY");
-        tot += data.getTotal("INFUSION");
+        tot += data.totalsByCategory.getOrDefault("ARTIFICE", 0);
+        tot += data.totalsByCategory.getOrDefault("ALCHEMY", 0);
+        tot += data.totalsByCategory.getOrDefault("INFUSION", 0);
         if (tot >= 15) {
             tot = 15;
             String[] cats = { "ARTIFICE", "ALCHEMY", "INFUSION" };
@@ -49,8 +49,9 @@ public class CardSynergy extends TheorycraftCard
             while (tot > 0 && tries < 1000) {
                 ++tries;
                 for (String category : cats) {
-                    if (data.getTotal(category) > 0) {
-                        data.addTotal(category, -1);
+                    int cur = data.totalsByCategory.getOrDefault(category, 0);
+                    if (cur > 0) {
+                        data.totalsByCategory.put(category, cur - 1);
                         if (--tot <= 0) {
                             break;
                         }
@@ -58,7 +59,6 @@ public class CardSynergy extends TheorycraftCard
                 }
             }
             data.addTotal("GOLEMANCY", 30);
-            ++data.penaltyStart;
             return true;
         }
         return false;

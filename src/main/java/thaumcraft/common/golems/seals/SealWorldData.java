@@ -52,6 +52,12 @@ public class SealWorldData extends WorldSavedData {
 
     public Iterable<ISealEntity> all() { return byKey.values(); }
 
+    public boolean contains(BlockPos pos, Direction face) {
+        return byKey.containsKey(posKey(pos, face));
+    }
+
+    public ISealEntity get(SealPos pos) { return byKey.get(posKey(pos.pos, pos.face)); }
+
     @Override
     public void load(CompoundNBT nbt) {
         byKey.clear();
@@ -66,6 +72,8 @@ public class SealWorldData extends WorldSavedData {
             entity.readNBT(ce);
             SealPos sp = entity.getSealPos();
             if (sp != null) {
+                // Optional: validate placement on load to avoid invalid seals persisting
+                // This check will be re-validated during server ticks as well.
                 byKey.put(posKey(sp.pos, sp.face), entity);
             }
         }

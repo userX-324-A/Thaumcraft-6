@@ -1,0 +1,10 @@
+{
+  "parent": "block/thin_block",
+  "textures": {
+    "particle": "thaumcraft:block/seal",
+    "texture": "thaumcraft:block/seal"
+  }
+}
+
+
+

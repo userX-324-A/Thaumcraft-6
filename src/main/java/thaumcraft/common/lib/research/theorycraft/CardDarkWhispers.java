@@ -1,8 +1,7 @@
 package thaumcraft.common.lib.research.theorycraft;
-import java.util.Iterator;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.research.ResearchCategories;
@@ -29,29 +28,29 @@ public class CardDarkWhispers extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.darkwhisper.name").getFormattedText();
+        return new TranslationTextComponent("card.darkwhisper.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.darkwhisper.text").getFormattedText();
+        return new TranslationTextComponent("card.darkwhisper.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         int l = player.experienceLevel;
-        player.addExperienceLevel(-(10 + l));
+        player.giveExperienceLevels(-(10 + l));
         if (l > 0) {
             for (String k : ResearchCategories.researchCategories.keySet()) {
-                if (player.getRNG().nextBoolean()) {
+                if (player.getRandom().nextBoolean()) {
                     continue;
                 }
-                data.addTotal(k, MathHelper.getInt(player.getRNG(), 0, Math.max(1, (int)Math.sqrt(l))));
+                data.addTotal(k, MathHelper.nextInt(player.getRandom(), 0, Math.max(1, (int)Math.sqrt(l))));
             }
         }
-        data.addTotal("ELDRITCH", MathHelper.getInt(player.getRNG(), Math.max(1, l / 5), Math.max(5, l / 2)));
+        data.addTotal("ELDRITCH", MathHelper.nextInt(player.getRandom(), Math.max(1, l / 5), Math.max(5, l / 2)));
         ThaumcraftApi.internalMethods.addWarpToPlayer(player, Math.max(1, (int)Math.sqrt(l)), IPlayerWarp.EnumWarpType.NORMAL);
-        if (player.getRNG().nextBoolean()) {
+        if (player.getRandom().nextBoolean()) {
             ++data.bonusDraws;
         }
         return true;

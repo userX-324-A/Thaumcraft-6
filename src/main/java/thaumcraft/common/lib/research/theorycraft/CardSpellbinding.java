@@ -1,6 +1,6 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
@@ -19,27 +19,27 @@ public class CardSpellbinding extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.spellbinding.name").getFormattedText();
+        return new TranslationTextComponent("card.spellbinding.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.spellbinding.text").getFormattedText();
+        return new TranslationTextComponent("card.spellbinding.text").getString();
     }
     
     @Override
-    public boolean initialize(EntityPlayer player, ResearchTableData data) {
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
         return player.experienceLevel > 0;
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         if (player.experienceLevel <= 0) {
             return false;
         }
         int l = Math.min(5, player.experienceLevel);
         data.addTotal(getResearchCategory(), l * 5);
-        player.addExperienceLevel(-l);
+        player.giveExperienceLevels(-l);
         return true;
     }
 }

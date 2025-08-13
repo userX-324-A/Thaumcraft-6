@@ -1,0 +1,22 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "thaumcraft:block/bellows",
+    "side": "thaumcraft:block/bellows"
+  },
+  "elements": [
+    { "from": [0, 0, 0], "to": [16, 2, 16],
+      "faces": {
+        "up":    { "texture": "#side" },
+        "down":  { "texture": "#side" },
+        "north": { "texture": "#side" },
+        "south": { "texture": "#side" },
+        "west":  { "texture": "#side" },
+        "east":  { "texture": "#side" }
+      }
+    }
+  ]
+}
+
+
+

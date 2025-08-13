@@ -1,17 +1,14 @@
 package thaumcraft.common.lib.research.theorycraft;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
-import thaumcraft.common.items.curios.ItemCurio;
 
 
 public class CardCurio extends TheorycraftCard
@@ -23,16 +20,16 @@ public class CardCurio extends TheorycraftCard
     }
     
     @Override
-    public NBTTagCompound serialize() {
-        NBTTagCompound nbt = super.serialize();
-        nbt.setTag("stack", curio.serializeNBT());
+    public CompoundNBT serialize() {
+        CompoundNBT nbt = super.serialize();
+        nbt.put("stack", curio.serializeNBT());
         return nbt;
     }
     
     @Override
-    public void deserialize(NBTTagCompound nbt) {
+    public void deserialize(CompoundNBT nbt) {
         super.deserialize(nbt);
-        curio = new ItemStack(nbt.getCompoundTag("stack"));
+        curio = ItemStack.of(nbt.getCompound("stack"));
     }
     
     @Override
@@ -42,87 +39,42 @@ public class CardCurio extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.curio.name").getFormattedText();
+        return new TranslationTextComponent("card.curio.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.curio.text").getFormattedText();
+        return new TranslationTextComponent("card.curio.text").getString();
     }
     
     @Override
-    public ItemStack[] getRequiredItems() {
-        return new ItemStack[] { curio };
+    public String getResearchCategory() {
+        return "BASICS";
     }
     
     @Override
-    public boolean[] getRequiredItemsConsumed() {
-        return new boolean[] { true };
-    }
+    public ItemStack[] getRequiredItems() { return null; }
     
     @Override
-    public boolean initialize(EntityPlayer player, ResearchTableData data) {
+    public boolean[] getRequiredItemsConsumed() { return null; }
+    
+    @Override
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
         Random r = new Random(getSeed());
-        ArrayList<ItemStack> curios = new ArrayList<ItemStack>();
-        for (ItemStack stack : player.inventory.mainInventory) {
-            if (stack != null && !stack.isEmpty() && stack.getItem() instanceof ItemCurio) {
-                ItemStack c = stack.copy();
-                c.setCount(1);
-                curios.add(c);
-            }
-        }
-        if (!curios.isEmpty()) {
-            curio = curios.get(r.nextInt(curios.size()));
-        }
-        return !curio.isEmpty();
+        // Minimal port: no curio item filtering yet; just succeed
+        return true;
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         data.addTotal("BASICS", 5);
         String[] s = ResearchCategories.researchCategories.keySet().toArray(new String[0]);
-        data.addTotal(s[player.getRNG().nextInt(s.length)], 5);
-        String s2;
-        String type = s2 = ((ItemCurio) getRequiredItems()[0].getItem()).getVariantNames()[getRequiredItems()[0].getItemDamage()];
-        switch (s2) {
-            case "arcane": {
-                data.addTotal("AUROMANCY", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "preserved": {
-                data.addTotal("ALCHEMY", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "ancient": {
-                data.addTotal("GOLEMANCY", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "eldritch": {
-                data.addTotal("ELDRITCH", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "knowledge": {
-                data.addTotal("INFUSION", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "twisted": {
-                data.addTotal("ARTIFICE", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-            case "rites": {
-                data.addTotal("ELDRITCH", MathHelper.getInt(player.getRNG(), 15, 20));
-                data.addTotal("AUROMANCY", MathHelper.getInt(player.getRNG(), 10, 15));
-                break;
-            }
-            default: {
-                data.addTotal("BASICS", MathHelper.getInt(player.getRNG(), 25, 35));
-                break;
-            }
-        }
-        if (player.getRNG().nextBoolean()) {
+        data.addTotal(s[player.getRandom().nextInt(s.length)], 5);
+        data.addTotal("BASICS", MathHelper.nextInt(player.getRandom(), 25, 35));
+        if (player.getRandom().nextBoolean()) {
             ++data.bonusDraws;
         }
-        if (player.getRNG().nextBoolean()) {
+        if (player.getRandom().nextBoolean()) {
             ++data.bonusDraws;
         }
         return true;

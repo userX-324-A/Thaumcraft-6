@@ -1,8 +1,6 @@
 package thaumcraft.api.research.theorycraft;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -17,11 +15,13 @@ public class ResearchTableData {
     public List<String> savedCards;
     public List<CardChoice> cardChoices;
     public List<TheorycraftCard> completeCards;
+    public Map<String, Integer> totalsByCategory;
 
     public ResearchTableData() {
         this.savedCards = new ArrayList<String>();
         this.cardChoices = new ArrayList<CardChoice>();
         this.completeCards = new ArrayList<TheorycraftCard>();
+        this.totalsByCategory = new HashMap<>();
     }
 
     public ResearchTableData(PlayerEntity player, TileEntity tileResearchTable) {
@@ -63,10 +63,29 @@ public class ResearchTableData {
 
     public void drawCards(int draw, PlayerEntity pe) {
         this.cardChoices.clear();
+        // Minimal MVP: draw up to 3 random registered cards without duplicates
+        List<Class<TheorycraftCard>> pool = new ArrayList<>(TheorycraftManager.cards.values());
+        Collections.shuffle(pool, new Random(pe.getRandom().nextLong()));
+        int toDraw = Math.min(3, Math.max(1, draw));
+        for (int i = 0; i < toDraw && i < pool.size(); i++) {
+            try {
+                TheorycraftCard card = pool.get(i).getDeclaredConstructor().newInstance();
+                CardChoice choice = new CardChoice();
+                choice.card = card;
+                choice.key = pool.get(i).getName();
+                choice.seed = pe.getRandom().nextLong();
+                choice.selected = false;
+                this.cardChoices.add(choice);
+            } catch (Exception ignored) {}
+        }
     }
 
     private TheorycraftCard generateCard(String key, long seed, PlayerEntity pe) {
-        return null;
+        try {
+            Class<TheorycraftCard> cls = TheorycraftManager.cards.get(key);
+            if (cls == null) return null;
+            return cls.getDeclaredConstructor().newInstance();
+        } catch (Exception e) { return null; }
     }
 
     private TheorycraftCard generateCardWithNBT(String key, CompoundNBT nbt) {
@@ -86,6 +105,11 @@ public class ResearchTableData {
 
     public static int getAvailableInspiration(PlayerEntity player) {
         return 5;
+    }
+
+    public void addTotal(String category, int amount) {
+        int current = totalsByCategory.getOrDefault(category, 0);
+        totalsByCategory.put(category, current + amount);
     }
 
     public class CardChoice {

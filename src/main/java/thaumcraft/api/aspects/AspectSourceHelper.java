@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import thaumcraft.api.aura.AuraHelper;
 
-import javax.annotation.Nullable;
+// no @Nullable usage in this helper currently
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -19,17 +19,17 @@ public class AspectSourceHelper {
     }
     
     public static boolean drainEssentia(TileEntity tile, Aspect aspect, Direction direction, int range, boolean forti) {
-        if (tile == null || tile.isInvalid()) {
+        if (tile == null || tile.isRemoved()) {
             return false;
         }
-        World world = tile.getWorld();
+        World world = tile.getLevel();
         for (int a = 0; a < range; ++a) {
-            BlockPos pos = tile.getPos().offset(direction, a + 1);
-            TileEntity te = world.getTileEntity(pos);
-            if (te != null && !te.isInvalid() && te instanceof IEssentiaTransport) {
+            BlockPos pos = tile.getBlockPos().relative(direction, a + 1);
+            TileEntity te = world.getBlockEntity(pos);
+            if (te != null && !te.isRemoved() && te instanceof IEssentiaTransport) {
                 IEssentiaTransport et = (IEssentiaTransport)te;
                 if (et.getEssentiaType(direction.getOpposite()) == aspect && et.getEssentiaAmount(direction.getOpposite()) > 0 && et.getSuctionType(direction.getOpposite()) == null && et.takeEssentia(aspect, 1, direction.getOpposite()) == 1) {
-                    if (forti && world.rand.nextInt(10) == 0) {
+                    if (forti && world.random.nextInt(10) == 0) {
                         AuraHelper.pollute(world, pos, 1, true);
                     }
                     return true;
@@ -40,11 +40,11 @@ public class AspectSourceHelper {
     }
     
     public static boolean findEssentia(TileEntity tile, Aspect aspect, Direction direction, int range) {
-        World world = tile.getWorld();
+        World world = tile.getLevel();
         for (int a = 0; a < range; ++a) {
-            BlockPos pos = tile.getPos().offset(direction, a + 1);
-            TileEntity te = world.getTileEntity(pos);
-            if (te != null && !te.isInvalid() && te instanceof IEssentiaTransport) {
+            BlockPos pos = tile.getBlockPos().relative(direction, a + 1);
+            TileEntity te = world.getBlockEntity(pos);
+            if (te != null && !te.isRemoved() && te instanceof IEssentiaTransport) {
                 IEssentiaTransport et = (IEssentiaTransport)te;
                 if (et.getEssentiaType(direction.getOpposite()) == aspect && et.getEssentiaAmount(direction.getOpposite()) > 0) {
                     return true;

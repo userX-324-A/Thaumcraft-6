@@ -38,8 +38,8 @@ public class FocusEngine {
 		return elementColor.get(key);
 	}
 	
-	public static boolean doesPackageContainElement(FocusPackage focusPackage, String key) {
-		for (IFocusElement node: focusPackage.nodes) {
+    public static boolean doesPackageContainElement(FocusPackage focusPackage, String key) {
+        for (IFocusElement node: focusPackage.getNodes()) {
 			if (node.getKey().equals(key)) return true;
 		}
 		return false;
@@ -77,19 +77,19 @@ public class FocusEngine {
 		Trajectory[] prevTrajectories = trajectories;
 		RayTraceResult[] prevTargets = targets;
 		
-		synchronized (focusPackage.nodes) {
+        synchronized (focusPackage.getNodes()) {
 
-			if (!(focusPackage.nodes.get(0) instanceof FocusMediumRoot)) {
-				focusPackage.nodes.add(0,new FocusMediumRoot(trajectories,targets));
+            if (!(focusPackage.getNodes().get(0) instanceof FocusMediumRoot)) {
+                focusPackage.getNodes().add(0,new FocusMediumRoot(trajectories,targets));
 			}		
 		
-			for (int idx=0;idx<focusPackage.nodes.size();idx++) {
+            for (int idx=0;idx<focusPackage.getNodes().size();idx++) {
 				
-				focusPackage.setExecutionIndex(idx);
+                focusPackage.setNodeIndex(idx);
 				
-				IFocusElement node = focusPackage.nodes.get(idx);
+                IFocusElement node = focusPackage.getNodes().get(idx);
 				if (idx>0 && ((FocusNode)node).getParent()==null) {
-					IFocusElement nodePrev = focusPackage.nodes.get(idx-1);
+                    IFocusElement nodePrev = focusPackage.getNodes().get(idx-1);
 					if (node instanceof FocusNode && nodePrev instanceof FocusNode) {
 						((FocusNode)node).setParent((FocusNode)nodePrev);
 					}
@@ -99,8 +99,8 @@ public class FocusEngine {
 					((FocusNode)node).setPackage(focusPackage);
 				}	
 				
-				if (node instanceof FocusNode) {			
-					focusPackage.multiplyPower(((FocusNode)node).getPowerMultiplier());
+                if (node instanceof FocusNode) {            
+                    focusPackage.multiplyPower(((FocusNode)node).getPowerMultiplier());
 				} 
 				
 				if (node instanceof FocusPackage) {				
@@ -124,7 +124,7 @@ public class FocusEngine {
 						for (FocusPackage sp : split.getSplitPackages() ) {
 							split.setPackage(sp);
 							sp.multiplyPower(focusPackage.getPower());
-							split.execute();
+                            split.execute();
 							/*returnLast =*/ runFocusPackage(sp,split.supplyTrajectories(),split.supplyTargets());
 						}
 						break;
@@ -138,16 +138,7 @@ public class FocusEngine {
 					if (prevTargets!=null) {
 						int num=0;
 						for (RayTraceResult target : prevTargets) {		
-							if (target.entityHit!=null) {
-								String k = target.entityHit.getEntityId() + focusPackage.getUniqueID().toString();
-								if (damageResistList.contains(k) && target.entityHit.hurtResistantTime>0) {
-									target.entityHit.hurtResistantTime=0;
-								} else {
-									if (damageResistList.size()>10) damageResistList.remove(0);
-									damageResistList.add(k);
-								}
-							}
-							Trajectory tra = prevTrajectories!=null? ((prevTrajectories.length==prevTargets.length) ? prevTrajectories[num] : prevTrajectories[0]) : null;
+                            Trajectory tra = prevTrajectories!=null? ((prevTrajectories.length==prevTargets.length) ? prevTrajectories[num] : prevTrajectories[0]) : null;
 							effect.execute(target, tra, focusPackage.getPower(), num);
 							num++;
 						}

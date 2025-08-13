@@ -11,11 +11,10 @@ import javax.annotation.Nullable;
 
 public class EssentiaFilterBlockEntity extends TileEntity {
     private Aspect filter; // null means pass-through
-    private LazyOptional<thaumcraft.api.aspects.IEssentiaTransport> essentiaOptional = LazyOptional.of(
-            () -> new EssentiaTransportCapability.BasicEssentiaTransport(16, 10)
-                    .allowInput(java.util.EnumSet.allOf(net.minecraft.util.Direction.class))
-                    .allowOutput(java.util.EnumSet.allOf(net.minecraft.util.Direction.class))
-    );
+    private final EssentiaTransportCapability.BasicEssentiaTransport tank = new EssentiaTransportCapability.BasicEssentiaTransport(16, 10)
+            .allowInput(java.util.EnumSet.allOf(net.minecraft.util.Direction.class))
+            .allowOutput(java.util.EnumSet.allOf(net.minecraft.util.Direction.class));
+    private LazyOptional<thaumcraft.api.aspects.IEssentiaTransport> essentiaOptional = LazyOptional.of(() -> new FilteredTransport());
 
     public EssentiaFilterBlockEntity() {
         super(ModBlockEntities.ESSENTIA_FILTER.get());
@@ -37,7 +36,7 @@ public class EssentiaFilterBlockEntity extends TileEntity {
     }
 
     @Override
-    public void remove() { super.remove(); essentiaOptional.invalidate(); }
+    public void setRemoved() { super.setRemoved(); essentiaOptional.invalidate(); }
 
     @Override
     public net.minecraft.nbt.CompoundNBT getUpdateTag() {
@@ -53,17 +52,36 @@ public class EssentiaFilterBlockEntity extends TileEntity {
     }
 
     @Override
-    public void handleUpdateTag(net.minecraft.nbt.CompoundNBT tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(net.minecraft.block.BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+        super.handleUpdateTag(state, tag);
         if (tag.contains("filter")) this.filter = Aspect.getAspect(tag.getString("filter"));
         this.getCapability(EssentiaTransportCapability.ESSENTIA_TRANSPORT).ifPresent(cap -> {
-            if (cap instanceof EssentiaTransportCapability.BasicEssentiaTransport) {
-                EssentiaTransportCapability.BasicEssentiaTransport be = (EssentiaTransportCapability.BasicEssentiaTransport) cap;
-                thaumcraft.api.aspects.Aspect type = tag.contains("aspect") ? Aspect.getAspect(tag.getString("aspect")) : null;
-                be.setStored(type, tag.getInt("amount"));
-                be.setSuction(tag.getInt("suction"));
-            }
+            thaumcraft.api.aspects.Aspect type = tag.contains("aspect") ? Aspect.getAspect(tag.getString("aspect")) : null;
+            tank.setStored(type, tag.getInt("amount"));
+            tank.setSuction(tag.getInt("suction"));
         });
+    }
+
+    private class FilteredTransport implements thaumcraft.api.aspects.IEssentiaTransport {
+        @Override public boolean isConnectable(net.minecraft.util.Direction face) { return tank.isConnectable(face); }
+        @Override public boolean canInputFrom(net.minecraft.util.Direction face) { return tank.canInputFrom(face); }
+        @Override public boolean canOutputTo(net.minecraft.util.Direction face) { return tank.canOutputTo(face); }
+        @Override public void setSuction(Aspect aspect, int amount) { tank.setSuction(aspect, amount); }
+        @Override public Aspect getSuctionType(net.minecraft.util.Direction face) { return tank.getSuctionType(face); }
+        @Override public int getSuctionAmount(net.minecraft.util.Direction face) { return tank.getSuctionAmount(face); }
+        @Override public int takeEssentia(Aspect aspect, int amount, net.minecraft.util.Direction face) {
+            if (filter != null && aspect != filter) return 0;
+            return tank.takeEssentia(aspect, amount, face);
+        }
+        @Override public int addEssentia(Aspect aspect, int amount, net.minecraft.util.Direction face) {
+            if (filter != null && aspect != filter) return 0;
+            return tank.addEssentia(aspect, amount, face);
+        }
+        @Override public Aspect getEssentiaType(net.minecraft.util.Direction face) { return tank.getEssentiaType(face); }
+        @Override public int getEssentiaAmount(net.minecraft.util.Direction face) { return tank.getEssentiaAmount(face); }
+        @Override public int getMinimumSuction() { return tank.getMinimumSuction(); }
+        @Override public int getSuction() { return tank.getSuction(); }
+        @Override public void setSuction(int amount) { tank.setSuction(amount); }
     }
 }
 

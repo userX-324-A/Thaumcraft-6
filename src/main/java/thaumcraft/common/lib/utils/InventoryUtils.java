@@ -5,27 +5,24 @@ import java.util.Map;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.crafting.IngredientNBT;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftInvHelper;
 import thaumcraft.api.crafting.IngredientNBTTC;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.entities.EntityFollowingItem;
 
 
 public class InventoryUtils
@@ -45,7 +42,7 @@ public class InventoryUtils
         return s;
     }
     
-    public static boolean consumeItemsFromAdjacentInventoryOrPlayer(World world, BlockPos pos, EntityPlayer player, boolean sim, ItemStack... items) {
+    public static boolean consumeItemsFromAdjacentInventoryOrPlayer(World world, BlockPos pos, PlayerEntity player, boolean sim, ItemStack... items) {
         for (ItemStack stack : items) {
             boolean b = checkAdjacentChests(world, pos, stack);
             if (!b) {
@@ -67,9 +64,9 @@ public class InventoryUtils
     
     public static boolean checkAdjacentChests(World world, BlockPos pos, ItemStack itemStack) {
         int c = itemStack.getCount();
-        for (EnumFacing face : EnumFacing.VALUES) {
-            if (face != EnumFacing.UP) {
-                c -= ThaumcraftInvHelper.countTotalItemsIn(world, pos.offset(face), face.getOpposite(), itemStack.copy(), ThaumcraftInvHelper.InvFilter.BASEORE);
+        for (Direction face : Direction.values()) {
+            if (face != Direction.UP) {
+                c -= ThaumcraftInvHelper.countTotalItemsIn(world, pos.relative(face), face.getOpposite(), itemStack.copy(), ThaumcraftInvHelper.InvFilter.BASEORE);
                 if (c <= 0) {
                     return true;
                 }
@@ -79,10 +76,10 @@ public class InventoryUtils
     }
     
     public static boolean consumeFromAdjacentChests(World world, BlockPos pos, ItemStack itemStack) {
-        for (EnumFacing face : EnumFacing.VALUES) {
-            if (face != EnumFacing.UP) {
+        for (Direction face : Direction.values()) {
+            if (face != Direction.UP) {
                 if (!itemStack.isEmpty()) {
-                    ItemStack os = removeStackFrom(world, pos.offset(face), face.getOpposite(), itemStack, ThaumcraftInvHelper.InvFilter.BASEORE, false);
+                    ItemStack os = removeStackFrom(world, pos.relative(face), face.getOpposite(), itemStack, ThaumcraftInvHelper.InvFilter.BASEORE, false);
                     itemStack.setCount(itemStack.getCount() - os.getCount());
                     if (itemStack.isEmpty()) {
                         break;
@@ -94,33 +91,31 @@ public class InventoryUtils
     }
     
     @Deprecated
-    public static ItemStack insertStackAt(World world, BlockPos pos, EnumFacing side, ItemStack stack, boolean simulate) {
+    public static ItemStack insertStackAt(World world, BlockPos pos, Direction side, ItemStack stack, boolean simulate) {
         return ThaumcraftInvHelper.insertStackAt(world, pos, side, stack, simulate);
     }
     
-    public static void ejectStackAt(World world, BlockPos pos, EnumFacing side, ItemStack out) {
+    public static void ejectStackAt(World world, BlockPos pos, Direction side, ItemStack out) {
         ejectStackAt(world, pos, side, out, false);
     }
     
-    public static ItemStack ejectStackAt(World world, BlockPos pos, EnumFacing side, ItemStack out, boolean smart) {
-        out = ThaumcraftInvHelper.insertStackAt(world, pos.offset(side), side.getOpposite(), out, false);
-        if (smart && ThaumcraftInvHelper.getItemHandlerAt(world, pos.offset(side), side.getOpposite()) != null) {
+    public static ItemStack ejectStackAt(World world, BlockPos pos, Direction side, ItemStack out, boolean smart) {
+        out = ThaumcraftInvHelper.insertStackAt(world, pos.relative(side), side.getOpposite(), out, false);
+        if (smart && ThaumcraftInvHelper.getItemHandlerAt(world, pos.relative(side), side.getOpposite()) != null) {
             return out;
         }
         if (!out.isEmpty()) {
-            if (world.isBlockFullCube(pos.offset(side))) {
-                pos = pos.offset(side.getOpposite());
+            if (world.getBlockState(pos.relative(side)).isSolidRender(world, pos.relative(side))) {
+                pos = pos.relative(side.getOpposite());
             }
-            EntityItem entityitem2 = new EntityItem(world, (float)pos.getX() + 0.5 + 1 * side.getFrontOffsetX(), pos.getY() + (float)(1 * side.getFrontOffsetY()), (float)pos.getZ() + 0.5 + 1 * side.getFrontOffsetZ(), out);
-            entityitem2.motionX = 0.3 * side.getFrontOffsetX();
-            entityitem2.motionY = 0.3 * side.getFrontOffsetY();
-            entityitem2.motionZ = 0.3 * side.getFrontOffsetZ();
-            world.spawnEntity(entityitem2);
+            ItemEntity entityitem2 = new ItemEntity(world, pos.getX() + 0.5 + side.getStepX(), pos.getY() + side.getStepY(), pos.getZ() + 0.5 + side.getStepZ(), out);
+            entityitem2.setDeltaMovement(0.3 * side.getStepX(), 0.3 * side.getStepY(), 0.3 * side.getStepZ());
+            world.addFreshEntity(entityitem2);
         }
         return ItemStack.EMPTY;
     }
     
-    public static ItemStack removeStackFrom(World world, BlockPos pos, EnumFacing side, ItemStack stack, ThaumcraftInvHelper.InvFilter filter, boolean simulate) {
+    public static ItemStack removeStackFrom(World world, BlockPos pos, Direction side, ItemStack stack, ThaumcraftInvHelper.InvFilter filter, boolean simulate) {
         return removeStackFrom(ThaumcraftInvHelper.getItemHandlerAt(world, pos, side), stack, filter, simulate);
     }
     
@@ -151,9 +146,13 @@ public class InventoryUtils
     
     public static int countStackInWorld(World world, BlockPos pos, ItemStack stack, double range, ThaumcraftInvHelper.InvFilter filter) {
         int count = 0;
-        List<EntityItem> l = EntityUtils.getEntitiesInRange(world, pos, null, EntityItem.class, range);
-        for (EntityItem ei : l) {
-            if (ei.getItem() != null && ei.getItem().isEmpty() && areItemStacksEqual(stack, ei.getItem(), filter)) {
+        net.minecraft.util.math.AxisAlignedBB box = new net.minecraft.util.math.AxisAlignedBB(
+                pos.getX() + 0.5 - range, pos.getY() + 0.5 - range, pos.getZ() + 0.5 - range,
+                pos.getX() + 0.5 + range, pos.getY() + 0.5 + range, pos.getZ() + 0.5 + range
+        );
+        List<ItemEntity> l = world.getEntitiesOfClass(ItemEntity.class, box);
+        for (ItemEntity ei : l) {
+            if (ei.getItem() != null && !ei.getItem().isEmpty() && areItemStacksEqual(stack, ei.getItem(), filter)) {
                 count += ei.getItem().getCount();
             }
         }
@@ -161,28 +160,28 @@ public class InventoryUtils
     }
     
     public static void dropItems(World world, BlockPos pos) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getBlockEntity(pos);
         if (!(tileEntity instanceof IInventory)) {
             return;
         }
         IInventory inventory = (IInventory)tileEntity;
-        InventoryHelper.dropInventoryItems(world, pos, inventory);
+        InventoryHelper.dropContents(world, pos, inventory);
     }
     
-    public static boolean consumePlayerItem(EntityPlayer player, ItemStack item, boolean nocheck, boolean ore) {
+    public static boolean consumePlayerItem(PlayerEntity player, ItemStack item, boolean nocheck, boolean ore) {
         if (!nocheck && !isPlayerCarryingAmount(player, item, ore)) {
             return false;
         }
         int count = item.getCount();
-        for (int var2 = 0; var2 < player.inventory.mainInventory.size(); ++var2) {
-            if (checkEnchantedPlaceholder(item, player.inventory.mainInventory.get(var2)) || areItemStacksEqual(player.inventory.mainInventory.get(var2), item, new ThaumcraftInvHelper.InvFilter(false, !item.hasTagCompound(), ore, false).setRelaxedNBT())) {
-                if (player.inventory.mainInventory.get(var2).getCount() > count) {
-                    player.inventory.mainInventory.get(var2).shrink(count);
+        for (int var2 = 0; var2 < player.inventory.items.size(); ++var2) {
+            if (checkEnchantedPlaceholder(item, player.inventory.items.get(var2)) || areItemStacksEqual(player.inventory.items.get(var2), item, new ThaumcraftInvHelper.InvFilter(false, item.getTag() == null, ore, false).setRelaxedNBT())) {
+                if (player.inventory.items.get(var2).getCount() > count) {
+                    player.inventory.items.get(var2).shrink(count);
                     count = 0;
                 }
                 else {
-                    count -= player.inventory.mainInventory.get(var2).getCount();
-                    player.inventory.mainInventory.set(var2, ItemStack.EMPTY);
+                    count -= player.inventory.items.get(var2).getCount();
+                    player.inventory.items.set(var2, ItemStack.EMPTY);
                 }
                 if (count <= 0) {
                     return true;
@@ -192,20 +191,20 @@ public class InventoryUtils
         return false;
     }
     
-    public static boolean consumePlayerItem(EntityPlayer player, Item item, int md, int amt) {
-        if (!isPlayerCarryingAmount(player, new ItemStack(item, amt, md), false)) {
+    public static boolean consumePlayerItem(PlayerEntity player, Item item, int md, int amt) {
+        if (!isPlayerCarryingAmount(player, new ItemStack(item, amt), false)) {
             return false;
         }
         int count = amt;
-        for (int var2 = 0; var2 < player.inventory.mainInventory.size(); ++var2) {
-            if (player.inventory.mainInventory.get(var2).getItem() == item && player.inventory.mainInventory.get(var2).getItemDamage() == md) {
-                if (player.inventory.mainInventory.get(var2).getCount() > count) {
-                    player.inventory.mainInventory.get(var2).shrink(count);
+        for (int var2 = 0; var2 < player.inventory.items.size(); ++var2) {
+            if (player.inventory.items.get(var2).getItem() == item) {
+                if (player.inventory.items.get(var2).getCount() > count) {
+                    player.inventory.items.get(var2).shrink(count);
                     count = 0;
                 }
                 else {
-                    count -= player.inventory.mainInventory.get(var2).getCount();
-                    player.inventory.mainInventory.set(var2, ItemStack.EMPTY);
+                    count -= player.inventory.items.get(var2).getCount();
+                    player.inventory.items.set(var2, ItemStack.EMPTY);
                 }
                 if (count <= 0) {
                     return true;
@@ -215,12 +214,12 @@ public class InventoryUtils
         return false;
     }
     
-    public static boolean consumePlayerItem(EntityPlayer player, Item item, int md) {
-        for (int var2 = 0; var2 < player.inventory.mainInventory.size(); ++var2) {
-            if (player.inventory.mainInventory.get(var2).getItem() == item && player.inventory.mainInventory.get(var2).getItemDamage() == md) {
-                player.inventory.mainInventory.get(var2).shrink(1);
-                if (player.inventory.mainInventory.get(var2).getCount() <= 0) {
-                    player.inventory.mainInventory.set(var2, ItemStack.EMPTY);
+    public static boolean consumePlayerItem(PlayerEntity player, Item item, int md) {
+        for (int var2 = 0; var2 < player.inventory.items.size(); ++var2) {
+            if (player.inventory.items.get(var2).getItem() == item) {
+                player.inventory.items.get(var2).shrink(1);
+                if (player.inventory.items.get(var2).getCount() <= 0) {
+                    player.inventory.items.set(var2, ItemStack.EMPTY);
                 }
                 return true;
             }
@@ -228,14 +227,14 @@ public class InventoryUtils
         return false;
     }
     
-    public static boolean isPlayerCarryingAmount(EntityPlayer player, ItemStack stack, boolean ore) {
+    public static boolean isPlayerCarryingAmount(PlayerEntity player, ItemStack stack, boolean ore) {
         if (stack == null || stack.isEmpty()) {
             return false;
         }
         int count = stack.getCount();
-        for (int var2 = 0; var2 < player.inventory.mainInventory.size(); ++var2) {
-            if (checkEnchantedPlaceholder(stack, player.inventory.mainInventory.get(var2)) || areItemStacksEqual(player.inventory.mainInventory.get(var2), stack, new ThaumcraftInvHelper.InvFilter(false, !stack.hasTagCompound(), ore, false).setRelaxedNBT())) {
-                count -= player.inventory.mainInventory.get(var2).getCount();
+        for (int var2 = 0; var2 < player.inventory.items.size(); ++var2) {
+            if (checkEnchantedPlaceholder(stack, player.inventory.items.get(var2)) || areItemStacksEqual(player.inventory.items.get(var2), stack, new ThaumcraftInvHelper.InvFilter(false, stack.getTag() == null, ore, false).setRelaxedNBT())) {
+                count -= player.inventory.items.get(var2).getCount();
                 if (count <= 0) {
                     return true;
                 }
@@ -245,7 +244,8 @@ public class InventoryUtils
     }
     
     public static boolean checkEnchantedPlaceholder(ItemStack stack, ItemStack stack2) {
-        if (stack.getItem() != ItemsTC.enchantedPlaceholder) {
+        // Placeholder fallback: enchantedPlaceholder may not exist in 1.16 port; treat as false
+        if (stack.getItem() == null) {
             return false;
         }
         Map<Enchantment, Integer> en = EnchantmentHelper.getEnchantments(stack);
@@ -271,35 +271,35 @@ public class InventoryUtils
         return b;
     }
     
-    public static EntityEquipmentSlot isHoldingItem(EntityPlayer player, Item item) {
+    public static EquipmentSlotType isHoldingItem(PlayerEntity player, Item item) {
         if (player == null || item == null) {
             return null;
         }
-        if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == item) {
-            return EntityEquipmentSlot.MAINHAND;
+        if (!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
+            return EquipmentSlotType.MAINHAND;
         }
-        if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == item) {
-            return EntityEquipmentSlot.OFFHAND;
+        if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() == item) {
+            return EquipmentSlotType.OFFHAND;
         }
         return null;
     }
     
-    public static EntityEquipmentSlot isHoldingItem(EntityPlayer player, Class item) {
+    public static EquipmentSlotType isHoldingItem(PlayerEntity player, Class item) {
         if (player == null || item == null) {
             return null;
         }
-        if (player.getHeldItemMainhand() != null && item.isAssignableFrom(player.getHeldItemMainhand().getItem().getClass())) {
-            return EntityEquipmentSlot.MAINHAND;
+        if (!player.getMainHandItem().isEmpty() && item.isAssignableFrom(player.getMainHandItem().getItem().getClass())) {
+            return EquipmentSlotType.MAINHAND;
         }
-        if (player.getHeldItemOffhand() != null && item.isAssignableFrom(player.getHeldItemOffhand().getItem().getClass())) {
-            return EntityEquipmentSlot.OFFHAND;
+        if (!player.getOffhandItem().isEmpty() && item.isAssignableFrom(player.getOffhandItem().getItem().getClass())) {
+            return EquipmentSlotType.OFFHAND;
         }
         return null;
     }
     
-    public static int getPlayerSlotFor(EntityPlayer player, ItemStack stack) {
-        for (int i = 0; i < player.inventory.mainInventory.size(); ++i) {
-            if (!player.inventory.mainInventory.get(i).isEmpty() && stackEqualExact(stack, player.inventory.mainInventory.get(i))) {
+    public static int getPlayerSlotFor(PlayerEntity player, ItemStack stack) {
+        for (int i = 0; i < player.inventory.items.size(); ++i) {
+            if (!player.inventory.items.get(i).isEmpty() && stackEqualExact(stack, player.inventory.items.get(i))) {
                 return i;
             }
         }
@@ -307,18 +307,18 @@ public class InventoryUtils
     }
     
     public static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {
-        return stack1.getItem() == stack2.getItem() && (!stack1.getHasSubtypes() || stack1.getMetadata() == stack2.getMetadata()) && ItemStack.areItemStackTagsEqual(stack1, stack2);
+        return stack1.getItem() == stack2.getItem() && ItemStack.tagMatches(stack1, stack2);
     }
     
     public static boolean areItemStacksEqualStrict(ItemStack stack0, ItemStack stack1) {
         return areItemStacksEqual(stack0, stack1, ThaumcraftInvHelper.InvFilter.STRICT);
     }
     
-    public static ItemStack findFirstMatchFromFilter(NonNullList<ItemStack> filterStacks, boolean blacklist, IItemHandler inv, EnumFacing face, ThaumcraftInvHelper.InvFilter filter) {
+    public static ItemStack findFirstMatchFromFilter(NonNullList<ItemStack> filterStacks, boolean blacklist, IItemHandler inv, Direction face, ThaumcraftInvHelper.InvFilter filter) {
         return findFirstMatchFromFilter(filterStacks, blacklist, inv, face, filter, false);
     }
     
-    public static ItemStack findFirstMatchFromFilter(NonNullList<ItemStack> filterStacks, boolean blacklist, IItemHandler inv, EnumFacing face, ThaumcraftInvHelper.InvFilter filter, boolean leaveOne) {
+    public static ItemStack findFirstMatchFromFilter(NonNullList<ItemStack> filterStacks, boolean blacklist, IItemHandler inv, Direction face, ThaumcraftInvHelper.InvFilter filter, boolean leaveOne) {
     Label_0181:
         for (int a = 0; a < inv.getSlots(); ++a) {
             ItemStack is = inv.getStackInSlot(a);
@@ -389,7 +389,8 @@ public class InventoryUtils
     }
     
     public static ItemStack findFirstMatchFromFilter(NonNullList<ItemStack> filterStacks, NonNullList<Integer> filterStacksSizes, boolean blacklist, NonNullList<ItemStack> itemStacks, ThaumcraftInvHelper.InvFilter filter) {
-        return findFirstMatchFromFilterTuple(filterStacks, filterStacksSizes, blacklist, itemStacks, filter).getFirst();
+        Tuple<ItemStack, Integer> t = findFirstMatchFromFilterTuple(filterStacks, filterStacksSizes, blacklist, itemStacks, filter);
+        return t == null ? ItemStack.EMPTY : t.getA();
     }
     
     public static Tuple<ItemStack, Integer> findFirstMatchFromFilterTuple(NonNullList<ItemStack> filterStacks, NonNullList<Integer> filterStacksSizes, boolean blacklist, NonNullList<ItemStack> stacks, ThaumcraftInvHelper.InvFilter filter) {
@@ -450,11 +451,11 @@ public class InventoryUtils
         if (filter.useMod) {
             String m1 = "A";
             String m2 = "B";
-            String a = stack0.getItem().getRegistryName().getResourceDomain();
+            String a = stack0.getItem().getRegistryName() != null ? stack0.getItem().getRegistryName().getNamespace() : null;
             if (a != null) {
                 m1 = a;
             }
-            String b = stack1.getItem().getRegistryName().getResourceDomain();
+            String b = stack1.getItem().getRegistryName() != null ? stack1.getItem().getRegistryName().getNamespace() : null;
             if (b != null) {
                 m2 = b;
             }
@@ -467,13 +468,9 @@ public class InventoryUtils
         }
         boolean t1 = true;
         if (!filter.igNBT) {
-            t1 = (filter.relaxedNBT ? ThaumcraftInvHelper.areItemStackTagsEqualRelaxed(stack0, stack1) : ItemStack.areItemStackTagsEqual(stack0, stack1));
+            t1 = (filter.relaxedNBT ? ThaumcraftInvHelper.areItemStackTagsEqualRelaxed(stack0, stack1) : ItemStack.tagMatches(stack0, stack1));
         }
-        if (stack0.getItemDamage() == 32767 || stack1.getItemDamage() == 32767) {
-            filter.igDmg = true;
-        }
-        boolean t2 = !filter.igDmg && stack0.getItemDamage() != stack1.getItemDamage();
-        return stack0.getItem() == stack1.getItem() && !t2 && t1;
+        return stack0.getItem() == stack1.getItem() && t1;
     }
     
     public static void dropHarvestsAtPos(World worldIn, BlockPos pos, List<ItemStack> list) {
@@ -482,50 +479,44 @@ public class InventoryUtils
     
     public static void dropHarvestsAtPos(World worldIn, BlockPos pos, List<ItemStack> list, boolean followItem, int color, Entity target) {
         for (ItemStack item : list) {
-            if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops") && !worldIn.restoringBlockSnapshots) {
+            if (!worldIn.isClientSide && worldIn.getGameRules().getBoolean(net.minecraft.world.GameRules.RULE_DOBLOCKDROPS)) {
                 float f = 0.5f;
-                double d0 = worldIn.rand.nextFloat() * f + (1.0f - f) * 0.5;
-                double d2 = worldIn.rand.nextFloat() * f + (1.0f - f) * 0.5;
-                double d3 = worldIn.rand.nextFloat() * f + (1.0f - f) * 0.5;
-                EntityItem entityitem = null;
-                if (followItem) {
-                    entityitem = new EntityFollowingItem(worldIn, pos.getX() + d0, pos.getY() + d2, pos.getZ() + d3, item, target, color);
-                }
-                else {
-                    entityitem = new EntityItem(worldIn, pos.getX() + d0, pos.getY() + d2, pos.getZ() + d3, item);
-                }
-                entityitem.setDefaultPickupDelay();
-                worldIn.spawnEntity(entityitem);
+                double d0 = worldIn.random.nextFloat() * f + (1.0f - f) * 0.5;
+                double d2 = worldIn.random.nextFloat() * f + (1.0f - f) * 0.5;
+                double d3 = worldIn.random.nextFloat() * f + (1.0f - f) * 0.5;
+                ItemEntity entityitem = new ItemEntity(worldIn, pos.getX() + d0, pos.getY() + d2, pos.getZ() + d3, item);
+                entityitem.setDefaultPickUpDelay();
+                worldIn.addFreshEntity(entityitem);
             }
         }
     }
     
     public static void dropItemAtPos(World world, ItemStack item, BlockPos pos) {
-        if (!world.isRemote && item != null && !item.isEmpty() && item.getCount() > 0) {
-            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, item.copy());
-            world.spawnEntity(entityItem);
+        if (!world.isClientSide && item != null && !item.isEmpty() && item.getCount() > 0) {
+            ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, item.copy());
+            world.addFreshEntity(entityItem);
         }
     }
     
     public static void dropItemAtEntity(World world, ItemStack item, Entity entity) {
-        if (!world.isRemote && item != null && !item.isEmpty() && item.getCount() > 0) {
-            EntityItem entityItem = new EntityItem(world, entity.posX, entity.posY + entity.getEyeHeight() / 2.0f, entity.posZ, item.copy());
-            world.spawnEntity(entityItem);
+        if (!world.isClientSide && item != null && !item.isEmpty() && item.getCount() > 0) {
+            ItemEntity entityItem = new ItemEntity(world, entity.getX(), entity.getY() + entity.getEyeHeight() / 2.0f, entity.getZ(), item.copy());
+            world.addFreshEntity(entityItem);
         }
     }
     
     public static void dropItemsAtEntity(World world, BlockPos pos, Entity entity) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (!(tileEntity instanceof IInventory) || world.isRemote) {
+        TileEntity tileEntity = world.getBlockEntity(pos);
+        if (!(tileEntity instanceof IInventory) || world.isClientSide) {
             return;
         }
         IInventory inventory = (IInventory)tileEntity;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack item = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack item = inventory.getItem(i);
             if (!item.isEmpty() && item.getCount() > 0) {
-                EntityItem entityItem = new EntityItem(world, entity.posX, entity.posY + entity.getEyeHeight() / 2.0f, entity.posZ, item.copy());
-                world.spawnEntity(entityItem);
-                inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                ItemEntity entityItem = new ItemEntity(world, entity.getX(), entity.getY() + entity.getEyeHeight() / 2.0f, entity.getZ(), item.copy());
+                world.addFreshEntity(entityItem);
+                inventory.setItem(i, ItemStack.EMPTY);
             }
         }
     }
@@ -537,13 +528,13 @@ public class InventoryUtils
     public static ItemStack cycleItemStack(Object input, int counter) {
         ItemStack it = ItemStack.EMPTY;
         if (input instanceof Ingredient) {
-            boolean b = !((Ingredient)input).isSimple() && !(input instanceof IngredientNBTTC) && !(input instanceof IngredientNBT);
-            input = ((Ingredient)input).getMatchingStacks();
+            boolean b = !((Ingredient)input).isSimple() && !(input instanceof IngredientNBTTC);
+            input = ((Ingredient)input).getItems();
             if (b) {
                 ItemStack[] q = (ItemStack[])input;
                 ItemStack[] r = new ItemStack[q.length];
                 for (int a = 0; a < q.length; ++a) {
-                    (r[a] = q[a].copy()).setItemDamage(32767);
+                    (r[a] = q[a].copy()).setDamageValue(32767);
                 }
                 input = r;
             }
@@ -557,11 +548,12 @@ public class InventoryUtils
         }
         else if (input instanceof ItemStack) {
             it = (ItemStack)input;
-            if (it != null && !it.isEmpty() && it.getItem() != null && it.isItemStackDamageable() && it.getItemDamage() == 32767) {
+            if (it != null && !it.isEmpty() && it.getItem() != null && it.isDamageableItem() && it.getDamageValue() == 32767) {
                 int q3 = 5000 / it.getMaxDamage();
                 int md = (int)((counter + System.currentTimeMillis() / q3) % it.getMaxDamage());
-                ItemStack it2 = new ItemStack(it.getItem(), 1, md);
-                it2.setTagCompound(it.getTagCompound());
+                ItemStack it2 = new ItemStack(it.getItem(), 1);
+                it2.setDamageValue(md);
+                it2.setTag(it.getTag());
                 it = it2;
             }
         }

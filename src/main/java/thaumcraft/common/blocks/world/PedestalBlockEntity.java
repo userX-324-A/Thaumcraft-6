@@ -13,7 +13,7 @@ public class PedestalBlockEntity extends TileEntity {
     private final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
         protected void onContentsChanged(int slot) {
-            markDirty();
+            setChanged();
         }
     };
     private LazyOptional<ItemStackHandler> invCap = LazyOptional.empty();

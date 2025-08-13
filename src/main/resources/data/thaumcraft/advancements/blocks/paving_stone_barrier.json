@@ -1,0 +1,13 @@
+{
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [ { "items": [ "thaumcraft:paving_stone_barrier" ] } ]
+      }
+    }
+  },
+  "requirements": [ [ "has_item" ] ]
+}
+
+

@@ -14,11 +14,11 @@ public class BlockTC extends Block implements IThaumcraftItems {
 
     @Override
     public Item asItem() {
-        return new BlockItemTC(this, new Item.Properties().group(ItemGroup.MISC));
+        return new BlockItemTC(this, new Item.Properties().tab(ItemGroup.TAB_MISC));
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         items.add(new ItemStack(this));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "parent": "thaumcraft:block/jar_normal",
+  "textures": {
+    "brace": "thaumcraft:block/jar_brace"
+  },
+  "elements": [
+    { "from": [4, 14, 4], "to": [12, 16, 12],
+      "faces": { "up": {"texture": "#brace"}, "down": {"texture": "#brace"}, "north": {"texture": "#brace"}, "south": {"texture": "#brace"}, "west": {"texture": "#brace"}, "east": {"texture": "#brace"} }
+    }
+  ]
+}
+
+

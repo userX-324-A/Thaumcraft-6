@@ -12,7 +12,7 @@ public class ItemTCBase extends Item implements IThaumcraftItems {
     protected final int[] VARIANTS_META;
 
     public ItemTCBase(String name, String... variants) {
-        super(new Item.Properties().group(ItemGroup.MISC));
+        super(new Item.Properties().tab(ItemGroup.TAB_MISC));
         this.setRegistryName(name);
         this.BASE_NAME = name;
         if (variants.length == 0) {
@@ -27,24 +27,15 @@ public class ItemTCBase extends Item implements IThaumcraftItems {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup tab, NonNullList<ItemStack> items) {
-        if (this.isInGroup(tab)) {
-            if (this.getHasSubtypes()) {
-                for (int meta = 0; meta < this.VARIANTS.length; ++meta) {
-                    items.add(new ItemStack(this, 1, meta));
-                }
-            } else {
-                super.fillItemGroup(tab, items);
-            }
-        }
-    }
+    // Keep default item group behavior for now; variants handled by separate items in 1.16
+    public void fillItemCategory(ItemGroup tab, NonNullList<ItemStack> items) { super.fillItemCategory(tab, items); }
 
     @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        if (this.getHasSubtypes() && itemStack.getDamage() < this.VARIANTS.length && this.VARIANTS[itemStack.getDamage()] != this.BASE_NAME) {
-            return String.format(super.getTranslationKey() + ".%s", this.VARIANTS[itemStack.getDamage()]);
+    public String getDescriptionId(ItemStack itemStack) {
+        if (itemStack.getDamageValue() < this.VARIANTS.length && !this.VARIANTS[itemStack.getDamageValue()].equals(this.BASE_NAME)) {
+            return String.format(super.getDescriptionId() + ".%s", this.VARIANTS[itemStack.getDamageValue()]);
         }
-        return super.getTranslationKey(itemStack);
+        return super.getDescriptionId(itemStack);
     }
 }
 

@@ -4,7 +4,7 @@
     {
         "transform": "forge:default-block",
         "model": "cube_column",
-        "textures": {"end": "thaumcraft:blocks/log_silverwood_top","side": "thaumcraft:blocks/log_silverwood"}
+        "textures": {"end": "thaumcraft:block/log_silverwood_top","side": "thaumcraft:block/log_silverwood"}
     },
     "variants": {     
         "normal": [{}], "inventory": [{}],

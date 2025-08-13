@@ -41,11 +41,11 @@ public class ClientItemToContainerMessage {
             Container c = mc.player.containerMenu; // 1.16 mapped name
             if (c != null && c.containerId == msg.containerId) {
                 try {
-                    c.setItem(msg.slot, 0, msg.item);
+                    c.setItem(msg.slot, msg.item);
                 } catch (Throwable t) {
                     // fallback to older naming if necessary
                     try {
-                        java.lang.reflect.Method m = c.getClass().getMethod("putStackInSlot", int.class, ItemStack.class);
+                        java.lang.reflect.Method m = c.getClass().getMethod("setItem", int.class, ItemStack.class);
                         m.invoke(c, msg.slot, msg.item);
                     } catch (Exception ignore) {}
                 }

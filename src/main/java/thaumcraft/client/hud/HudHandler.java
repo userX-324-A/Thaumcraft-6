@@ -21,7 +21,9 @@ import java.util.Deque;
  */
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID, value = Dist.CLIENT)
 public final class HudHandler {
-    private static final int DISPLAY_TICKS = 60; // ~3 seconds at 20 TPS
+    private static final int DISPLAY_TICKS = thaumcraft.common.config.ModConfig.COMMON.hudKnowledgeDisplayTicks.get();
+    private static int sanityTicker;
+    private static String lastSanityText;
 
     private static final Deque<KnowledgeGainTracker> queue = new ArrayDeque<>();
     private static final Deque<StringTextComponent> researchQueue = new ArrayDeque<>();
@@ -53,6 +55,7 @@ public final class HudHandler {
     @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableHudOverlays.get()) return;
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
 
@@ -86,11 +89,25 @@ public final class HudHandler {
             }
             researchQueue.clear();
         }
+
+        // Sanity checker smooth cadence (draws for sanityTicker frames)
+        if (sanityTicker > 0 && lastSanityText != null && !lastSanityText.isEmpty() && thaumcraft.common.config.ModConfig.CLIENT.showSanityOverlay.get()) {
+            int textWidth = mc.font.width(lastSanityText);
+            int x = (screenWidth - textWidth) / 2;
+            mc.font.draw(ms, lastSanityText, x, y, 0xFFFFFF);
+            sanityTicker--;
+        }
+    }
+
+    public static void setSanityOverlay(String text, int ticks) {
+        lastSanityText = text;
+        sanityTicker = Math.max(0, ticks);
     }
 
     private static String buildTitle(KnowledgeGainTracker tracker) {
         String type = tracker.type.name();
         String cat = (tracker.category != null ? tracker.category.key : "");
+        if (!thaumcraft.common.config.ModConfig.CLIENT.showKnowledgeToasts.get()) return "";
         return cat.isEmpty() ? ("Knowledge +1: " + type) : ("Knowledge +1: " + type + " [" + cat + "]");
     }
 

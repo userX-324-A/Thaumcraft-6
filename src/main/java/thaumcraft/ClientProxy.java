@@ -1,16 +1,7 @@
 package thaumcraft;
 
-public class ClientProxy implements IProxy {
-    @Override
-    public void preInit() {
-    }
-
-    @Override
-    public void init() {
-        // Client setup handled via FMLClientSetupEvent in registry classes
-    }
-
-    @Override
-    public void postInit() {
-    }
-} 
+/**
+ * Legacy proxy retained for source compatibility during migration.
+ * No longer used in 1.16.5; all setup is driven by mod event buses.
+ */
+public class ClientProxy {}

@@ -20,8 +20,8 @@ public class RecipeScribingTools extends SpecialRecipe {
         boolean hasTools = false;
         boolean hasInk = false;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ItemsTC.scribingTools) {
                     hasTools = true;
@@ -37,11 +37,11 @@ public class RecipeScribingTools extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack tools = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
             if (stack.getItem() == ItemsTC.scribingTools) {
                 tools = stack.copy();
                 break;
@@ -52,12 +52,12 @@ public class RecipeScribingTools extends SpecialRecipe {
             return ItemStack.EMPTY;
         }
 
-        tools.setDamage(0);
+        tools.setDamageValue(0);
         return tools;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

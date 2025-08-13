@@ -1,11 +1,10 @@
 package thaumcraft.common.lib.research.theorycraft;
-import java.util.Iterator;
 import java.util.Random;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerWarp;
@@ -26,19 +25,19 @@ public class CardCelestial extends TheorycraftCard
     }
     
     @Override
-    public NBTTagCompound serialize() {
-        NBTTagCompound nbt = super.serialize();
-        nbt.setInteger("md1", md1);
-        nbt.setInteger("md2", md2);
-        nbt.setString("cat", cat);
+    public CompoundNBT serialize() {
+        CompoundNBT nbt = super.serialize();
+        nbt.putInt("md1", md1);
+        nbt.putInt("md2", md2);
+        nbt.putString("cat", cat);
         return nbt;
     }
     
     @Override
-    public void deserialize(NBTTagCompound nbt) {
+    public void deserialize(CompoundNBT nbt) {
         super.deserialize(nbt);
-        md1 = nbt.getInteger("md1");
-        md2 = nbt.getInteger("md2");
+        md1 = nbt.getInt("md1");
+        md2 = nbt.getInt("md2");
         cat = nbt.getString("cat");
     }
     
@@ -48,20 +47,20 @@ public class CardCelestial extends TheorycraftCard
     }
     
     @Override
-    public boolean initialize(EntityPlayer player, ResearchTableData data) {
-        if (data.categoryTotals.isEmpty() || !ThaumcraftCapabilities.knowsResearch(player, "CELESTIALSCANNING")) {
+    public boolean initialize(PlayerEntity player, ResearchTableData data) {
+        if (data.totalsByCategory.isEmpty() || !ThaumcraftCapabilities.knowsResearch(player, "CELESTIALSCANNING")) {
             return false;
         }
         Random r = new Random(getSeed());
-        md1 = MathHelper.getInt(r, 0, 12);
+        md1 = MathHelper.nextInt(r, 0, 12);
         md2 = md1;
         while (md1 == md2) {
-            md2 = MathHelper.getInt(r, 0, 12);
+            md2 = MathHelper.nextInt(r, 0, 12);
         }
         int hVal = 0;
         String hKey = "";
-        for (String category : data.categoryTotals.keySet()) {
-            int q = data.getTotal(category);
+        for (String category : data.totalsByCategory.keySet()) {
+            int q = data.totalsByCategory.getOrDefault(category, 0);
             if (q > hVal) {
                 hVal = q;
                 hKey = category;
@@ -78,17 +77,24 @@ public class CardCelestial extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.celestial.name").getFormattedText();
+        return new TranslationTextComponent("card.celestial.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.celestial.text", TextFormatting.BOLD + new TextComponentTranslation("tc.research_category." + cat).getFormattedText() + TextFormatting.RESET).getUnformattedText();
+        return new TranslationTextComponent(
+                "card.celestial.text",
+                TextFormatting.BOLD + new TranslationTextComponent("tc.research_category." + cat).getString() + TextFormatting.RESET
+        ).getString();
     }
     
     @Override
     public ItemStack[] getRequiredItems() {
-        return new ItemStack[] { new ItemStack(ItemsTC.celestialNotes, 1, md1), new ItemStack(ItemsTC.celestialNotes, 1, md2) };
+        ItemStack a = new ItemStack(ItemsTC.celestialNotes);
+        a.getOrCreateTag().putInt("md", md1);
+        ItemStack b = new ItemStack(ItemsTC.celestialNotes);
+        b.getOrCreateTag().putInt("md", md2);
+        return new ItemStack[] { a, b };
     }
     
     @Override
@@ -97,18 +103,15 @@ public class CardCelestial extends TheorycraftCard
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
-        data.addTotal(getResearchCategory(), MathHelper.getInt(player.getRNG(), 25, 50));
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
+        data.addTotal(getResearchCategory(), MathHelper.nextInt(player.getRandom(), 25, 50));
         boolean sun = md1 == 0 || md2 == 0;
         boolean moon = md1 > 4 || md2 > 4;
         boolean stars = (md1 > 0 && md1 < 5) || (md2 > 0 && md2 < 5);
         if (stars) {
-            int amt = MathHelper.getInt(player.getRNG(), 0, 5);
+            int amt = MathHelper.nextInt(player.getRandom(), 0, 5);
             data.addTotal("ELDRITCH", amt * 2);
             ThaumcraftApi.internalMethods.addWarpToPlayer(player, amt, IPlayerWarp.EnumWarpType.TEMPORARY);
-        }
-        if (sun) {
-            ++data.penaltyStart;
         }
         if (moon) {
             ++data.bonusDraws;

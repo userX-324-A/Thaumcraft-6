@@ -60,6 +60,14 @@ public class ResearchManager
                 NetworkHandler.sendTo((ServerPlayerEntity) player,
                         new ClientKnowledgeGainMessage((byte) type.ordinal(), (category == null) ? null : category.key));
             }
+            // Curiosity ring bonus: if equipped, grant 1 extra point per grant at low chance
+            if (thaumcraft.common.items.baubles.CuriosCompat.isLoaded()) {
+                boolean hasRing = thaumcraft.common.items.baubles.CuriosCompat.hasEquipped(player, thaumcraft.common.registers.ModItems.RING_CURIOSITY.get());
+                double chance = thaumcraft.common.config.ModConfig.COMMON.curiosityRingBonusChance.get();
+                if (hasRing && player.getRandom().nextFloat() < (float)Math.max(0.0, Math.min(1.0, chance))) {
+                    knowledge.addKnowledge(type, category, 1);
+                }
+            }
         }
         ResearchManager.syncList.put(player.getName().getString(), true);
         return true;

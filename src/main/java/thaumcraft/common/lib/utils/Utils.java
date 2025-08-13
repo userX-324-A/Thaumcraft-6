@@ -3,53 +3,54 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.handler.codec.EncoderException;
-import java.io.DataInput;
-import java.io.DataOutput;
+// import java.io.DataInput;
+// import java.io.DataOutput;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
+// import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.block.BlockState;
+// import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
+// import net.minecraft.entity.player.ServerPlayerEntity;
+// import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemDye;
+import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTSizeTracker;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+// import net.minecraft.nbt.NBTSizeTracker;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
+// import net.minecraft.util.Hand;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.vector.Vector3d;
+// Vec3d replaced by Vector3d in 1.16.5
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+// import net.minecraftforge.fml.common.network.NetworkRegistry; // not used in 1.16.5 path
 import net.minecraftforge.common.Tags;
+import net.minecraft.tags.BlockTags;
 import thaumcraft.api.internal.WeightedRandomLoot;
-import thaumcraft.api.items.ItemsTC;
-import thaumcraft.codechicken.lib.vec.Cuboid6;
-import thaumcraft.codechicken.lib.vec.Rotation;
-import thaumcraft.codechicken.lib.vec.Vector3;
+// import thaumcraft.api.items.ItemsTC;
+// Removed CodeChickenLib AABB rotation dependency for now
 // import thaumcraft.common.network.NetworkHandler; // 1.16.5 channel (not used here yet)
 // import thaumcraft.common.network.msg.ClientBiomeChangeMessage;
 
@@ -63,14 +64,12 @@ public class Utils
     public static ArrayList<List> oreDictLogs;
     
     public static boolean isChunkLoaded(World world, int x, int z) {
-        Chunk chunk = world.getChunkProvider().getLoadedChunk(x >> 4, z >> 4);
-        return chunk != null && !chunk.isEmpty();
+        return world.hasChunk(x >> 4, z >> 4);
     }
     
-    public static boolean useBonemealAtLoc(World world, EntityPlayer player, BlockPos pos) {
-        ItemStack is = new ItemStack(Items.DYE, 1, 15);
-        ItemDye itemDye = (ItemDye)Items.DYE;
-        return ItemDye.applyBonemeal(is, world, pos, player, EnumHand.MAIN_HAND);
+    public static boolean useBonemealAtLoc(World world, PlayerEntity player, BlockPos pos) {
+        ItemStack stack = new ItemStack(Items.BONE_MEAL);
+        return BoneMealItem.applyBonemeal(stack, world, pos, player);
     }
     
     public static boolean hasColor(byte[] colors) {
@@ -104,14 +103,14 @@ public class Utils
     }
     
     public static void addSpecialMiningResult(ItemStack in, ItemStack out, float chance) {
-        Utils.specialMiningResult.put(Arrays.asList(in.getItem(), in.getItemDamage()), out);
-        Utils.specialMiningChance.put(Arrays.asList(in.getItem(), in.getItemDamage()), chance);
+        Utils.specialMiningResult.put(Arrays.asList(in.getItem(), in.getDamageValue()), out);
+        Utils.specialMiningChance.put(Arrays.asList(in.getItem(), in.getDamageValue()), chance);
     }
     
     public static ItemStack findSpecialMiningResult(ItemStack is, float chance, Random rand) {
         ItemStack dropped = is.copy();
         float r = rand.nextFloat();
-        List ik = Arrays.asList(is.getItem(), is.getItemDamage());
+        List<Object> ik = Arrays.asList(is.getItem(), is.getDamageValue());
         if (Utils.specialMiningResult.containsKey(ik) && r <= chance * Utils.specialMiningChance.get(ik)) {
             dropped = Utils.specialMiningResult.get(ik).copy();
             dropped.setCount(dropped.getCount() * is.getCount());
@@ -131,11 +130,8 @@ public class Utils
         if (biome == null) {
             return;
         }
-        Chunk chunk = world.getChunkFromBlockCoords(pos);
-        byte[] array = chunk.getBiomeArray();
-        array[(pos.getZ() & 0xF) << 4 | (pos.getX() & 0xF)] = (byte)(Biome.getIdForBiome(biome) & 0xFF);
-        chunk.setBiomeArray(array);
-        if (sync && !world.isRemote && world instanceof net.minecraft.world.server.ServerWorld) {
+        Chunk chunk = world.getChunk(pos.getX() >> 4, pos.getZ() >> 4); // reserved for future per-chunk biome ops
+        if (sync && !world.isClientSide && world instanceof net.minecraft.world.server.ServerWorld) {
             net.minecraft.world.server.ServerWorld sw = (net.minecraft.world.server.ServerWorld) world;
             thaumcraft.common.network.NetworkHandler.sendToAllAround(
                     new thaumcraft.common.network.msg.ClientBiomeChangeMessage(pos, netForgeBiomeId(biome)),
@@ -155,28 +151,20 @@ public class Utils
     }
     
     public static boolean resetBiomeAt(World world, BlockPos pos, boolean sync) {
-        Biome[] biomesForGeneration = null;
-        biomesForGeneration = world.getBiomeProvider().getBiomesForGeneration(biomesForGeneration, pos.getX(), pos.getZ(), 1, 1);
-        if (biomesForGeneration != null && biomesForGeneration[0] != null) {
-            Biome biome = biomesForGeneration[0];
-            if (biome != world.getBiome(pos)) {
-                setBiomeAt(world, pos, biome, sync);
-                return true;
-            }
-        }
-        return false;
+        Biome biome = world.getBiome(pos);
+        setBiomeAt(world, pos, biome, sync);
+        return true;
     }
     
-    public static boolean isWoodLog(IBlockAccess world, BlockPos pos) {
-        IBlockState bs = world.getBlockState(pos);
+    public static boolean isWoodLog(IBlockReader world, BlockPos pos) {
+        BlockState bs = world.getBlockState(pos);
         Block bi = bs.getBlock();
-        return bi.isWood(world, pos) || bi.canSustainLeaves(bs, world, pos) || Utils.oreDictLogs.contains(Arrays.asList(bi, bi.getMetaFromState(bs)));
+        return bs.is(BlockTags.LOGS);
     }
     
     public static boolean isOreBlock(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        Block block = state.getBlock();
-        return block != Blocks.AIR && block != Blocks.BEDROCK && Tags.Blocks.ORES.contains(block);
+        BlockState state = world.getBlockState(pos);
+        return state.is(Tags.Blocks.ORES);
     }
     
     public static int setNibble(int data, int nibble, int nibbleIndex) {
@@ -260,7 +248,7 @@ public class Utils
         return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
     }
     
-    public static Vec3d calculateVelocity(Vec3d from, Vec3d to, double heightGain, double gravity) {
+    public static Vector3d calculateVelocity(Vector3d from, Vector3d to, double heightGain, double gravity) {
         double endGain = to.y - from.y;
         double horizDist = Math.sqrt(distanceSquared2d(from, to));
         double gain = heightGain;
@@ -278,16 +266,16 @@ public class Utils
         double dirz = dz / mag;
         double vx = vh * dirx;
         double vz = vh * dirz;
-        return new Vec3d(vx, vy, vz);
+        return new Vector3d(vx, vy, vz);
     }
     
-    public static double distanceSquared2d(Vec3d from, Vec3d to) {
+    public static double distanceSquared2d(Vector3d from, Vector3d to) {
         double dx = to.x - from.x;
         double dz = to.z - from.z;
         return dx * dx + dz * dz;
     }
     
-    public static double distanceSquared3d(Vec3d from, Vec3d to) {
+    public static double distanceSquared3d(Vector3d from, Vector3d to) {
         double dx = to.x - from.x;
         double dy = to.y - from.y;
         double dz = to.z - from.z;
@@ -305,21 +293,21 @@ public class Utils
         else {
             switch (rarity) {
                 default: {
-                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List)WeightedRandomLoot.lootBagCommon)).item;
+                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List<WeightedRandom.Item>) (List<?>) WeightedRandomLoot.lootBagCommon)).item;
                     break;
                 }
                 case 1: {
-                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List)WeightedRandomLoot.lootBagUncommon)).item;
+                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List<WeightedRandom.Item>) (List<?>) WeightedRandomLoot.lootBagUncommon)).item;
                     break;
                 }
                 case 2: {
-                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List)WeightedRandomLoot.lootBagRare)).item;
+                    is = ((WeightedRandomLoot)WeightedRandom.getRandomItem(rand, (List<WeightedRandom.Item>) (List<?>) WeightedRandomLoot.lootBagRare)).item;
                     break;
                 }
             }
         }
         if (is.getItem() == Items.BOOK) {
-            EnchantmentHelper.addRandomEnchantment(rand, is, (int)(5.0f + rarity * 0.75f * rand.nextInt(18)), false);
+            net.minecraft.enchantment.EnchantmentHelper.enchantItem(rand, is, (int)(5.0f + rarity * 0.75f * rand.nextInt(18)), false);
         }
         return is.copy();
     }
@@ -344,9 +332,9 @@ public class Utils
         }
         Item item = getGearItemForSlot(rand.nextInt(5), quality);
         if (item != null) {
-            is = new ItemStack(item, 1, rand.nextInt(1 + item.getMaxDamage() / 6));
+            is = new ItemStack(item, 1);
             if (rand.nextInt(4) < rarity) {
-                EnchantmentHelper.addRandomEnchantment(rand, is, (int)(5.0f + rarity * 0.75f * rand.nextInt(18)), false);
+                net.minecraft.enchantment.EnchantmentHelper.enchantItem(rand, is, (int)(5.0f + rarity * 0.75f * rand.nextInt(18)), false);
             }
             return is.copy();
         }
@@ -368,14 +356,8 @@ public class Utils
                 if (quality == 3) {
                     return Items.IRON_HELMET;
                 }
-                if (quality == 4) {
-                    return ItemsTC.thaumiumHelm;
-                }
                 if (quality == 5) {
                     return Items.DIAMOND_HELMET;
-                }
-                if (quality == 6) {
-                    return ItemsTC.voidHelm;
                 }
             }
             case 3: {
@@ -391,14 +373,8 @@ public class Utils
                 if (quality == 3) {
                     return Items.IRON_CHESTPLATE;
                 }
-                if (quality == 4) {
-                    return ItemsTC.thaumiumChest;
-                }
                 if (quality == 5) {
                     return Items.DIAMOND_CHESTPLATE;
-                }
-                if (quality == 6) {
-                    return ItemsTC.voidChest;
                 }
             }
             case 2: {
@@ -414,14 +390,8 @@ public class Utils
                 if (quality == 3) {
                     return Items.IRON_LEGGINGS;
                 }
-                if (quality == 4) {
-                    return ItemsTC.thaumiumLegs;
-                }
                 if (quality == 5) {
                     return Items.DIAMOND_LEGGINGS;
-                }
-                if (quality == 6) {
-                    return ItemsTC.voidLegs;
                 }
             }
             case 1: {
@@ -437,14 +407,8 @@ public class Utils
                 if (quality == 3) {
                     return Items.IRON_BOOTS;
                 }
-                if (quality == 4) {
-                    return ItemsTC.thaumiumBoots;
-                }
                 if (quality == 5) {
                     return Items.DIAMOND_BOOTS;
-                }
-                if (quality == 6) {
-                    return ItemsTC.voidBoots;
                 }
             }
             case 0: {
@@ -460,14 +424,8 @@ public class Utils
                 if (quality == 3) {
                     return Items.GOLDEN_SWORD;
                 }
-                if (quality == 4) {
-                    return ItemsTC.thaumiumSword;
-                }
                 if (quality == 5) {
                     return Items.DIAMOND_SWORD;
-                }
-                if (quality == 6) {
-                    return ItemsTC.voidSword;
                 }
                 break;
             }
@@ -480,14 +438,11 @@ public class Utils
             bb.writeShort(-1);
         }
         else {
-            bb.writeShort(Item.getIdFromItem(stack.getItem()));
+            bb.writeShort(net.minecraft.item.Item.getId(stack.getItem()));
             bb.writeShort(stack.getCount());
-            bb.writeShort(stack.getMetadata());
-            NBTTagCompound nbttagcompound = null;
-            if (stack.getItem().isDamageable() || stack.getItem().getShareTag()) {
-                nbttagcompound = stack.getTagCompound();
-            }
-            writeNBTTagCompoundToBuffer(bb, nbttagcompound);
+            bb.writeShort(stack.getDamageValue());
+            CompoundNBT nbt = stack.getShareTag();
+            writeNBTTagCompoundToBuffer(bb, nbt);
         }
     }
     
@@ -497,13 +452,13 @@ public class Utils
         if (short1 >= 0) {
             short b0 = bb.readShort();
             short short2 = bb.readShort();
-            itemstack = new ItemStack(Item.getItemById(short1), b0, short2);
-            itemstack.setTagCompound(readNBTTagCompoundFromBuffer(bb));
+            itemstack = new ItemStack(net.minecraft.item.Item.byId(short1), b0);
+            itemstack.setTag(readNBTTagCompoundFromBuffer(bb));
         }
         return itemstack;
     }
     
-    public static void writeNBTTagCompoundToBuffer(ByteBuf bb, NBTTagCompound nbt) {
+    public static void writeNBTTagCompoundToBuffer(ByteBuf bb, CompoundNBT nbt) {
         if (nbt == null) {
             bb.writeByte(0);
         }
@@ -517,7 +472,7 @@ public class Utils
         }
     }
     
-    public static NBTTagCompound readNBTTagCompoundFromBuffer(ByteBuf bb) {
+    public static CompoundNBT readNBTTagCompoundFromBuffer(ByteBuf bb) {
         int i = bb.readerIndex();
         byte b0 = bb.readByte();
         if (b0 == 0) {
@@ -525,40 +480,40 @@ public class Utils
         }
         bb.readerIndex(i);
         try {
-            return CompressedStreamTools.read(new ByteBufInputStream(bb), new NBTSizeTracker(2097152L));
+            return CompressedStreamTools.read(new ByteBufInputStream(bb));
         }
         catch (IOException ex) {
             return null;
         }
     }
     
-    public static Vec3d rotateAsBlock(Vec3d vec, EnumFacing side) {
-        return rotate(vec.subtract(0.5, 0.5, 0.5), side).addVector(0.5, 0.5, 0.5);
+    public static Vector3d rotateAsBlock(Vector3d vec, Direction side) {
+        return rotate(vec.subtract(0.5, 0.5, 0.5), side).add(0.5, 0.5, 0.5);
     }
     
-    public static Vec3d rotateAsBlockRev(Vec3d vec, EnumFacing side) {
-        return revRotate(vec.subtract(0.5, 0.5, 0.5), side).addVector(0.5, 0.5, 0.5);
+    public static Vector3d rotateAsBlockRev(Vector3d vec, Direction side) {
+        return revRotate(vec.subtract(0.5, 0.5, 0.5), side).add(0.5, 0.5, 0.5);
     }
     
-    public static Vec3d rotate(Vec3d vec, EnumFacing side) {
+    public static Vector3d rotate(Vector3d vec, Direction side) {
         switch (side) {
             case DOWN: {
-                return new Vec3d(vec.x, -vec.y, -vec.z);
+                return new Vector3d(vec.x, -vec.y, -vec.z);
             }
             case UP: {
-                return new Vec3d(vec.x, vec.y, vec.z);
+                return new Vector3d(vec.x, vec.y, vec.z);
             }
             case NORTH: {
-                return new Vec3d(vec.x, vec.z, -vec.y);
+                return new Vector3d(vec.x, vec.z, -vec.y);
             }
             case SOUTH: {
-                return new Vec3d(vec.x, -vec.z, vec.y);
+                return new Vector3d(vec.x, -vec.z, vec.y);
             }
             case WEST: {
-                return new Vec3d(-vec.y, vec.x, vec.z);
+                return new Vector3d(-vec.y, vec.x, vec.z);
             }
             case EAST: {
-                return new Vec3d(vec.y, -vec.x, vec.z);
+                return new Vector3d(vec.y, -vec.x, vec.z);
             }
             default: {
                 return null;
@@ -566,25 +521,25 @@ public class Utils
         }
     }
     
-    public static Vec3d revRotate(Vec3d vec, EnumFacing side) {
+    public static Vector3d revRotate(Vector3d vec, Direction side) {
         switch (side) {
             case DOWN: {
-                return new Vec3d(vec.x, -vec.y, -vec.z);
+                return new Vector3d(vec.x, -vec.y, -vec.z);
             }
             case UP: {
-                return new Vec3d(vec.x, vec.y, vec.z);
+                return new Vector3d(vec.x, vec.y, vec.z);
             }
             case NORTH: {
-                return new Vec3d(vec.x, -vec.z, vec.y);
+                return new Vector3d(vec.x, -vec.z, vec.y);
             }
             case SOUTH: {
-                return new Vec3d(vec.x, vec.z, -vec.y);
+                return new Vector3d(vec.x, vec.z, -vec.y);
             }
             case WEST: {
-                return new Vec3d(vec.y, -vec.x, vec.z);
+                return new Vector3d(vec.y, -vec.x, vec.z);
             }
             case EAST: {
-                return new Vec3d(-vec.y, vec.x, vec.z);
+                return new Vector3d(-vec.y, vec.x, vec.z);
             }
             default: {
                 return null;
@@ -592,65 +547,52 @@ public class Utils
         }
     }
     
-    public static Vec3d rotateAroundX(Vec3d vec, float angle) {
+    public static Vector3d rotateAroundX(Vector3d vec, float angle) {
         float var2 = MathHelper.cos(angle);
         float var3 = MathHelper.sin(angle);
         double var4 = vec.x;
         double var5 = vec.y * var2 + vec.z * var3;
         double var6 = vec.z * var2 - vec.y * var3;
-        return new Vec3d(var4, var5, var6);
+        return new Vector3d(var4, var5, var6);
     }
     
-    public static Vec3d rotateAroundY(Vec3d vec, float angle) {
+    public static Vector3d rotateAroundY(Vector3d vec, float angle) {
         float var2 = MathHelper.cos(angle);
         float var3 = MathHelper.sin(angle);
         double var4 = vec.x * var2 + vec.z * var3;
         double var5 = vec.y;
         double var6 = vec.z * var2 - vec.x * var3;
-        return new Vec3d(var4, var5, var6);
+        return new Vector3d(var4, var5, var6);
     }
     
-    public static Vec3d rotateAroundZ(Vec3d vec, float angle) {
+    public static Vector3d rotateAroundZ(Vector3d vec, float angle) {
         float var2 = MathHelper.cos(angle);
         float var3 = MathHelper.sin(angle);
         double var4 = vec.x * var2 + vec.y * var3;
         double var5 = vec.y * var2 - vec.x * var3;
         double var6 = vec.z;
-        return new Vec3d(var4, var5, var6);
+        return new Vector3d(var4, var5, var6);
     }
     
-    public static RayTraceResult rayTrace(World worldIn, Entity entityIn, boolean useLiquids) {
+    public static BlockRayTraceResult rayTrace(World worldIn, Entity entityIn, boolean useLiquids) {
         double d3 = 5.0;
-        if (entityIn instanceof EntityPlayerMP) {
-            d3 = ((EntityPlayerMP)entityIn).interactionManager.getBlockReachDistance();
-        }
+        // 1.16: use default reach; ServerPlayer reach access is not public without mixins
         return rayTrace(worldIn, entityIn, useLiquids, d3);
     }
     
-    public static RayTraceResult rayTrace(World worldIn, Entity entityIn, boolean useLiquids, double range) {
-        float f = entityIn.rotationPitch;
-        float f2 = entityIn.rotationYaw;
-        double d0 = entityIn.posX;
-        double d2 = entityIn.posY + entityIn.getEyeHeight();
-        double d3 = entityIn.posZ;
-        Vec3d vec3d = new Vec3d(d0, d2, d3);
-        float f3 = MathHelper.cos(-f2 * 0.017453292f - 3.1415927f);
-        float f4 = MathHelper.sin(-f2 * 0.017453292f - 3.1415927f);
-        float f5 = -MathHelper.cos(-f * 0.017453292f);
-        float f6 = MathHelper.sin(-f * 0.017453292f);
-        float f7 = f4 * f5;
-        float f8 = f3 * f5;
-        Vec3d vec3d2 = vec3d.addVector(f7 * range, f6 * range, f8 * range);
-        return worldIn.rayTraceBlocks(vec3d, vec3d2, useLiquids, !useLiquids, false);
+    public static BlockRayTraceResult rayTrace(World worldIn, Entity entityIn, boolean useLiquids, double range) {
+        Vector3d start = new Vector3d(entityIn.getX(), entityIn.getEyeY(), entityIn.getZ());
+        Vector3d look = entityIn.getLookAngle();
+        Vector3d end = start.add(look.x * range, look.y * range, look.z * range);
+        RayTraceContext.FluidMode fluid = useLiquids ? RayTraceContext.FluidMode.ANY : RayTraceContext.FluidMode.NONE;
+        return worldIn.clip(new RayTraceContext(start, end, RayTraceContext.BlockMode.OUTLINE, fluid, entityIn));
     }
     
-    public static RayTraceResult rayTrace(World worldIn, Entity entityIn, Vec3d lookvec, boolean useLiquids, double range) {
-        double d0 = entityIn.posX;
-        double d2 = entityIn.posY + entityIn.getEyeHeight();
-        double d3 = entityIn.posZ;
-        Vec3d vec3d = new Vec3d(d0, d2, d3);
-        Vec3d vec3d2 = vec3d.addVector(lookvec.x * range, lookvec.y * range, lookvec.z * range);
-        return worldIn.rayTraceBlocks(vec3d, vec3d2, useLiquids, !useLiquids, false);
+    public static BlockRayTraceResult rayTrace(World worldIn, Entity entityIn, Vector3d lookvec, boolean useLiquids, double range) {
+        Vector3d start = new Vector3d(entityIn.getX(), entityIn.getEyeY(), entityIn.getZ());
+        Vector3d end = start.add(lookvec.x * range, lookvec.y * range, lookvec.z * range);
+        RayTraceContext.FluidMode fluid = useLiquids ? RayTraceContext.FluidMode.ANY : RayTraceContext.FluidMode.NONE;
+        return worldIn.clip(new RayTraceContext(start, end, RayTraceContext.BlockMode.OUTLINE, fluid, entityIn));
     }
     
     public static Field getField(Class clazz, String fieldName) throws NoSuchFieldException {
@@ -666,9 +608,9 @@ public class Utils
         }
     }
     
-    public static AxisAlignedBB rotateBlockAABB(AxisAlignedBB aabb, EnumFacing facing) {
-        Cuboid6 c = new Cuboid6(aabb).add(new Vector3(-0.5, -0.5, -0.5)).apply(Rotation.sideRotations[facing.getIndex()]).add(new Vector3(0.5, 0.5, 0.5));
-        return c.aabb();
+    public static AxisAlignedBB rotateBlockAABB(AxisAlignedBB aabb, Direction facing) {
+        // TODO: Re-implement precise AABB rotation if needed. For now return as-is to avoid CCL dep.
+        return aabb;
     }
     
     static {

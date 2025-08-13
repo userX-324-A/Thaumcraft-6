@@ -1,6 +1,6 @@
 package thaumcraft.common.lib.research.theorycraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
@@ -19,18 +19,22 @@ public class CardBeacon extends TheorycraftCard
     
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.beacon.name").getFormattedText();
+        return new TranslationTextComponent("card.beacon.name").getString();
     }
     
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.beacon.text").getFormattedText();
+        return new TranslationTextComponent("card.beacon.text").getString();
     }
     
     @Override
-    public boolean activate(EntityPlayer player, ResearchTableData data) {
+    public String getResearchCategory() {
+        return "BASICS";
+    }
+    
+    @Override
+    public boolean activate(PlayerEntity player, ResearchTableData data) {
         ++data.bonusDraws;
-        ++data.penaltyStart;
         return true;
     }
 }

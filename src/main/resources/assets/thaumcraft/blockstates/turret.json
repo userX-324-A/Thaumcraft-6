@@ -3,15 +3,16 @@
     "variants": {
         "basic": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/turret_basic" }
+            "textures": { "layer0": "thaumcraft:item/turret_basic" }
         },
         "advanced": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/turret_advanced" }
+            "textures": { "layer0": "thaumcraft:item/turret_advanced" }
         },
         "bore": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/turret_bore" }
+            "textures": { "layer0": "thaumcraft:item/turret_bore" }
         }
     }
 }
+

@@ -11,6 +11,7 @@ import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.api.golems.seals.SealPos;
 import thaumcraft.api.golems.tasks.Task;
 import thaumcraft.api.research.ResearchCategory;
+import thaumcraft.api.casters.FocusPackage;
 
 
 /**
@@ -119,6 +120,12 @@ public interface IInternalMethodHandler {
 	public void addGolemTask(int dim, Task task);
 	public boolean shouldPreserveAura(World world, PlayerEntity player, BlockPos pos);
 	public ItemStack getSealStack(String key);
+
+    // Casting hooks for focus packages (minimal API for 1.16 port)
+    default void castFocusPackage(net.minecraft.entity.LivingEntity caster, FocusPackage focusPackage) {
+        // No-op default; real implementation lives in common during full port
+        thaumcraft.api.casters.FocusEngine.runFocusPackage(focusPackage, null, null);
+    }
 
 	
 

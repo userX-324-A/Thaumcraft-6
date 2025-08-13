@@ -131,7 +131,54 @@ public class ArcaneWorkbenchMenu extends Container {
 
     @Override
     public ItemStack quickMoveStack(PlayerEntity player, int index) {
-        return ItemStack.EMPTY;
+        ItemStack original = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            original = stackInSlot.copy();
+
+            int gridStart = 0;
+            int gridEnd = gridStart + 9; // 0..8
+            int crystalStart = gridEnd; // 9
+            int crystalEnd = crystalStart + 6; // 9..14
+            int resultIndex = crystalEnd; // 15
+            int playerInvStart = resultIndex + 1; // 16
+            int playerHotbarStart = playerInvStart + 27; // 43
+            int playerEnd = playerHotbarStart + 9; // 52 (exclusive)
+
+            if (index == resultIndex) {
+                // Move crafted result into player inventory
+                if (!this.moveItemStackTo(stackInSlot, playerInvStart, playerEnd, true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onQuickCraft(stackInSlot, original);
+            } else if (index >= playerInvStart && index < playerEnd) {
+                // From player inventory → try grid first, then crystals
+                if (!this.moveItemStackTo(stackInSlot, gridStart, gridEnd, false)) {
+                    if (!this.moveItemStackTo(stackInSlot, crystalStart, crystalEnd, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            } else {
+                // From grid/crystals → player inventory
+                if (!this.moveItemStackTo(stackInSlot, playerInvStart, playerEnd, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+
+            if (stackInSlot.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+
+            if (stackInSlot.getCount() == original.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, stackInSlot);
+        }
+        return original;
     }
 
     private void updateResult() {

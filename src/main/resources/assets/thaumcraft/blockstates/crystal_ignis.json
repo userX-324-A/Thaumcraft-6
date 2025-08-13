@@ -3,7 +3,7 @@
     "defaults": {
         "transform": "forge:default-block",
         "model": "builtin/generated", 
-        "textures": {"all": "thaumcraft:blocks/empty"}
+        "textures": {"all": "thaumcraft:block/empty"}
     }
     ,
     "variants": {     
@@ -11,4 +11,5 @@
         "gen": {"1": {},"2": {},"3": {},"4": {}}
     }
 }
+
 

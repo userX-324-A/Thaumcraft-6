@@ -1,0 +1,211 @@
+package thaumcraft.common.client.screen;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import thaumcraft.api.golems.seals.ISealEntity;
+import thaumcraft.client.golems.ClientSealCache;
+import thaumcraft.common.menu.SealContainer;
+import thaumcraft.common.network.NetworkHandler;
+import thaumcraft.common.network.msg.RequestSealPropsChangeMessage;
+
+/**
+ * Minimal 1.16.5 GUI for editing seal properties: priority, color, locked, redstone, area (XYZ).
+ */
+public class SealScreen extends ContainerScreen<SealContainer> {
+    private Button btnLocked;
+    private Button btnRedstone;
+    private Button btnColor;
+    private java.util.List<Button> toggleButtons;
+    private TextFieldWidget txtPriority;
+    private TextFieldWidget txtAreaX;
+    private TextFieldWidget txtAreaY;
+    private TextFieldWidget txtAreaZ;
+
+    public SealScreen(SealContainer container, PlayerInventory inv, ITextComponent title) {
+        super(container, inv, title == null ? new StringTextComponent("Seal") : title);
+        this.imageWidth = 176;
+        this.imageHeight = 120;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        int x = this.leftPos + 10;
+        int y = this.topPos + 18;
+
+        ISealEntity ent = ClientSealCache.get(menu.getPos(), menu.getFace());
+        boolean canEdit = canEdit(ent);
+        byte priority = ent != null ? ent.getPriority() : 0;
+        byte color = ent != null ? ent.getColor() : 0;
+        boolean locked = ent != null && ent.isLocked();
+        boolean redstone = ent != null && ent.isRedstoneSensitive();
+        int ax = ent != null && ent.getArea() != null ? ent.getArea().getX() : 1;
+        int ay = ent != null && ent.getArea() != null ? ent.getArea().getY() : 1;
+        int az = ent != null && ent.getArea() != null ? ent.getArea().getZ() : 1;
+
+        // Priority
+        txtPriority = new TextFieldWidget(this.font, x + 80, y, 30, 18, new StringTextComponent("P"));
+        txtPriority.setValue(String.valueOf(priority));
+        txtPriority.setEditable(canEdit);
+        txtPriority.setResponder(s -> {
+            int v = clamp(getInt(s, 0), 0, 5);
+            // Optimistic UI; send on each change
+            sendProps(RequestSealPropsChangeMessage.Kind.PRIORITY, v, false, 0L);
+        });
+        this.addButton(txtPriority);
+
+        // Color cycle
+        btnColor = new Button(x + 120, y - 1, 60, 20, new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.color").append(":" + color),
+                b -> {
+                    if (!canEdit) return;
+                    int next = (colorOf(btnColor.getMessage().getString()) + 1) & 15;
+                    btnColor.setMessage(new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.color").append(":" + next));
+                    sendProps(RequestSealPropsChangeMessage.Kind.COLOR, next, false, 0L);
+                });
+        btnColor.active = canEdit;
+        this.addButton(btnColor);
+
+        // Locked toggle
+        btnLocked = new Button(x, y + 24, 80, 20, new StringTextComponent(locked ? "Locked: ON" : "Locked: OFF"),
+                b -> {
+                    if (!canEdit) return;
+                    boolean nv = !textOn(b.getMessage());
+                    b.setMessage(new StringTextComponent(nv ? "Locked: ON" : "Locked: OFF"));
+                    sendProps(RequestSealPropsChangeMessage.Kind.LOCKED, 0, nv, 0L);
+                });
+        btnLocked.active = canEdit;
+        this.addButton(btnLocked);
+
+        // Redstone toggle
+        btnRedstone = new Button(x + 90, y + 24, 80, 20, new StringTextComponent(redstone ? "Redstone: ON" : "Redstone: OFF"),
+                b -> {
+                    if (!canEdit) return;
+                    boolean nv = !textOn(b.getMessage());
+                    b.setMessage(new StringTextComponent(nv ? "Redstone: ON" : "Redstone: OFF"));
+                    sendProps(RequestSealPropsChangeMessage.Kind.REDSTONE, 0, nv, 0L);
+                });
+        btnRedstone.active = canEdit;
+        this.addButton(btnRedstone);
+
+        // Area XYZ
+        int ayBase = y + 52;
+        txtAreaX = new TextFieldWidget(this.font, x + 18, ayBase, 24, 18, new StringTextComponent("X"));
+        txtAreaY = new TextFieldWidget(this.font, x + 18 + 30, ayBase, 24, 18, new StringTextComponent("Y"));
+        txtAreaZ = new TextFieldWidget(this.font, x + 18 + 60, ayBase, 24, 18, new StringTextComponent("Z"));
+        txtAreaX.setValue(String.valueOf(ax));
+        txtAreaY.setValue(String.valueOf(ay));
+        txtAreaZ.setValue(String.valueOf(az));
+        txtAreaX.setEditable(canEdit);
+        txtAreaY.setEditable(canEdit);
+        txtAreaZ.setEditable(canEdit);
+        this.addButton(txtAreaX);
+        this.addButton(txtAreaY);
+        this.addButton(txtAreaZ);
+
+        this.addButton(new Button(x + 18 + 90, ayBase - 1, 60, 20, new StringTextComponent("Apply"), b -> {
+            if (!canEdit) return;
+            int vx = clamp(getInt(txtAreaX.getValue(), 1), 1, 32);
+            int vy = clamp(getInt(txtAreaY.getValue(), 1), 1, 32);
+            int vz = clamp(getInt(txtAreaZ.getValue(), 1), 1, 32);
+            long packed = net.minecraft.util.math.BlockPos.asLong(vx, vy, vz);
+            sendProps(RequestSealPropsChangeMessage.Kind.AREA, 0, false, packed);
+        }));
+
+        // Toggles (if any present in client cache)
+        boolean[] toggles = thaumcraft.client.golems.ClientSealCache.getToggles(menu.getPos(), menu.getFace());
+        toggleButtons = new java.util.ArrayList<>();
+        if (toggles != null && toggles.length > 0) {
+            int ty = ayBase + 26;
+            for (int i = 0; i < toggles.length; i++) {
+                final int idx = i;
+                final boolean val = toggles[i];
+                Button tb = new Button(x, ty + i * 22, 140, 20, new StringTextComponent("Toggle " + i + ": " + (val ? "ON" : "OFF")), b -> {
+                    boolean nv = !val;
+                    b.setMessage(new StringTextComponent("Toggle " + idx + ": " + (nv ? "ON" : "OFF")));
+                    sendProps(RequestSealPropsChangeMessage.Kind.TOGGLE, idx, nv, 0L);
+                });
+                tb.active = canEdit;
+                this.addButton(tb);
+                toggleButtons.add(tb);
+            }
+        }
+
+        if (!canEdit) {
+            this.addButton(new Button(x, ayBase + 26, 160, 20, new StringTextComponent("Owner only (or Creative)"), b -> {})).active = false;
+        }
+    }
+
+    @Override
+    protected void renderBg(MatrixStack ms, float partialTicks, int mouseX, int mouseY) {
+        // No background texture yet; draw a simple dark rect
+        fill(ms, this.leftPos, this.topPos, this.leftPos + this.imageWidth, this.topPos + this.imageHeight, 0xAA000000);
+    }
+
+    private static int colorOf(String label) {
+        int i = label.lastIndexOf(':');
+        if (i >= 0) {
+            try { return Integer.parseInt(label.substring(i + 1).trim()); } catch (Exception ignored) {}
+        }
+        return 0;
+    }
+
+    private static boolean textOn(ITextComponent msg) {
+        String s = msg.getString();
+        return s.endsWith("ON");
+    }
+
+    private boolean canEdit(ISealEntity ent) {
+        if (ent == null) return false;
+        if (this.minecraft == null || this.minecraft.player == null) return false;
+        if (this.minecraft.player.abilities.instabuild) return true;
+        String owner = ent.getOwner();
+        return owner != null && owner.equals(this.minecraft.player.getUUID().toString());
+    }
+
+    private static int getInt(String s, int def) {
+        try { return Integer.parseInt(s.trim()); } catch (Exception e) { return def; }
+    }
+
+    private static int clamp(int v, int lo, int hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    private void sendProps(RequestSealPropsChangeMessage.Kind kind, int intVal, boolean boolVal, long areaVal) {
+        RequestSealPropsChangeMessage msg = new RequestSealPropsChangeMessage(menu.getPos(), menu.getFace(), kind, intVal, boolVal, areaVal);
+        NetworkHandler.sendToServer(msg);
+    }
+
+    @Override
+    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(ms);
+        super.render(ms, mouseX, mouseY, partialTicks);
+        drawLabels(ms);
+        this.renderTooltip(ms, mouseX, mouseY);
+    }
+
+    private void drawLabels(MatrixStack ms) {
+        int x = this.leftPos + 10;
+        int y = this.topPos + 8;
+        this.font.draw(ms, new StringTextComponent("Seal"), x, y, 0xFFFFFF);
+        this.font.draw(ms, new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.priority"), x, y + 12, 0xA0A0A0);
+        this.font.draw(ms, new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.area"), x, y + 46, 0xA0A0A0);
+        this.font.draw(ms, new StringTextComponent("X"), x + 6, y + 58, 0xA0A0A0);
+        this.font.draw(ms, new StringTextComponent("Y"), x + 36, y + 58, 0xA0A0A0);
+        this.font.draw(ms, new StringTextComponent("Z"), x + 66, y + 58, 0xA0A0A0);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        // Intercept priority numeric change commit on click-away
+        if (txtPriority != null && !txtPriority.isFocused()) {
+            int pr = clamp(getInt(txtPriority.getValue(), 0), 0, 5);
+            sendProps(RequestSealPropsChangeMessage.Kind.PRIORITY, pr, false, 0L);
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+}
+
+

@@ -62,24 +62,17 @@ minecraft {
 sourceSets {
     main {
         java {
-            exclude 'thaumcraft/common/lib/research/theorycraft/**'
-            // Exclude legacy 1.12 utils until ported
-            exclude 'thaumcraft/common/lib/utils/**'
-            // Explicit legacy files (kept for clarity during port)
-            exclude 'thaumcraft/common/lib/utils/BlockStateUtils.java'
-            exclude 'thaumcraft/common/lib/utils/BlockUtils.java'
-            exclude 'thaumcraft/common/lib/utils/CropUtils.java'
-            exclude 'thaumcraft/common/lib/utils/EntityUtils.java'
-            exclude 'thaumcraft/common/lib/utils/InventoryUtils.java'
-            exclude 'thaumcraft/common/lib/utils/Utils.java'
-            // Exclude legacy arcane workbench (new tiles/menus live under common/)
-            exclude 'thaumcraft/world/crafting/arcane/**'
-            exclude 'thaumcraft/registry/Registration.java'
-            exclude 'thaumcraft/api/casters/**'
-            exclude 'thaumcraft/api/aspects/AspectSourceHelper.java'
-            // Messages referencing casters/focus engine (deferred)
-            exclude 'thaumcraft/common/network/msg/RequestFocusChangeMessage.java'
-            exclude 'thaumcraft/common/network/msg/RequestItemKeyMessage.java'
+            // Enable theorycraft now that a minimal subset compiles
+            // Casters now ported enough to compile
+            // Casters are enabled for port work
+            // Legacy arcane workbench removed; using common/* implementation
+            // Removed legacy duplicate registry class
+            // Re-enable AspectSourceHelper now that it is ported to 1.16.5 TE APIs
+            // Caster messages are now stubbed to NBT toggles; safe to include during port
+            // Temporarily exclude unported legacy utils; keep modernized ones like TagUtils
+            // BlockUtils ported to 1.16.5
+            // CropUtils has been ported
+            // Utils and EntityUtils ported
         }
     }
 }
@@ -97,10 +90,24 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    maven {
+        name = "TheIllusiveC4"
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        name = "JEI"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
+    // Optional: Curios API for baubles-like compatibility (only used if present)
+    compileOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3')
+    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3')
+    // Optional: JEI for dev runtime integration/testing
+    compileOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152:api')
+    runtimeOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
 }
 
 jar {

@@ -19,12 +19,12 @@ public class SpaBlockEntity extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-        World level = world;
-        if (level == null || level.isRemote) return;
+        World level = this.level;
+        if (level == null || level.isClientSide) return;
         if ((level.getGameTime() % 20L) != 0L) return;
-        if (!level.getFluidState(pos.down()).isSource()) return;
+        if (!level.getFluidState(this.worldPosition.below()).isSource()) return;
         for (Direction dir : Direction.values()) {
-            TileEntity neighbor = level.getTileEntity(pos.offset(dir));
+            TileEntity neighbor = level.getBlockEntity(this.worldPosition.relative(dir));
             if (neighbor == null) continue;
             LazyOptional<IFluidHandler> fh = neighbor.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite());
             fh.ifPresent(handler -> handler.fill(new FluidStack(net.minecraft.fluid.Fluids.WATER, 50), IFluidHandler.FluidAction.EXECUTE));

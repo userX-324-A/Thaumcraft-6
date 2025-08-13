@@ -1,7 +1,9 @@
 package thaumcraft.api.golems.tasks;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import thaumcraft.api.golems.GolemHelper;
 import thaumcraft.api.golems.IGolemAPI;
 import thaumcraft.api.golems.ProvisionRequest;
@@ -18,6 +20,8 @@ public class Task {
 	private SealPos sealPos;	
 	private BlockPos pos;	
 	private Entity entity; 
+    private RegistryKey<World> dimensionKey; // Preferred dimension identifier in 1.16.5+
+    private long reservationTimestampMs;
 	private boolean reserved;
 	private boolean suspended;
 	private boolean completed;
@@ -45,13 +49,23 @@ public class Task {
 	public Task(SealPos sealPos, Entity entity) {
 		this.sealPos = sealPos;
 		this.entity = entity;
-		if (sealPos==null) {
-			id = (System.currentTimeMillis()+"/ENPOS/"+entity.getEntityId()).hashCode();
-		} else
-			id = (System.currentTimeMillis()+"/E/"+sealPos.face.toString()+"/"+sealPos.pos.toString()+"/"+entity.getEntityId()).hashCode();
+        if (sealPos==null) {
+            id = (System.currentTimeMillis()+"/ENPOS/"+entity.getId()).hashCode();
+        } else
+            id = (System.currentTimeMillis()+"/E/"+sealPos.face.toString()+"/"+sealPos.pos.toString()+"/"+entity.getId()).hashCode();
 		type = 1;
 		lifespan = 300;
 	}	
+
+    public Task(RegistryKey<World> dimensionKey, SealPos sealPos, BlockPos pos) {
+        this(sealPos, pos);
+        this.dimensionKey = dimensionKey;
+    }
+
+    public Task(RegistryKey<World> dimensionKey, SealPos sealPos, Entity entity) {
+        this(sealPos, entity);
+        this.dimensionKey = dimensionKey;
+    }
 
 	public byte getPriority() {
 		return priority;
@@ -79,7 +93,7 @@ public class Task {
 	}
 
 	public BlockPos getPos() {
-		return type==1?entity.getPosition():pos;
+        return type==1?entity.blockPosition():pos;
 	}	
 	
 	public byte getType() {
@@ -100,7 +114,8 @@ public class Task {
 
 	public void setReserved(boolean res) {
 		reserved = res;
-		lifespan += 120;
+        lifespan += 120;
+        reservationTimestampMs = res ? System.currentTimeMillis() : 0L;
 	}
 
 	public boolean isSuspended() {
@@ -115,6 +130,65 @@ public class Task {
 	public SealPos getSealPos() {
 		return sealPos;
 	}
+
+    public RegistryKey<World> getDimensionKey() {
+        return dimensionKey;
+    }
+
+    public void setDimensionKey(RegistryKey<World> dimensionKey) {
+        this.dimensionKey = dimensionKey;
+    }
+
+    public long getReservationTimestampMs() { return reservationTimestampMs; }
+    public void setReservationTimestampMs(long v) { reservationTimestampMs = v; }
+
+    // Basic NBT IO for persistence
+    public net.minecraft.nbt.CompoundNBT serializeNBT() {
+        net.minecraft.nbt.CompoundNBT nbt = new net.minecraft.nbt.CompoundNBT();
+        nbt.putInt("id", id);
+        nbt.putByte("type", type);
+        if (pos != null) nbt.putLong("pos", pos.asLong());
+        if (entity != null) nbt.putUUID("EUUID", entity.getUUID());
+        if (golemUUID != null) nbt.putUUID("GUUID", golemUUID);
+        if (sealPos != null) {
+            net.minecraft.nbt.CompoundNBT sp = new net.minecraft.nbt.CompoundNBT();
+            sp.putLong("pos", sealPos.pos.asLong());
+            sp.putByte("face", (byte) sealPos.face.get3DDataValue());
+            nbt.put("sealpos", sp);
+        }
+        if (dimensionKey != null) nbt.putString("dim", dimensionKey.location().toString());
+        nbt.putBoolean("reserved", reserved);
+        nbt.putBoolean("suspended", suspended);
+        nbt.putBoolean("completed", completed);
+        nbt.putInt("data", data);
+        nbt.putInt("priority", priority);
+        nbt.putShort("lifespan", lifespan);
+        nbt.putLong("res_ts", reservationTimestampMs);
+        return nbt;
+    }
+
+    public static Task deserializeNBT(net.minecraft.nbt.CompoundNBT nbt) {
+        Task t = new Task();
+        t.id = nbt.getInt("id");
+        t.type = nbt.getByte("type");
+        if (nbt.contains("pos")) t.pos = net.minecraft.util.math.BlockPos.of(nbt.getLong("pos"));
+        if (nbt.hasUUID("GUUID")) t.golemUUID = nbt.getUUID("GUUID");
+        if (nbt.contains("sealpos")) {
+            net.minecraft.nbt.CompoundNBT sp = nbt.getCompound("sealpos");
+            t.sealPos = new thaumcraft.api.golems.seals.SealPos(net.minecraft.util.math.BlockPos.of(sp.getLong("pos")), net.minecraft.util.Direction.from3DDataValue(sp.getByte("face")));
+        }
+        if (nbt.contains("dim")) {
+            t.dimensionKey = net.minecraft.util.RegistryKey.create(net.minecraft.util.registry.Registry.DIMENSION_REGISTRY, new net.minecraft.util.ResourceLocation(nbt.getString("dim")));
+        }
+        t.reserved = nbt.getBoolean("reserved");
+        t.suspended = nbt.getBoolean("suspended");
+        t.completed = nbt.getBoolean("completed");
+        t.data = nbt.getInt("data");
+        t.priority = nbt.getByte("priority");
+        t.lifespan = nbt.getShort("lifespan");
+        t.reservationTimestampMs = nbt.getLong("res_ts");
+        return t;
+    }
 
 	public boolean equals(Object o)
     {
@@ -137,8 +211,14 @@ public class Task {
 		lifespan = ls;
 	}
 
-	public boolean canGolemPerformTask(IGolemAPI golem) {
-		ISealEntity se = GolemHelper.getSealEntity(golem.getGolemWorld().provider.getDimension(), sealPos);
+    public boolean canGolemPerformTask(IGolemAPI golem) {
+        ISealEntity se;
+        if (dimensionKey != null) {
+            se = GolemHelper.getSealEntity(dimensionKey, sealPos);
+        } else {
+            // Legacy fallback: overworld
+            se = GolemHelper.getSealEntity(0, sealPos);
+        }
 		if (se!=null) {
 			if (golem.getGolemColor()>0 && se.getColor()>0 && golem.getGolemColor() != se.getColor()) return false;
 			return se.getSeal().canGolemPerformTask(golem,this);

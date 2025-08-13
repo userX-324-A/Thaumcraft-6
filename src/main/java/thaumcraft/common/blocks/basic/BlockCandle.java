@@ -17,11 +17,11 @@ import thaumcraft.common.blocks.BlockTC;
 import java.util.Random;
 
 public class BlockCandle extends BlockTC implements IInfusionStabiliserExt {
-    protected static final VoxelShape SHAPE = Block.makeCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D);
+    protected static final VoxelShape SHAPE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D);
     public final DyeColor dye;
 
     public BlockCandle(String name, DyeColor dye) {
-        super(Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.1F).sound(SoundType.CLOTH).lightValue(15));
+        super(Properties.of(Material.DECORATION).strength(0.1F).sound(SoundType.WOOL).lightLevel(s -> 15));
         this.setRegistryName(name);
         this.dye = dye;
     }

@@ -26,6 +26,11 @@ public abstract class FocusMedium extends FocusNode {
 	public boolean execute(Trajectory trajectory) {
 		return true;
 	}
+    
+    @Override
+    public thaumcraft.api.aspects.Aspect getAspect() {
+        return null;
+    }
 	
 	
 }

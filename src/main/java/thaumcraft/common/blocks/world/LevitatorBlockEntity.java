@@ -27,15 +27,15 @@ public class LevitatorBlockEntity extends TileEntity implements ITickableTileEnt
 
     @Override
     public void tick() {
-        World level = world;
-        if (level == null || level.isRemote) return;
-        BlockPos pos = getPos();
+        World level = this.level;
+        if (level == null || level.isClientSide) return;
+        BlockPos pos = this.worldPosition;
         Direction facing = Direction.UP; // placeholder
         int maxRange = RANGES[Math.max(0, Math.min(RANGES.length - 1, rangeIndex))];
         if (rangeActual > maxRange) rangeActual = 0;
         int p = counter % maxRange;
-        BlockPos checkPos = pos.offset(facing, 1 + p);
-        if (level.getBlockState(checkPos).isSolid()) {
+        BlockPos checkPos = pos.relative(facing, 1 + p);
+        if (level.getBlockState(checkPos).canOcclude()) {
             if (1 + p < rangeActual) rangeActual = 1 + p;
             counter = -1;
         } else if (1 + p > rangeActual) {
@@ -44,14 +44,16 @@ public class LevitatorBlockEntity extends TileEntity implements ITickableTileEnt
         counter++;
 
         if (vis < 10) {
-            vis += (int)(AuraHelper.drainVis(level, pos, 1.0f, false) * 1200.0f);
+            float drained = AuraHelper.drainVis(level, pos, 1.0f);
+            vis += (int)(drained * 1200.0f);
         }
         if (rangeActual > 0 && vis > 0) {
             AxisAlignedBB box = new AxisAlignedBB(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + rangeActual + 1, pos.getZ() + 1);
-            List<Entity> entities = level.getEntitiesWithinAABB(Entity.class, box);
+            List<Entity> entities = level.getEntitiesOfClass(Entity.class, box);
             for (Entity e : entities) {
                 e.setOnGround(false);
-                e.setMotion(e.getMotion().x, Math.max(0.2, e.getMotion().y + 0.1), e.getMotion().z);
+                net.minecraft.util.math.vector.Vector3d motion = e.getDeltaMovement();
+                e.setDeltaMovement(motion.x, Math.max(0.2, motion.y + 0.1), motion.z);
             }
             vis--;
         }
@@ -63,15 +65,15 @@ public class LevitatorBlockEntity extends TileEntity implements ITickableTileEnt
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         rangeIndex = tag.getInt("Range");
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.putInt("Range", rangeIndex);
-        return super.write(tag);
+        return super.save(tag);
     }
 }
 

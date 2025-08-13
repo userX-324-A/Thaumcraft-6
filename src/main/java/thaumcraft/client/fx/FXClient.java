@@ -69,7 +69,7 @@ public final class FXClient {
             double x = src.x + dx * i;
             double y = src.y + dy * i;
             double z = src.z + dz * i;
-            w.addParticle(ParticleTypes.ELECTRIC_SPARK, x, y, z, 0, 0, 0);
+            w.addParticle(ParticleTypes.CRIT, x, y, z, 0, 0, 0);
         }
     }
 

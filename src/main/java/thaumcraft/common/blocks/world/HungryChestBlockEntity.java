@@ -1,7 +1,6 @@
 package thaumcraft.common.blocks.world;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -27,13 +26,13 @@ public class HungryChestBlockEntity extends TileEntity implements ITickableTileE
 
     // 1.16 tick pattern: implement in TileEntity via ITickableTileEntity if needed. Here we keep logic in block entity for parity
     public static void tick(net.minecraft.world.World level, BlockPos pos, BlockState state, HungryChestBlockEntity be) {
-        if (level.isRemote) return;
+        if (level.isClientSide) return;
         if ((level.getGameTime() % 10L) != 0L) return;
-        java.util.List<net.minecraft.entity.item.EntityItem> items = level.getEntitiesWithinAABB(
-                net.minecraft.entity.item.EntityItem.class,
+        java.util.List<net.minecraft.entity.item.ItemEntity> items = level.getEntitiesOfClass(
+                net.minecraft.entity.item.ItemEntity.class,
                 new net.minecraft.util.math.AxisAlignedBB(pos.getX() - 0.5, pos.getY(), pos.getZ() - 0.5, pos.getX() + 1.5, pos.getY() + 1.5, pos.getZ() + 1.5)
         );
-        for (net.minecraft.entity.item.EntityItem entity : items) {
+        for (net.minecraft.entity.item.ItemEntity entity : items) {
             net.minecraft.item.ItemStack stack = entity.getItem();
             if (stack.isEmpty()) continue;
             for (int i = 0; i < be.inventory.getSlots() && !stack.isEmpty(); i++) {
@@ -41,31 +40,31 @@ public class HungryChestBlockEntity extends TileEntity implements ITickableTileE
             }
             if (stack.isEmpty()) {
                 entity.remove();
-                be.markDirty();
+                be.setChanged();
                 break;
             } else {
                 entity.setItem(stack);
-                be.markDirty();
+                be.setChanged();
             }
         }
     }
 
     @Override
     public void tick() {
-        if (world == null) return;
-        tick(world, pos, getBlockState(), this);
+        if (this.level == null) return;
+        tick(this.level, this.worldPosition, getBlockState(), this);
     }
 
     public void dropAllContents() {
-        if (this.world == null || this.world.isRemote) return;
+        if (this.level == null || this.level.isClientSide) return;
         for (int i = 0; i < inventory.getSlots(); i++) {
             net.minecraft.item.ItemStack stack = inventory.getStackInSlot(i).copy();
             if (!stack.isEmpty()) {
-                InventoryHelper.spawnItemStack(this.world, this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5, stack);
+                net.minecraft.inventory.InventoryHelper.dropItemStack(this.level, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5, stack);
                 inventory.setStackInSlot(i, net.minecraft.item.ItemStack.EMPTY);
             }
         }
-        this.markDirty();
+        this.setChanged();
     }
 
     @Override
@@ -83,7 +82,7 @@ public class HungryChestBlockEntity extends TileEntity implements ITickableTileE
     }
 
     @Override
-    public void remove() { super.remove(); itemHandlerOptional.invalidate(); }
+    public void setRemoved() { super.setRemoved(); itemHandlerOptional.invalidate(); }
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {

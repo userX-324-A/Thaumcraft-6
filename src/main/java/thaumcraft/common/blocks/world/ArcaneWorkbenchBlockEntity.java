@@ -25,15 +25,15 @@ public class ArcaneWorkbenchBlockEntity extends TileEntity {
         return crystalInput;
     }
 
-    public void read(CompoundNBT tag) {
-        super.read(tag);
+    public void load( net.minecraft.block.BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         craftingGrid.deserializeNBT(tag.getCompound("Grid"));
         crystalInput.deserializeNBT(tag.getCompound("Crystals"));
     }
 
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.put("Grid", craftingGrid.serializeNBT());
         tag.put("Crystals", crystalInput.serializeNBT());
-        return super.write(tag);
+        return super.save(tag);
     }
 }

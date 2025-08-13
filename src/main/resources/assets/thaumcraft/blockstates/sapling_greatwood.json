@@ -4,11 +4,12 @@
     {
         "transform": "forge:default-block",
         "model": "cross",
-        "textures": { "cross": "thaumcraft:blocks/sapling_greatwood" }
+        "textures": { "cross": "thaumcraft:block/sapling_greatwood" }
     },
     "variants": {    
         "normal": [{}], "inventory": [{"model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:blocks/sapling_greatwood" }}],
+            "textures": { "layer0": "thaumcraft:block/sapling_greatwood" }}],
         "stage": { "0":{}, "1":{} }        
     }
 }
+

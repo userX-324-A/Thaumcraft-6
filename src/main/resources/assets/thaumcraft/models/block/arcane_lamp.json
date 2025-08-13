@@ -1,0 +1,13 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "thaumcraft:block/lamp_arcane",
+    "all": "thaumcraft:block/lamp_arcane"
+  },
+  "elements": [
+    { "from": [3, 0, 3], "to": [13, 10, 13], "faces": {"north": {"uv": [0,0,16,16], "texture": "#all"}, "south": {"uv": [0,0,16,16], "texture": "#all"}, "west": {"uv": [0,0,16,16], "texture": "#all"}, "east": {"uv": [0,0,16,16], "texture": "#all"}, "up": {"uv": [0,0,16,16], "texture": "#all"}, "down": {"uv": [0,0,16,16], "texture": "#all"}} }
+  ]
+}
+
+
+

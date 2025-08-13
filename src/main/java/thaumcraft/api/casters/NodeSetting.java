@@ -8,12 +8,14 @@ public class NodeSetting {
     private int max;
     private String key;
     private String research;
+    private int value;
     
     public NodeSetting(String key, String research, int min, int max) {
         this.key = key;
         this.research = research;
         this.min = min;
         this.max = max;
+        this.value = min;
     }
     
     public int getMin() {
@@ -38,6 +40,20 @@ public class NodeSetting {
     
     public ITextComponent getLocalizedText() {
         return new TranslationTextComponent("nodesetting." + this.key + ".text");
+    }
+
+    public int getValue() {
+        return this.value;
+    }
+
+    public void setValue(int value) {
+        if (value < this.min) {
+            this.value = this.min;
+        } else if (value > this.max) {
+            this.value = this.max;
+        } else {
+            this.value = value;
+        }
     }
 }
 

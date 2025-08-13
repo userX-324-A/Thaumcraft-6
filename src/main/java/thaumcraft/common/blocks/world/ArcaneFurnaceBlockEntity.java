@@ -31,9 +31,9 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
 
     @Override
     public void tick() {
-        World level = world;
-        if (level == null || level.isRemote) return;
-        BlockPos pos = getPos();
+        World level = this.level;
+        if (level == null || level.isClientSide) return;
+        BlockPos pos = this.worldPosition;
 
         boolean dirty = false;
 
@@ -49,11 +49,10 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
         // Very basic smelt: input -> output if vanilla furnace recipe exists
         net.minecraft.item.ItemStack input = inv.getStackInSlot(0);
         if (!input.isEmpty()) {
-            java.util.Optional<net.minecraft.item.crafting.BlastingRecipe> dummy = java.util.Optional.empty();
-            java.util.Optional<net.minecraft.item.crafting.SmeltingRecipe> recipeOpt = level.getRecipeManager()
+            java.util.Optional<net.minecraft.item.crafting.FurnaceRecipe> recipeOpt = level.getRecipeManager()
                     .getRecipeFor(net.minecraft.item.crafting.IRecipeType.SMELTING, new net.minecraft.inventory.Inventory(new net.minecraft.item.ItemStack[]{input}), level);
             if (recipeOpt.isPresent()) {
-                net.minecraft.item.crafting.SmeltingRecipe recipe = recipeOpt.get();
+                net.minecraft.item.crafting.FurnaceRecipe recipe = recipeOpt.get();
                 boolean canOutput = canOutput(inv, recipe.getResultItem());
                 if (canOutput) {
                     // ensure burning
@@ -88,13 +87,13 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
             cookTime = 0;
         }
 
-        if (dirty) markDirty();
+        if (dirty) setChanged();
     }
 
     private static int getAdjacentBellows(World level, BlockPos pos) {
         int count = 0;
         for (net.minecraft.util.Direction d : net.minecraft.util.Direction.values()) {
-            TileEntity te = level.getTileEntity(pos.offset(d));
+            TileEntity te = level.getBlockEntity(pos.relative(d));
             if (te instanceof BellowsBlockEntity) count++;
         }
         return count;
@@ -103,7 +102,8 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
     private static boolean canOutput(IItemHandler inv, net.minecraft.item.ItemStack out) {
         net.minecraft.item.ItemStack current = inv.getStackInSlot(2);
         if (current.isEmpty()) return true;
-        if (!net.minecraft.item.ItemStack.areItemsEqual(current, out)) return false;
+        if (current.getItem() != out.getItem()) return false;
+        if (!net.minecraft.item.ItemStack.tagMatches(current, out)) return false;
         return current.getCount() + out.getCount() <= current.getMaxStackSize();
     }
 
@@ -111,7 +111,7 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
         net.minecraft.item.ItemStack current = inv.getStackInSlot(2);
         if (current.isEmpty()) {
             inv.insertItem(2, out, false);
-        } else if (net.minecraft.item.ItemStack.areItemsEqual(current, out)) {
+        } else if (current.getItem() == out.getItem() && net.minecraft.item.ItemStack.tagMatches(current, out)) {
             current.grow(out.getCount());
         }
     }
@@ -124,14 +124,14 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         itemCap.invalidate();
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         burnTime = tag.getInt("Burn");
         burnTimeTotal = tag.getInt("BurnTot");
         cookTime = tag.getInt("Cook");
@@ -140,13 +140,13 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.putInt("Burn", burnTime);
         tag.putInt("BurnTot", burnTimeTotal);
         tag.putInt("Cook", cookTime);
         tag.putInt("CookTot", cookTimeTotal);
         tag.put("Inv", inventory.serializeNBT());
-        return super.write(tag);
+        return super.save(tag);
     }
 
     // Comparator helpers

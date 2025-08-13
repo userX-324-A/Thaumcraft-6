@@ -4,11 +4,12 @@
     "variants": {
         "clockwork": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/mind_clockwork" }
+            "textures": { "layer0": "thaumcraft:item/mind_clockwork" }
         },
         "biothaumic": {
             "model": "forge:item-layer", "transform": "forge:default-item",
-            "textures": { "layer0": "thaumcraft:items/mind_biothaumic" }
+            "textures": { "layer0": "thaumcraft:item/mind_biothaumic" }
         }
     }
 }
+

@@ -13,7 +13,7 @@ public class BlockRegistry {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         for (DyeColor dye : DyeColor.values()) {
-            Block block = new BlockCandle("candle_" + dye.getTranslationKey(), dye);
+            Block block = new BlockCandle("candle_" + dye.getName(), dye);
             event.getRegistry().register(block);
             BlocksTC.candles.put(dye, block);
         }

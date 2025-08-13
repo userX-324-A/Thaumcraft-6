@@ -29,20 +29,20 @@ public class VisGeneratorBlockEntity extends TileEntity implements ITickableTile
 
     @Override
     public void tick() {
-        World level = world;
-        if (level == null || level.isRemote) return;
-        BlockPos pos = getPos();
+        World level = this.level;
+        if (level == null || level.isClientSide) return;
+        BlockPos pos = this.worldPosition;
         // Recharge from aura when empty
         if (energy == 0) {
-            float vis = AuraHelper.drainVis(level, pos, 1.0f, false);
-            energy = (int) (vis * 1000.0f);
-            if (energy > 0) markDirty();
+            float drained = AuraHelper.drainVis(level, pos, 1.0f);
+            energy = (int) (drained * 1000.0f);
+            if (energy > 0) setChanged();
         }
 
         // Try to push to adjacent FE receiver in facing direction (simplify: push all directions if any can receive)
         for (Direction dir : Direction.values()) {
             if (energy <= 0) break;
-            TileEntity neighbor = level.getTileEntity(pos.offset(dir));
+            TileEntity neighbor = level.getBlockEntity(pos.relative(dir));
             if (neighbor == null) continue;
             LazyOptional<IEnergyStorage> opt = neighbor.getCapability(CapabilityEnergy.ENERGY, dir.getOpposite());
             opt.ifPresent(target -> {
@@ -51,7 +51,7 @@ public class VisGeneratorBlockEntity extends TileEntity implements ITickableTile
                     int sent = target.receiveEnergy(toSend, false);
                     if (sent > 0) {
                         energy -= sent;
-                        markDirty();
+                        setChanged();
                     }
                 }
             });
@@ -81,21 +81,21 @@ public class VisGeneratorBlockEntity extends TileEntity implements ITickableTile
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         energyCap.invalidate();
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         energy = tag.getInt("Energy");
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.putInt("Energy", energy);
-        return super.write(tag);
+        return super.save(tag);
     }
 }
 

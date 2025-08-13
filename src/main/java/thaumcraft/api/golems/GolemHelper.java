@@ -21,14 +21,45 @@ public class GolemHelper {
         return thaumcraft.common.golems.seals.SealRegistry.get(key);
     }
     
+    @Deprecated
     public static ISealEntity getSealEntity(int dim, BlockPos pos) {
-        // Not implemented yet: dim-based lookup. SealEngine/SealWorldData provide per-world access.
-        return null;
+        return null; // Deprecated: use the SealPos overload for face-aware lookup
     }
 
     public static ISealEntity getSealEntity(int dim, thaumcraft.api.golems.seals.SealPos pos) {
-        // Overload required by Task; not implemented yet
-        return null;
+        if (pos == null) return null;
+        net.minecraft.server.MinecraftServer server = net.minecraftforge.fml.LogicalSidedProvider.INSTANCE.get(net.minecraftforge.fml.LogicalSide.SERVER);
+        if (server == null) return null;
+        net.minecraft.world.server.ServerWorld world = resolveWorld(server, dim);
+        if (world == null) return null;
+        return thaumcraft.common.golems.seals.SealWorldData.get(world).get(pos.pos, pos.face);
+    }
+
+    public static ISealEntity getSealEntity(net.minecraft.util.RegistryKey<net.minecraft.world.World> dimensionKey,
+                                            thaumcraft.api.golems.seals.SealPos pos) {
+        if (pos == null) return null;
+        net.minecraft.server.MinecraftServer server = net.minecraftforge.fml.LogicalSidedProvider.INSTANCE.get(net.minecraftforge.fml.LogicalSide.SERVER);
+        if (server == null) return null;
+        net.minecraft.world.server.ServerWorld world = server.getLevel(dimensionKey);
+        if (world == null) return null;
+        return thaumcraft.common.golems.seals.SealWorldData.get(world).get(pos.pos, pos.face);
+    }
+
+    private static net.minecraft.world.server.ServerWorld resolveWorld(net.minecraft.server.MinecraftServer server, int dim) {
+        // Map common legacy ids: -1 (nether), 0 (overworld), 1 (end)
+        net.minecraft.world.server.ServerWorld world;
+        if (dim == -1) {
+            world = server.getLevel(net.minecraft.world.World.NETHER);
+        } else if (dim == 0) {
+            world = server.getLevel(net.minecraft.world.World.OVERWORLD);
+        } else if (dim == 1) {
+            world = server.getLevel(net.minecraft.world.World.END);
+        } else {
+            // Fallback: try to find a world whose dimension id matches stringified dim in registry name suffix
+            // Since numeric ids are deprecated, mods should migrate to passing proper RegistryKey instead of int.
+            world = server.overworld();
+        }
+        return world;
     }
     
     public static void addGolem(IGolemAPI golem) {

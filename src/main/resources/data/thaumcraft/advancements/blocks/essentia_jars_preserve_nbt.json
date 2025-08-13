@@ -1,0 +1,18 @@
+{
+  "criteria": {
+    "picked_up_filled_jar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [ "thaumcraft:essentia_jar", "thaumcraft:essentia_jar_void" ],
+            "nbt": "{Amount:1b}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [ [ "picked_up_filled_jar" ] ]
+}
+
+
