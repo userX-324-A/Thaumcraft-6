@@ -247,3 +247,4 @@ public class FXEssentiaStream extends Particle
         TEX0 = new ResourceLocation("thaumcraft", "textures/misc/essentia.png");
     }
 }
+

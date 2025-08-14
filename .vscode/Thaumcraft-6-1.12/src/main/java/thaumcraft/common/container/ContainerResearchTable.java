@@ -152,3 +152,4 @@ public class ContainerResearchTable extends Container
         ContainerResearchTable.antiSpam = new HashMap<Integer, Long>();
     }
 }
+

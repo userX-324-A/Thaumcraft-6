@@ -173,3 +173,4 @@ public class InternalMethodHandler implements IInternalMethodHandler
         return wc.get(IPlayerWarp.EnumWarpType.NORMAL) + wc.get(IPlayerWarp.EnumWarpType.PERMANENT);
     }
 }
+

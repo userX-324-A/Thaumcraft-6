@@ -242,7 +242,7 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
             if (focus != null && !focus.isEmpty()) {
                 float amt = ((ItemFocus)focus.getItem()).getVisCost(focus);
                 if (amt > 0.0f) {
-                    text = "§r" + myFormatter.format(amt) + " " + I18n.translateToLocal("item.Focus.cost1");
+                    text = "r" + myFormatter.format(amt) + " " + I18n.translateToLocal("item.Focus.cost1");
                 }
             }
             tooltip.add(TextFormatting.ITALIC + "" + TextFormatting.AQUA + I18n.translateToLocal("tc.vis.cost") + " " + text);
@@ -489,3 +489,4 @@ public class ItemCaster extends ItemTCBase implements IArchitect, ICaster
         return out;
     }
 }
+

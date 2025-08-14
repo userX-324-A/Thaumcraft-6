@@ -73,3 +73,4 @@ public class SealEmptyAdvanced extends SealEmpty implements ISealConfigToggles
         return new EnumGolemTrait[] { EnumGolemTrait.SMART };
     }
 }
+

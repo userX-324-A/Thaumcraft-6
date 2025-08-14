@@ -51,3 +51,4 @@ public class ItemEnchantmentPlaceholder extends ItemTCBase
         return 99;
     }
 }
+

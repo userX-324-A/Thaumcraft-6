@@ -14,3 +14,4 @@ public class InventoryLogistics extends InventoryBasic
         return Integer.MAX_VALUE;
     }
 }
+

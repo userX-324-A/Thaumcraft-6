@@ -101,3 +101,4 @@ public class FocusEffectFire extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.PLAYERS, 1.0f, 1.0f + (float)(caster.world.rand.nextGaussian() * 0.05000000074505806));
     }
 }
+

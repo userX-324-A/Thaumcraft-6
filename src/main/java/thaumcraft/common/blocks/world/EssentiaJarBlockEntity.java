@@ -76,3 +76,4 @@ public class EssentiaJarBlockEntity extends TileEntity {
         return tag;
     }
 }
+

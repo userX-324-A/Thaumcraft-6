@@ -172,3 +172,4 @@ public class TileJarRenderer extends TileEntitySpecialRenderer
         TEX_BRINE = new ResourceLocation("thaumcraft", "textures/models/jarbrine.png");
     }
 }
+

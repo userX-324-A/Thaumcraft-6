@@ -70,3 +70,4 @@ public class RenderEldritchGuardian extends RenderLiving
         skin = new ResourceLocation[] { new ResourceLocation("thaumcraft", "textures/entity/eldritch_guardian.png"), new ResourceLocation("thaumcraft", "textures/entity/eldritch_warden.png") };
     }
 }
+

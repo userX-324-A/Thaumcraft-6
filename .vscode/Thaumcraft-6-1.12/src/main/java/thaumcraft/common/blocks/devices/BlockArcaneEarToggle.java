@@ -7,3 +7,4 @@ public class BlockArcaneEarToggle extends BlockArcaneEar
         super("arcane_ear_toggle");
     }
 }
+

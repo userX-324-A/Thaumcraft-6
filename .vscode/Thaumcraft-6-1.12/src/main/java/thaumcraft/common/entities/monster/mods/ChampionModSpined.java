@@ -38,3 +38,4 @@ public class ChampionModSpined implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

@@ -16,3 +16,4 @@ public interface IThaumcraftItems
     
     ModelResourceLocation getCustomModelResourceLocation(String p0);
 }
+

@@ -77,3 +77,4 @@ public class TileBanner extends TileThaumcraft
         return (getBlockType() == null || !(getBlockType() instanceof BlockBannerTC) || ((BlockBannerTC) getBlockType()).dye == null) ? -1 : ((BlockBannerTC) getBlockType()).dye.getColorValue();
     }
 }
+

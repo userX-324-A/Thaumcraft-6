@@ -1,0 +1,16 @@
+{
+  "display": {
+    "icon": { "item": "thaumcraft:thaumonomicon" },
+    "title": { "translate": "adv.thaumcraft.root.title", "fallback": "Thaumcraft" },
+    "description": { "translate": "adv.thaumcraft.root.desc", "fallback": "Begin your journey into Thaumaturgy." },
+    "background": "thaumcraft:textures/gui/gui_research_back_1.jpg",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "joined": { "trigger": "minecraft:tick" }
+  }
+}
+

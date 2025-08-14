@@ -20,3 +20,4 @@ public interface IInteractWithCaster {
 	public boolean onCasterRightClick(World world, ItemStack casterStack, EntityPlayer player, BlockPos pos, EnumFacing side, EnumHand hand);
 	
 }
+

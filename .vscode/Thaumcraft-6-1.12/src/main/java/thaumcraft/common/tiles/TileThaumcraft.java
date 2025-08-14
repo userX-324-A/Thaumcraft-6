@@ -97,3 +97,4 @@ public class TileThaumcraft extends TileEntity
         return world.isBlockPowered(getPos());
     }
 }
+

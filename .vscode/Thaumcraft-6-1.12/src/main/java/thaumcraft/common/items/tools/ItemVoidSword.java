@@ -81,3 +81,4 @@ public class ItemVoidSword extends ItemSword implements IWarpingGear, IThaumcraf
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }
+

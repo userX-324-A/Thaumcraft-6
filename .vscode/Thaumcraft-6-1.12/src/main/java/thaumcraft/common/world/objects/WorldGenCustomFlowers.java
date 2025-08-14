@@ -30,3 +30,4 @@ public class WorldGenCustomFlowers extends WorldGenerator
         return true;
     }
 }
+

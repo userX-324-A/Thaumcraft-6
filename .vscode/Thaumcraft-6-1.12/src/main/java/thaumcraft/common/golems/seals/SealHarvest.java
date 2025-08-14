@@ -296,3 +296,4 @@ public class SealHarvest implements ISeal, ISealGui, ISealConfigArea, ISealConfi
         }
     }
 }
+

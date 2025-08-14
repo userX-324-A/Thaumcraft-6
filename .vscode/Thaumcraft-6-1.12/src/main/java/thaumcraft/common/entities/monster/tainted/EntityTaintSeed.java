@@ -246,3 +246,4 @@ public class EntityTaintSeed extends EntityMob implements ITaintedMob
         return false;
     }
 }
+

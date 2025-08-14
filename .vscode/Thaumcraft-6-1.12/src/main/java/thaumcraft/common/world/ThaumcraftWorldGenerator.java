@@ -261,3 +261,4 @@ public class ThaumcraftWorldGenerator implements IWorldGenerator
         ThaumcraftWorldGenerator.INSTANCE = new ThaumcraftWorldGenerator();
     }
 }
+

@@ -39,3 +39,4 @@ public class GuiPlusMinusButton extends GuiButton
         GuiPlusMinusButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

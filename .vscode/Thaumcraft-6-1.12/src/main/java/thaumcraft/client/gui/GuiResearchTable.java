@@ -760,3 +760,4 @@ public class GuiResearchTable extends GuiContainer
         mc.getRenderViewEntity().playSound(SoundsTC.write, 0.3f, 1.0f);
     }
 }
+

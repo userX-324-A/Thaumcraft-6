@@ -61,3 +61,4 @@ public class PacketKnowledgeGain implements IMessage, IMessageHandler<PacketKnow
         p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.learn, SoundCategory.AMBIENT, 1.0f, 1.0f, false);
     }
 }
+

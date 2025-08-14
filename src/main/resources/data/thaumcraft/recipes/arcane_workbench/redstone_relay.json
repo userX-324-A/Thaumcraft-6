@@ -3,9 +3,7 @@
   "group": "thaumcraft:redstone_relay",
   "research": "REDSTONERELAY",
   "vis": 10,
-  "crystals": {
-    "order": 1
-  },
+  "crystals": { "ordo": 1 },
   "pattern": [
     "   ",
     "TGT",
@@ -19,7 +17,7 @@
       "item": "thaumcraft:mechanism_simple"
     },
     "S": {
-      "tag": "minecraft:stone_slabs"
+      "tag": "minecraft:slabs"
     }
   },
   "result": {

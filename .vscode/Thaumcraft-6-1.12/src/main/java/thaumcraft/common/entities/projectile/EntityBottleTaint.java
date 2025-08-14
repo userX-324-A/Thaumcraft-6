@@ -74,3 +74,4 @@ public class EntityBottleTaint extends EntityThrowable
         }
     }
 }
+

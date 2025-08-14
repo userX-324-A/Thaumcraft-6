@@ -67,3 +67,4 @@ public class BlockRechargePedestal extends BlockTCDevice
         return super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
     }
 }
+

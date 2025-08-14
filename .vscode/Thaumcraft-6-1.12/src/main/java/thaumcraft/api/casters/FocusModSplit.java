@@ -40,3 +40,4 @@ public abstract class FocusModSplit extends FocusMod {
 	}
 
 }
+

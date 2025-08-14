@@ -39,3 +39,4 @@ public class CardTruth extends TheorycraftCard
     }
 }
 
+

@@ -220,3 +220,4 @@ public class TileInfusionMatrixRenderer extends TileEntitySpecialRenderer<TileIn
         tex3 = new ResourceLocation("thaumcraft", "textures/blocks/infuser_eldritch.png");
     }
 }
+

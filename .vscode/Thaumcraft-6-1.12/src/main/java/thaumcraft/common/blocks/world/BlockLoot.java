@@ -73,3 +73,4 @@ public class BlockLoot extends BlockTC
         RARE;
     }
 }
+

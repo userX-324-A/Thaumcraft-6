@@ -18,3 +18,4 @@ public class SlotLimitedByItemstack extends Slot
         return stack1.isItemEqual(limitItem);
     }
 }
+

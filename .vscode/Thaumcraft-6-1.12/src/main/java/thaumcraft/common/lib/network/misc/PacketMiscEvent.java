@@ -88,3 +88,4 @@ public class PacketMiscEvent implements IMessage, IMessageHandler<PacketMiscEven
         }
     }
 }
+

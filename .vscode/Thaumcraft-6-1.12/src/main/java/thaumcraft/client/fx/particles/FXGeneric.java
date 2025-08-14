@@ -377,3 +377,4 @@ public class FXGeneric extends Particle
         canCollide = clip;
     }
 }
+

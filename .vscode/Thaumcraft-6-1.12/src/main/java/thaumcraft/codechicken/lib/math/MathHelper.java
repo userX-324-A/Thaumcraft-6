@@ -101,3 +101,4 @@ public class MathHelper
         MathHelper.SIN_TABLE[49152] = 1.0;
     }
 }
+

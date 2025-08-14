@@ -421,3 +421,4 @@ public class WorldGenGreatwoodTrees extends WorldGenAbstractTree
         otherCoordPairs = new byte[] { 2, 0, 0, 1, 2, 1 };
     }
 }
+

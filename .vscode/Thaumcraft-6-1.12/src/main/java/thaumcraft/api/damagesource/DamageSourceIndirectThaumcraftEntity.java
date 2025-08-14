@@ -30,3 +30,4 @@ public class DamageSourceIndirectThaumcraftEntity extends EntityDamageSourceIndi
         return this;
     }
 }
+

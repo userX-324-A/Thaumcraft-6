@@ -35,3 +35,4 @@ public class ModelCube extends ModelBase
         model.rotateAngleZ = z;
     }
 }
+

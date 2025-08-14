@@ -26,3 +26,4 @@ public class InventoryPech extends InventoryBasic
         return index == 0;
     }
 }
+

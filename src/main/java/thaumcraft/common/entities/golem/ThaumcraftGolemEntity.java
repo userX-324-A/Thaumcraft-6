@@ -330,3 +330,4 @@ public class ThaumcraftGolemEntity extends CreatureEntity implements IGolemAPI {
 }
 
 
+

@@ -35,3 +35,4 @@ public class EntityBrainyZombie extends EntityZombie
         super.dropLoot(wasRecentlyHit, lootingModifier, source);
     }
 }
+

@@ -97,3 +97,4 @@ public class ModelRendererTaintacle extends ModelRenderer
         compiled = true;
     }
 }
+

@@ -34,3 +34,4 @@ public class BlockPotionSprayer extends BlockTCDevice implements IBlockFacing, I
         return 0;
     }
 }
+

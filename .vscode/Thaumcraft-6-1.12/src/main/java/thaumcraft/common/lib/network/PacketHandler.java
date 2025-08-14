@@ -97,3 +97,4 @@ public class PacketHandler
         INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("thaumcraft".toLowerCase());
     }
 }
+

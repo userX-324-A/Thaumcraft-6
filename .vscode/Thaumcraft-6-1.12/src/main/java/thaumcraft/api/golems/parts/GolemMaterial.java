@@ -62,3 +62,4 @@ public class GolemMaterial
         GolemMaterial.lastID = 0;
     }
 }
+

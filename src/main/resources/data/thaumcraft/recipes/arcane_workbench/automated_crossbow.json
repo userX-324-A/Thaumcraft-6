@@ -1,5 +1,5 @@
 {
-  "type": "thaumcraft:arcane_workbench",
+  "type": "thaumcraft:arcane_shaped",
   "pattern": [
     "BGI",
     "WMW",
@@ -30,9 +30,7 @@
     "count": 1
   },
   "vis": 100,
-  "crystals": {
-    "air": 1
-  }
+  "crystals": { "aer": 1 }
 }
 
 

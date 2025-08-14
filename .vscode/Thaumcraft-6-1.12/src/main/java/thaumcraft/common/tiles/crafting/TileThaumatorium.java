@@ -499,3 +499,4 @@ public class TileThaumatorium extends TileThaumcraftInventory implements IAspect
         }
     }
 }
+

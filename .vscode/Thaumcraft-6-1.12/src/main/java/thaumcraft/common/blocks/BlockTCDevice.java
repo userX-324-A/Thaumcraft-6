@@ -128,3 +128,4 @@ public class BlockTCDevice extends BlockTCTile
         return (ip.size() == 0) ? super.createBlockState() : new BlockStateContainer(this, ip.toArray(new IProperty[ip.size()]));
     }
 }
+

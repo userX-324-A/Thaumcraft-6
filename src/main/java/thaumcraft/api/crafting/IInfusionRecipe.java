@@ -17,3 +17,4 @@ public interface IInfusionRecipe extends IRecipe<IInventory> {
 
     int getInstability();
 } 
+

@@ -135,3 +135,4 @@ public abstract class SealFiltered implements ISeal, ISealGui, ISealConfigFilter
         return false;
     }
 }
+

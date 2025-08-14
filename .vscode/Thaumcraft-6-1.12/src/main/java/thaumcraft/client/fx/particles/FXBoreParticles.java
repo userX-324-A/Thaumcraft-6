@@ -194,3 +194,4 @@ public class FXBoreParticles extends Particle
         p_180434_1_.pos(f11 + p_180434_4_ * f10 - p_180434_7_ * f10, f12 - p_180434_5_ * f10, f13 + p_180434_6_ * f10 - p_180434_8_ * f10).tex(f7, f9).color(particleRed, particleGreen, particleBlue, 1.0f).lightmap(j, k).endVertex();
     }
 }
+

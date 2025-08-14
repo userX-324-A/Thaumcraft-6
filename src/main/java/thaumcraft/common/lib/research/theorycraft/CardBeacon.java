@@ -39,3 +39,4 @@ public class CardBeacon extends TheorycraftCard
     }
 }
 
+

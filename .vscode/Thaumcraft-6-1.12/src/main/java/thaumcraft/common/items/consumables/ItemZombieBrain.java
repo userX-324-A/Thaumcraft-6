@@ -56,3 +56,4 @@ public class ItemZombieBrain extends ItemFood implements IThaumcraftItems
         return new ModelResourceLocation("thaumcraft:" + variant);
     }
 }
+

@@ -24,3 +24,4 @@ public class AIPechTradePlayer extends EntityAIBase
         villager.trading = false;
     }
 }
+

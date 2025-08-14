@@ -21,3 +21,4 @@ public class InfusionMatrixBlock extends Block {
         return ModBlockEntities.INFUSION_MATRIX.get().create();
     }
 }
+

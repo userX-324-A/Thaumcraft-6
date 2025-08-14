@@ -34,3 +34,4 @@ public class CardMeasure extends TheorycraftCard
         return true;
     }
 }
+

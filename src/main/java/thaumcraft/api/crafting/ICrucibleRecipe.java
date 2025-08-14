@@ -12,3 +12,4 @@ public interface ICrucibleRecipe extends IRecipe<IInventory> {
 
     Ingredient getCatalyst();
 } 
+

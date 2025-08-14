@@ -47,3 +47,4 @@ public class ThaumcraftCapabilities {
         return opt.orElse(null);
     }
 }
+

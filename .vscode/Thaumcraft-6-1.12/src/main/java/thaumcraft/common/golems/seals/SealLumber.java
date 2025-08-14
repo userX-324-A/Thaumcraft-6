@@ -154,3 +154,4 @@ public class SealLumber implements ISeal, ISealGui, ISealConfigArea
     public void onTaskStarted(World world, IGolemAPI golem, Task task) {
     }
 }
+

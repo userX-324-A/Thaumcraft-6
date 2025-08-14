@@ -685,3 +685,4 @@ public class EntityPech extends EntityMob implements IRangedAttackMob
         EntityPech.tradeInventory = new HashMap<Integer, ArrayList<List>>();
     }
 }
+

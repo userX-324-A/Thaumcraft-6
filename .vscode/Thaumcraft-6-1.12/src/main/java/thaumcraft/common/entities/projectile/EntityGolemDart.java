@@ -27,3 +27,4 @@ public class EntityGolemDart extends EntityArrow
         return new ItemStack(Items.ARROW);
     }
 }
+

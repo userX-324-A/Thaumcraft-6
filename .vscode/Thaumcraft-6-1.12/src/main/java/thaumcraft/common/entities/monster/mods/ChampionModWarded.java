@@ -37,3 +37,4 @@ public class ChampionModWarded implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

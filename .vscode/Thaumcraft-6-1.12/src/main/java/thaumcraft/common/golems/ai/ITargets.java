@@ -19,3 +19,4 @@ public interface ITargets
     
     void setTargetFriendly(boolean p0);
 }
+

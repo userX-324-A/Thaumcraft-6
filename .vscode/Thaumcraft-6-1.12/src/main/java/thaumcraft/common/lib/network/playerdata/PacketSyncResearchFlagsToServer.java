@@ -66,3 +66,4 @@ public class PacketSyncResearchFlagsToServer implements IMessage, IMessageHandle
         return null;
     }
 }
+

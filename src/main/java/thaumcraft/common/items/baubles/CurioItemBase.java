@@ -7,11 +7,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -45,14 +45,15 @@ public class CurioItemBase extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
         super.appendHoverText(stack, level, lines, flag);
         if (CuriosCompat.isLoaded()) {
-            lines.add(new StringTextComponent("Curios-compatible"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.curios_compat"));
         } else {
             lines.add(new TranslationTextComponent("tooltip.thaumcraft.curios_hint"));
         }
     }
 }
+
 
 

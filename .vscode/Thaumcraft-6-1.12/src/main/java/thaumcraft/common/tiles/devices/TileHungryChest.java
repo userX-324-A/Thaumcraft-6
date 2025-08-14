@@ -32,3 +32,4 @@ public class TileHungryChest extends TileEntityChest
         return oldState.getBlock() != newState.getBlock();
     }
 }
+

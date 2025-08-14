@@ -69,3 +69,4 @@ public interface IGolemAPI {
 	public boolean isInCombat();
 	
 }
+

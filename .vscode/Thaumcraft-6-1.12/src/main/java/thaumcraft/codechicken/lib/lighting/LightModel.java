@@ -106,3 +106,4 @@ public class LightModel implements CCRenderState.IVertexOperation
         }
     }
 }
+

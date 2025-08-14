@@ -13,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.crafting.ICrucibleRecipe;
 import thaumcraft.api.crafting.IInfusionRecipe;
 import thaumcraft.common.crafting.*;
-import thaumcraft.common.lib.crafting.ArcaneRecipe;
+import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.lib.crafting.ArcaneRecipeSerializer;
 import thaumcraft.common.lib.crafting.ArcaneWorkbenchRecipeSerializer;
 
@@ -43,7 +43,7 @@ public class ModRecipes {
     );
 
     public static IRecipeType<ICrucibleRecipe> CRUCIBLE_RECIPE_TYPE;
-    public static IRecipeType<ArcaneRecipe> ARCANE_RECIPE_TYPE;
+    public static IRecipeType<IArcaneRecipe> ARCANE_RECIPE_TYPE;
     public static IRecipeType<IInfusionRecipe> INFUSION_RECIPE_TYPE;
     public static IRecipeType<SmeltingBonusRecipe> SMELTING_BONUS_RECIPE_TYPE;
 
@@ -63,3 +63,4 @@ public class ModRecipes {
         });
     }
 } 
+

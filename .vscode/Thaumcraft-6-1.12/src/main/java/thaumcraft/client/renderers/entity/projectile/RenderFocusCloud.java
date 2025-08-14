@@ -28,3 +28,4 @@ public class RenderFocusCloud extends Render
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }
+

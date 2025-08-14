@@ -298,3 +298,4 @@ public class ModelEldritchGolem extends ModelBase
         model.rotateAngleZ = z;
     }
 }
+

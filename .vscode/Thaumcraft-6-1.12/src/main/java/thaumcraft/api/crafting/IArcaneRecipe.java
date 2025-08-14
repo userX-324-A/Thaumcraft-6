@@ -9,3 +9,4 @@ public interface IArcaneRecipe extends IRecipe
     public String getResearch();    
     public AspectList getCrystals();
 }
+

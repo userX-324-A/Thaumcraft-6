@@ -318,3 +318,4 @@ public class BlockCrystal extends Block
         DOWN = new Properties.PropertyAdapter(PropertyBool.create("down"));
     }
 }
+

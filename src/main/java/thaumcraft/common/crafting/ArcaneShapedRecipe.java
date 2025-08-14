@@ -54,3 +54,4 @@ public class ArcaneShapedRecipe extends ShapedRecipe implements IArcaneRecipe {
         return crystals;
     }
 } 
+

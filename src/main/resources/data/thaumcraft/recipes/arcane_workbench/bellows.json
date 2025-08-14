@@ -19,7 +19,8 @@
     "result": {
         "item": "thaumcraft:bellows"
     },
-    "vis": {
+    "vis": 5,
+    "crystals": {
         "aer": 1
     }
 }

@@ -46,3 +46,4 @@ public class CardGlyphs extends TheorycraftCard
     }
 }
 
+

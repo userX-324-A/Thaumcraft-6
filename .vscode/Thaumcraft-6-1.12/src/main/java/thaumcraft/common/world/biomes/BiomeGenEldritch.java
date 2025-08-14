@@ -33,3 +33,4 @@ public class BiomeGenEldritch extends Biome
     public void decorate(World world, Random random, BlockPos pos) {
     }
 }
+

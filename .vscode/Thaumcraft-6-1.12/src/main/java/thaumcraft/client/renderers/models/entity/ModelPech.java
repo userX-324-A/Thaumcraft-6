@@ -154,3 +154,4 @@ public class ModelPech extends ModelBiped
         bipedLeftArm6.rotateAngleX -= MathHelper.sin(par3 * 0.067f) * 0.05f;
     }
 }
+

@@ -41,3 +41,4 @@ public class ItemTripleMeatTreat extends ItemFood implements IThaumcraftItems
         return new ModelResourceLocation("thaumcraft:" + variant);
     }
 }
+

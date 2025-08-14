@@ -220,3 +220,4 @@ public class EntityCultistCleric extends EntityCultist implements IRangedAttackM
         RITUALIST = EntityDataManager.createKey(EntityCultistCleric.class, DataSerializers.BOOLEAN);
     }
 }
+

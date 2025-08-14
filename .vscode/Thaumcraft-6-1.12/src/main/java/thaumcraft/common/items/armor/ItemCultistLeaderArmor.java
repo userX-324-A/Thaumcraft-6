@@ -79,3 +79,4 @@ public class ItemCultistLeaderArmor extends ItemArmor implements IThaumcraftItem
         return model = CustomArmorHelper.getCustomArmorModel(entityLiving, itemStack, armorSlot, model, model1, model2);
     }
 }
+

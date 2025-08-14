@@ -39,3 +39,4 @@ public class AIOwnerHurtTarget extends EntityAITarget
         super.startExecuting();
     }
 }
+

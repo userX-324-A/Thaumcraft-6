@@ -73,3 +73,4 @@ public class RenderSpecialItem extends RenderEntityItem
         super.doRender(e, x, y, z, p_177075_8_, pt);
     }
 }
+

@@ -112,3 +112,4 @@ public class TileAlembicRenderer extends TileEntitySpecialRenderer
         TEX_BORE = new ResourceLocation("thaumcraft", "textures/models/bore.png");
     }
 }
+

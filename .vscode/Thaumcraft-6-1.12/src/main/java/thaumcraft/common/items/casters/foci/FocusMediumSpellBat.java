@@ -59,3 +59,4 @@ public class FocusMediumSpellBat extends FocusMedium
         return new NodeSetting[] { new NodeSetting("target", "focus.common.target", new NodeSetting.NodeSettingIntList(friend, friendDesc)) };
     }
 }
+

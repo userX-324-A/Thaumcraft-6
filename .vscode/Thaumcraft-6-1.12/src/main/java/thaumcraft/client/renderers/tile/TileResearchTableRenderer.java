@@ -67,3 +67,4 @@ public class TileResearchTableRenderer extends TileEntitySpecialRenderer<TileRes
         TEX = new ResourceLocation("thaumcraft", "textures/blocks/research_table_model.png");
     }
 }
+

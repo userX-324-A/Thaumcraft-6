@@ -13,3 +13,4 @@ public class TileCrucible extends TileEntity {
         this(ModBlockEntities.CRUCIBLE.get());
     }
 } 
+

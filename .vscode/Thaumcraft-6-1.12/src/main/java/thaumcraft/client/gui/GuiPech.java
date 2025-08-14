@@ -65,3 +65,4 @@ public class GuiPech extends GuiContainer
         mc.getRenderViewEntity().playSound(SoundsTC.pech_dice, 0.5f, 0.95f + mc.getRenderViewEntity().world.rand.nextFloat() * 0.1f);
     }
 }
+

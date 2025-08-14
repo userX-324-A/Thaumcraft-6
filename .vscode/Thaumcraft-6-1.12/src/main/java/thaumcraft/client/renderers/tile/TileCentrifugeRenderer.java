@@ -49,3 +49,4 @@ public class TileCentrifugeRenderer extends TileEntitySpecialRenderer
         TEX = new ResourceLocation("thaumcraft", "textures/models/centrifuge.png");
     }
 }
+

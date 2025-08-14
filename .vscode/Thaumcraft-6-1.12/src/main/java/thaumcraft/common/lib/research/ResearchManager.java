@@ -606,3 +606,4 @@ public class ResearchManager
         ResearchManager.craftingReferences = new LinkedHashSet<Integer>();
     }
 }
+

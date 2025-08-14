@@ -132,3 +132,4 @@ public class LightMatrix implements CCRenderState.IVertexOperation
         sideao = new float[] { 0.5f, 1.0f, 0.8f, 0.8f, 0.6f, 0.6f, 0.5f, 1.0f, 0.8f, 0.8f, 0.6f, 0.6f, 1.0f };
     }
 }
+

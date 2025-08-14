@@ -2,6 +2,10 @@ package thaumcraft.common.blocks.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -20,6 +24,18 @@ public class EssentiaValveBlock extends Block {
     public EssentiaValveBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, Boolean.TRUE));
+    }
+
+    private static final VoxelShape BASE = Block.box(5, 5, 5, 11, 11, 11);
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return BASE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return BASE;
     }
 
     @Override
@@ -46,6 +62,7 @@ public class EssentiaValveBlock extends Block {
         return ActionResultType.CONSUME;
     }
 }
+
 
 
 

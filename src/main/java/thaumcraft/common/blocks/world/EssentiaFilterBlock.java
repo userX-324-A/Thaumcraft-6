@@ -2,6 +2,9 @@ package thaumcraft.common.blocks.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,6 +19,18 @@ import javax.annotation.Nullable;
 
 public class EssentiaFilterBlock extends Block {
     public EssentiaFilterBlock(Properties properties) { super(properties); }
+
+    private static final VoxelShape SHAPE = Block.box(4, 4, 4, 12, 12, 12);
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
+    }
 
     @Override
     public boolean hasTileEntity(BlockState state) { return true; }
@@ -44,6 +59,7 @@ public class EssentiaFilterBlock extends Block {
         return ActionResultType.PASS;
     }
 }
+
 
 
 

@@ -259,3 +259,4 @@ public class EntityFireBat extends EntityMob
         HANGING = EntityDataManager.createKey(EntityFireBat.class, DataSerializers.BOOLEAN);
     }
 }
+

@@ -405,3 +405,4 @@ public class TileTube extends TileThaumcraft implements IEssentiaTransport, IInt
         cuboids.add(new IndexedCuboid6(6, new Cuboid6(pos.getX() + 0.375, pos.getY() + 0.375, pos.getZ() + 0.375, pos.getX() + 0.625, pos.getY() + 0.625, pos.getZ() + 0.625)));
     }
 }
+

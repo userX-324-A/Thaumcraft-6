@@ -144,3 +144,4 @@ public class EntityFollowingItem extends EntitySpecialItem implements IEntityAdd
         catch (Exception ex) {}
     }
 }
+

@@ -63,3 +63,4 @@ public class PacketFXWispZap implements IMessage, IMessageHandler<PacketFXWispZa
         return (par1 == mc.player.getEntityId()) ? mc.player : world.getEntityByID(par1);
     }
 }
+

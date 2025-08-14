@@ -6,7 +6,8 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+// import net.minecraft.util.text.StringTextComponent; // no direct literals used anymore
+import net.minecraft.util.text.TranslationTextComponent;
 import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.client.golems.ClientSealCache;
 import thaumcraft.common.menu.SealContainer;
@@ -27,7 +28,7 @@ public class SealScreen extends ContainerScreen<SealContainer> {
     private TextFieldWidget txtAreaZ;
 
     public SealScreen(SealContainer container, PlayerInventory inv, ITextComponent title) {
-        super(container, inv, title == null ? new StringTextComponent("Seal") : title);
+        super(container, inv, title == null ? new TranslationTextComponent("gui.thaumcraft.seal.title") : title);
         this.imageWidth = 176;
         this.imageHeight = 120;
     }
@@ -49,7 +50,7 @@ public class SealScreen extends ContainerScreen<SealContainer> {
         int az = ent != null && ent.getArea() != null ? ent.getArea().getZ() : 1;
 
         // Priority
-        txtPriority = new TextFieldWidget(this.font, x + 80, y, 30, 18, new StringTextComponent("P"));
+        txtPriority = new TextFieldWidget(this.font, x + 80, y, 30, 18, new TranslationTextComponent("gui.thaumcraft.seal.priority_short"));
         txtPriority.setValue(String.valueOf(priority));
         txtPriority.setEditable(canEdit);
         txtPriority.setResponder(s -> {
@@ -71,22 +72,22 @@ public class SealScreen extends ContainerScreen<SealContainer> {
         this.addButton(btnColor);
 
         // Locked toggle
-        btnLocked = new Button(x, y + 24, 80, 20, new StringTextComponent(locked ? "Locked: ON" : "Locked: OFF"),
+        btnLocked = new Button(x, y + 24, 80, 20, new TranslationTextComponent(locked ? "gui.thaumcraft.seal.locked_on" : "gui.thaumcraft.seal.locked_off"),
                 b -> {
                     if (!canEdit) return;
                     boolean nv = !textOn(b.getMessage());
-                    b.setMessage(new StringTextComponent(nv ? "Locked: ON" : "Locked: OFF"));
+                    b.setMessage(new TranslationTextComponent(nv ? "gui.thaumcraft.seal.locked_on" : "gui.thaumcraft.seal.locked_off"));
                     sendProps(RequestSealPropsChangeMessage.Kind.LOCKED, 0, nv, 0L);
                 });
         btnLocked.active = canEdit;
         this.addButton(btnLocked);
 
         // Redstone toggle
-        btnRedstone = new Button(x + 90, y + 24, 80, 20, new StringTextComponent(redstone ? "Redstone: ON" : "Redstone: OFF"),
+        btnRedstone = new Button(x + 90, y + 24, 80, 20, new TranslationTextComponent(redstone ? "gui.thaumcraft.seal.redstone_on" : "gui.thaumcraft.seal.redstone_off"),
                 b -> {
                     if (!canEdit) return;
                     boolean nv = !textOn(b.getMessage());
-                    b.setMessage(new StringTextComponent(nv ? "Redstone: ON" : "Redstone: OFF"));
+                    b.setMessage(new TranslationTextComponent(nv ? "gui.thaumcraft.seal.redstone_on" : "gui.thaumcraft.seal.redstone_off"));
                     sendProps(RequestSealPropsChangeMessage.Kind.REDSTONE, 0, nv, 0L);
                 });
         btnRedstone.active = canEdit;
@@ -94,9 +95,9 @@ public class SealScreen extends ContainerScreen<SealContainer> {
 
         // Area XYZ
         int ayBase = y + 52;
-        txtAreaX = new TextFieldWidget(this.font, x + 18, ayBase, 24, 18, new StringTextComponent("X"));
-        txtAreaY = new TextFieldWidget(this.font, x + 18 + 30, ayBase, 24, 18, new StringTextComponent("Y"));
-        txtAreaZ = new TextFieldWidget(this.font, x + 18 + 60, ayBase, 24, 18, new StringTextComponent("Z"));
+        txtAreaX = new TextFieldWidget(this.font, x + 18, ayBase, 24, 18, new TranslationTextComponent("gui.thaumcraft.seal.area_x"));
+        txtAreaY = new TextFieldWidget(this.font, x + 18 + 30, ayBase, 24, 18, new TranslationTextComponent("gui.thaumcraft.seal.area_y"));
+        txtAreaZ = new TextFieldWidget(this.font, x + 18 + 60, ayBase, 24, 18, new TranslationTextComponent("gui.thaumcraft.seal.area_z"));
         txtAreaX.setValue(String.valueOf(ax));
         txtAreaY.setValue(String.valueOf(ay));
         txtAreaZ.setValue(String.valueOf(az));
@@ -107,7 +108,7 @@ public class SealScreen extends ContainerScreen<SealContainer> {
         this.addButton(txtAreaY);
         this.addButton(txtAreaZ);
 
-        this.addButton(new Button(x + 18 + 90, ayBase - 1, 60, 20, new StringTextComponent("Apply"), b -> {
+        this.addButton(new Button(x + 18 + 90, ayBase - 1, 60, 20, new TranslationTextComponent("gui.thaumcraft.seal.apply"), b -> {
             if (!canEdit) return;
             int vx = clamp(getInt(txtAreaX.getValue(), 1), 1, 32);
             int vy = clamp(getInt(txtAreaY.getValue(), 1), 1, 32);
@@ -124,9 +125,9 @@ public class SealScreen extends ContainerScreen<SealContainer> {
             for (int i = 0; i < toggles.length; i++) {
                 final int idx = i;
                 final boolean val = toggles[i];
-                Button tb = new Button(x, ty + i * 22, 140, 20, new StringTextComponent("Toggle " + i + ": " + (val ? "ON" : "OFF")), b -> {
+                Button tb = new Button(x, ty + i * 22, 140, 20, new TranslationTextComponent(val ? "gui.thaumcraft.seal.toggle_on" : "gui.thaumcraft.seal.toggle_off", i), b -> {
                     boolean nv = !val;
-                    b.setMessage(new StringTextComponent("Toggle " + idx + ": " + (nv ? "ON" : "OFF")));
+                    b.setMessage(new TranslationTextComponent(nv ? "gui.thaumcraft.seal.toggle_on" : "gui.thaumcraft.seal.toggle_off", idx));
                     sendProps(RequestSealPropsChangeMessage.Kind.TOGGLE, idx, nv, 0L);
                 });
                 tb.active = canEdit;
@@ -136,12 +137,12 @@ public class SealScreen extends ContainerScreen<SealContainer> {
         }
 
         if (!canEdit) {
-            this.addButton(new Button(x, ayBase + 26, 160, 20, new StringTextComponent("Owner only (or Creative)"), b -> {})).active = false;
+            this.addButton(new Button(x, ayBase + 26, 160, 20, new TranslationTextComponent("gui.thaumcraft.seal.owner_only"), b -> {})).active = false;
         }
     }
 
     @Override
-    protected void renderBg(MatrixStack ms, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@javax.annotation.Nonnull MatrixStack ms, float partialTicks, int mouseX, int mouseY) {
         // No background texture yet; draw a simple dark rect
         fill(ms, this.leftPos, this.topPos, this.leftPos + this.imageWidth, this.topPos + this.imageHeight, 0xAA000000);
     }
@@ -161,10 +162,12 @@ public class SealScreen extends ContainerScreen<SealContainer> {
 
     private boolean canEdit(ISealEntity ent) {
         if (ent == null) return false;
-        if (this.minecraft == null || this.minecraft.player == null) return false;
-        if (this.minecraft.player.abilities.instabuild) return true;
+        if (this.minecraft == null) return false;
+        net.minecraft.client.entity.player.ClientPlayerEntity p = this.minecraft != null ? this.minecraft.player : null;
+        if (p == null) return false;
+        if (p.abilities.instabuild) return true;
         String owner = ent.getOwner();
-        return owner != null && owner.equals(this.minecraft.player.getUUID().toString());
+        return owner != null && owner.equals(p.getUUID().toString());
     }
 
     private static int getInt(String s, int def) {
@@ -179,7 +182,7 @@ public class SealScreen extends ContainerScreen<SealContainer> {
     }
 
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(@javax.annotation.Nonnull MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
         drawLabels(ms);
@@ -189,12 +192,12 @@ public class SealScreen extends ContainerScreen<SealContainer> {
     private void drawLabels(MatrixStack ms) {
         int x = this.leftPos + 10;
         int y = this.topPos + 8;
-        this.font.draw(ms, new StringTextComponent("Seal"), x, y, 0xFFFFFF);
+        this.font.draw(ms, new TranslationTextComponent("gui.thaumcraft.seal.title"), x, y, 0xFFFFFF);
         this.font.draw(ms, new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.priority"), x, y + 12, 0xA0A0A0);
         this.font.draw(ms, new net.minecraft.util.text.TranslationTextComponent("gui.thaumcraft.seal.area"), x, y + 46, 0xA0A0A0);
-        this.font.draw(ms, new StringTextComponent("X"), x + 6, y + 58, 0xA0A0A0);
-        this.font.draw(ms, new StringTextComponent("Y"), x + 36, y + 58, 0xA0A0A0);
-        this.font.draw(ms, new StringTextComponent("Z"), x + 66, y + 58, 0xA0A0A0);
+        this.font.draw(ms, new TranslationTextComponent("gui.thaumcraft.seal.area_x"), x + 6, y + 58, 0xA0A0A0);
+        this.font.draw(ms, new TranslationTextComponent("gui.thaumcraft.seal.area_y"), x + 36, y + 58, 0xA0A0A0);
+        this.font.draw(ms, new TranslationTextComponent("gui.thaumcraft.seal.area_z"), x + 66, y + 58, 0xA0A0A0);
     }
 
     @Override
@@ -207,5 +210,6 @@ public class SealScreen extends ContainerScreen<SealContainer> {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+
 
 

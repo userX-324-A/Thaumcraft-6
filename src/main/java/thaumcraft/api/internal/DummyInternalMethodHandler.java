@@ -53,3 +53,4 @@ public class DummyInternalMethodHandler implements IInternalMethodHandler {
     @Override public boolean shouldPreserveAura(World world, PlayerEntity player, BlockPos pos) { return false; }
     @Override public ItemStack getSealStack(String key) { return ItemStack.EMPTY; }
 }
+

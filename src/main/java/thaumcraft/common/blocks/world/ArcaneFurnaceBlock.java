@@ -38,3 +38,4 @@ public class ArcaneFurnaceBlock extends Block {
         return 0;
     }
 }
+

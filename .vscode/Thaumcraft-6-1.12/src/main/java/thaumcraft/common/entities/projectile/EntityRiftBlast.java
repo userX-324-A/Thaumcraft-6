@@ -161,3 +161,4 @@ public class EntityRiftBlast extends EntityThrowable implements IEntityAdditiona
         return false;
     }
 }
+

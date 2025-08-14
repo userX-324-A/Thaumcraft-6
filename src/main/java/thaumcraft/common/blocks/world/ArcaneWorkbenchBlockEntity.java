@@ -37,3 +37,4 @@ public class ArcaneWorkbenchBlockEntity extends TileEntity {
         return super.save(tag);
     }
 }
+

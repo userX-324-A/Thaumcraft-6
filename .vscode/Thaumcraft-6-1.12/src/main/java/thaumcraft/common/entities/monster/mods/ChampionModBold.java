@@ -30,3 +30,4 @@ public class ChampionModBold implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

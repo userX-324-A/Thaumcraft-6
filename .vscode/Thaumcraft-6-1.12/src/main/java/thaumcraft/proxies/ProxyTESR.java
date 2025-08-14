@@ -81,3 +81,4 @@ public class ProxyTESR
         ClientRegistry.bindTileEntitySpecialRenderer(tile, renderer);
     }
 }
+

@@ -10,3 +10,4 @@ public interface IModelCustomLoader
     
     IModelCustom loadInstance(ResourceLocation p0) throws WavefrontObject.ModelFormatException;
 }
+

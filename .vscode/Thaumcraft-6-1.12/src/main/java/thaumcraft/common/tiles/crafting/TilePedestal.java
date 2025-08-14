@@ -96,3 +96,4 @@ public class TilePedestal extends TileThaumcraftInventory
         return super.receiveClientEvent(i, j);
     }
 }
+

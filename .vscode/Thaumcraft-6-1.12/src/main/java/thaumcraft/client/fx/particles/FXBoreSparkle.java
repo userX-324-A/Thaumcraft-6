@@ -123,3 +123,4 @@ public class FXBoreSparkle extends Particle
         particleGravity = value;
     }
 }
+

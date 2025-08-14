@@ -35,3 +35,4 @@ public class TilePedestalRenderer extends TileEntitySpecialRenderer<TilePedestal
         }
     }
 }
+

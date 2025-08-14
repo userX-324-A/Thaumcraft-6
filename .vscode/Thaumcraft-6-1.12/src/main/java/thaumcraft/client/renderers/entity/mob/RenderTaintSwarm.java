@@ -24,3 +24,4 @@ public class RenderTaintSwarm extends RenderLiving
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }
+

@@ -126,3 +126,4 @@ public abstract class Colour implements Copyable<Colour>
         return colour != null && rgba() == colour.rgba();
     }
 }
+

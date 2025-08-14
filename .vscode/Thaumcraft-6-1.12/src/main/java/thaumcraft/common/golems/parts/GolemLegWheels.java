@@ -50,3 +50,4 @@ public class GolemLegWheels implements GolemLeg.ILegFunction
         GolemLegWheels.ani = new HashMap<Integer, Float>();
     }
 }
+

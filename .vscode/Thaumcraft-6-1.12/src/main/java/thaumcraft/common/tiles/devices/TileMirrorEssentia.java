@@ -290,3 +290,4 @@ public class TileMirrorEssentia extends TileThaumcraft implements IAspectSource,
         return false;
     }
 }
+

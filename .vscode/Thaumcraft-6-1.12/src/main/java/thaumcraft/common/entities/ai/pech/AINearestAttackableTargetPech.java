@@ -14,3 +14,4 @@ public class AINearestAttackableTargetPech extends EntityAINearestAttackableTarg
         return (!(taskOwner instanceof EntityPech) || ((EntityPech) taskOwner).getAnger() != 0) && super.shouldExecute();
     }
 }
+

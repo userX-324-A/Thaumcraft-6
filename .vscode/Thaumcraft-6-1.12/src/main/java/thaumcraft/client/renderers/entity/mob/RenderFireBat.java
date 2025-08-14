@@ -77,3 +77,4 @@ public class RenderFireBat extends RenderLiving
         rl = new ResourceLocation("thaumcraft", "textures/entity/firebat.png");
     }
 }
+

@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,14 +25,15 @@ public final class DevScanCommand {
                     if (source.getEntity() instanceof ServerPlayerEntity) {
                         ServerPlayerEntity player = (ServerPlayerEntity) source.getEntity();
                         ScanningManager.scanTheThing(player, null);
-                        source.sendSuccess(new StringTextComponent("Thaumcraft: triggered scan."), true);
+                        source.sendSuccess(new TranslationTextComponent("cmd.thaumcraft.dev.scan_triggered"), true);
                         return Command.SINGLE_SUCCESS;
                     }
-                    source.sendFailure(new StringTextComponent("Player-only command"));
+                    source.sendFailure(new TranslationTextComponent("cmd.thaumcraft.player_only"));
                     return 0;
                 });
         event.getDispatcher().register(root);
     }
 }
+
 
 

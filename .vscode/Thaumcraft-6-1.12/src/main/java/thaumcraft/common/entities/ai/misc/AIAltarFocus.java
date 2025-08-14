@@ -38,3 +38,4 @@ public class AIAltarFocus extends EntityAIBase
         }
     }
 }
+

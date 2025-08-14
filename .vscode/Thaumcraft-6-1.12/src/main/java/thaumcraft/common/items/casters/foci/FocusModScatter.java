@@ -78,3 +78,4 @@ public class FocusModScatter extends FocusMod
         return true;
     }
 }
+

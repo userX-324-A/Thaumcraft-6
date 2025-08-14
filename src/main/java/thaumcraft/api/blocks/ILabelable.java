@@ -9,3 +9,4 @@ public interface ILabelable {
     boolean applyLabel(PlayerEntity player, BlockPos pos, Direction side, ItemStack labelstack);
 }
 
+

@@ -85,3 +85,4 @@ public class ItemVoidArmor extends ItemArmor implements IWarpingGear, IThaumcraf
         return 1;
     }
 }
+

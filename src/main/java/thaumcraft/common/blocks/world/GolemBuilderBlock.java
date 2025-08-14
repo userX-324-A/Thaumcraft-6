@@ -24,3 +24,4 @@ public class GolemBuilderBlock extends Block implements IForgeBlock {
     }
 }
 
+

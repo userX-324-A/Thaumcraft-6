@@ -7,3 +7,4 @@ public interface IVisDiscountGear {
     int getVisDiscount(ItemStack stack, PlayerEntity player);
 }
 
+

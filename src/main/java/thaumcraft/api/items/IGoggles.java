@@ -7,3 +7,4 @@ public interface IGoggles {
     boolean showIngamePopups(ItemStack stack, LivingEntity player);
 }
 
+

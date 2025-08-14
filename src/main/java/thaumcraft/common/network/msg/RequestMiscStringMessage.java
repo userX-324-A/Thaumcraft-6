@@ -2,7 +2,6 @@ package thaumcraft.common.network.msg;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -39,11 +38,12 @@ public class RequestMiscStringMessage {
             if (sender == null) return;
             if (msg.id == 0) {
                 // Placeholder: echo back to player for now; replace when Logistics GUI is ported
-                sender.displayClientMessage(new StringTextComponent("Search: " + msg.text), true);
+                sender.displayClientMessage(new net.minecraft.util.text.TranslationTextComponent("chat.thaumcraft.search", msg.text), true);
             }
         });
         ctx.get().setPacketHandled(true);
     }
 }
+
 
 

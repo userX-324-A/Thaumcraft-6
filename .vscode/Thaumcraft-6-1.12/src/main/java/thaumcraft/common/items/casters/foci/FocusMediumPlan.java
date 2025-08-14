@@ -260,3 +260,4 @@ public class FocusMediumPlan extends FocusMedium implements IArchitect
         }
     }
 }
+

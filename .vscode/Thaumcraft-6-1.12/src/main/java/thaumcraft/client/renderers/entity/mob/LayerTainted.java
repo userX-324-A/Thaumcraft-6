@@ -62,3 +62,4 @@ public class LayerTainted implements LayerRenderer<EntityLiving>
         LayerTainted.taintLayers = new ArrayList<Integer>();
     }
 }
+

@@ -124,3 +124,4 @@ public class BlockLevitator extends BlockTCDevice implements IBlockFacing, IBloc
         return (list.size() > 0) ? list.get(0) : super.collisionRayTrace(state, world, pos, start, end);
     }
 }
+

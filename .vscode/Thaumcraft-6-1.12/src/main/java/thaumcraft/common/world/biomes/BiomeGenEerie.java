@@ -55,3 +55,4 @@ public class BiomeGenEerie extends Biome
         return 3035999;
     }
 }
+

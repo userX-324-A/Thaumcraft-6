@@ -343,3 +343,4 @@ public class TilePotionSprayer extends TileThaumcraftInventory implements IAspec
         recipeProgress = aspects;
     }
 }
+

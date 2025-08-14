@@ -20,3 +20,4 @@ public interface IGoggles {
 	public boolean showIngamePopups(ItemStack itemstack, EntityLivingBase player);
 
 }
+

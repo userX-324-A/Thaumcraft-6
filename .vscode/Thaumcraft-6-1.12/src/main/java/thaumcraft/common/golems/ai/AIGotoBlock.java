@@ -93,3 +93,4 @@ public class AIGotoBlock extends AIGoto
         return i * i + j * j + k * k < 2.25;
     }
 }
+

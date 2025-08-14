@@ -335,3 +335,4 @@ public class ConfigResearch
         BACK_OVER = new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_over.png");
     }
 }
+

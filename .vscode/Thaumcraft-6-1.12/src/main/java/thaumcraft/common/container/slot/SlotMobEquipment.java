@@ -54,3 +54,4 @@ public class SlotMobEquipment extends Slot
         return slotIn == getSlotIndex();
     }
 }
+

@@ -130,3 +130,4 @@ public class FXShieldRunes extends Particle
         MODEL = new ResourceLocation("thaumcraft", "models/obj/hemis.obj");
     }
 }
+

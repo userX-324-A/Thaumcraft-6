@@ -33,3 +33,4 @@ public class ExtendedMOP extends RayTraceResult implements Comparable<ExtendedMO
         return (dist == o.dist) ? 0 : ((dist < o.dist) ? -1 : 1);
     }
 }
+

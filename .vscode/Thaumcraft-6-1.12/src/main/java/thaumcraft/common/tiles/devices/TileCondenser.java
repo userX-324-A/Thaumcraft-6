@@ -258,3 +258,4 @@ public class TileCondenser extends TileThaumcraft implements ITickable, IEssenti
         return 0;
     }
 }
+

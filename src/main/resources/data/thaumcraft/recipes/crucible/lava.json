@@ -1,17 +1,12 @@
 {
   "type": "thaumcraft:crucible",
   "category": "hedge_alchemy",
-  "input": {
-    "item": "thaumcraft:lava"
+  "catalyst": {
+    "item": "minecraft:lava_bucket"
   },
   "result": {
-    "item": "thaumcraft:lava_result"
+    "item": "minecraft:obsidian"
   },
-  "aspects": [
-    {
-      "name": "ignis",
-      "amount": 1
-    }
-  ],
+  "aspects": { "ignis": 1 },
   "visCost": 50
 }

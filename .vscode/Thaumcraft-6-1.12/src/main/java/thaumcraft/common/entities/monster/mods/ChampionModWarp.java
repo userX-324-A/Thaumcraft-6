@@ -36,3 +36,4 @@ public class ChampionModWarp implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

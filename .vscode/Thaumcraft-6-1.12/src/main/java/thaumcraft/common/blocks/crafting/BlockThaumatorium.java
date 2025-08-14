@@ -121,3 +121,4 @@ public class BlockThaumatorium extends BlockTCDevice implements IBlockFacingHori
         return super.getComparatorInputOverride(state, world, pos);
     }
 }
+

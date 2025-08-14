@@ -8,6 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.math.BlockPos;
 import thaumcraft.api.aura.AuraHelper;
 
@@ -26,7 +27,7 @@ public class ItemHandMirror extends Item {
             tag.putInt("linkY", player.blockPosition().getY());
             tag.putInt("linkZ", player.blockPosition().getZ());
             tag.putString("linkDim", level.dimension().location().toString());
-            if (!level.isClientSide) player.displayClientMessage(new StringTextComponent("Mirror linked."), true);
+            if (!level.isClientSide) player.displayClientMessage(new TranslationTextComponent("tooltip.thaumcraft.hand_mirror.linked"), true);
             return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }
         if (!level.isClientSide) {
@@ -41,7 +42,7 @@ public class ItemHandMirror extends Item {
                     float cost = thaumcraft.common.config.ModConfig.COMMON.mirrorVisCost.get().floatValue();
                     float drained = AuraHelper.drainVis(level, player.blockPosition(), cost);
                     if (drained + 0.001f < cost) {
-                        player.displayClientMessage(new StringTextComponent("Not enough vis to teleport."), true);
+                        player.displayClientMessage(new TranslationTextComponent("tooltip.thaumcraft.hand_mirror.no_vis"), true);
                     } else {
                         net.minecraft.util.ResourceLocation rl = new net.minecraft.util.ResourceLocation(dim);
                         net.minecraft.util.RegistryKey<net.minecraft.world.World> key = net.minecraft.util.RegistryKey.create(net.minecraft.util.registry.Registry.DIMENSION_REGISTRY, rl);
@@ -65,7 +66,7 @@ public class ItemHandMirror extends Item {
                     }
                 }
             } else {
-                player.displayClientMessage(new StringTextComponent("Mirror is unlinked (sneak-use to link)."), true);
+                player.displayClientMessage(new TranslationTextComponent("tooltip.thaumcraft.hand_mirror.unlinked"), true);
             }
         }
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
@@ -82,5 +83,6 @@ public class ItemHandMirror extends Item {
         return base;
     }
 }
+
 
 

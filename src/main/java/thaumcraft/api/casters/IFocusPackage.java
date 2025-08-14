@@ -41,3 +41,4 @@ public interface IFocusPackage {
     
     void initialize(LivingEntity caster);
 } 
+

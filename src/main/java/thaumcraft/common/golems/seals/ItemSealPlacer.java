@@ -15,7 +15,7 @@ import thaumcraft.api.golems.seals.ISealEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.inventory.container.Container;
 import thaumcraft.common.menu.SealContainer;
 
@@ -30,7 +30,7 @@ public class ItemSealPlacer extends Item {
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
+    public ActionResultType useOn(@javax.annotation.Nonnull ItemUseContext context) {
         World world = context.getLevel();
         if (world.isClientSide) return ActionResultType.SUCCESS;
 
@@ -44,7 +44,8 @@ public class ItemSealPlacer extends Item {
         ItemStack stack = context.getItemInHand();
         String key = this.fixedSealKey;
         if (key == null || key.isEmpty()) {
-            key = stack.hasTag() ? stack.getTag().getString("seal_key") : "";
+            net.minecraft.nbt.CompoundNBT tag = stack.getTag();
+            key = tag != null ? tag.getString("seal_key") : "";
         }
         if (key == null || key.isEmpty()) key = "thaumcraft:fetch";
 
@@ -83,14 +84,14 @@ public class ItemSealPlacer extends Item {
                 return ActionResultType.SUCCESS;
             }
             // Client-only custom GUI support is handled via network on the client; avoid direct client class references here
-            Object gui = existing.getSeal() == null ? null : existing.getSeal().returnGui(world, player, pos, face, existing);
+            // Client-side GUI reference not used directly in server context
 
             INamedContainerProvider provider = new INamedContainerProvider() {
                 @Override
-                public ITextComponent getDisplayName() { return new StringTextComponent("Seal"); }
+                public ITextComponent getDisplayName() { return new TranslationTextComponent("gui.thaumcraft.seal.title"); }
 
                 @Override
-                public Container createMenu(int windowId, net.minecraft.entity.player.PlayerInventory inv, PlayerEntity p) {
+                public Container createMenu(int windowId, @javax.annotation.Nonnull net.minecraft.entity.player.PlayerInventory inv, @javax.annotation.Nonnull PlayerEntity p) {
                     return new SealContainer(windowId, inv, pos, face);
                 }
             };
@@ -117,5 +118,6 @@ public class ItemSealPlacer extends Item {
         return ActionResultType.SUCCESS;
     }
 }
+
 
 

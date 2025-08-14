@@ -25,3 +25,4 @@ public class ObjModelLoader implements IModelCustomLoader
         types = new String[] { "obj" };
     }
 }
+

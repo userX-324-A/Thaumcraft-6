@@ -33,3 +33,4 @@ public class PlanarLightModel implements CCRenderState.IVertexOperation
         PlanarLightModel.standardLightModel = LightModel.standardLightModel.reducePlanar();
     }
 }
+

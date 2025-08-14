@@ -26,3 +26,4 @@ public class RenderTaintacle extends RenderLiving
         rl = new ResourceLocation("thaumcraft", "textures/entity/taintacle.png");
     }
 }
+

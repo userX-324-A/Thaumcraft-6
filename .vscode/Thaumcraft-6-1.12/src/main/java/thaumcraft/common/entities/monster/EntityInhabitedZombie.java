@@ -104,3 +104,4 @@ public class EntityInhabitedZombie extends EntityZombie implements IEldritchMob
         return ents.size() <= 0 && super.getCanSpawnHere();
     }
 }
+

@@ -20,3 +20,4 @@ public class InventoryFocusPouch extends InventoryBasic
         return !itemstack.isEmpty() && itemstack.getItem() instanceof ItemFocus;
     }
 }
+

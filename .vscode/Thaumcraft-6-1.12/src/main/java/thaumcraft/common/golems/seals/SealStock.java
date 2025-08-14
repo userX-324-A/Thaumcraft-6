@@ -126,3 +126,4 @@ public class SealStock extends SealFiltered implements ISealConfigToggles
         props[indx].setValue(value);
     }
 }
+

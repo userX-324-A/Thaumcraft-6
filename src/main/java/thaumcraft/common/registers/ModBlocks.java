@@ -50,8 +50,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> BLOCK_BRASS = registerBlock("block_brass", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> AMBER_BLOCK = registerBlock("amber_block", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> AMBER_BRICK = registerBlock("amber_brick", () -> new Block(stoneBlock()));
-    public static final RegistryObject<Block> LOG_GREATWOOD = registerBlock("log_greatwood", () -> new Block(woodBlock()));
-    public static final RegistryObject<Block> LOG_SILVERWOOD = registerBlock("log_silverwood", () -> new Block(woodBlock()));
+    public static final RegistryObject<Block> LOG_GREATWOOD = registerBlock("log_greatwood", () -> new RotatedPillarBlock(woodBlock()));
+    public static final RegistryObject<Block> LOG_SILVERWOOD = registerBlock("log_silverwood", () -> new RotatedPillarBlock(woodBlock()));
     public static final RegistryObject<Block> PLANK_GREATWOOD = registerBlock("plank_greatwood", () -> new Block(woodBlock()));
     public static final RegistryObject<Block> PLANK_SILVERWOOD = registerBlock("plank_silverwood", () -> new Block(woodBlock()));
     public static final RegistryObject<Block> LEAVES_GREATWOOD = registerBlock("leaves_greatwood", () -> new Block(plantBlock()));
@@ -77,7 +77,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> CRYSTAL_TAINT = registerBlock("crystal_taint", () -> new Block(plantBlock()));
     public static final RegistryObject<Block> TAINTED_SOIL = registerBlock("tainted_soil", () -> new Block(plantBlock()));
     public static final RegistryObject<Block> TAINTED_ROCK = registerBlock("tainted_rock", () -> new Block(stoneBlock()));
-    public static final RegistryObject<Block> TAINTED_LOG = registerBlock("tainted_log", () -> new Block(woodBlock()));
+    public static final RegistryObject<Block> TAINTED_LOG = registerBlock("tainted_log", () -> new RotatedPillarBlock(woodBlock()));
     public static final RegistryObject<Block> TAINTED_FIBRE = registerBlock("tainted_fibre", () -> new Block(plantBlock()));
     public static final RegistryObject<Block> TAINTED_CRUST = registerBlock("tainted_crust", () -> new Block(stoneBlock()));
     public static final RegistryObject<Block> SHIMMERLEAF = registerBlock("shimmerleaf", () -> new Block(plantBlock()));
@@ -150,4 +150,5 @@ public class ModBlocks {
     public static final RegistryObject<Block> VIS_GENERATOR = registerBlock("vis_generator", () -> new VisGeneratorBlock(magicalDevice().noOcclusion()));
     public static final RegistryObject<Block> LEVITATOR = registerBlock("levitator", () -> new LevitatorBlock(magicalDevice()));
 }
+
 

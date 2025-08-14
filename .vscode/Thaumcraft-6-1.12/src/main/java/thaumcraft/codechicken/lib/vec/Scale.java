@@ -67,3 +67,4 @@ public class Scale extends Transformation
         return "Scale(" + new BigDecimal(factor.x, cont) + ", " + new BigDecimal(factor.y, cont) + ", " + new BigDecimal(factor.z, cont) + ")";
     }
 }
+

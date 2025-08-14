@@ -582,3 +582,4 @@ public class EntityArcaneBore extends EntityOwnedConstruct
         ACTIVE = EntityDataManager.createKey(EntityArcaneBore.class, DataSerializers.BOOLEAN);
     }
 }
+

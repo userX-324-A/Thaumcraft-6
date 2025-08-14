@@ -152,3 +152,4 @@ public class ItemElementalSword extends ItemSword implements IThaumcraftItems
         }
     }
 }
+

@@ -32,3 +32,4 @@ public class Line3
         return store.x >= Math.min(line1.pt1.x, line1.pt2.x) - 1.0E-4 && store.x >= Math.min(line2.pt1.x, line2.pt2.x) - 1.0E-4 && store.z >= Math.min(line1.pt1.z, line1.pt2.z) - 1.0E-4 && store.z >= Math.min(line2.pt1.z, line2.pt2.z) - 1.0E-4 && store.x <= Math.max(line1.pt1.x, line1.pt2.x) + 1.0E-4 && store.x <= Math.max(line2.pt1.x, line2.pt2.x) + 1.0E-4 && store.z <= Math.max(line1.pt1.z, line1.pt2.z) + 1.0E-4 && store.z <= Math.max(line2.pt1.z, line2.pt2.z) + 1.0E-4;
     }
 }
+

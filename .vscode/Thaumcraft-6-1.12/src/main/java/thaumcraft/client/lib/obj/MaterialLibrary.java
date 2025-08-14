@@ -159,3 +159,4 @@ class MaterialLibrary extends Dictionary<String, Material>
         unknownCommands = new HashSet<String>();
     }
 }
+

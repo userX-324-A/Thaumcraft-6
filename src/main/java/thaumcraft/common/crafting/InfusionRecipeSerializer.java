@@ -59,3 +59,4 @@ public class InfusionRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         buffer.writeVarInt(recipe.getInstability());
     }
 } 
+

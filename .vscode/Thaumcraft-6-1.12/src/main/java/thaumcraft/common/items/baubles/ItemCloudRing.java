@@ -71,3 +71,4 @@ public class ItemCloudRing extends ItemTCBase implements IBauble
         ItemCloudRing.jumpList = new HashMap<String, Boolean>();
     }
 }
+

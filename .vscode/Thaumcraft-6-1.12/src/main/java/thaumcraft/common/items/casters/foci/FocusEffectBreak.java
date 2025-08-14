@@ -86,3 +86,4 @@ public class FocusEffectBreak extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.BLOCK_END_GATEWAY_SPAWN, SoundCategory.PLAYERS, 0.1f, 2.0f + (float)(caster.world.rand.nextGaussian() * 0.05000000074505806));
     }
 }
+

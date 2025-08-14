@@ -97,3 +97,4 @@ public class GuiTurretAdvanced extends GuiContainer
         GuiTurretAdvanced.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_turret_advanced.png");
     }
 }
+

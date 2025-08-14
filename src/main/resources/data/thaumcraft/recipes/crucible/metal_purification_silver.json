@@ -1,21 +1,8 @@
 {
   "type": "thaumcraft:crucible",
   "research": "METALPURIFICATION",
-  "ingredients": [
-    {
-      "tag": "forge:ores/silver"
-    }
-  ],
-  "aspects": [
-    {
-      "aspect": "metallum",
-      "amount": 5
-    },
-    {
-      "aspect": "ordo",
-      "amount": 5
-    }
-  ],
+  "catalyst": { "tag": "forge:ores/silver" },
+  "aspects": { "metallum": 5, "ordo": 5 },
   "result": {
     "item": "thaumcraft:cluster_silver"
   }

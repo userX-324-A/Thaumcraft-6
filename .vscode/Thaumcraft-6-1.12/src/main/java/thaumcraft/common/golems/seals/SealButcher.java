@@ -162,3 +162,4 @@ public class SealButcher implements ISeal, ISealGui, ISealConfigArea
         return new SealBaseGUI(player.inventory, world, seal);
     }
 }
+

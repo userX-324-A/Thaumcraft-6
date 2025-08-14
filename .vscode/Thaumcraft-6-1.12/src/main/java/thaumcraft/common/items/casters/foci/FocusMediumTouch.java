@@ -106,3 +106,4 @@ public class FocusMediumTouch extends FocusMedium
         return true;
     }
 }
+

@@ -250,3 +250,4 @@ public class TileThaumatoriumTop extends TileThaumcraft implements IAspectContai
         return thaumatorium.isEmpty();
     }
 }
+

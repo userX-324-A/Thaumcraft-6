@@ -35,3 +35,4 @@ public class CardFocus extends TheorycraftCard
     }
 }
 
+

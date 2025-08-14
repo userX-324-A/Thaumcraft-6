@@ -137,3 +137,4 @@ public class ProxyEntities
         RenderingRegistry.registerEntityRenderingHandler(EntityThaumcraftGolem.class, new RenderThaumcraftGolem(Minecraft.getMinecraft().getRenderManager()));
     }
 }
+

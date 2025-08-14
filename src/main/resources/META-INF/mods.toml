@@ -6,8 +6,8 @@ license="LGPL-3.0-or-later"
 modId="thaumcraft"
 version="${file.jarVersion}"
 displayName="Thaumcraft 6"
-authors="Azanor, GrigLog, Community"
-credits="Original mod by Azanor; 1.16.5 community port and maintenance by contributors."
+authors="Azanor, GrigLog, Thaumcraft Community Porters"
+credits="Original mod by Azanor. 1.16.5 community port maintained by community contributors. Licensed LGPL-3.0-or-later."
 displayURL="https://www.curseforge.com/minecraft/mc-mods/thaumcraft"
 issueTrackerURL="https://github.com/GrigLog/Thaumcraft-6/issues"
 description='''
@@ -24,14 +24,14 @@ Thaumcraft introduces the arcane arts to Minecraft. Explore aspects, research, a
 [[dependencies.thaumcraft]]
     modId="curios"
     mandatory=false
-    versionRange="[1.16.5-4.0.5.3,)"
+    versionRange="[1.16.5-4.0.8.2,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.thaumcraft]]
     modId="jei"
     mandatory=false
-    versionRange="[7.7.0,)"
+    versionRange="[7.7.1,)"
     ordering="NONE"
     side="CLIENT"
 

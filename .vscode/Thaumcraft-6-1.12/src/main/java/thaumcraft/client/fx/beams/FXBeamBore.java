@@ -312,3 +312,4 @@ public class FXBeamBore extends Particle
         GL11.glPopMatrix();
     }
 }
+

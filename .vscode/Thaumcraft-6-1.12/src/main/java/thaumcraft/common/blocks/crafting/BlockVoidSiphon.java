@@ -79,3 +79,4 @@ public class BlockVoidSiphon extends BlockTCDevice implements IBlockEnabled
         AABB_ORB = new AxisAlignedBB(0.3125, 0.75, 0.3125, 0.625, 1.0, 0.625);
     }
 }
+

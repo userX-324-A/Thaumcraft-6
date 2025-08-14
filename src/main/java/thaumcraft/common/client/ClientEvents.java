@@ -60,7 +60,7 @@ public final class ClientEvents {
     // Lightweight keybind for opening the minimal Thaumonomicon screen
     public static void initKeybind() {
         if (keyOpenThaumonomicon == null) {
-            keyOpenThaumonomicon = new KeyBinding("key.thaumcraft.open_thaumonomicon", GLFW.GLFW_KEY_K, "key.categories.misc");
+            keyOpenThaumonomicon = new KeyBinding("key.thaumcraft.open_thaumonomicon", GLFW.GLFW_KEY_K, "key.categories.thaumcraft");
             ClientRegistry.registerKeyBinding(keyOpenThaumonomicon);
         }
     }
@@ -81,5 +81,6 @@ public final class ClientEvents {
         thaumcraft.client.golems.ClientSealCache.clearAll();
     }
 }
+
 
 

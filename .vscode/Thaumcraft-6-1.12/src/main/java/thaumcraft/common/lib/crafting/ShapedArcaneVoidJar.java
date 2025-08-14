@@ -29,3 +29,4 @@ public class ShapedArcaneVoidJar extends ShapedArcaneRecipe
         return res;
     }
 }
+

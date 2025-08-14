@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import thaumcraft.api.items.IVisDiscountGear;
 
 import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class AmuletVisItem extends CurioItemBase implements IVisDiscountGear {
@@ -28,16 +29,17 @@ public class AmuletVisItem extends CurioItemBase implements IVisDiscountGear {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
         super.appendHoverText(stack, level, lines, flag);
         // Conditional tooltip shows when Curios is present
         if (CuriosCompat.isLoaded()) {
             lines.add(new TranslationTextComponent("tc.visdiscount").append(new StringTextComponent(": +5%")));
-            lines.add(new StringTextComponent("Curios: amulet"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.curios_slot_amulet"));
         } else {
             lines.add(new TranslationTextComponent("tc.visdiscount").append(new StringTextComponent(": +5%")));
         }
     }
 }
+
 
 

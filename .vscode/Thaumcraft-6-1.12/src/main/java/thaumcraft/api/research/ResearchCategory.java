@@ -79,3 +79,4 @@ public class ResearchCategory {
 	public Map<String, ResearchEntry> research = new HashMap<String,ResearchEntry>();	
 	
 }
+

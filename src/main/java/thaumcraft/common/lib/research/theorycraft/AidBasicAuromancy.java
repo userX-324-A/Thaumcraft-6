@@ -15,3 +15,4 @@ public class AidBasicAuromancy implements ITheorycraftAid
     }
 }
 
+

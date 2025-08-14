@@ -16,3 +16,4 @@ public class AidBasicAuromancy implements ITheorycraftAid
         return new Class[] { CardFocus.class, CardAwareness.class, CardSpellbinding.class };
     }
 }
+

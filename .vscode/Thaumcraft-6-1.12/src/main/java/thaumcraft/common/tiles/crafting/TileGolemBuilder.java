@@ -304,3 +304,4 @@ public class TileGolemBuilder extends TileThaumcraftInventory implements IEssent
         return true;
     }
 }
+

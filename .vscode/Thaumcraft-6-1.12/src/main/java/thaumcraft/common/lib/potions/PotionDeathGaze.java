@@ -40,3 +40,4 @@ public class PotionDeathGaze extends Potion
         rl = new ResourceLocation("thaumcraft", "textures/misc/potions.png");
     }
 }
+

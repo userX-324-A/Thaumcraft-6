@@ -72,3 +72,4 @@ public class ItemVoidAxe extends ItemAxe implements IWarpingGear, IThaumcraftIte
         return 1;
     }
 }
+

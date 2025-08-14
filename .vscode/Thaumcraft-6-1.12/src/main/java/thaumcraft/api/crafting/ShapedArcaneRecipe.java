@@ -81,3 +81,4 @@ public class ShapedArcaneRecipe extends ShapedOreRecipe implements IArcaneRecipe
 	}
 	
 }
+

@@ -1,17 +1,12 @@
 {
   "type": "thaumcraft:crucible",
   "category": "hedge_alchemy",
-  "input": {
-    "item": "thaumcraft:slime"
+  "catalyst": {
+    "item": "minecraft:slime_ball"
   },
   "result": {
-    "item": "thaumcraft:slime_result"
+    "item": "minecraft:magma_cream"
   },
-  "aspects": [
-    {
-      "name": "terra",
-      "amount": 1
-    }
-  ],
+  "aspects": { "ignis": 1 },
   "visCost": 50
 }

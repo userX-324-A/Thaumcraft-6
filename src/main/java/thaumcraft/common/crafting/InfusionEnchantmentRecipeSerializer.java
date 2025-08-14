@@ -65,3 +65,4 @@ public class InfusionEnchantmentRecipeSerializer extends ForgeRegistryEntry<IRec
 
 
 
+

@@ -52,3 +52,4 @@ public class GuiGolemLockButton extends GuiButton
         GuiGolemLockButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

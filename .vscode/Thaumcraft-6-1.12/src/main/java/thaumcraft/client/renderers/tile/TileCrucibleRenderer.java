@@ -44,3 +44,4 @@ public class TileCrucibleRenderer extends TileEntitySpecialRenderer
         renderEntityAt((TileCrucible)te, x, y, z, partialTicks);
     }
 }
+

@@ -28,3 +28,4 @@ public class BlockStoneTC extends BlockTC
         return blockHardness >= 0.0f;
     }
 }
+

@@ -133,3 +133,4 @@ public class TileRechargePedestal extends TileThaumcraftInventory implements IAs
         slots = new int[] { 0 };
     }
 }
+

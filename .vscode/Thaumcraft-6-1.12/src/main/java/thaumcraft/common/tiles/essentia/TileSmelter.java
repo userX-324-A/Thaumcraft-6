@@ -367,3 +367,4 @@ public class TileSmelter extends TileThaumcraftInventory
         slots_sides = new int[] { 0 };
     }
 }
+

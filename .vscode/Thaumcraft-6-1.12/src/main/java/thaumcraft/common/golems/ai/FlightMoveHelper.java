@@ -59,3 +59,4 @@ public class FlightMoveHelper extends EntityMoveHelper
         }
     }
 }
+

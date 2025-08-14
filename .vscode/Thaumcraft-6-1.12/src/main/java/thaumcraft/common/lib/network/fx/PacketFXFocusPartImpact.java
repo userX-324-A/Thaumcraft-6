@@ -76,3 +76,4 @@ public class PacketFXFocusPartImpact implements IMessage, IMessageHandler<Packet
         }
     }
 }
+

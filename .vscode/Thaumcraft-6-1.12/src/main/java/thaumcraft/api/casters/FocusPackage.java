@@ -251,3 +251,4 @@ public class FocusPackage implements IFocusElement {
 	
 
 }
+

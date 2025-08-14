@@ -28,3 +28,4 @@ public class IngredientNBTTC extends Ingredient {
     public boolean isSimple() { return false; }
 }
 
+

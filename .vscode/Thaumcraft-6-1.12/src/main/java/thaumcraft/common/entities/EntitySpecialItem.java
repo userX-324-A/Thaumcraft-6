@@ -37,3 +37,4 @@ public class EntitySpecialItem extends EntityItem
         return !source.isExplosion() && super.attackEntityFrom(source, damage);
     }
 }
+

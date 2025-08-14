@@ -52,3 +52,4 @@ public class UVTranslation extends UVTransformation
         return "UVTranslation(" + new BigDecimal(du, cont) + ", " + new BigDecimal(dv, cont) + ")";
     }
 }
+

@@ -112,3 +112,4 @@ public class ItemCurio extends ItemTCBase
         return super.onItemRightClick(worldIn, player, hand);
     }
 }
+

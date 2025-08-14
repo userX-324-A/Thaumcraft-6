@@ -19,3 +19,4 @@ public class SlotTurretBasic extends SlotMobEquipment
     public void onSlotChanged() {
     }
 }
+

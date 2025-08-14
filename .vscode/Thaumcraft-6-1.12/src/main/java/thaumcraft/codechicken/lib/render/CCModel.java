@@ -879,3 +879,4 @@ public class CCModel implements CCRenderState.IVertexSource, Copyable<CCModel>
         }
     }
 }
+

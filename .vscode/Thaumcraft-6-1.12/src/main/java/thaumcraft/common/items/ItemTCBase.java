@@ -77,3 +77,4 @@ public class ItemTCBase extends Item implements IThaumcraftItems
         return new ModelResourceLocation("thaumcraft:" + BASE_NAME, variant);
     }
 }
+

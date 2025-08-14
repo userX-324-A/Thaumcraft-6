@@ -281,3 +281,4 @@ public class ModelKnightArmor extends ModelCustomArmor
         model.rotateAngleZ = z;
     }
 }
+

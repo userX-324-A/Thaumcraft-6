@@ -56,3 +56,4 @@ public class EldritchCrabRenderer extends MobRenderer<EldritchCrabEntity, Eldrit
 }
 
 
+

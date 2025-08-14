@@ -18,3 +18,4 @@ public class AidEnchantmentTable implements ITheorycraftAid
     }
 }
 
+

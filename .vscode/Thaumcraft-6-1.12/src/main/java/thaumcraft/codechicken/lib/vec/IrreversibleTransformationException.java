@@ -14,3 +14,4 @@ public class IrreversibleTransformationException extends RuntimeException
         return "The following transformation is irreversible:\n" + t;
     }
 }
+

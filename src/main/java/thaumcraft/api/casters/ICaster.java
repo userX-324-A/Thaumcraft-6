@@ -8,3 +8,4 @@ public interface ICaster {
     
     boolean consumeVis(ItemStack stack, PlayerEntity player, float amount, boolean crafting, boolean simulate);
 }
+

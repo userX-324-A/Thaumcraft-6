@@ -78,3 +78,4 @@ public class PacketLogisticsRequestToServer implements IMessage, IMessageHandler
         return null;
     }
 }
+

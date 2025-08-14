@@ -23,3 +23,4 @@ public class InventoryHandMirror extends InventoryBasic
         }
     }
 }
+

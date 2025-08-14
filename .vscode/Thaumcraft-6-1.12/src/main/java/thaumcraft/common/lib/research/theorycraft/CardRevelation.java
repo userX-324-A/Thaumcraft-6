@@ -42,3 +42,4 @@ public class CardRevelation extends TheorycraftCard
         return true;
     }
 }
+

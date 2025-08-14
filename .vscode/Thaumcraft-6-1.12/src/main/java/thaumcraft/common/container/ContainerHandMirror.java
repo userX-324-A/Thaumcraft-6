@@ -182,3 +182,4 @@ public class ContainerHandMirror extends Container implements IInventoryChangedL
         detectAndSendChanges();
     }
 }
+

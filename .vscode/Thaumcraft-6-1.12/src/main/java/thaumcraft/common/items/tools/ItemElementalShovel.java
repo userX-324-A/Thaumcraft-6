@@ -292,3 +292,4 @@ public class ItemElementalShovel extends ItemSpade implements IArchitect, IThaum
         isEffective = new Block[] {Blocks.GRASS, Blocks.DIRT, Blocks.SAND, Blocks.GRAVEL, Blocks.SNOW_LAYER, Blocks.SNOW, Blocks.CLAY, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MYCELIUM};
     }
 }
+

@@ -89,3 +89,4 @@ public class RenderRiftBlast extends Render
         starsTexture = new ResourceLocation("textures/entity/end_portal.png");
     }
 }
+

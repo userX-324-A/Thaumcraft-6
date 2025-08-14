@@ -18,3 +18,4 @@ public class AidBeacon implements ITheorycraftAid
     }
 }
 
+

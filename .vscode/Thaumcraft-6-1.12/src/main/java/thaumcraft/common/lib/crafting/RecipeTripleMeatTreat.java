@@ -53,3 +53,4 @@ public class RecipeTripleMeatTreat extends IForgeRegistryEntry.Impl<IRecipe> imp
         return width * height >= 4;
     }
 }
+

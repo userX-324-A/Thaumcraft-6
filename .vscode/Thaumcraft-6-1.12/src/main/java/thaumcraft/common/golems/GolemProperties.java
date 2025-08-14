@@ -223,3 +223,4 @@ public class GolemProperties implements IGolemProperties
         GolemAddon.register(new GolemAddon("HAULER", new String[] { "MINDCLOCKWORK" }, new ResourceLocation("thaumcraft", "textures/misc/golem/addon_hauler.png"), new PartModelHauler(new ResourceLocation("thaumcraft", "models/obj/golem_hauler.obj"), new ResourceLocation("thaumcraft", "textures/entity/golems/golem_hauler.png"), PartModel.EnumAttachPoint.BODY), new Object[] { new ItemStack(Items.LEATHER), new ItemStack(Blocks.CHEST) }, new EnumGolemTrait[] { EnumGolemTrait.HAULER }));
     }
 }
+

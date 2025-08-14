@@ -180,3 +180,4 @@ public class DustTriggerMultiblock implements IDustTrigger
         }
     }
 }
+

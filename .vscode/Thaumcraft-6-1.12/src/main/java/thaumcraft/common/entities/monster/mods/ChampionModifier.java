@@ -37,3 +37,4 @@ public class ChampionModifier
         ChampionModifier.ATTRIBUTE_MINUS_ONE = new AttributeModifier(UUID.fromString("f48eb416-8321-46e6-8c07-a07bed729a0c"), "minus1", -1.0, 0);
     }
 }
+

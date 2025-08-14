@@ -262,3 +262,4 @@ public class BlockCoord implements Comparable<BlockCoord>, Copyable<BlockCoord>
         sideOffsets = new BlockCoord[] { new BlockCoord(0, -1, 0), new BlockCoord(0, 1, 0), new BlockCoord(0, 0, -1), new BlockCoord(0, 0, 1), new BlockCoord(-1, 0, 0), new BlockCoord(1, 0, 0) };
     }
 }
+

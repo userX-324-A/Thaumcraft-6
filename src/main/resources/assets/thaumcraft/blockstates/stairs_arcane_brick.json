@@ -1,6 +1,5 @@
 {
     "variants": {
-        "inventory": [{"model": "thaumcraft:arcane_brick_stairs"}],
         "facing=east,half=bottom,shape=straight":  { "model": "thaumcraft:arcane_brick_stairs" },
         "facing=west,half=bottom,shape=straight":  { "model": "thaumcraft:arcane_brick_stairs", "y": 180, "uvlock": true },
         "facing=south,half=bottom,shape=straight": { "model": "thaumcraft:arcane_brick_stairs", "y": 90, "uvlock": true },

@@ -67,3 +67,4 @@ public class ScanAspect implements IScanThing {
 	}
 	
 }
+

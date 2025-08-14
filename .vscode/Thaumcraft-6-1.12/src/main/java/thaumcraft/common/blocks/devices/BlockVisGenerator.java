@@ -91,3 +91,4 @@ public class BlockVisGenerator extends BlockTCDevice implements IBlockFacing, IB
         return Utils.rotateBlockAABB(new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.875, 0.75), BlockStateUtils.getFacing(getMetaFromState(state)));
     }
 }
+

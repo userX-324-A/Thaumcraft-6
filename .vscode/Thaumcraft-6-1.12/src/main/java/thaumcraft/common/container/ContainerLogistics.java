@@ -217,3 +217,4 @@ public class ContainerLogistics extends Container implements IInventoryChangedLi
         detectAndSendChanges();
     }
 }
+

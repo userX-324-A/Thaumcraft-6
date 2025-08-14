@@ -317,3 +317,4 @@ public class EntityCultistPortalGreater extends EntityMob
         bossInfo.setPercent(getHealth() / getMaxHealth());
     }
 }
+

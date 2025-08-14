@@ -48,3 +48,4 @@ public class CardPonder extends TheorycraftCard {
 	
 	
 }
+

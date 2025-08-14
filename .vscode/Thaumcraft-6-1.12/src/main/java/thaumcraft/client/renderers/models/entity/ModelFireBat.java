@@ -85,3 +85,4 @@ public class ModelFireBat extends ModelBase
         batBody.render(par7);
     }
 }
+

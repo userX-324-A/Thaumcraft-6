@@ -273,3 +273,4 @@ public class EntityWisp extends EntityFlying implements IMob
         TYPE = EntityDataManager.createKey(EntityWisp.class, DataSerializers.STRING);
     }
 }
+

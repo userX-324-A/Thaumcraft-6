@@ -48,3 +48,4 @@ public class BlockArcaneWorkbench extends BlockTCDevice
         world.removeTileEntity(pos);
     }
 }
+

@@ -86,30 +86,30 @@ public class ModItems {
     public static final RegistryObject<Item> SANITY_CHECKER = RegistryManager.ITEMS.register("sanity_checker", () -> new thaumcraft.common.items.tools.ItemSanityChecker(new Item.Properties().tab(ItemGroup.TAB_TOOLS)));
     public static final RegistryObject<Item> RESONATOR = RegistryManager.ITEMS.register("resonator", () -> new thaumcraft.common.items.tools.ItemResonator(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
         @Override
-        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+        public void appendHoverText(@javax.annotation.Nonnull net.minecraft.item.ItemStack stack, @javax.annotation.Nullable net.minecraft.world.World level, @javax.annotation.Nonnull java.util.List<net.minecraft.util.text.ITextComponent> lines, @javax.annotation.Nonnull net.minecraft.client.util.ITooltipFlag flag) {
             int r = thaumcraft.common.config.ModConfig.COMMON.resonatorScanRadius.get();
             int t = thaumcraft.common.config.ModConfig.COMMON.resonatorHudCadenceTicks.get();
-            lines.add(new net.minecraft.util.text.StringTextComponent("Scan radius: "+r+" | HUD cadence: "+t+"t"));
+            lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.resonator.stats", r, t));
         }
     });
     public static final RegistryObject<Item> HAND_MIRROR = RegistryManager.ITEMS.register("hand_mirror", () -> new thaumcraft.common.items.tools.ItemHandMirror(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
         @Override
-        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+        public void appendHoverText(@javax.annotation.Nonnull net.minecraft.item.ItemStack stack, @javax.annotation.Nullable net.minecraft.world.World level, @javax.annotation.Nonnull java.util.List<net.minecraft.util.text.ITextComponent> lines, @javax.annotation.Nonnull net.minecraft.client.util.ITooltipFlag flag) {
             double cost = thaumcraft.common.config.ModConfig.COMMON.mirrorVisCost.get();
             int cd = thaumcraft.common.config.ModConfig.COMMON.mirrorCooldownSeconds.get();
-            lines.add(new net.minecraft.util.text.StringTextComponent("Vis cost: "+(int)cost+" | Cooldown: "+cd+"s"));
-            lines.add(new net.minecraft.util.text.StringTextComponent("Sneak-Use to link; Use to teleport (cross-dimension supported)"));
+            lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.hand_mirror.stats", (int)cost, cd));
+            lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.hand_mirror.usage"));
         }
     });
     public static final RegistryObject<Item> GRAPPLE_GUN = RegistryManager.ITEMS.register("grapple_gun", () -> new thaumcraft.common.items.tools.ItemGrappleGun(new Item.Properties().tab(ItemGroup.TAB_TOOLS)) {
         @Override
-        public void appendHoverText(net.minecraft.item.ItemStack stack, net.minecraft.world.World level, java.util.List<net.minecraft.util.text.ITextComponent> lines, net.minecraft.client.util.ITooltipFlag flag) {
+        public void appendHoverText(@javax.annotation.Nonnull net.minecraft.item.ItemStack stack, @javax.annotation.Nullable net.minecraft.world.World level, @javax.annotation.Nonnull java.util.List<net.minecraft.util.text.ITextComponent> lines, @javax.annotation.Nonnull net.minecraft.client.util.ITooltipFlag flag) {
             double len = thaumcraft.common.config.ModConfig.COMMON.grappleMaxLength.get();
             double spd = thaumcraft.common.config.ModConfig.COMMON.grappleReelSpeedPerTick.get();
             boolean mit = thaumcraft.common.config.ModConfig.COMMON.grappleMitigateFallDamage.get();
-            lines.add(new net.minecraft.util.text.StringTextComponent("Max length: "+(int)len+" | Reel: "+String.format("%.2f", spd)+"/t"));
-            if (mit) lines.add(new net.minecraft.util.text.StringTextComponent("Fall damage mitigation: enabled"));
-            lines.add(new net.minecraft.util.text.StringTextComponent("Crouch to reel in."));
+            lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.grapple_gun.stats", (int)len, String.format("%.2f", spd)));
+            if (mit) lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.grapple_gun.mitigation_enabled"));
+            lines.add(new net.minecraft.util.text.TranslationTextComponent("tooltip.thaumcraft.grapple_gun.hint"));
         }
     });
     public static final RegistryObject<Item> GRAPPLE_GUN_TIP = registerItem("grapple_gun_tip");
@@ -198,3 +198,4 @@ public class ModItems {
     public static final RegistryObject<Item> TC_GOLEM_SPAWN_EGG = RegistryManager.ITEMS.register("tc_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.TC_GOLEM, 0x7a5a2b, 0xc9b07c, new Item.Properties().tab(ItemGroup.TAB_MISC)));
 } 
+

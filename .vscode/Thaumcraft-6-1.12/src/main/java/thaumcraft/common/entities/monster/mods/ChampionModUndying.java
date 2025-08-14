@@ -33,3 +33,4 @@ public class ChampionModUndying implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

@@ -115,3 +115,4 @@ public class BlockVisBattery extends Block
         CHARGE = PropertyInteger.create("charge", 0, 10);
     }
 }
+

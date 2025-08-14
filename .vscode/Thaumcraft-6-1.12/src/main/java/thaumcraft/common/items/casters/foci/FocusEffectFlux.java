@@ -86,3 +86,4 @@ public class FocusEffectFlux extends FocusEffect
         ParticleEngine.addEffectWithDelay(world, fb, world.rand.nextInt(4));
     }
 }
+

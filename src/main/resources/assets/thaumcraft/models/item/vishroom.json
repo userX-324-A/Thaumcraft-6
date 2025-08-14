@@ -1,0 +1,9 @@
+﻿{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "thaumcraft:block/vishroom"
+	}
+}
+{
+	"parent": "thaumcraft:block/vishroom"
+}

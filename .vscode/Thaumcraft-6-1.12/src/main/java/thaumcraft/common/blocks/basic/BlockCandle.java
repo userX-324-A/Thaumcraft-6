@@ -99,3 +99,4 @@ public class BlockCandle extends BlockTC implements IInfusionStabiliserExt
         return 0.0f;
     }
 }
+

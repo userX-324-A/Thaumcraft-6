@@ -2,6 +2,9 @@ package thaumcraft.common.blocks.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +23,18 @@ public class EssentiaJarBlock extends Block {
     public EssentiaJarBlock(Properties properties) {
         super(properties);
         registerDefaultState(this.stateDefinition.any().setValue(BRACED, false));
+    }
+
+    private static final VoxelShape SHAPE = Block.box(3, 0, 3, 13, 14, 13);
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader level, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
 
     @Override
@@ -84,3 +99,4 @@ public class EssentiaJarBlock extends Block {
         super.onRemove(state, level, pos, newState, isMoving);
     }
 }
+

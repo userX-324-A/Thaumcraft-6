@@ -103,3 +103,4 @@ public class RecipesVoidRobeArmorDyes extends RecipesArmorDyes
         return itemstack;
     }
 }
+

@@ -105,3 +105,4 @@ public class TileVisGenerator extends TileThaumcraft implements ITickable, IEner
         return false;
     }
 }
+

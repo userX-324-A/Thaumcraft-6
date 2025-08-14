@@ -43,3 +43,4 @@ public class CrucibleRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         buffer.writeItem(recipe.getResultItem());
     }
 } 
+

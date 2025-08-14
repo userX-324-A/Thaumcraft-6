@@ -23,3 +23,4 @@ public class SlotCrystal extends Slot
         return stack != null && !stack.isEmpty() && stack.getItem() != null && stack.getItem() instanceof ItemCrystalEssence && ((ItemCrystalEssence)stack.getItem()).getAspects(stack).getAspects()[0] == aspect;
     }
 }
+

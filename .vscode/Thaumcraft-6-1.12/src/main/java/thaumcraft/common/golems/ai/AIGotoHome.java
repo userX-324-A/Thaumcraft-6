@@ -59,3 +59,4 @@ public class AIGotoHome extends EntityAIBase
         golem.getNavigator().clearPath();
     }
 }
+

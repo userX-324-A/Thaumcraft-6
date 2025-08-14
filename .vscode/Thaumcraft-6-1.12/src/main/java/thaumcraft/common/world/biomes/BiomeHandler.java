@@ -146,3 +146,4 @@ public class BiomeHandler
         BiomeHandler.biomeBlacklist = new HashMap<Integer, Integer>();
     }
 }
+

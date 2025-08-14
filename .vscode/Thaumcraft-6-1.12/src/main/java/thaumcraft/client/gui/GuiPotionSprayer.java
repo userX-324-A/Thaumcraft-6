@@ -82,3 +82,4 @@ public class GuiPotionSprayer extends GuiContainer
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }
+

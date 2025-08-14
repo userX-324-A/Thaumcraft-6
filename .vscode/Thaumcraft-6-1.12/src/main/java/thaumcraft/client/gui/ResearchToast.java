@@ -45,3 +45,4 @@ public class ResearchToast implements IToast
         return (delta - firstDrawTime < 5000L) ? IToast.Visibility.SHOW : IToast.Visibility.HIDE;
     }
 }
+

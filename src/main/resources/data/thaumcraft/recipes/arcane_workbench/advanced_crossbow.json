@@ -1,5 +1,5 @@
 {
-  "type": "thaumcraft:arcane_workbench",
+  "type": "thaumcraft:arcane_shaped",
   "pattern": [
     "PMP",
     "PTP",
@@ -21,9 +21,7 @@
     "count": 1
   },
   "vis": 150,
-  "crystals": {
-    "air": 2
-  }
+  "crystals": { "aer": 2 }
 }
 
 

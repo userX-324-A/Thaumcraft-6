@@ -62,3 +62,4 @@ public class ItemTCEssentiaContainer extends ItemGenericEssentiaContainer implem
         return new ModelResourceLocation("thaumcraft:" + BASE_NAME, variant);
     }
 }
+

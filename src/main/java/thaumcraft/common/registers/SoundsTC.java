@@ -33,6 +33,13 @@ public final class SoundsTC {
     // Causality collapser activation (customizable)
     public static final RegistryObject<SoundEvent> CAUSALITY_COLLAPSE = RegistryManager.SOUNDS.register("causality_collapse",
             () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "causality_collapse")));
+
+    // Grapple gun cues
+    public static final RegistryObject<SoundEvent> GRAPPLE_FIRE = RegistryManager.SOUNDS.register("grapple_fire",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "grapple_fire")));
+    public static final RegistryObject<SoundEvent> GRAPPLE_IMPACT = RegistryManager.SOUNDS.register("grapple_impact",
+            () -> new SoundEvent(new ResourceLocation(Thaumcraft.MODID, "grapple_impact")));
 }
+
 
 

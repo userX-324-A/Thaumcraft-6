@@ -32,3 +32,4 @@ public class BlockStairsTC extends BlockStairs
         return super.getFireSpreadSpeed(world, pos, face);
     }
 }
+

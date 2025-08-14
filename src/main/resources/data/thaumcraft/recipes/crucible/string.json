@@ -1,17 +1,13 @@
 {
   "type": "thaumcraft:crucible",
   "category": "hedge_alchemy",
-  "input": {
-    "item": "thaumcraft:string"
+  "catalyst": {
+    "item": "minecraft:string"
   },
   "result": {
-    "item": "thaumcraft:string_result"
+    "item": "minecraft:wool",
+    "count": 1
   },
-  "aspects": [
-    {
-      "name": "aer",
-      "amount": 1
-    }
-  ],
+  "aspects": { "ordo": 1 },
   "visCost": 50
 }

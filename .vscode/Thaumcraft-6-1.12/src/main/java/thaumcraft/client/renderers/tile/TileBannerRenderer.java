@@ -81,3 +81,4 @@ public class TileBannerRenderer extends TileEntitySpecialRenderer
         TEX_BLANK = new ResourceLocation("thaumcraft", "textures/models/banner_blank.png");
     }
 }
+

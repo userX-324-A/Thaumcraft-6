@@ -280,3 +280,4 @@ public class TileThaumcraftInventory extends TileThaumcraft implements ISidedInv
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 }
+

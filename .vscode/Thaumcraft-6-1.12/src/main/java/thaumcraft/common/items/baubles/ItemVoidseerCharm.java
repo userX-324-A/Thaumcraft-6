@@ -55,3 +55,4 @@ public class ItemVoidseerCharm extends ItemTCBase implements IBauble, IVisDiscou
         return getVisDiscount(itemstack, player) / 5;
     }
 }
+

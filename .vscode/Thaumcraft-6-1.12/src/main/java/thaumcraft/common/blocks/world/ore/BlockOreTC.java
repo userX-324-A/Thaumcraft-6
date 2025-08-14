@@ -70,3 +70,4 @@ public class BlockOreTC extends BlockTC
         return quantityDropped(random);
     }
 }
+

@@ -83,3 +83,4 @@ public class RenderSpellBat extends RenderLiving
         rl = new ResourceLocation("thaumcraft", "textures/entity/spellbat.png");
     }
 }
+

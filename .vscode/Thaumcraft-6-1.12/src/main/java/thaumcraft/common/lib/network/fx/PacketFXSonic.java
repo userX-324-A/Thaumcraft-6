@@ -41,3 +41,4 @@ public class PacketFXSonic implements IMessage, IMessageHandler<PacketFXSonic, I
         return null;
     }
 }
+

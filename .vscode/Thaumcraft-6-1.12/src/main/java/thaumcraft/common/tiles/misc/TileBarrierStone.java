@@ -48,3 +48,4 @@ public class TileBarrierStone extends TileEntity implements ITickable
         }
     }
 }
+

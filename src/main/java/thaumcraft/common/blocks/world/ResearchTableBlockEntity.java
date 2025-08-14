@@ -8,3 +8,4 @@ public class ResearchTableBlockEntity extends TileEntity {
         super(ModBlockEntities.RESEARCH_TABLE.get());
     }
 } 
+

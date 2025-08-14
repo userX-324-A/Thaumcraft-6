@@ -46,3 +46,4 @@ public class PacketAuraToClient implements IMessage, IMessageHandler<PacketAuraT
         return null;
     }
 }
+

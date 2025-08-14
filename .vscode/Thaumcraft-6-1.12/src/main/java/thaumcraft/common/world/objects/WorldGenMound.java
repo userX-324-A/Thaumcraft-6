@@ -2554,3 +2554,4 @@ public class WorldGenMound extends WorldGenerator
         return true;
     }
 }
+

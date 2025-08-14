@@ -68,3 +68,4 @@ public class ItemPechWand extends ItemTCBase
         return super.onItemRightClick(worldIn, player, hand);
     }
 }
+

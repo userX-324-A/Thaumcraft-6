@@ -104,3 +104,4 @@ public class RenderHomingShard extends Render
         beamTexture = new ResourceLocation("thaumcraft", "textures/misc/beaml.png");
     }
 }
+

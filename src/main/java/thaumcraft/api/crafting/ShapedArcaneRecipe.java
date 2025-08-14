@@ -12,3 +12,4 @@ public class ShapedArcaneRecipe extends ShapedRecipe {
     }
 }
 
+

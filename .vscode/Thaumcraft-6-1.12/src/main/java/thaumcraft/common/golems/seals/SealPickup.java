@@ -183,3 +183,4 @@ public class SealPickup extends SealFiltered implements ISealConfigArea
     public void onRemoval(World world, BlockPos pos, EnumFacing side) {
     }
 }
+

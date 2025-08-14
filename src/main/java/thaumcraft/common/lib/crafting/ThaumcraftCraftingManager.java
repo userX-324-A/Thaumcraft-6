@@ -18,3 +18,4 @@ public class ThaumcraftCraftingManager {
                 .collect(Collectors.toList());
     }
 } 
+

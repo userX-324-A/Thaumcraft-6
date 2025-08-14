@@ -74,3 +74,4 @@ public class InfusionEnchantmentRecipe extends InfusionRecipe implements IInfusi
 
 
 
+

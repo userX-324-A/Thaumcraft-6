@@ -621,3 +621,4 @@ public class ConfigRecipes
         ConfigRecipes.recipeGroups = new HashMap<String, ArrayList<ResourceLocation>>();
     }
 }
+

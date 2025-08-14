@@ -49,3 +49,4 @@ public class RenderBrainyZombie extends RenderZombie
         ZOMBIE_VILLAGER_TEXTURES = new ResourceLocation("thaumcraft", "textures/entity/bzombievil.png");
     }
 }
+

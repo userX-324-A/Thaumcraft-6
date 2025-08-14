@@ -214,3 +214,4 @@ public class EntityCultistLeader extends EntityThaumcraftBoss implements IRanged
         NAME = EntityDataManager.createKey(EntityCultistLeader.class, DataSerializers.BYTE);
     }
 }
+

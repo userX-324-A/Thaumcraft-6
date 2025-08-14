@@ -42,3 +42,4 @@ public class RenderEldritchCrab extends RenderLiving
         skin = new ResourceLocation("thaumcraft", "textures/entity/crab.png");
     }
 }
+

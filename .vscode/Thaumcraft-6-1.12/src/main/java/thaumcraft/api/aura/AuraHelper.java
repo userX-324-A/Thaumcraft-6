@@ -97,3 +97,4 @@ public class AuraHelper {
 		return ThaumcraftApi.internalMethods.shouldPreserveAura(world,player,pos);
 	}
 }
+

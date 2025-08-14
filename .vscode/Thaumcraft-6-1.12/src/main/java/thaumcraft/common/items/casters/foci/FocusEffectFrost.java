@@ -113,3 +113,4 @@ public class FocusEffectFrost extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, SoundCategory.PLAYERS, 0.2f, 1.0f + (float)(caster.world.rand.nextGaussian() * 0.05000000074505806));
     }
 }
+

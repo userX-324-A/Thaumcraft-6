@@ -128,3 +128,4 @@ public class CardCurio extends TheorycraftCard
         return true;
     }
 }
+

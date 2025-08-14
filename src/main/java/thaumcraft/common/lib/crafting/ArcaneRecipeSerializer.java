@@ -75,3 +75,4 @@ public class ArcaneRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer
         buffer.writeItem(recipe.getResultItem());
     }
 } 
+

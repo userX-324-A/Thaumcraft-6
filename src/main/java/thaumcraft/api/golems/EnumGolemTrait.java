@@ -54,3 +54,4 @@ public enum EnumGolemTrait {
 		return I18n.get("golem.trait.text."+ name().toLowerCase());
 	}
 }
+

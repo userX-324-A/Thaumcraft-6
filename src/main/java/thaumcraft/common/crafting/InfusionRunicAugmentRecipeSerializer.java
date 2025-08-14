@@ -54,3 +54,4 @@ public class InfusionRunicAugmentRecipeSerializer extends ForgeRegistryEntry<IRe
 
 
 
+

@@ -184,3 +184,4 @@ public class BlockMirror extends BlockTCDevice implements IBlockFacing
         super.onEntityCollidedWithBlock(world, pos, state, entity);
     }
 }
+

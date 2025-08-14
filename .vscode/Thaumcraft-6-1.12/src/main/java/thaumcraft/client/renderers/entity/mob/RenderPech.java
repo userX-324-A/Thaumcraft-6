@@ -50,3 +50,4 @@ public class RenderPech extends RenderLiving
         skin = new ResourceLocation[] { new ResourceLocation("thaumcraft", "textures/entity/pech_forage.png"), new ResourceLocation("thaumcraft", "textures/entity/pech_thaum.png"), new ResourceLocation("thaumcraft", "textures/entity/pech_stalker.png") };
     }
 }
+

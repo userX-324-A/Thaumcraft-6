@@ -15,3 +15,4 @@ public class ItemBathSalts extends ItemTCBase
         return 200;
     }
 }
+

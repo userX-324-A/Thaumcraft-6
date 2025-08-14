@@ -32,3 +32,4 @@ public class SlotLimitedByClass extends Slot
         return limit;
     }
 }
+

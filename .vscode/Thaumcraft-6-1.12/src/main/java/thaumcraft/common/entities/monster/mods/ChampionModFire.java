@@ -32,3 +32,4 @@ public class ChampionModFire implements IChampionModifierEffect
         GL11.glColor4f(1.0f, 0.75f, 5.0f, 1.0f);
     }
 }
+

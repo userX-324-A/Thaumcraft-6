@@ -44,3 +44,4 @@ public class ArcaneShapelessRecipeSerializer extends ForgeRegistryEntry<IRecipeS
         recipe.getCrystals().write(buffer);
     }
 } 
+

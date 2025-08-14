@@ -203,3 +203,4 @@ public class SealBreaker extends SealFiltered implements ISealConfigArea, ISealC
         props[indx].setValue(value);
     }
 }
+

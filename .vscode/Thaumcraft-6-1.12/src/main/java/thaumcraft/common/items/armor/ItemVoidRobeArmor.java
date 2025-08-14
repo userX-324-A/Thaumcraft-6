@@ -203,3 +203,4 @@ public class ItemVoidRobeArmor extends ItemArmor implements IVisDiscountGear, IG
         return 3;
     }
 }
+

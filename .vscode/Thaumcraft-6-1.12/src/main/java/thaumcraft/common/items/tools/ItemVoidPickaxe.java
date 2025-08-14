@@ -72,3 +72,4 @@ public class ItemVoidPickaxe extends ItemPickaxe implements IWarpingGear, IThaum
         return 1;
     }
 }
+

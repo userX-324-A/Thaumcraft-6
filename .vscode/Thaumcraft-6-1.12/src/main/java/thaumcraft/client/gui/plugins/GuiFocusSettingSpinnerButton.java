@@ -56,3 +56,4 @@ public class GuiFocusSettingSpinnerButton extends GuiButton
         GuiFocusSettingSpinnerButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

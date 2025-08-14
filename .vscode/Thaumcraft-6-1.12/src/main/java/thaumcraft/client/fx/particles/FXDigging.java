@@ -10,3 +10,4 @@ public class FXDigging extends ParticleDigging
         super(worldIn, p_i46280_2_, p_i46280_4_, p_i46280_6_, p_i46280_8_, p_i46280_10_, p_i46280_12_, p_i46280_14_);
     }
 }
+

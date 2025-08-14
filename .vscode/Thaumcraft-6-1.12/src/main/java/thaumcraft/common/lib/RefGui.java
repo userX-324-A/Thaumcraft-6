@@ -26,3 +26,4 @@ public class RefGui
     public static int POTION_SPRAYER = 21;
     public static int VOID_SIPHON = 22;
 }
+

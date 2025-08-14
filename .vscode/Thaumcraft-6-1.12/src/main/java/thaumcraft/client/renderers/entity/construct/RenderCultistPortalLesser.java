@@ -102,3 +102,4 @@ public class RenderCultistPortalLesser extends Render
         portaltex = new ResourceLocation("thaumcraft", "textures/misc/cultist_portal.png");
     }
 }
+

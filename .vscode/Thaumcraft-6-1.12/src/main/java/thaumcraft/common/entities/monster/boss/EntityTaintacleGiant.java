@@ -149,3 +149,4 @@ public class EntityTaintacleGiant extends EntityTaintacle implements ITaintedMob
         AGGRO = EntityDataManager.createKey(EntityTaintacleGiant.class, DataSerializers.VARINT);
     }
 }
+

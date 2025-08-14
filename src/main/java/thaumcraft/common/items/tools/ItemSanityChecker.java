@@ -18,15 +18,14 @@ public class ItemSanityChecker extends Item {
 
     @Override
     public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand) {
-        // Replace chat spam with a HUD overlay message cadence; server computes, client receives text
-        IPlayerWarp warp = ThaumcraftCapabilities.getWarp(player);
-        int perm = warp != null ? warp.get(IPlayerWarp.EnumWarpType.PERMANENT) : 0;
-        int norm = warp != null ? warp.get(IPlayerWarp.EnumWarpType.NORMAL) : 0;
-        int temp = warp != null ? warp.get(IPlayerWarp.EnumWarpType.TEMPORARY) : 0;
-        String text = "Warp: "+perm+"/"+norm+"/"+temp;
-        int ticks = Math.max(1, thaumcraft.common.config.ModConfig.COMMON.sanityOverlayCadenceTicks.get());
-        boolean enabled = thaumcraft.common.config.ModConfig.COMMON.sanityOverlayEnabled.get();
-        if (enabled) {
+        // Show HUD overlay client-side only
+        if (level.isClientSide && thaumcraft.common.config.ModConfig.CLIENT.showSanityOverlay.get()) {
+            IPlayerWarp warp = ThaumcraftCapabilities.getWarp(player);
+            int perm = warp != null ? warp.get(IPlayerWarp.EnumWarpType.PERMANENT) : 0;
+            int norm = warp != null ? warp.get(IPlayerWarp.EnumWarpType.NORMAL) : 0;
+            int temp = warp != null ? warp.get(IPlayerWarp.EnumWarpType.TEMPORARY) : 0;
+            String text = "Warp: "+perm+"/"+norm+"/"+temp;
+            int ticks = Math.max(1, thaumcraft.common.config.ModConfig.COMMON.sanityOverlayCadenceTicks.get());
             HudHandler.setSanityOverlay(text, ticks);
             int threshold = thaumcraft.common.config.ModConfig.COMMON.sanityWhispersThreshold.get();
             if (perm + norm + temp >= threshold) {
@@ -39,9 +38,8 @@ public class ItemSanityChecker extends Item {
     @Override
     public void inventoryTick(ItemStack stack, World level, net.minecraft.entity.Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-        if (!(entity instanceof PlayerEntity) || level.isClientSide || !selected) return;
-        boolean enabled = thaumcraft.common.config.ModConfig.COMMON.sanityOverlayEnabled.get();
-        if (!enabled) return;
+        if (!(entity instanceof PlayerEntity) || !level.isClientSide || !selected) return;
+        if (!thaumcraft.common.config.ModConfig.CLIENT.showSanityOverlay.get()) return;
         int cadence = Math.max(1, thaumcraft.common.config.ModConfig.COMMON.sanityOverlayCadenceTicks.get());
         PlayerEntity player = (PlayerEntity) entity;
         if (player.tickCount % cadence != 0) return;
@@ -57,5 +55,6 @@ public class ItemSanityChecker extends Item {
         }
     }
 }
+
 
 

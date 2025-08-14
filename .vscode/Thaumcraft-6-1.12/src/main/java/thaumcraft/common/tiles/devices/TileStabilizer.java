@@ -107,3 +107,4 @@ public class TileStabilizer extends TileThaumcraft implements ITickable
         return false;
     }
 }
+

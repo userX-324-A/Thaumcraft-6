@@ -46,3 +46,4 @@ public class EntityTaintacleSmall extends EntityTaintacle implements ITaintedMob
     protected void dropFewItems(boolean flag, int i) {
     }
 }
+

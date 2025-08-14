@@ -16,3 +16,4 @@ public class GLEException extends RuntimeException
         VERSION = new String("$Revision: 1.1 $");
     }
 }
+

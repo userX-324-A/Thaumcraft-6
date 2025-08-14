@@ -48,3 +48,4 @@ public class ScanEntity implements IScanThing {
     }
 }
 
+

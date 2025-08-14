@@ -93,3 +93,4 @@ public class FocusEffectEarth extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.ENTITY_ENDERDRAGON_FIREBALL_EPLD, SoundCategory.PLAYERS, 0.25f, 1.0f + (float)(caster.world.rand.nextGaussian() * 0.05000000074505806));
     }
 }
+

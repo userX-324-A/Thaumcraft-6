@@ -35,3 +35,4 @@ public class BlockCondenser extends BlockTCDevice implements IBlockEnabled
         return 0;
     }
 }
+

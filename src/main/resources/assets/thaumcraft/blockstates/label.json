@@ -1,22 +1,7 @@
-{
-
-    "forge_marker": 1,
-    "variants": {
-        "blank": {
-            "model": "forge:item-layer",
-            "transform": "forge:default-item",
-            "textures": {
-                "layer0": "thaumcraft:item/label"
-            }
-        },
-        "filled": {
-            "model": "forge:item-layer",
-            "transform": "forge:default-item",
-            "textures": {
-                "layer0": "thaumcraft:item/label",
-                "layer1": "thaumcraft:item/label_overlay"
-            }
-        }
-    }
+﻿{
+    "variants":  {
+                     "":  {
+                              "model":  "thaumcraft:block/label"
+                          }
+                 }
 }
-

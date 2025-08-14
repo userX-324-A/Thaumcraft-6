@@ -149,3 +149,4 @@ public class TileBellowsRenderer extends TileEntitySpecialRenderer<TileBellows>
         TEX_BORE = new ResourceLocation("thaumcraft", "textures/models/bore.png");
     }
 }
+

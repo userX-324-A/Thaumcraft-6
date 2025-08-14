@@ -394,3 +394,4 @@ public class RenderThaumcraftGolem extends RenderBiped
         logger = LogManager.getLogger();
     }
 }
+

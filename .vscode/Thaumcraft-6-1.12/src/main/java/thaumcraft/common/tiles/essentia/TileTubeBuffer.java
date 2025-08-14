@@ -315,3 +315,4 @@ public class TileTubeBuffer extends TileTube implements IAspectContainer
         cuboids.add(new IndexedCuboid6(6, new Cuboid6(pos.getX() + 0.25f, pos.getY() + 0.25f, pos.getZ() + 0.25f, pos.getX() + 0.75f, pos.getY() + 0.75f, pos.getZ() + 0.75f)));
     }
 }
+

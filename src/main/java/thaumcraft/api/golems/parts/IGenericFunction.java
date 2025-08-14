@@ -7,3 +7,4 @@ public interface IGenericFunction
     void onUpdateTick(IGolemAPI p0);
 }
 
+

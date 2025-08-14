@@ -45,3 +45,4 @@ public class SlotPotion extends Slot
         return limit;
     }
 }
+

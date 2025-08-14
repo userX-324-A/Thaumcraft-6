@@ -48,3 +48,4 @@ public class RenderEldritchGolem extends RenderLiving
         skin = new ResourceLocation("thaumcraft", "textures/entity/eldritch_golem.png");
     }
 }
+

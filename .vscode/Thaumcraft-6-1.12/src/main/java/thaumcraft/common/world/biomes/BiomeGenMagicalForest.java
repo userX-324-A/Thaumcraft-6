@@ -147,3 +147,4 @@ public class BiomeGenMagicalForest extends Biome
         blobs = new WorldGenBlockBlob(Blocks.MOSSY_COBBLESTONE, 0);
     }
 }
+

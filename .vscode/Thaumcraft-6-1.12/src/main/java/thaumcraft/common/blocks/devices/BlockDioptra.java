@@ -58,3 +58,4 @@ public class BlockDioptra extends BlockTCDevice implements IBlockEnabled
         return true;
     }
 }
+

@@ -379,3 +379,4 @@ public class CasterManager
         CasterManager.cooldownClient = new HashMap<Integer, Long>();
     }
 }
+

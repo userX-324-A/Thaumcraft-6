@@ -8,3 +8,4 @@ public interface ITaintBlock
 {
     void die(World p0, BlockPos p1, IBlockState p2);
 }
+

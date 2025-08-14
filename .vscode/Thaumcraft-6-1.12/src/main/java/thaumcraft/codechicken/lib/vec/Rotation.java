@@ -255,3 +255,4 @@ public class Rotation extends Transformation
         Rotation.sideRotOffsets = new int[] { 0, 2, 2, 0, 1, 3 };
     }
 }
+

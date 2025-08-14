@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,7 +48,7 @@ public final class HudHandler {
 
     public static void enqueueResearchComplete(thaumcraft.api.research.ResearchEntry entry) {
         synchronized (researchQueue) {
-            researchQueue.addLast(new StringTextComponent("Research complete: " + entry.getLocalizedName()));
+            researchQueue.addLast(new StringTextComponent(new TranslationTextComponent("hud.thaumcraft.research_complete", entry.getLocalizedName()).getString()));
             while (researchQueue.size() > 4) researchQueue.removeFirst();
         }
     }
@@ -108,7 +109,10 @@ public final class HudHandler {
         String type = tracker.type.name();
         String cat = (tracker.category != null ? tracker.category.key : "");
         if (!thaumcraft.common.config.ModConfig.CLIENT.showKnowledgeToasts.get()) return "";
-        return cat.isEmpty() ? ("Knowledge +1: " + type) : ("Knowledge +1: " + type + " [" + cat + "]");
+        if (cat.isEmpty()) {
+            return new TranslationTextComponent("hud.thaumcraft.knowledge_gain", type, "").getString().replace(" []", "");
+        }
+        return new TranslationTextComponent("hud.thaumcraft.knowledge_gain", type, cat).getString();
     }
 
     private static final class KnowledgeGainTracker {
@@ -145,5 +149,6 @@ public final class HudHandler {
         }
     }
 }
+
 
 

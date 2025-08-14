@@ -1,0 +1,8 @@
+﻿{
+	"parent": "block/block",
+	"textures": {
+		"top": "thaumcraft:block/base_wood",
+		"side": "thaumcraft:block/arcane_ear_off",
+		"particle": "thaumcraft:block/arcane_ear_off"
+	}
+}

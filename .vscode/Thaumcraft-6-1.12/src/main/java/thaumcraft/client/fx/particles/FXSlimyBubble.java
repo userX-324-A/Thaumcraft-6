@@ -73,3 +73,4 @@ public class FXSlimyBubble extends Particle
         posY += motionY;
     }
 }
+

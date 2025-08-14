@@ -140,3 +140,4 @@ public class SealEmpty extends SealFiltered
     public void onRemoval(World world, BlockPos pos, EnumFacing side) {
     }
 }
+

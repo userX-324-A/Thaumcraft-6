@@ -241,3 +241,4 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
         load(state, tag);
     }
 }
+

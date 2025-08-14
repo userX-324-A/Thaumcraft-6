@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": { "item": "thaumcraft:log_greatwood" },
+    "title": { "translate": "adv.thaumcraft.obtain_greatwood.title", "fallback": "Great Discovery" },
+    "description": { "translate": "adv.thaumcraft.obtain_greatwood.desc", "fallback": "Obtain Greatwood logs." },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "parent": "thaumcraft:items/open_thaumonomicon",
+  "criteria": {
+    "has_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [ { "items": [ "thaumcraft:log_greatwood" ] } ]
+      }
+    }
+  },
+  "requirements": [ [ "has_log" ] ]
+}
+

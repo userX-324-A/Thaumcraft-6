@@ -293,3 +293,4 @@ public class TilePatternCrafter extends TileThaumcraft implements ITickable
         }
     }
 }
+

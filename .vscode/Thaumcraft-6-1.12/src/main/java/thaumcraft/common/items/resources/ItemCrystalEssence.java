@@ -31,3 +31,4 @@ public class ItemCrystalEssence extends ItemTCEssentiaContainer
         return (getAspects(stack) != null && !getAspects(stack).aspects.isEmpty()) ? String.format(super.getItemStackDisplayName(stack), getAspects(stack).getAspects()[0].getName()) : super.getItemStackDisplayName(stack);
     }
 }
+

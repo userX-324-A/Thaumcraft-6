@@ -153,14 +153,14 @@ public class ArcaneWorkbenchMenu extends Container {
                 }
                 slot.onQuickCraft(stackInSlot, original);
             } else if (index >= playerInvStart && index < playerEnd) {
-                // From player inventory → try grid first, then crystals
+                // From player inventory  try grid first, then crystals
                 if (!this.moveItemStackTo(stackInSlot, gridStart, gridEnd, false)) {
                     if (!this.moveItemStackTo(stackInSlot, crystalStart, crystalEnd, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
             } else {
-                // From grid/crystals → player inventory
+                // From grid/crystals  player inventory
                 if (!this.moveItemStackTo(stackInSlot, playerInvStart, playerEnd, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -264,6 +264,7 @@ public class ArcaneWorkbenchMenu extends Container {
         public void setChanged() { super.setChanged(); updateResult(); }
     }
 }
+
 
 
 

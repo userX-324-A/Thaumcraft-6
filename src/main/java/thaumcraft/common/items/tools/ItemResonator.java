@@ -50,13 +50,13 @@ public class ItemResonator extends Item {
                         int amt = et.getEssentiaAmount(rtr.getDirection());
                         thaumcraft.api.aspects.Aspect a = et.getEssentiaType(rtr.getDirection());
                         String aName = (a != null ? a.getName() : "none");
-                        String msg = String.format("Resonator → Target: %s | Vis: %.0f | Flux: %.0f | Essentia: %d %s", target, vis, flux, amt, aName);
+                        String msg = String.format("Resonator  Target: %s | Vis: %.0f | Flux: %.0f | Essentia: %d %s", target, vis, flux, amt, aName);
                         player.displayClientMessage(new StringTextComponent(msg), true);
                     });
                 }
             }
             if (beInfo.isEmpty()) {
-                String msg = String.format("Resonator → Target: %s | Vis: %.0f | Flux: %.0f", target, vis, flux);
+                String msg = String.format("Resonator  Target: %s | Vis: %.0f | Flux: %.0f", target, vis, flux);
                 player.displayClientMessage(new StringTextComponent(msg), true);
             }
         }
@@ -109,7 +109,7 @@ public class ItemResonator extends Item {
                 }
             }
         }
-        String msg = "Resonator → Base: " + thaumcraft.client.hud.HudHandler.auraBase +
+        String msg = "Resonator  Base: " + thaumcraft.client.hud.HudHandler.auraBase +
                 " | Vis: " + Math.round(thaumcraft.client.hud.HudHandler.auraVis) +
                 " | Flux: " + Math.round(thaumcraft.client.hud.HudHandler.auraFlux) +
                 " | Essentia BEs: " + found +
@@ -117,5 +117,6 @@ public class ItemResonator extends Item {
         player.displayClientMessage(new StringTextComponent(msg), true);
     }
 }
+
 
 

@@ -402,3 +402,4 @@ public class EntityEldritchWarden extends EntityThaumcraftBoss implements IRange
         NAME = EntityDataManager.createKey(EntityEldritchWarden.class, DataSerializers.BYTE);
     }
 }
+

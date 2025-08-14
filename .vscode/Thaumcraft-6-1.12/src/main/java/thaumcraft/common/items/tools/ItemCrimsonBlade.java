@@ -95,3 +95,4 @@ public class ItemCrimsonBlade extends ItemSword implements IWarpingGear, IThaumc
         ItemCrimsonBlade.toolMatCrimsonVoid = EnumHelper.addToolMaterial("CVOID", 4, 200, 8.0f, 3.5f, 20).setRepairItem(new ItemStack(ItemsTC.ingots, 1, 1));
     }
 }
+

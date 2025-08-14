@@ -24,3 +24,4 @@ public class Material
         Name = materialName;
     }
 }
+

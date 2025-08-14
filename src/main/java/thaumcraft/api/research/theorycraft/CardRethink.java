@@ -56,3 +56,4 @@ public class CardRethink extends TheorycraftCard {
     }
 }
 
+

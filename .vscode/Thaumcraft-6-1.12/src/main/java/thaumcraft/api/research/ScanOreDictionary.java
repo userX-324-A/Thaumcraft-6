@@ -64,3 +64,4 @@ public class ScanOreDictionary implements IScanThing {
 		return research;
 	}
 }
+

@@ -49,3 +49,4 @@ public class ItemCuriosityBand extends ItemTCBase implements IBauble, IRenderBau
         }
     }
 }
+

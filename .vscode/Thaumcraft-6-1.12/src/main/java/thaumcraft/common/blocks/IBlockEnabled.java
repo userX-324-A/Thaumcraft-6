@@ -6,3 +6,4 @@ public interface IBlockEnabled
 {
     public static PropertyBool ENABLED = PropertyBool.create("enabled");
 }
+

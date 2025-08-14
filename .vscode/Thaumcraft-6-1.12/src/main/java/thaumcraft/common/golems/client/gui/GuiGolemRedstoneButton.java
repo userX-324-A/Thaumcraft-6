@@ -54,3 +54,4 @@ public class GuiGolemRedstoneButton extends GuiButton
         GuiGolemRedstoneButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

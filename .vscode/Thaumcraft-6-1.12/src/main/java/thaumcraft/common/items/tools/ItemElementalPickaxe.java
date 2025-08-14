@@ -81,3 +81,4 @@ public class ItemElementalPickaxe extends ItemPickaxe implements IThaumcraftItem
         }
     }
 }
+

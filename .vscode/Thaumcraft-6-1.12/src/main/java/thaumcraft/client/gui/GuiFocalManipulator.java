@@ -1114,3 +1114,4 @@ public class GuiFocalManipulator extends GuiContainer
         }
     }
 }
+

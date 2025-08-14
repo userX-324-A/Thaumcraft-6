@@ -1017,3 +1017,4 @@ public class TileInfusionMatrix extends TileThaumcraft implements IInteractWithC
         VERY_UNSTABLE;
     }
 }
+

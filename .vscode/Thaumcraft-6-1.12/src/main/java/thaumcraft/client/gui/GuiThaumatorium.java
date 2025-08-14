@@ -312,3 +312,4 @@ public class GuiThaumatorium extends GuiContainer
         GuiThaumatorium.recipeCache = new HashMap<Integer, CrucibleRecipe>();
     }
 }
+

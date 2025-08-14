@@ -256,3 +256,4 @@ public class CuboidCoord implements Iterable<BlockCoord>, Copyable<CuboidCoord>
         };
     }
 }
+

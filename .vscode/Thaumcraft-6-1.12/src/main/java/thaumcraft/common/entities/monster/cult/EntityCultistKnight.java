@@ -85,3 +85,4 @@ public class EntityCultistKnight extends EntityCultist
         }
     }
 }
+

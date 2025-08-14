@@ -7,3 +7,4 @@ public class EssentiaJarBrainBlockEntity extends EssentiaJarBlockEntity {
         super(ModBlockEntities.ESSENTIA_JAR_BRAIN.get());
     }
 }
+

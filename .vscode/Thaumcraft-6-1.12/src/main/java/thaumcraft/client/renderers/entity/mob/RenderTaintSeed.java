@@ -105,3 +105,4 @@ public class RenderTaintSeed extends RenderLiving<EntityTaintSeed>
         rl = new ResourceLocation("thaumcraft", "textures/entity/taintseed.png");
     }
 }
+

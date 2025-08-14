@@ -342,3 +342,4 @@ public class Matrix4 extends Transformation implements Copyable<Matrix4>
         Matrix4.glBuf = ByteBuffer.allocateDirect(128).order(ByteOrder.nativeOrder()).asDoubleBuffer();
     }
 }
+

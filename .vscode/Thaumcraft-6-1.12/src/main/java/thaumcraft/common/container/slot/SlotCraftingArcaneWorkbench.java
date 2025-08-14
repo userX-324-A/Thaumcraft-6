@@ -135,3 +135,4 @@ public class SlotCraftingArcaneWorkbench extends Slot
         return stack;
     }
 }
+

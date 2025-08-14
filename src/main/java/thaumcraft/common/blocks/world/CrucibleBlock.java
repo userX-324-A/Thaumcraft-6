@@ -22,3 +22,4 @@ public class CrucibleBlock extends Block implements IForgeBlock {
         return thaumcraft.common.registers.ModBlockEntities.CRUCIBLE.get().create();
     }
 }
+

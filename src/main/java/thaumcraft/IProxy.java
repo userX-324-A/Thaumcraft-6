@@ -5,3 +5,4 @@ package thaumcraft;
  * Not used in 1.16.5; lifecycle handled by event bus in {@link thaumcraft.Thaumcraft}.
  */
 public interface IProxy { }
+

@@ -89,3 +89,4 @@ public class ItemCultistRobeArmor extends ItemArmor implements IVisDiscountGear,
         return 1;
     }
 }
+

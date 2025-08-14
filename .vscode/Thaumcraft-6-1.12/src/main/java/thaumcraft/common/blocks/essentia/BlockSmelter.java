@@ -138,3 +138,4 @@ public class BlockSmelter extends BlockTCDevice implements IBlockEnabled, IBlock
         }
     }
 }
+

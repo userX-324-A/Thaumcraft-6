@@ -232,3 +232,4 @@ public class ColorHandler
         itemColors.registerItemColorHandler(itemBannerColourHandler, bannerBlocks);
     }
 }
+

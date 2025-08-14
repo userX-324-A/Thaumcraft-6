@@ -1,7 +1,7 @@
 {
     "type": "minecraft:smelting",
     "ingredient": {
-        "item": "thaumcraft:greatwood_log"
+        "item": "thaumcraft:log_greatwood"
     },
     "result": "minecraft:charcoal",
     "experience": 0.15,

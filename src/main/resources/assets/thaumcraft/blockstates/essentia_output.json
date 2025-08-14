@@ -1,13 +1,30 @@
-{
-    "forge_marker": 1,
-    "variants": {
-        "inventory": { "model": "thaumcraft:essentia_output", "transform": "forge:default-block" },      
-        "facing=down":    { "model": "thaumcraft:essentia_output", "x": 180 },
-        "facing=up":      { "model": "thaumcraft:essentia_output" },
-        "facing=east":    { "model": "thaumcraft:essentia_output", "y": 90, "x": 90 },
-        "facing=west":    { "model": "thaumcraft:essentia_output", "y": 270, "x": 90 },
-        "facing=north":   { "model": "thaumcraft:essentia_output", "x": 90 },
-        "facing=south":   { "model": "thaumcraft:essentia_output", "y": 180, "x": 90 }
-    }
+﻿{
+    "variants":  {
+                     "facing=down":  {
+                                         "model":  "/essentia_output",
+                                         "x":  180
+                                     },
+                     "facing=up":  {
+                                       "model":  "/essentia_output"
+                                   },
+                     "facing=north":  {
+                                          "model":  "/essentia_output",
+                                          "x":  90
+                                      },
+                     "facing=west":  {
+                                         "model":  "/essentia_output",
+                                         "y":  270,
+                                         "x":  90
+                                     },
+                     "facing=east":  {
+                                         "model":  "/essentia_output",
+                                         "y":  90,
+                                         "x":  90
+                                     },
+                     "facing=south":  {
+                                          "model":  "/essentia_output",
+                                          "y":  180,
+                                          "x":  90
+                                      }
+                 }
 }
-

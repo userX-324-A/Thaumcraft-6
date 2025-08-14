@@ -39,3 +39,4 @@ public class CardDragonEgg extends TheorycraftCard
         return true;
     }
 }
+

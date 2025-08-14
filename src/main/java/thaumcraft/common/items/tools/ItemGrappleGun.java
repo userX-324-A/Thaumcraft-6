@@ -22,13 +22,15 @@ public class ItemGrappleGun extends Item {
             proj.shootFromRotation(player, player.xRot, player.yRot, 0.0f, 2.0f, 0.1f);
             proj.setOwner(player);
             level.addFreshEntity(proj);
-            // Safety and cooldowns
-            player.getCooldowns().addCooldown(this, 10);
-            // Play fire sound for feedback (placeholder)
-            player.playSound(net.minecraft.util.SoundEvents.CROSSBOW_SHOOT, 0.6f, 1.0f);
+            // Safety and cooldowns (configurable)
+            int ticks = 20 * Math.max(0, thaumcraft.common.config.ModConfig.COMMON.grappleCooldownSeconds.get());
+            player.getCooldowns().addCooldown(this, ticks);
+            // Custom fire cue
+            player.playSound(thaumcraft.common.registers.SoundsTC.GRAPPLE_FIRE.get(), 0.7f, 1.0f);
         }
         return new ActionResult<>(ActionResultType.SUCCESS, player.getItemInHand(hand));
     }
 }
+
 
 

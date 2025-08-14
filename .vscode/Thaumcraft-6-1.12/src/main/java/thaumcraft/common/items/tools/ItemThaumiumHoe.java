@@ -43,3 +43,4 @@ public class ItemThaumiumHoe extends ItemHoe implements IThaumcraftItems
         return stack2.isItemEqual(new ItemStack(ItemsTC.ingots, 1, 0)) || super.getIsRepairable(stack1, stack2);
     }
 }
+

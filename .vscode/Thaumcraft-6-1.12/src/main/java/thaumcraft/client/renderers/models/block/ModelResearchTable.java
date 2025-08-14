@@ -54,3 +54,4 @@ public class ModelResearchTable extends ModelBase
         model.rotateAngleZ = z;
     }
 }
+

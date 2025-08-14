@@ -70,3 +70,4 @@ public class ItemCultistBoots extends ItemArmor implements IWarpingGear, IVisDis
         return 1;
     }
 }
+

@@ -7,14 +7,14 @@
   ],
   "key": {
     "K": {
-      "tag": "minecraft:stone"
+      "tag": "minecraft:stone_crafting_materials"
     },
     "C": {
       "tag": "thaumcraft:essentia_crystals"
     }
   },
   "result": {
-    "item": "thaumcraft:stone_arcane",
+    "item": "thaumcraft:arcane_stone_block",
     "count": 9
   }
 }

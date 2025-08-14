@@ -23,3 +23,4 @@ public class TileJar extends TileThaumcraft implements ITickable
         TileJar.rand = new Random();
     }
 }
+

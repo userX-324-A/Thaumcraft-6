@@ -72,3 +72,4 @@ public class CardChannel extends TheorycraftCard
     }
 }
 
+

@@ -187,3 +187,4 @@ public class AuraHandler
         AuraHandler.riftTrigger = new ConcurrentHashMap<Integer, BlockPos>();
     }
 }
+

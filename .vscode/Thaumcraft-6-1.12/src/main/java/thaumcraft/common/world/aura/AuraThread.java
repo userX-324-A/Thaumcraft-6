@@ -167,3 +167,4 @@ public class AuraThread implements Runnable
         stop = true;
     }
 }
+

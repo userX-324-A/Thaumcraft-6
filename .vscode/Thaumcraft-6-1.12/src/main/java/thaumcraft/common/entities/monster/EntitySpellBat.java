@@ -366,3 +366,4 @@ public class EntitySpellBat extends EntityMob implements IEntityAdditionalSpawnD
         FRIENDLY = EntityDataManager.createKey(EntitySpellBat.class, DataSerializers.BOOLEAN);
     }
 }
+

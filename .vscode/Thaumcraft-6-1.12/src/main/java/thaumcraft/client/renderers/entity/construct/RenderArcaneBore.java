@@ -120,3 +120,4 @@ public class RenderArcaneBore extends RenderLiving
         rl = new ResourceLocation("thaumcraft", "textures/entity/arcanebore.png");
     }
 }
+

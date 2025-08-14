@@ -235,3 +235,4 @@ public class Cuboid6 implements Copyable<Cuboid6>
         Cuboid6.full = new Cuboid6(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
     }
 }
+

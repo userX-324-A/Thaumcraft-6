@@ -141,3 +141,4 @@ public class TileFocalManipulatorRenderer extends TileEntitySpecialRenderer
         renderTileEntityAt((TileFocalManipulator)te, x, y, z, partialTicks);
     }
 }
+

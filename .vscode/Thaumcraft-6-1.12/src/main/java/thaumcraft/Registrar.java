@@ -124,3 +124,4 @@ public class Registrar
         SoundsTC.registerSoundTypes();
     }
 }
+

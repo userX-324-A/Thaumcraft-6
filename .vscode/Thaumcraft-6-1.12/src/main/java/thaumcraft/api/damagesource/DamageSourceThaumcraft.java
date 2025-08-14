@@ -45,3 +45,4 @@ public class DamageSourceThaumcraft extends DamageSource
     }
     
 }
+

@@ -107,3 +107,4 @@ public class CrucibleRecipe implements IThaumcraftRecipe  {
 		return this;
 	}
 }
+

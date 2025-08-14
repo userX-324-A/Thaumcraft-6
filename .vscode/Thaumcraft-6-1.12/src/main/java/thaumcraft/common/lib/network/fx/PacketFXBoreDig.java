@@ -85,3 +85,4 @@ public class PacketFXBoreDig implements IMessage, IMessageHandler<PacketFXBoreDi
         catch (Exception ex) {}
     }
 }
+

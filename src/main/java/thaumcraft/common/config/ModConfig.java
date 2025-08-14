@@ -96,6 +96,8 @@ public final class ModConfig {
         public final ForgeConfigSpec.IntValue filterTransferRate;
         // Performance caps
         public final ForgeConfigSpec.IntValue infusionScanIntervalTicks;
+		// Aura drain tuning
+		public final ForgeConfigSpec.DoubleValue auraDrainMultiplier;
 
         // Causality Collapser
         public final ForgeConfigSpec.IntValue collapserRadius;
@@ -120,6 +122,7 @@ public final class ModConfig {
         public final ForgeConfigSpec.DoubleValue grappleMaxLength;
         public final ForgeConfigSpec.DoubleValue grappleReelSpeedPerTick;
         public final ForgeConfigSpec.BooleanValue grappleMitigateFallDamage;
+        public final ForgeConfigSpec.IntValue grappleCooldownSeconds;
 
         // Diagnostics toggles to isolate subsystems during troubleshooting
         public final ForgeConfigSpec.BooleanValue diagDisableResearchReload;
@@ -131,7 +134,7 @@ public final class ModConfig {
             builder.push("theorycraft");
             skipTheorycraftRegistration = builder
                 .comment("If true, skip registering theorycraft cards and aids (temporary during 1.16.5 port)")
-                .define("skipTheorycraftRegistration", true);
+                .define("skipTheorycraftRegistration", false);
             builder.pop();
 
             builder.push("misc");
@@ -159,6 +162,12 @@ public final class ModConfig {
             collapserCooldownSeconds = builder
                 .comment("Cooldown in seconds after activation")
                 .defineInRange("cooldownSeconds", 30, 0, 600);
+            builder.pop();
+
+            builder.push("aura");
+            auraDrainMultiplier = builder
+                .comment("Global multiplier applied to all aura vis drain requests (e.g., 0.5 = half cost, 2.0 = double cost)")
+                .defineInRange("drainMultiplier", 1.0, 0.0, 100.0);
             builder.pop();
 
             builder.push("items.resonator");
@@ -201,6 +210,9 @@ public final class ModConfig {
             grappleMitigateFallDamage = builder
                 .comment("If true, reduces or cancels fall damage when tensioned on the rope")
                 .define("mitigateFallDamage", true);
+            grappleCooldownSeconds = builder
+                .comment("Cooldown in seconds after firing the grapple gun")
+                .defineInRange("cooldownSeconds", 1, 0, 60);
             builder.pop();
 
             builder.push("diagnostics");
@@ -412,5 +424,6 @@ public final class ModConfig {
         }
     }
 }
+
 
 

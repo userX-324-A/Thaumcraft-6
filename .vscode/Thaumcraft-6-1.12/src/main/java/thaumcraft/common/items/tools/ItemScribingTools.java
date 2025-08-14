@@ -12,3 +12,4 @@ public class ItemScribingTools extends ItemTCBase implements IScribeTools
         setHasSubtypes(false);
     }
 }
+

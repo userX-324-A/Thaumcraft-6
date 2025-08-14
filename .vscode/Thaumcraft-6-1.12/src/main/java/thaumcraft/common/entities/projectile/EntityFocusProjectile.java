@@ -255,3 +255,4 @@ public class EntityFocusProjectile extends EntityThrowable implements IEntityAdd
         OWNER = EntityDataManager.createKey(EntityFocusProjectile.class, DataSerializers.VARINT);
     }
 }
+

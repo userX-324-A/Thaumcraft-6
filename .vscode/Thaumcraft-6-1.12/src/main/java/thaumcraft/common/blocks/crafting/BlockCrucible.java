@@ -180,3 +180,4 @@ public class BlockCrucible extends BlockTCTile
         AABB_WALL_WEST = new AxisAlignedBB(0.0, 0.0, 0.0, 0.125, 1.0, 1.0);
     }
 }
+

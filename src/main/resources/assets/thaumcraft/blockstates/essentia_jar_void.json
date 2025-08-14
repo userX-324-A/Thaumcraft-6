@@ -1,7 +1,6 @@
 {
   "variants": {
-    "braced=false": { "model": "thaumcraft:block/jar_void" },
-    "braced=true":  { "model": "thaumcraft:block/jar_void_braced" }
+    "": { "model": "thaumcraft:block/jar_void" }
   }
 }
 

@@ -72,3 +72,4 @@ public class ItemAmuletVis extends ItemTCBase implements IBauble
         tooltip.add(TextFormatting.AQUA + I18n.translateToLocal("item.amulet_vis.text"));
     }
 }
+

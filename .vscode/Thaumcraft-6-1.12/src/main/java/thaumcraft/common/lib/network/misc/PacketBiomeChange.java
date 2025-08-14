@@ -50,3 +50,4 @@ public class PacketBiomeChange implements IMessage, IMessageHandler<PacketBiomeC
         return null;
     }
 }
+

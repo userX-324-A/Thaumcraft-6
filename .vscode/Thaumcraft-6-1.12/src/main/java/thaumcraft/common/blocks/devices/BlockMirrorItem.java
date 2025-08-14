@@ -61,7 +61,7 @@ public class BlockMirrorItem extends ItemBlock
                     player.inventoryContainer.detectAndSendChanges();
                 }
                 else if (tm != null && tm instanceof TileMirror) {
-                    player.sendMessage(new TextComponentTranslation("§5§oThat mirror is already linked to a valid destination."));
+                    player.sendMessage(new TextComponentTranslation("5oThat mirror is already linked to a valid destination."));
                 }
             }
             else {
@@ -84,7 +84,7 @@ public class BlockMirrorItem extends ItemBlock
                     player.inventoryContainer.detectAndSendChanges();
                 }
                 else if (tm != null && tm instanceof TileMirrorEssentia) {
-                    player.sendMessage(new TextComponentTranslation("§5§oThat mirror is already linked to a valid destination."));
+                    player.sendMessage(new TextComponentTranslation("5oThat mirror is already linked to a valid destination."));
                 }
             }
         }
@@ -138,3 +138,4 @@ public class BlockMirrorItem extends ItemBlock
         }
     }
 }
+

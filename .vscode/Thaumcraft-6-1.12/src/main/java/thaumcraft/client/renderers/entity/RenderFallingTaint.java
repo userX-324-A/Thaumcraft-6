@@ -73,3 +73,4 @@ public class RenderFallingTaint extends Render
         doRender((EntityFallingTaint)entity, x, y, z, p_76986_8_, partialTicks);
     }
 }
+

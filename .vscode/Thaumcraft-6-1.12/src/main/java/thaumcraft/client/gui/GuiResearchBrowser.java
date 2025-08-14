@@ -760,7 +760,7 @@ public class GuiResearchBrowser extends GuiScreen
         super.drawScreen(mx, my, par3);
         if (currentHighlight != null) {
             ArrayList<String> text = new ArrayList<String>();
-            text.add("§6" + currentHighlight.getLocalizedName());
+            text.add("6" + currentHighlight.getLocalizedName());
             if (canUnlockResearch(currentHighlight)) {
                 if (!ThaumcraftCapabilities.getKnowledge(player).isResearchComplete(currentHighlight.getKey()) && currentHighlight.getStages() != null) {
                     int stage = ThaumcraftCapabilities.getKnowledge(player).getResearchStage(currentHighlight.getKey());
@@ -773,7 +773,7 @@ public class GuiResearchBrowser extends GuiScreen
                 }
             }
             else {
-                text.add("@@§c" + I18n.translateToLocal("tc.researchmissing"));
+                text.add("@@c" + I18n.translateToLocal("tc.researchmissing"));
                 int a = 0;
                 for (String p2 : currentHighlight.getParents()) {
                     if (!ThaumcraftCapabilities.knowsResearchStrict(player, p2)) {
@@ -782,7 +782,7 @@ public class GuiResearchBrowser extends GuiScreen
                             s = ResearchCategories.getResearch(currentHighlight.getParentsClean()[a]).getLocalizedName();
                         }
                         catch (Exception ex) {}
-                        text.add("@@§e - " + s);
+                        text.add("@@e - " + s);
                     }
                     ++a;
                 }
@@ -1222,3 +1222,4 @@ public class GuiResearchBrowser extends GuiScreen
         }
     }
 }
+

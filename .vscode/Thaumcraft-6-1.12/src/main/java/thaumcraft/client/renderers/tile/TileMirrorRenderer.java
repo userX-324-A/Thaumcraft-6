@@ -626,3 +626,4 @@ public class TileMirrorRenderer extends TileEntitySpecialRenderer
         TileMirrorRenderer.mpt = new ResourceLocation("thaumcraft", "textures/blocks/mirrorpanetrans.png");
     }
 }
+

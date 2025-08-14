@@ -62,3 +62,4 @@ public class PosXY implements Comparable
         return compareTo((PosXY)o);
     }
 }
+

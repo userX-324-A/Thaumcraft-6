@@ -55,3 +55,4 @@ class GuiGolemCategoryButton extends GuiButton
         GuiGolemCategoryButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

@@ -81,3 +81,4 @@ public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHor
         }
     }
 }
+

@@ -230,3 +230,4 @@ public class EntityCultistPortalLesser extends EntityMob
         ACTIVE = EntityDataManager.createKey(EntityCultistPortalLesser.class, DataSerializers.BOOLEAN);
     }
 }
+

@@ -572,3 +572,4 @@ public class matrix
         VERSION = new String("$Id: matrix.java,v 1.2 1998/05/05 23:31:09 descarte Exp descarte $");
     }
 }
+

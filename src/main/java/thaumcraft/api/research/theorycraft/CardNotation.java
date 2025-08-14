@@ -58,3 +58,4 @@ public class CardNotation extends TheorycraftCard {
     }
 }
 
+

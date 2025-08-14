@@ -47,3 +47,4 @@ public class TileTubeValveRenderer extends TileEntitySpecialRenderer
         TEX_VALVE = new ResourceLocation("thaumcraft", "textures/models/valve.png");
     }
 }
+

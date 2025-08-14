@@ -47,3 +47,4 @@ public class SealPickupAdvanced extends SealPickup implements ISealConfigToggles
         props[indx].setValue(value);
     }
 }
+

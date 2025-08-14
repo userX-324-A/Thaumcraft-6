@@ -1,4 +1,4 @@
-# thaumcraft-beta
-Location for Thaumcraft beta testers to report problems and errors.
+### Thaumcraft language files
 
-Suggestions should please go to the dedicated suggestions git at https://github.com/Azanor/thaumcraft-suggestions
+- Credits: Original mod by Azanor. 1.16.5 community port maintained by community contributors.
+- License: LGPL-3.0-or-later. See `assets/thaumcraft/lang/LICENSE` and `META-INF/mods.toml`.

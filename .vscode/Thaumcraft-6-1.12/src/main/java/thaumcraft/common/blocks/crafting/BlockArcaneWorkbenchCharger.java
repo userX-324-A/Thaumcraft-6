@@ -75,3 +75,4 @@ public class BlockArcaneWorkbenchCharger extends BlockTC
         return true;
     }
 }
+

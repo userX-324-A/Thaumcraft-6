@@ -158,3 +158,4 @@ public class FXArc extends Particle
         wr.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
     }
 }
+

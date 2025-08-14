@@ -88,3 +88,4 @@ public class ChampionModTainted implements IChampionModifierEffect
         TAINTED_MOD = new RangedAttribute(null, "tc.mobmodtaint", 0.0, 0.0, 1.0).setDescription("Tainted modifier");
     }
 }
+

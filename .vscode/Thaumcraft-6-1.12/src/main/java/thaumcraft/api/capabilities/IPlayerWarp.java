@@ -71,3 +71,4 @@ public interface IPlayerWarp extends INBTSerializable<NBTTagCompound>
     void setCounter(int amount);
 	
 }
+

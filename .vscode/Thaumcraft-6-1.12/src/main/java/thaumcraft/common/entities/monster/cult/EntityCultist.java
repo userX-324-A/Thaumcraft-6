@@ -118,3 +118,4 @@ public class EntityCultist extends EntityMob
         LOOT = LootTableList.register(new ResourceLocation("thaumcraft", "cultist"));
     }
 }
+

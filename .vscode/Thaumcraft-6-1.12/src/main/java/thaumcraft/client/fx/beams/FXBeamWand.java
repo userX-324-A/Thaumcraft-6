@@ -316,3 +316,4 @@ public class FXBeamWand extends Particle
         GL11.glPopMatrix();
     }
 }
+

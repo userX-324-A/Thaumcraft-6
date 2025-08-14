@@ -108,3 +108,4 @@ public class InfusionRecipe implements IThaumcraftRecipe
 		return this;
 	}
 }
+

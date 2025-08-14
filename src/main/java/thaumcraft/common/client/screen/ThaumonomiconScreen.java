@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
@@ -26,7 +25,7 @@ public class ThaumonomiconScreen extends Screen {
     private int innerHeight = 180;
 
     public ThaumonomiconScreen() {
-        super((ITextComponent) new StringTextComponent("Thaumonomicon"));
+        super((ITextComponent) new net.minecraft.util.text.TranslationTextComponent("screen.thaumcraft.thaumonomicon"));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class ThaumonomiconScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(@javax.annotation.Nonnull MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         Minecraft.getInstance().getTextureManager().bind(BOOK_BG);
         blit(ms, left, top, 0, 0, innerWidth, innerHeight);
@@ -80,5 +79,6 @@ public class ThaumonomiconScreen extends Screen {
         super.render(ms, mouseX, mouseY, partialTicks);
     }
 }
+
 
 

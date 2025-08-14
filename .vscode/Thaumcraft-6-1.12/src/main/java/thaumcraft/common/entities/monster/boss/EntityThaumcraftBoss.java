@@ -261,3 +261,4 @@ public class EntityThaumcraftBoss extends EntityMob
         AGGRO = EntityDataManager.createKey(EntityThaumcraftBoss.class, DataSerializers.VARINT);
     }
 }
+

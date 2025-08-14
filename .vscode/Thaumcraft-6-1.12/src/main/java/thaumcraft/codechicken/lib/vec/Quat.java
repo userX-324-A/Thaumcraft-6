@@ -133,3 +133,4 @@ public class Quat implements Copyable<Quat>
         return new Rotation(this);
     }
 }
+

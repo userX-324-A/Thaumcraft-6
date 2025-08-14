@@ -58,3 +58,4 @@ public interface ISeal {
 	public EnumGolemTrait[] getForbiddenTags();
 	
 }
+

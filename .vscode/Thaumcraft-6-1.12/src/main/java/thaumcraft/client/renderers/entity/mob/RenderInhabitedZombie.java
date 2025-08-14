@@ -32,3 +32,4 @@ public class RenderInhabitedZombie extends RenderZombie
         t1 = new ResourceLocation("thaumcraft", "textures/entity/czombie.png");
     }
 }
+

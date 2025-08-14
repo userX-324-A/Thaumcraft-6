@@ -99,3 +99,4 @@ public class FXVisSparkle extends Particle
         particleGravity = value;
     }
 }
+

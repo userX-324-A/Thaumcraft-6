@@ -23,3 +23,4 @@ public class InventoryArcaneWorkbench extends InventoryCrafting implements IArca
         workbench.markDirty();
     }
 }
+

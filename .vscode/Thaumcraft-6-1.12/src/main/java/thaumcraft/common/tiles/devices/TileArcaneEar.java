@@ -185,3 +185,4 @@ public class TileArcaneEar extends TileEntity implements ITickable
         TileArcaneEar.noteBlockEvents = new WeakHashMap<Integer, ArrayList<Integer[]>>();
     }
 }
+

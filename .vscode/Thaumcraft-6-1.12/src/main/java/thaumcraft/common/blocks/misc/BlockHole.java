@@ -80,3 +80,4 @@ public class BlockHole extends BlockContainer
         return Item.getItemById(0);
     }
 }
+

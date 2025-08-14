@@ -280,3 +280,4 @@ public class EntityEldritchGuardian extends EntityMob implements IRangedAttackMo
     public void setSwingingArms(boolean swingingArms) {
     }
 }
+

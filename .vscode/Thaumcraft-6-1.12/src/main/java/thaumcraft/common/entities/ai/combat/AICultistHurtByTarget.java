@@ -50,3 +50,4 @@ public class AICultistHurtByTarget extends EntityAITarget
         creatureIn.setAttackTarget(entityLivingBaseIn);
     }
 }
+

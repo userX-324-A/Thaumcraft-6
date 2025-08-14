@@ -452,3 +452,4 @@ public class ModelEldritchGuardian extends ModelBase
         model.rotateAngleZ = z;
     }
 }
+

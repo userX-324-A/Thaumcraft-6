@@ -41,3 +41,4 @@ public class CardAwareness extends TheorycraftCard
     }
 }
 
+

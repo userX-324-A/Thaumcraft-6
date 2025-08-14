@@ -821,3 +821,4 @@ public class EntityThaumcraftGolem extends EntityOwnedConstruct implements IGole
         }
     }
 }
+

@@ -11,3 +11,4 @@ public class BlocksTC {
     public static final Map<DyeColor, Block> candles = new HashMap<>();
 }
 
+

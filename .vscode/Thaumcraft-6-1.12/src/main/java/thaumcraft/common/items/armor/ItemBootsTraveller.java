@@ -113,3 +113,4 @@ public class ItemBootsTraveller extends ItemArmor implements IThaumcraftItems, I
         return EnumChargeDisplay.PERIODIC;
     }
 }
+

@@ -21,3 +21,4 @@ public class PotionFluxTaint extends Effect {
     }
 }
 
+

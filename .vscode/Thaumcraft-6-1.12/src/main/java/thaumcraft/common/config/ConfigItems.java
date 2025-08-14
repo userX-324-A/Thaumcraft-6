@@ -361,3 +361,4 @@ public class ConfigItems
         ITEM_VARIANT_HOLDERS = new ArrayList<IThaumcraftItems>();
     }
 }
+

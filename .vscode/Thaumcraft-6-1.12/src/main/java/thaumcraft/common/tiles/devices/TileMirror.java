@@ -407,3 +407,4 @@ public class TileMirror extends TileThaumcraft implements IInventory, ITickable
         return false;
     }
 }
+

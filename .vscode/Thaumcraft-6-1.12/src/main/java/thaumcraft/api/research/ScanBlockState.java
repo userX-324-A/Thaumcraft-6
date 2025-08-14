@@ -41,3 +41,4 @@ public class ScanBlockState implements IScanThing {
 		return research;
 	}
 }
+

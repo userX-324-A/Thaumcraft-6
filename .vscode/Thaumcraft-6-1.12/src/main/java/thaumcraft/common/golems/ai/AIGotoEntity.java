@@ -67,3 +67,4 @@ public class AIGotoEntity extends AIGoto
         return i * i + j * j < minDist;
     }
 }
+

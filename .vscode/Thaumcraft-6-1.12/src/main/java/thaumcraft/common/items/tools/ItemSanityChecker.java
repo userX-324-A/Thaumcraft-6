@@ -15,3 +15,4 @@ public class ItemSanityChecker extends ItemTCBase
         return EnumRarity.UNCOMMON;
     }
 }
+

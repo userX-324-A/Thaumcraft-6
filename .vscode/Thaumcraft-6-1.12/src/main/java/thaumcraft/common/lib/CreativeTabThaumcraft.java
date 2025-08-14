@@ -17,3 +17,4 @@ public class CreativeTabThaumcraft extends CreativeTabs
         return new ItemStack(ItemsTC.goggles);
     }
 }
+

@@ -37,3 +37,4 @@ public class SmeltingBonusRecipeSerializer extends ForgeRegistryEntry<IRecipeSer
 
 
 
+

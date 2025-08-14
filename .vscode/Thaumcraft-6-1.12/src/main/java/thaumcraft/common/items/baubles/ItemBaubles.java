@@ -47,3 +47,4 @@ public class ItemBaubles extends ItemTCBase implements IBauble, IVisDiscountGear
         return 0;
     }
 }
+

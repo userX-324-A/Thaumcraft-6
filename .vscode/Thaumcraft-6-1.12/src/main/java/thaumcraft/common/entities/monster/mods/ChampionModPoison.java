@@ -37,3 +37,4 @@ public class ChampionModPoison implements IChampionModifierEffect
         GL11.glColor4f(0.6f, 1.0f, 0.7f, 1.0f);
     }
 }
+

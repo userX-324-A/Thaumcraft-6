@@ -36,3 +36,4 @@ public class ScanItem implements IScanThing {
     }
 }
 
+

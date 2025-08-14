@@ -289,3 +289,4 @@ public class TileInfernalFurnace extends TileThaumcraftInventory
         return super.receiveClientEvent(i, j);
     }
 }
+

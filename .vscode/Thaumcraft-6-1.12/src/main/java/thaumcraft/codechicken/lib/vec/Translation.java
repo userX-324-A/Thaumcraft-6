@@ -68,3 +68,4 @@ public class Translation extends Transformation
         return "Translation(" + new BigDecimal(vec.x, cont) + ", " + new BigDecimal(vec.y, cont) + ", " + new BigDecimal(vec.z, cont) + ")";
     }
 }
+

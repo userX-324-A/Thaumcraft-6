@@ -201,3 +201,4 @@ public class TileResearchTable extends TileThaumcraftInventory
         return super.receiveClientEvent(i, j);
     }
 }
+

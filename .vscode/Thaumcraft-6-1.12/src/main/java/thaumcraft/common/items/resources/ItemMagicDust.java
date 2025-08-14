@@ -78,3 +78,4 @@ public class ItemMagicDust extends ItemTCBase
         }
     }
 }
+

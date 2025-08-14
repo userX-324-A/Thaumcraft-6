@@ -235,3 +235,4 @@ public class TileCentrifuge extends TileThaumcraft implements IAspectContainer, 
         return true;
     }
 }
+

@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.5-7.0.0.0'
+version = '1.16.5-7.0.0.1'
 group = 'thaumcraft' 
 archivesBaseName = 'Thaumcraft'
 
@@ -68,6 +68,14 @@ sourceSets {
             // Enable optional integrations only when building with -PincludeOptionalMods=true
             if (project.hasProperty('includeOptionalMods') && project.property('includeOptionalMods').toString().toBoolean()) {
                 srcDirs += ['src/integration/java']
+                // Only include Jade sources when explicitly enabled with -PenableJade
+                if (!project.hasProperty('enableJade')) {
+                    exclude 'thaumcraft/integration/jade/**'
+                }
+                // Only include JEI sources when explicitly enabled with -PenableJei
+                if (!project.hasProperty('enableJei')) {
+                    exclude 'thaumcraft/integration/jei/**'
+                }
             }
         }
         resources {
@@ -99,6 +107,12 @@ repositories {
         name = "JEI"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
+    maven {
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -108,15 +122,21 @@ dependencies {
         // Curios API for baubles-like compatibility (only used if present)
         compileOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.8.2')
         runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.8.2')
-        // JEI for dev runtime integration/testing
-        compileOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152:api')
-        runtimeOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
-        // Jade (client tooltip API)
-        compileOnly fg.deobf('snownee.jade:jade-forge:2.8.5')
-        runtimeOnly fg.deobf('snownee.jade:jade-forge:2.8.5')
-        // WTHIT (optional alternative HUD)
-        compileOnly fg.deobf('mcp.mobius.waila:wthit:2.11.3')
-        runtimeOnly fg.deobf('mcp.mobius.waila:wthit:2.11.3')
+        // JEI for dev runtime integration/testing (only if -PenableJei)
+        if (project.hasProperty('enableJei')) {
+            compileOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
+            runtimeOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
+        }
+        // Jade (client tooltip API) — use CurseMaven fileId via -PenableJade=<fileId>
+        if (project.hasProperty('enableJade')) {
+            compileOnly fg.deobf("curse.maven:jade-324717:" + project.property('enableJade').toString())
+            runtimeOnly fg.deobf("curse.maven:jade-324717:" + project.property('enableJade').toString())
+        }
+        // WTHIT (optional alternative HUD) — use CurseMaven fileId via -PenableWthit=<fileId>
+        if (project.hasProperty('enableWthit')) {
+            compileOnly fg.deobf("curse.maven:wthit-440979:" + project.property('enableWthit').toString())
+            runtimeOnly fg.deobf("curse.maven:wthit-440979:" + project.property('enableWthit').toString())
+        }
     }
 }
 

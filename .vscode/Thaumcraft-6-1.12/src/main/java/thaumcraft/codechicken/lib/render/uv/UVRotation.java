@@ -47,3 +47,4 @@ public class UVRotation extends UVTransformation
         return "UVRotation(" + new BigDecimal(angle, cont) + ")";
     }
 }
+

@@ -136,3 +136,4 @@ public class BlockPatternCrafter extends BlockTCDevice implements IBlockFacingHo
         return (list.size() > 0) ? list.get(0) : super.collisionRayTrace(state, world, pos, start, end);
     }
 }
+

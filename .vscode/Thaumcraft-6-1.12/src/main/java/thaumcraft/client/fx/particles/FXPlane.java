@@ -110,3 +110,4 @@ public class FXPlane extends Particle
         particleGravity = value;
     }
 }
+

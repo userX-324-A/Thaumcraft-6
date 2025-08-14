@@ -10,3 +10,4 @@ public interface ICasterTriggerManager {
     boolean performTrigger(World world, ItemStack casterStack, PlayerEntity player, BlockPos pos, Direction side, int event);
 }
 
+

@@ -69,3 +69,4 @@ public class EntityCritterAIAttackMelee extends EntityAIAttackMelee
         return flag;
     }
 }
+

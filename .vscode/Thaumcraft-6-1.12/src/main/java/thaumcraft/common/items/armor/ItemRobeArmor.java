@@ -131,3 +131,4 @@ public class ItemRobeArmor extends ItemArmor implements IVisDiscountGear, IThaum
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 }
+

@@ -15,13 +15,23 @@ public class GrappleProjectileEntity extends ThrowableEntity {
     @Override
     protected void onHit(RayTraceResult result) {
         super.onHit(result);
-        if (!level.isClientSide) this.remove();
+        if (!level.isClientSide) {
+            if (this.getOwner() instanceof net.minecraft.entity.player.PlayerEntity) {
+                ((net.minecraft.entity.player.PlayerEntity) this.getOwner()).playSound(thaumcraft.common.registers.SoundsTC.GRAPPLE_IMPACT.get(), 0.9f, 1.0f);
+            }
+            this.remove();
+        }
     }
 
     @Override
     protected void onHitEntity(EntityRayTraceResult result) {
         super.onHitEntity(result);
-        if (!level.isClientSide) this.remove();
+        if (!level.isClientSide) {
+            if (this.getOwner() instanceof net.minecraft.entity.player.PlayerEntity) {
+                ((net.minecraft.entity.player.PlayerEntity) this.getOwner()).playSound(thaumcraft.common.registers.SoundsTC.GRAPPLE_IMPACT.get(), 0.9f, 1.0f);
+            }
+            this.remove();
+        }
     }
 
     @Override
@@ -62,5 +72,6 @@ public class GrappleProjectileEntity extends ThrowableEntity {
     @Override
     public IPacket<?> getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
 }
+
 
 

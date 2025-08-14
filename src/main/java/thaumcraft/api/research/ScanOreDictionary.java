@@ -32,3 +32,4 @@ public class ScanOreDictionary implements IScanThing {
     }
 }
 
+

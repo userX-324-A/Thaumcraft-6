@@ -72,3 +72,4 @@ public class ItemVoidShovel extends ItemSpade implements IWarpingGear, IThaumcra
         return 1;
     }
 }
+

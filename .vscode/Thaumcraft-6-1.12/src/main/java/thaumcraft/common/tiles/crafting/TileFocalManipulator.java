@@ -316,3 +316,4 @@ public class TileFocalManipulator extends TileThaumcraftInventory
         return super.receiveClientEvent(i, j);
     }
 }
+

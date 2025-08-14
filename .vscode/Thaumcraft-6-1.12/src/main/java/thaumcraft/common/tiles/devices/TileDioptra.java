@@ -70,3 +70,4 @@ public class TileDioptra extends TileThaumcraft implements ITickable
         return nbt;
     }
 }
+

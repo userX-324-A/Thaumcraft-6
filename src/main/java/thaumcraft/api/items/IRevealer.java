@@ -7,3 +7,4 @@ public interface IRevealer {
     boolean showNodes(ItemStack stack, LivingEntity player);
 }
 
+

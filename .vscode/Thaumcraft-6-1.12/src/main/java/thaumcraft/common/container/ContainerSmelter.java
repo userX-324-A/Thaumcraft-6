@@ -142,3 +142,4 @@ public class ContainerSmelter extends Container
         return itemstack;
     }
 }
+

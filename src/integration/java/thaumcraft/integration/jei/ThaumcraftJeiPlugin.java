@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
-import thaumcraft.common.lib.crafting.ArcaneRecipe;
+import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.registers.ModBlocks;
 import thaumcraft.common.registers.ModRecipes;
 import thaumcraft.integration.jei.categories.ArcaneRecipeCategory;
@@ -53,26 +53,27 @@ public class ThaumcraftJeiPlugin implements IModPlugin {
         Minecraft mc = Minecraft.getInstance();
         if (mc == null || mc.level == null) return;
         // Arcane
-        List<ArcaneRecipe> arcane = mc.level.getRecipeManager().getAllRecipesFor(ModRecipes.ARCANE_RECIPE_TYPE)
-                .stream().map(r -> (ArcaneRecipe) r).collect(Collectors.toList());
-        registration.addRecipes(ArcaneRecipeCategory.RECIPE_TYPE, arcane);
+        List<IArcaneRecipe> arcane = mc.level.getRecipeManager().getAllRecipesFor(ModRecipes.ARCANE_RECIPE_TYPE)
+                .stream().map(r -> (IArcaneRecipe) r).collect(Collectors.toList());
+        registration.addRecipes(arcane, ArcaneRecipeCategory.UID);
         // Crucible
         List<ICrucibleRecipe> crucible = mc.level.getRecipeManager().getAllRecipesFor(ModRecipes.CRUCIBLE_RECIPE_TYPE)
                 .stream().map(r -> (ICrucibleRecipe) r).collect(Collectors.toList());
-        registration.addRecipes(CrucibleRecipeCategory.RECIPE_TYPE, crucible);
+        registration.addRecipes(crucible, CrucibleRecipeCategory.UID);
         // Infusion
         List<IInfusionRecipe> infusion = mc.level.getRecipeManager().getAllRecipesFor(ModRecipes.INFUSION_RECIPE_TYPE)
                 .stream().map(r -> (IInfusionRecipe) r).collect(Collectors.toList());
-        registration.addRecipes(InfusionRecipeCategory.RECIPE_TYPE, infusion);
+        registration.addRecipes(infusion, InfusionRecipeCategory.UID);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         if (!jeiPresent()) return;
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ARCANE_WORKBENCH.get()), ArcaneRecipeCategory.RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUCIBLE.get()), CrucibleRecipeCategory.RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.INFUSION_MATRIX.get()), InfusionRecipeCategory.RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ARCANE_WORKBENCH.get()), ArcaneRecipeCategory.UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUCIBLE.get()), CrucibleRecipeCategory.UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.INFUSION_MATRIX.get()), InfusionRecipeCategory.UID);
     }
 }
+
 
 

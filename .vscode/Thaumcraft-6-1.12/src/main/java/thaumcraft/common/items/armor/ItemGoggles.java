@@ -104,3 +104,4 @@ public class ItemGoggles extends ItemArmor implements IVisDiscountGear, IReveale
         }
     }
 }
+

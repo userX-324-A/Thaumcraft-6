@@ -106,3 +106,4 @@ public class ShaderHandler
         ShaderHandler.shader_resources = new ResourceLocation[] { new ResourceLocation("shaders/post/desaturatetc.json"), new ResourceLocation("shaders/post/blurtc.json"), new ResourceLocation("shaders/post/hunger.json"), new ResourceLocation("shaders/post/sunscorned.json") };
     }
 }
+

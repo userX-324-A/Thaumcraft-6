@@ -71,3 +71,4 @@ public class FocusMediumProjectile extends FocusMedium
         return Aspect.MOTION;
     }
 }
+

@@ -27,3 +27,4 @@ public abstract class VariableTransformation extends Transformation
         mat.glApply();
     }
 }
+

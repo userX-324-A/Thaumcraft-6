@@ -158,3 +158,4 @@ public class BlockTaintFeature extends BlockTC implements ITaintBlock
         }
     }
 }
+

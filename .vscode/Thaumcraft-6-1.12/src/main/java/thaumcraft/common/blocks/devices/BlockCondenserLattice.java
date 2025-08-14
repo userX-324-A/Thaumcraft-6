@@ -208,3 +208,4 @@ public class BlockCondenserLattice extends BlockTC
         DOWN = PropertyBool.create("down");
     }
 }
+

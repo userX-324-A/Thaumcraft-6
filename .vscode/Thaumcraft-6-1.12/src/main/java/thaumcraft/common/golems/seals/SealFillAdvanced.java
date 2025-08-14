@@ -47,3 +47,4 @@ public class SealFillAdvanced extends SealFill implements ISealConfigToggles
         return new EnumGolemTrait[] { EnumGolemTrait.SMART };
     }
 }
+

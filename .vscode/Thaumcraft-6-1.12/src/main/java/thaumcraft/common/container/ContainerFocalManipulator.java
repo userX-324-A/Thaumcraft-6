@@ -81,3 +81,4 @@ public class ContainerFocalManipulator extends Container
         return itemstack;
     }
 }
+

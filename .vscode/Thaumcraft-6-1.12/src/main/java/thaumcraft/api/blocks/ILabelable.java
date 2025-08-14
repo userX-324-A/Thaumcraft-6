@@ -21,3 +21,4 @@ public interface ILabelable {
 	public boolean applyLabel(EntityPlayer player, BlockPos pos, EnumFacing side, ItemStack labelstack);
 	
 }
+

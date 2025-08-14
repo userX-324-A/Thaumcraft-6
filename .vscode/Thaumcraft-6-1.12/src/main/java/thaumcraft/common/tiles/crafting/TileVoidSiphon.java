@@ -140,3 +140,4 @@ public class TileVoidSiphon extends TileThaumcraftInventory
         slots = new int[] { 0 };
     }
 }
+

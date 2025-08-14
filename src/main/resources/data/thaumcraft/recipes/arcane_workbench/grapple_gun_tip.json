@@ -1,5 +1,5 @@
 {
-  "type": "thaumcraft:arcane_workbench",
+  "type": "thaumcraft:arcane_shaped",
   "pattern": [
     "BRB",
     "RHR",
@@ -9,9 +9,7 @@
     "B": {
       "tag": "forge:plates/brass"
     },
-    "R": {
-      "item": "thaumcraft:nugget_rareearth"
-    },
+    "R": { "item": "thaumcraft:quartz_nugget" },
     "H": {
       "item": "minecraft:tripwire_hook"
     }
@@ -21,9 +19,7 @@
     "count": 1
   },
   "vis": 25,
-  "crystals": {
-    "earth": 1
-  }
+  "crystals": { "terra": 1 }
 }
 
 

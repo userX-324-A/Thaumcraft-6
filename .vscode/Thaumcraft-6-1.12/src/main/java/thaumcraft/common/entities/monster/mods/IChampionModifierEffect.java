@@ -15,3 +15,4 @@ public interface IChampionModifierEffect
     
     void preRender(EntityLivingBase p0, RenderLivingBase p1);
 }
+

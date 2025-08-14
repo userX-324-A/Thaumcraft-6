@@ -39,3 +39,4 @@ public class GolemArmDart implements GolemArm.IArmFunction
     public void onUpdateTick(IGolemAPI golem) {
     }
 }
+

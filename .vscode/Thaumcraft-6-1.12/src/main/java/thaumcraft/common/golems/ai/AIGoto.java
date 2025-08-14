@@ -149,3 +149,4 @@ public abstract class AIGoto extends EntityAIBase
         return true;
     }
 }
+

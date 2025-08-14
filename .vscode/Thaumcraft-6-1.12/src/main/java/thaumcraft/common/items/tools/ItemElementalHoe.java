@@ -94,3 +94,4 @@ public class ItemElementalHoe extends ItemHoe implements IThaumcraftItems
         return EnumActionResult.SUCCESS;
     }
 }
+

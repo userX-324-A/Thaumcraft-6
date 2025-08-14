@@ -34,3 +34,4 @@ public class ScanMaterial implements IScanThing {
 		return research;
 	}
 }
+

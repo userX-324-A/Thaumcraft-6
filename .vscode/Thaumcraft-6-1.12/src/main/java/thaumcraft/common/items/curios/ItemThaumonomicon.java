@@ -96,3 +96,4 @@ public class ItemThaumonomicon extends ItemTCBase
         return (itemstack.getItemDamage() != 1) ? EnumRarity.UNCOMMON : EnumRarity.EPIC;
     }
 }
+

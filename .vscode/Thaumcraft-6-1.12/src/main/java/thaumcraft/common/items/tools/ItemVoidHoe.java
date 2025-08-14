@@ -66,3 +66,4 @@ public class ItemVoidHoe extends ItemHoe implements IWarpingGear, IThaumcraftIte
         return 1;
     }
 }
+

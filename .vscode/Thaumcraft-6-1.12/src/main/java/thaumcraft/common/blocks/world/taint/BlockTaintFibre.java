@@ -422,3 +422,4 @@ public class BlockTaintFibre extends Block implements ITaintBlock
         AABB_NORTH = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 0.05000000074505806);
     }
 }
+

@@ -98,3 +98,4 @@ public class BlockLamp extends BlockTCDevice implements IBlockFacing, IBlockEnab
         return new AxisAlignedBB(0.25, 0.125, 0.25, 0.75, 0.875, 0.75);
     }
 }
+

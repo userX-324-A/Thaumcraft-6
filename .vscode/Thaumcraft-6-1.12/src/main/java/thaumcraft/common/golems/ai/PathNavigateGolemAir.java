@@ -53,3 +53,4 @@ public class PathNavigateGolemAir extends PathNavigate
         return RayTraceResult == null || RayTraceResult.typeOfHit == net.minecraft.util.math.RayTraceResult.Type.MISS;
     }
 }
+

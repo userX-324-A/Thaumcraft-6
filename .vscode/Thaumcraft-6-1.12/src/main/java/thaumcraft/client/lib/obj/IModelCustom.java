@@ -22,3 +22,4 @@ public interface IModelCustom
     @SideOnly(Side.CLIENT)
     String[] getPartNames();
 }
+

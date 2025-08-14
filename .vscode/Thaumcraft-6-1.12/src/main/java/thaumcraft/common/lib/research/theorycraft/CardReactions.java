@@ -77,3 +77,4 @@ public class CardReactions extends TheorycraftCard
         return true;
     }
 }
+

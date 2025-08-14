@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": { "item": "thaumcraft:log_silverwood" },
+    "title": { "translate": "adv.thaumcraft.obtain_silverwood.title", "fallback": "A Rarer Find" },
+    "description": { "translate": "adv.thaumcraft.obtain_silverwood.desc", "fallback": "Obtain Silverwood logs." },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "parent": "thaumcraft:items/obtain_greatwood",
+  "criteria": {
+    "has_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [ { "items": [ "thaumcraft:log_silverwood" ] } ]
+      }
+    }
+  },
+  "requirements": [ [ "has_log" ] ]
+}
+

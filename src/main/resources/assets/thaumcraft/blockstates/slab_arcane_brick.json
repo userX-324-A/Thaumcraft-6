@@ -1,20 +1,11 @@
 {
-    "forge_marker": 1,    
     "variants": {
-        "half": { 
-            "bottom": { "model": "minecraft:half_slab" }, 
-            "top": { "model": "minecraft:upper_slab" } 
-        },
-        "variant": {
-            "default": {
-                "textures": {
-                    "particle": "thaumcraft:block/arcane_brick_stone",
-                    "bottom": "thaumcraft:block/arcane_brick_stone",
-                    "top": "thaumcraft:block/arcane_brick_stone",
-                    "side": "thaumcraft:block/arcane_brick_stone"
-                }
-            }
-        }        
+        "type=bottom,waterlogged=false": { "model": "thaumcraft:block/slab_arcane_brick" },
+        "type=top,waterlogged=false":    { "model": "thaumcraft:block/slab_arcane_brick_top" },
+        "type=double,waterlogged=false": { "model": "thaumcraft:block/arcane_brick_stone" },
+        "type=bottom,waterlogged=true":  { "model": "thaumcraft:block/slab_arcane_brick" },
+        "type=top,waterlogged=true":     { "model": "thaumcraft:block/slab_arcane_brick_top" },
+        "type=double,waterlogged=true":  { "model": "thaumcraft:block/arcane_brick_stone" }
     }
 }
 

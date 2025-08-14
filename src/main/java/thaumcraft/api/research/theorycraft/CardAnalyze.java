@@ -58,3 +58,4 @@ public class CardAnalyze extends TheorycraftCard {
     }
 }
 
+

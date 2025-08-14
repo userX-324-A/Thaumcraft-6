@@ -59,3 +59,4 @@ public class CardInspired extends TheorycraftCard {
     }
 }
 
+

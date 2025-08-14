@@ -26,3 +26,4 @@ public class RenderThaumicSlime extends RenderSlime
         slimeTexture = new ResourceLocation("thaumcraft", "textures/entity/tslime.png");
     }
 }
+

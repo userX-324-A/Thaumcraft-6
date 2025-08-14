@@ -64,3 +64,4 @@ public class ModelBanner extends ModelBase
         model.rotateAngleZ = z;
     }
 }
+

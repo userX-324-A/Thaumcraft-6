@@ -106,3 +106,4 @@ public class FXFireMote extends Particle
         ++particleAngle;
     }
 }
+

@@ -17,3 +17,4 @@ public class SlotLimitedHasAspects extends Slot
         return al != null && al.size() > 0;
     }
 }
+

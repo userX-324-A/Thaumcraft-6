@@ -69,3 +69,4 @@ public class BlockFluidDeath extends BlockFluidClassic
         FLUID_DEATH_MATERIAL = new MaterialLiquid(MapColor.PURPLE);
     }
 }
+

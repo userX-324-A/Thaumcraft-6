@@ -31,3 +31,4 @@ public class ChampionModArmored implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

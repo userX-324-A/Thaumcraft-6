@@ -124,3 +124,4 @@ public class EntityMindSpider extends EntitySpider implements IEldritchMob
         VIEWER = EntityDataManager.createKey(EntityMindSpider.class, DataSerializers.STRING);
     }
 }
+

@@ -168,3 +168,4 @@ public class EntityFocusMine extends EntityThrowable implements IEntityAdditiona
         ARMED = EntityDataManager.createKey(EntityFocusMine.class, DataSerializers.BOOLEAN);
     }
 }
+

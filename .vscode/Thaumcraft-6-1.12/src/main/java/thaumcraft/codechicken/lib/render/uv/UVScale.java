@@ -36,3 +36,4 @@ public class UVScale extends UVTransformation
         return "UVScale(" + new BigDecimal(su, cont) + ", " + new BigDecimal(sv, cont) + ")";
     }
 }
+

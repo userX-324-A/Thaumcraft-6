@@ -90,3 +90,4 @@ public class RecipeMagicDust extends IForgeRegistryEntry.Impl<IRecipe> implement
         return ret;
     }
 }
+

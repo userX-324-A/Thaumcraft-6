@@ -25,3 +25,4 @@ public class SlotGhostFluid extends SlotGhost
         return false;
     }
 }
+

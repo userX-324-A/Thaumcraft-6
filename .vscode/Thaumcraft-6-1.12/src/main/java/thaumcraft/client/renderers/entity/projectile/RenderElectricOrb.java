@@ -71,3 +71,4 @@ public class RenderElectricOrb extends Render
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }
+

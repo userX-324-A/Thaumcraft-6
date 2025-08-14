@@ -21,3 +21,4 @@ public class PedestalBlock extends Block {
         return ModBlockEntities.PEDESTAL.get().create();
     }
 }
+

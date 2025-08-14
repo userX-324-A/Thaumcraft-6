@@ -178,3 +178,4 @@ public class EntityTaintacle extends EntityMob implements ITaintedMob
         return super.attackEntityAsMob(p_70652_1_);
     }
 }
+

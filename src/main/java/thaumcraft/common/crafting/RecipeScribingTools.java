@@ -65,3 +65,4 @@ public class RecipeScribingTools extends SpecialRecipe {
     public IRecipeSerializer<?> getSerializer() { return ModRecipes.SCRIBING_TOOLS.get(); }
 }
 
+

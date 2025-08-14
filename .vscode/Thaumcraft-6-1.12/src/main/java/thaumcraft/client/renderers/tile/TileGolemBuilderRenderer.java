@@ -102,3 +102,4 @@ public class TileGolemBuilderRenderer extends TileEntitySpecialRenderer
         TEX = new ResourceLocation("thaumcraft", "textures/blocks/golembuilder.png");
     }
 }
+

@@ -23,3 +23,4 @@ public class ThaumcraftGolemRenderer extends MobRenderer<ThaumcraftGolemEntity, 
 }
 
 
+

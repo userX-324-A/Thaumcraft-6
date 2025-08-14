@@ -197,3 +197,4 @@ public class RayTracer
         RayTracer.t_inst = new ThreadLocal<RayTracer>();
     }
 }
+

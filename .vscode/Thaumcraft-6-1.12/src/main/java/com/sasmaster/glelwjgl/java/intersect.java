@@ -177,3 +177,4 @@ public class intersect
         VERSION = new String("$Id: intersect.java,v 1.1 1998/05/05 23:31:21 descarte Exp descarte $");
     }
 }
+

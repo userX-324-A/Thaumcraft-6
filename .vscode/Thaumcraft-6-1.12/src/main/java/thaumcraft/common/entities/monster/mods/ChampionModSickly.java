@@ -35,3 +35,4 @@ public class ChampionModSickly implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

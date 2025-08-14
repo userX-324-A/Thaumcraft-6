@@ -131,3 +131,4 @@ public class BlockBarrier extends Block
         }
     }
 }
+

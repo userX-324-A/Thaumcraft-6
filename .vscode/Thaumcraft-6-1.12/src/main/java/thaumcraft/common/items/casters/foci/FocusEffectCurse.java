@@ -128,3 +128,4 @@ public class FocusEffectCurse extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.15f, 1.0f + caster.getEntityWorld().rand.nextFloat() / 2.0f);
     }
 }
+

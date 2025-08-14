@@ -27,3 +27,4 @@ public class SlotGhost extends Slot
         return false;
     }
 }
+

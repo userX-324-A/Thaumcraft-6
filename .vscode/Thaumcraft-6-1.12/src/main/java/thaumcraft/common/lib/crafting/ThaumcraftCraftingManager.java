@@ -605,3 +605,4 @@ public class ThaumcraftCraftingManager
         return ret;
     }
 }
+

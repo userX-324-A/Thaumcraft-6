@@ -219,3 +219,4 @@ public class PathNavigateGolemGround extends PathNavigateGround
     public void setAvoidSun(boolean avoidSun) {
     }
 }
+

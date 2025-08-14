@@ -51,3 +51,4 @@ public class GuiGolemBWListButton extends GuiButton
         GuiGolemBWListButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_base.png");
     }
 }
+

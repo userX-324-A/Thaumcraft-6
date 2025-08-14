@@ -314,7 +314,7 @@ public class EntityFluxRift extends Entity
                     for (EntityPlayer target : targets2) {
                         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(target);
                         if (!knowledge.isResearchKnown("f_toomuchflux")) {
-                            target.sendStatusMessage(new TextComponentString("§5§o" + I18n.translateToLocal("tc.fluxevent.3")), true);
+                            target.sendStatusMessage(new TextComponentString("5o" + I18n.translateToLocal("tc.fluxevent.3")), true);
                             ThaumcraftApi.internalMethods.completeResearch(target, "f_toomuchflux");
                         }
                     }
@@ -364,7 +364,7 @@ public class EntityFluxRift extends Entity
                     for (EntityLivingBase target : targets2) {
                         didit = true;
                         if (target instanceof EntityPlayer) {
-                            ((EntityPlayer)target).sendStatusMessage(new TextComponentString("§5§o" + I18n.translateToLocal("tc.fluxevent.2")), true);
+                            ((EntityPlayer)target).sendStatusMessage(new TextComponentString("5o" + I18n.translateToLocal("tc.fluxevent.2")), true);
                         }
                         PotionEffect pe = new PotionEffect(PotionInfectiousVisExhaust.instance, 3000, 2);
                         pe.getCurativeItems().clear();
@@ -540,3 +540,4 @@ public class EntityFluxRift extends Entity
         VERY_UNSTABLE;
     }
 }
+

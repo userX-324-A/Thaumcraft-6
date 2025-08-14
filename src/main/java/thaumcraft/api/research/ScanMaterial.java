@@ -23,3 +23,4 @@ public class ScanMaterial implements IScanThing {
     }
 }
 
+

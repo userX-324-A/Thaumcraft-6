@@ -183,3 +183,4 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
     public int getCookTimeTotal() { return cookTimeTotal; }
 }
 
+

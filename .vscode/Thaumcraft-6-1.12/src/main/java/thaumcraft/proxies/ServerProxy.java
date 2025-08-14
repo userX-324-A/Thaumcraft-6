@@ -16,3 +16,4 @@ public class ServerProxy extends CommonProxy
         return DimensionManager.getWorld(dim);
     }
 }
+

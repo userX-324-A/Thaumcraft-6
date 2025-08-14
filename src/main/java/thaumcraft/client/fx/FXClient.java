@@ -24,6 +24,7 @@ public final class FXClient {
 
     public static void pollute(BlockPos pos, int amount) {
         ClientWorld w = world(); if (w == null) return;
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         for (int i = 0; i < Math.min(amount, 40); i++) {
             double x = pos.getX() + 0.2 + w.random.nextDouble() * 0.6;
             double y = pos.getY() + 0.2 + w.random.nextDouble() * 0.6;
@@ -34,6 +35,7 @@ public final class FXClient {
 
     public static void blockBamf(double x, double y, double z, int color, boolean sound, boolean flair, Direction face) {
         ClientWorld w = world(); if (w == null) return;
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         if (sound) {
             w.playLocalSound(x, y, z, SoundEvents.FIREWORK_ROCKET_BLAST, SoundCategory.BLOCKS, 0.4f, 1.0f, false);
         }
@@ -59,6 +61,7 @@ public final class FXClient {
     }
 
     public static void zap(Vector3d src, Vector3d dst, int color, float width) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         // Draw a simple spark line between points
         int steps = 8;
@@ -74,6 +77,7 @@ public final class FXClient {
     }
 
     public static void wispZap(int sourceId, int targetId) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         net.minecraft.entity.Entity s = w.getEntity(sourceId);
         net.minecraft.entity.Entity t = w.getEntity(targetId);
@@ -84,6 +88,7 @@ public final class FXClient {
     }
 
     public static void sonic(int sourceId) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         net.minecraft.entity.Entity s = w.getEntity(sourceId);
         if (s == null) return;
@@ -93,6 +98,7 @@ public final class FXClient {
     }
 
     public static void slash(int sourceId, int targetId) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         net.minecraft.entity.Entity s = w.getEntity(sourceId);
         net.minecraft.entity.Entity t = w.getEntity(targetId);
@@ -104,6 +110,7 @@ public final class FXClient {
     }
 
     public static void shield(int sourceId, int targetId) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         net.minecraft.entity.Entity s = w.getEntity(sourceId);
         net.minecraft.entity.Entity t = w.getEntity(targetId);
@@ -113,6 +120,7 @@ public final class FXClient {
     }
 
     public static void blockArc(int bx, int by, int bz, float tx, float ty, float tz, float r, float g, float b) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         Vector3d src = new Vector3d(bx + 0.5, by + 0.5, bz + 0.5);
         Vector3d dst = new Vector3d(tx, ty, tz);
@@ -120,6 +128,7 @@ public final class FXClient {
     }
 
     public static void blockMist(BlockPos pos, int color) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         float r = ((color >> 16) & 0xFF) / 255.0f;
         float g = ((color >> 8) & 0xFF) / 255.0f;
@@ -133,6 +142,7 @@ public final class FXClient {
     }
 
     public static void boreDig(int x, int y, int z, int boreEntityId, int delay) {
+        if (!thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) return;
         ClientWorld w = world(); if (w == null) return;
         for (int i = 0; i < 6; i++) w.addParticle(ParticleTypes.CRIT, x + 0.5, y + 0.5, z + 0.5, 0, 0, 0);
     }
@@ -165,5 +175,6 @@ public final class FXClient {
         for (int i = 0; i < Math.max(6, size); i++) w.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0);
     }
 }
+
 
 

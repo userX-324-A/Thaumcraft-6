@@ -27,3 +27,4 @@ public interface IProxy
     
     void checkInterModComs(FMLInterModComms.IMCEvent p0);
 }
+

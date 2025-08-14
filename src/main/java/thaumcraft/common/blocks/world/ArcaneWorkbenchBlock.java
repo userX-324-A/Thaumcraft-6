@@ -44,3 +44,4 @@ public class ArcaneWorkbenchBlock extends Block {
         return ActionResultType.CONSUME;
     }
 }
+

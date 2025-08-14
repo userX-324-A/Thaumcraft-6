@@ -100,3 +100,4 @@ public class RenderCultistPortalGreater extends Render
         portaltex = new ResourceLocation("thaumcraft", "textures/misc/cultist_portal.png");
     }
 }
+

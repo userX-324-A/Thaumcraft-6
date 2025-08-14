@@ -50,3 +50,4 @@ public interface ISealEntity {
 	public boolean isStoppedByRedstone(World world);
 
 }
+

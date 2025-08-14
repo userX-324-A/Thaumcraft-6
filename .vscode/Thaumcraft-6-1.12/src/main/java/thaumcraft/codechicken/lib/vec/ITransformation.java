@@ -23,3 +23,4 @@ public abstract class ITransformation<Vector, Transformation extends ITransforma
         return with(t);
     }
 }
+

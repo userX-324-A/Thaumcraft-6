@@ -71,3 +71,4 @@ public class BlockStabilizer extends BlockTCDevice implements IInfusionStabilise
         return 0.25f;
     }
 }
+

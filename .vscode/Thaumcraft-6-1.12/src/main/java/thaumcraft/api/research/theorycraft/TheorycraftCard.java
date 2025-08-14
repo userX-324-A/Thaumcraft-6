@@ -135,3 +135,4 @@ public abstract class TheorycraftCard {
 	
 	
 }
+

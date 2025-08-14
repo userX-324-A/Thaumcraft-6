@@ -103,3 +103,4 @@ public class RenderDart extends Render
         arrowTextures = new ResourceLocation("textures/entity/arrow.png");
     }
 }
+

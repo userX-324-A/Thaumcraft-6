@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "thaumcraft:silverwood_log"
+      "item": "thaumcraft:log_silverwood"
     }
   ],
   "result": {
-    "item": "thaumcraft:silverwood_planks",
+    "item": "thaumcraft:plank_silverwood",
     "count": 4
   }
 }

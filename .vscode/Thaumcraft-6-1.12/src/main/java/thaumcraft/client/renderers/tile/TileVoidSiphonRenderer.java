@@ -87,3 +87,4 @@ public class TileVoidSiphonRenderer extends TileEntitySpecialRenderer
         starsTexture = new ResourceLocation("textures/entity/end_portal.png");
     }
 }
+

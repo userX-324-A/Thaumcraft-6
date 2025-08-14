@@ -81,3 +81,4 @@ public class EntityGiantBrainyZombie extends EntityBrainyZombie
         ANGER = EntityDataManager.createKey(EntityGiantBrainyZombie.class, DataSerializers.FLOAT);
     }
 }
+

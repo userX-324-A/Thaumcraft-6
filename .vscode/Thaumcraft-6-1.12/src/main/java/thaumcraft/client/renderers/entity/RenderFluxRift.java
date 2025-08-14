@@ -106,3 +106,4 @@ public class RenderFluxRift extends Render
         starsTexture = new ResourceLocation("textures/entity/end_portal.png");
     }
 }
+

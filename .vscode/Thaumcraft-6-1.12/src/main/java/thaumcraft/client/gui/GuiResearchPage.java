@@ -2277,3 +2277,4 @@ public class GuiResearchPage extends GuiScreen
         }
     }
 }
+

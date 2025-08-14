@@ -68,3 +68,4 @@ public class GuiVoidSiphon extends GuiContainer
         starsTexture = new ResourceLocation("textures/entity/end_portal.png");
     }
 }
+

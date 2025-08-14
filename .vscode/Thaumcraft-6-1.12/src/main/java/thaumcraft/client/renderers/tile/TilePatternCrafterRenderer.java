@@ -77,3 +77,4 @@ public class TilePatternCrafterRenderer extends TileEntitySpecialRenderer
         ICON = new ResourceLocation("thaumcraft", "textures/misc/gear_brass.png");
     }
 }
+

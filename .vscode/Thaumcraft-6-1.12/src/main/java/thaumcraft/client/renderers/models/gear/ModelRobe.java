@@ -415,3 +415,4 @@ public class ModelRobe extends ModelCustomArmor
         model.rotateAngleZ = z;
     }
 }
+

@@ -142,3 +142,4 @@ public class ItemElementalAxe extends ItemAxe implements IThaumcraftItems
         }
     }
 }
+

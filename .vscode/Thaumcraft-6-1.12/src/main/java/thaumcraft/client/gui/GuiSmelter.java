@@ -49,3 +49,4 @@ public class GuiSmelter extends GuiContainer
         drawTexturedModalRect(k + 60, l + 8, 232, 0, 10, 55);
     }
 }
+

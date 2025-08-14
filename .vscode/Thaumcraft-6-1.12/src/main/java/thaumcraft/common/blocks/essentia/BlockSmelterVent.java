@@ -104,3 +104,4 @@ public class BlockSmelterVent extends BlockTC implements IBlockFacingHorizontal
         }
     }
 }
+

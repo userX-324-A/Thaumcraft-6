@@ -316,3 +316,4 @@ public class EntityEldritchGolem extends EntityThaumcraftBoss implements IEldrit
         HEADLESS = EntityDataManager.createKey(EntityEldritchGolem.class, DataSerializers.BOOLEAN);
     }
 }
+

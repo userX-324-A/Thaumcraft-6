@@ -40,3 +40,4 @@ public class GuiGolemCraftButton extends GuiButton
         GuiGolemCraftButton.tex = new ResourceLocation("thaumcraft", "textures/gui/gui_golembuilder.png");
     }
 }
+

@@ -11,3 +11,4 @@ public class IndexedCuboid6 extends Cuboid6
         this.data = data;
     }
 }
+

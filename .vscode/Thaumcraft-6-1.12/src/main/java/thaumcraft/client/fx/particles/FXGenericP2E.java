@@ -61,3 +61,4 @@ public class FXGenericP2E extends FXGeneric
         motionZ = MathHelper.clamp((float) motionZ, -0.35f, 0.35f);
     }
 }
+

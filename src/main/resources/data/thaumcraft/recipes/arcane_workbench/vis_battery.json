@@ -1,14 +1,12 @@
 {
-  "type": "thaumcraft:arcane_workbench",
+  "type": "thaumcraft:arcane_shaped",
   "pattern": [
     "SSS",
     "SRS",
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "thaumcraft:slab_arcane_stone"
-    },
+    "S": { "item": "thaumcraft:slab_arcane_stone" },
     "R": {
       "item": "thaumcraft:vis_resonator"
     }
@@ -18,14 +16,7 @@
     "count": 1
   },
   "vis": 50,
-  "crystals": {
-    "air": 2,
-    "fire": 2,
-    "water": 2,
-    "earth": 2,
-    "order": 2,
-    "entropy": 2
-  }
+  "crystals": { "aer": 2, "ignis": 2, "aqua": 2, "terra": 2, "ordo": 2, "perditio": 2 }
 }
 
 

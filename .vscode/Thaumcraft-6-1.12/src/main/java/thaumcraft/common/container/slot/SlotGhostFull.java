@@ -32,3 +32,4 @@ public class SlotGhostFull extends Slot
         return false;
     }
 }
+

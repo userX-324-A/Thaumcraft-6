@@ -59,3 +59,4 @@ public class FlightNodeProcessor extends NodeProcessor
         return PathNodeType.WALKABLE;
     }
 }
+

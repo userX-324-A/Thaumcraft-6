@@ -50,3 +50,4 @@ public class PotionThaumarhia extends Potion
         rl = new ResourceLocation("thaumcraft", "textures/misc/potions.png");
     }
 }
+

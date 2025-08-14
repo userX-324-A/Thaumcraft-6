@@ -219,3 +219,4 @@ public class EntityFocusCloud extends Entity implements IEntityAdditionalSpawnDa
         EntityFocusCloud.cooldownMap = new HashMap<Long, Long>();
     }
 }
+

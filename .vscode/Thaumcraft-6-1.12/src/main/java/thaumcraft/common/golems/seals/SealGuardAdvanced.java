@@ -42,3 +42,4 @@ public class SealGuardAdvanced extends SealGuard implements ISealConfigToggles
         return new EnumGolemTrait[] { EnumGolemTrait.FIGHTER, EnumGolemTrait.SMART };
     }
 }
+

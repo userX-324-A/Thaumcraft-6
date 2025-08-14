@@ -1,6 +1,5 @@
 {
     "variants": {
-        "inventory": [{"model": "thaumcraft:greatwood_stairs"}],
         "facing=east,half=bottom,shape=straight":  { "model": "thaumcraft:greatwood_stairs" },
         "facing=west,half=bottom,shape=straight":  { "model": "thaumcraft:greatwood_stairs", "y": 180, "uvlock": true },
         "facing=south,half=bottom,shape=straight": { "model": "thaumcraft:greatwood_stairs", "y": 90, "uvlock": true },

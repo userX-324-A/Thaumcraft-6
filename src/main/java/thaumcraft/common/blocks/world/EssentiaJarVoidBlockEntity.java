@@ -7,3 +7,4 @@ public class EssentiaJarVoidBlockEntity extends EssentiaJarBlockEntity {
         super(ModBlockEntities.ESSENTIA_JAR_VOID.get());
     }
 }
+

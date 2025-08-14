@@ -194,7 +194,7 @@ public class EntityOwnedConstruct extends EntityCreature implements IEntityOwnab
             return false;
         }
         if (!world.isRemote && !isOwner(player)) {
-            player.sendStatusMessage(new TextComponentTranslation("§5§o" + I18n.translateToLocal("tc.notowned")), true);
+            player.sendStatusMessage(new TextComponentTranslation("5o" + I18n.translateToLocal("tc.notowned")), true);
             return true;
         }
         return super.processInteract(player, hand);
@@ -205,3 +205,4 @@ public class EntityOwnedConstruct extends EntityCreature implements IEntityOwnab
         OWNER_UNIQUE_ID = EntityDataManager.createKey(EntityOwnedConstruct.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     }
 }
+

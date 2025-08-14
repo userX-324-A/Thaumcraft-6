@@ -14,3 +14,4 @@ public class SlotOutput extends Slot
         return false;
     }
 }
+

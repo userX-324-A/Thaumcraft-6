@@ -118,3 +118,4 @@ public class FocusEffectRift extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 0.2f, 0.7f);
     }
 }
+

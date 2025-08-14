@@ -580,3 +580,4 @@ public class ModelFortressArmor extends ModelCustomArmor
         ModelFortressArmor.hasGoggles = new HashMap<Integer, Boolean>();
     }
 }
+

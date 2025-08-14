@@ -412,6 +412,18 @@
       }
     ]
   },
+  "grapple_fire": {
+    "category": "player",
+    "sounds": [
+      { "name": "thaumcraft:zap1", "stream": false }
+    ]
+  },
+  "grapple_impact": {
+    "category": "player",
+    "sounds": [
+      { "name": "thaumcraft:urnbreak", "stream": false }
+    ]
+  },
     "whispers": {
         "category": "ambient",
         "sounds": [

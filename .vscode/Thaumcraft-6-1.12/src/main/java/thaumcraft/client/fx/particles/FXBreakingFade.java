@@ -78,3 +78,4 @@ public class FXBreakingFade extends ParticleBreaking
         motionZ = motionZ / f2 * f * 0.9640000000596046;
     }
 }
+

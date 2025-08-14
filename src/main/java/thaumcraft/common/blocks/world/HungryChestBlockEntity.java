@@ -120,3 +120,4 @@ public class HungryChestBlockEntity extends TileEntity implements ITickableTileE
 		this.load(getBlockState(), pkt.getTag());
 	}
 } 
+

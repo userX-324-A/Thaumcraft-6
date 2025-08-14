@@ -50,3 +50,4 @@ public class BlockTranslucent extends BlockTC
         return false;
     }
 }
+

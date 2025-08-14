@@ -16,3 +16,4 @@ public class AidBasicEldritch implements ITheorycraftAid
         return new Class[] { CardRealization.class, CardRevelation.class, CardTruth.class };
     }
 }
+

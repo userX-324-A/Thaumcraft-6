@@ -141,3 +141,4 @@ public class RenderCultist extends RenderBiped<EntityCultist>
         fl = new ResourceLocation("thaumcraft", "textures/misc/wispy.png");
     }
 }
+

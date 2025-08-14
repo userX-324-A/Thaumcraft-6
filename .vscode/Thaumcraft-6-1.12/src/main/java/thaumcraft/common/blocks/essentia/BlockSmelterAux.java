@@ -85,3 +85,4 @@ public class BlockSmelterAux extends BlockTC implements IBlockFacingHorizontal
         return false;
     }
 }
+

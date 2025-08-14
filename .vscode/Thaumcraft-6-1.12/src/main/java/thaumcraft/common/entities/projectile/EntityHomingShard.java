@@ -171,3 +171,4 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
         STRENGTH = EntityDataManager.createKey(EntityHomingShard.class, DataSerializers.BYTE);
     }
 }
+

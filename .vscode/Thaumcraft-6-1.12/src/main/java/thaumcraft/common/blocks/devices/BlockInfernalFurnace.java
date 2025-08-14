@@ -135,3 +135,4 @@ public class BlockInfernalFurnace extends BlockTCDevice implements IBlockFacingH
         BlockInfernalFurnace.ignore = false;
     }
 }
+

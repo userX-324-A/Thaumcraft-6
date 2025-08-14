@@ -190,3 +190,4 @@ public class FXBoreStream extends Particle
         TEX0 = new ResourceLocation("thaumcraft", "textures/misc/essentia.png");
     }
 }
+

@@ -56,3 +56,4 @@ public class FocusMediumCloud extends FocusMedium
         return 0.5f;
     }
 }
+

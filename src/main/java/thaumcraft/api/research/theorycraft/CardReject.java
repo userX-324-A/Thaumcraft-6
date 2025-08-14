@@ -58,3 +58,4 @@ public class CardReject extends TheorycraftCard {
     }
 }
 
+

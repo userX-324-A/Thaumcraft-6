@@ -33,3 +33,4 @@ public class ItemCausalityCollapser extends ItemTCBase
         return (ActionResult<ItemStack>)new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
     }
 }
+

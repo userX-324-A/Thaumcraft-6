@@ -48,7 +48,7 @@ public final class SealRenderer {
                 ms.pushPose();
                 ms.translate(-camX, -camY, -camZ);
                 Matrix4f mat = ms.last().pose();
-                IVertexBuilder vtx = buf.getBuffer(RenderType.text(new ResourceLocation(Thaumcraft.MODID, "textures/misc/seal_area.png")));
+                IVertexBuilder vtx = buf.getBuffer(RenderType.text(new ResourceLocation(Thaumcraft.MODID, "misc/seal_area.png")));
                 float a = 0.25f;
                 float minX = (float) box.minX;
                 float minY = (float) (box.maxY + 0.01);
@@ -65,5 +65,6 @@ public final class SealRenderer {
         buf.endBatch();
     }
 }
+
 
 

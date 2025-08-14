@@ -24,3 +24,4 @@ public class ArcaneBoreBlock extends Block implements IForgeBlock {
         return thaumcraft.common.registers.ModBlockEntities.ARCANE_BORE.get().create();
     }
 }
+

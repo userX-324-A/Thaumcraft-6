@@ -19,3 +19,4 @@ public interface IAspectSource extends IAspectContainer {
 	public boolean isBlocked();
 	
 }
+

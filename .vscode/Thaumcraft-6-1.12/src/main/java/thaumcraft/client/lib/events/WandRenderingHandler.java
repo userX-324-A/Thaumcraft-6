@@ -455,3 +455,4 @@ public class WandRenderingHandler
         WandRenderingHandler.radialHudScale = 0.0f;
     }
 }
+

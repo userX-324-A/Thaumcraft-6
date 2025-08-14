@@ -8,10 +8,11 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public final class CurioItems {
         public CloudRingItem(Item.Properties props) { super(props); }
 
         @Override
-        public void inventoryTick(ItemStack stack, World level, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+        public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World level, @Nonnull net.minecraft.entity.Entity entity, int slot, boolean selected) {
             if (level.isClientSide) return;
             if (!(entity instanceof PlayerEntity)) return;
             PlayerEntity p = (PlayerEntity) entity;
@@ -37,9 +38,9 @@ public final class CurioItems {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
             super.appendHoverText(stack, level, lines, flag);
-            lines.add(new StringTextComponent("While equipped: Slow falling when falling"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.cloud_ring"));
         }
     }
 
@@ -47,10 +48,10 @@ public final class CurioItems {
         public UndyingCharmItem(Item.Properties props) { super(props); }
 
         @Override
-        public boolean canBeHurtBy(DamageSource source) { return super.canBeHurtBy(source); }
+        public boolean canBeHurtBy(@Nonnull DamageSource source) { return super.canBeHurtBy(source); }
 
         @Override
-        public void inventoryTick(ItemStack stack, World level, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+        public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World level, @Nonnull net.minecraft.entity.Entity entity, int slot, boolean selected) {
             if (level.isClientSide) return;
             if (!(entity instanceof PlayerEntity)) return;
             PlayerEntity p = (PlayerEntity) entity;
@@ -59,9 +60,9 @@ public final class CurioItems {
         }
 
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
             super.appendHoverText(stack, level, lines, flag);
-            lines.add(new StringTextComponent("While equipped: Prevents a fatal hit (consumes charm)"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.undying_charm"));
         }
     }
 
@@ -69,29 +70,30 @@ public final class CurioItems {
         public CuriosityRingItem(Item.Properties props) { super(props); }
 
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
             super.appendHoverText(stack, level, lines, flag);
-            lines.add(new StringTextComponent("While equipped: Small bonus to knowledge gains"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.curiosity_ring"));
         }
     }
 
     public static class VerdantCharmItem extends CurioItemBase {
         public VerdantCharmItem(Item.Properties props) { super(props); }
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
             super.appendHoverText(stack, level, lines, flag);
-            lines.add(new StringTextComponent("While equipped: Minor natural regen"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.verdant_charm"));
         }
     }
 
     public static class VoidseerCharmItem extends CurioItemBase {
         public VoidseerCharmItem(Item.Properties props) { super(props); }
         @Override
-        public void appendHoverText(ItemStack stack, @Nullable World level, List<ITextComponent> lines, ITooltipFlag flag) {
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> lines, @Nonnull ITooltipFlag flag) {
             super.appendHoverText(stack, level, lines, flag);
-            lines.add(new StringTextComponent("While equipped: Chance to resist warp effects"));
+            lines.add(new TranslationTextComponent("tooltip.thaumcraft.voidseer_charm"));
         }
     }
 }
+
 
 

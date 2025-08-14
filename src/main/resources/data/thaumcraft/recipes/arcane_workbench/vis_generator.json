@@ -1,5 +1,5 @@
 {
-  "type": "thaumcraft:arcane_workbench",
+  "type": "thaumcraft:arcane_shaped",
   "pattern": [
     "WSW",
     "EPE",
@@ -12,9 +12,7 @@
     "S": {
       "item": "minecraft:redstone"
     },
-    "E": {
-      "item": "thaumcraft:nugget_rareearth"
-    },
+    "E": { "item": "thaumcraft:quartz_nugget" },
     "P": {
       "item": "minecraft:piston"
     },
@@ -27,10 +25,7 @@
     "count": 1
   },
   "vis": 25,
-  "crystals": {
-    "fire": 1,
-    "order": 1
-  }
+  "crystals": { "ignis": 1, "ordo": 1 }
 }
 
 

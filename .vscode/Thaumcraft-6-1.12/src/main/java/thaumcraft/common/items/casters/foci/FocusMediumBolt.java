@@ -70,3 +70,4 @@ public class FocusMediumBolt extends FocusMediumTouch
         return true;
     }
 }
+

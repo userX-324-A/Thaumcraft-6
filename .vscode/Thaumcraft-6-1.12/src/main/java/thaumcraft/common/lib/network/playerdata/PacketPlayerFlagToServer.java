@@ -46,3 +46,4 @@ public class PacketPlayerFlagToServer implements IMessage, IMessageHandler<Packe
         return null;
     }
 }
+

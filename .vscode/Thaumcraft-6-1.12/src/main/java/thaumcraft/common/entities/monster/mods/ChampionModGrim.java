@@ -37,3 +37,4 @@ public class ChampionModGrim implements IChampionModifierEffect
         GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
     }
 }
+

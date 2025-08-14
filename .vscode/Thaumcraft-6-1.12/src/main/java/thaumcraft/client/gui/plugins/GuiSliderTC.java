@@ -145,3 +145,4 @@ public class GuiSliderTC extends GuiButton
         String getText(int p0, String p1, float p2);
     }
 }
+

@@ -18,3 +18,4 @@ public class AidBeacon implements ITheorycraftAid
         return new Class[] { CardBeacon.class };
     }
 }
+

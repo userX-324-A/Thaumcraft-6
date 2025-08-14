@@ -190,3 +190,4 @@ public interface IPlayerKnowledge extends INBTSerializable<NBTTagCompound>
 	
 	
 }
+

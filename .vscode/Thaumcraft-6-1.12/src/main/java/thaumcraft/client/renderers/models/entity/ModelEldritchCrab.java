@@ -183,3 +183,4 @@ public class ModelEldritchCrab extends ModelBase
         LClaw1.rotateAngleX = -MathHelper.sin(entity.ticksExisted / 4.1f) * 0.125f;
     }
 }
+

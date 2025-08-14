@@ -38,3 +38,4 @@ public class MeshPart
         indices.add(d);
     }
 }
+

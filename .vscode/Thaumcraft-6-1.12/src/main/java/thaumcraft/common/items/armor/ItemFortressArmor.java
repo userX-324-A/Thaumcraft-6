@@ -167,3 +167,4 @@ public class ItemFortressArmor extends ItemArmor implements ISpecialArmor, IGogg
         return itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("goggles");
     }
 }
+

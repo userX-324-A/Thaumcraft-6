@@ -45,3 +45,4 @@ public class RenderTaintCrawler extends RenderLiving
         textures = new ResourceLocation("thaumcraft", "textures/entity/crawler.png");
     }
 }
+

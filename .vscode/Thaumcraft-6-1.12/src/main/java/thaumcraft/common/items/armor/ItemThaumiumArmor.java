@@ -63,3 +63,4 @@ public class ItemThaumiumArmor extends ItemArmor implements IThaumcraftItems
         return stack2.isItemEqual(new ItemStack(ItemsTC.ingots, 1, 0)) || super.getIsRepairable(stack1, stack2);
     }
 }
+

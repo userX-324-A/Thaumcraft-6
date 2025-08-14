@@ -11,3 +11,4 @@ public interface IInteractWithCaster {
     boolean onCasterRightClick(World world, ItemStack casterStack, PlayerEntity player, BlockPos pos, Direction side, Hand hand);
 }
 
+

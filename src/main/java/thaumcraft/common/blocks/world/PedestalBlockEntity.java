@@ -58,3 +58,4 @@ public class PedestalBlockEntity extends TileEntity {
         return super.save(tag);
     }
 }
+

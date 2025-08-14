@@ -72,3 +72,4 @@ public class RecipeCandleDye extends SpecialRecipe {
     public IRecipeSerializer<?> getSerializer() { return ModRecipes.CANDLE_DYE.get(); }
 }
 
+

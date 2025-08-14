@@ -119,3 +119,4 @@ public class TileDioptraRenderer extends TileEntitySpecialRenderer
         return colors;
     }
 }
+

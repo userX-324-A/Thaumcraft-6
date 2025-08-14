@@ -79,3 +79,4 @@ public class RecipeJarLabel extends SpecialRecipe {
     public IRecipeSerializer<?> getSerializer() { return thaumcraft.common.registers.ModRecipes.JAR_LABEL.get(); }
 }
 
+

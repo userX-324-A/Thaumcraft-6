@@ -9,3 +9,4 @@ public class TileTubeRestrict extends TileTube
         super.calculateSuction(filter, true, dir);
     }
 }
+

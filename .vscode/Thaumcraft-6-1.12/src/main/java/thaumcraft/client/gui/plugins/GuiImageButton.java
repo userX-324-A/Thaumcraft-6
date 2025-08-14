@@ -103,7 +103,7 @@ public class GuiImageButton extends GuiButton
         int m = 8;
         if (description != null) {
             m = 0;
-            text.add("§o§9" + description);
+            text.add("o9" + description);
         }
         UtilsFX.drawCustomTooltip(screen, fontrenderer, text, xx + 4, yy + m, -99);
         zLevel -= 90.0f;
@@ -116,3 +116,4 @@ public class GuiImageButton extends GuiButton
         return active && enabled && visible && mouseX >= x - width / 2 && mouseY >= y - height / 2 && mouseX < x - width / 2 + width && mouseY < y - height / 2 + height;
     }
 }
+

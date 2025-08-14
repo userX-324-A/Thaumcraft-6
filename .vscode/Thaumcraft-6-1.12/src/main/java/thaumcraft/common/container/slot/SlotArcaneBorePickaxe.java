@@ -19,3 +19,4 @@ public class SlotArcaneBorePickaxe extends SlotMobEquipment
     public void onSlotChanged() {
     }
 }
+

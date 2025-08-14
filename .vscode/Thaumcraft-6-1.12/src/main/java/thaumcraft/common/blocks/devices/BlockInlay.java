@@ -393,3 +393,4 @@ public class BlockInlay extends BlockTC implements IInfusionStabiliserExt
         }
     }
 }
+

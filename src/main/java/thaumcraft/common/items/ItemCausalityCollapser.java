@@ -52,16 +52,19 @@ public class ItemCausalityCollapser extends Item {
             player.getCooldowns().addCooldown(this, cooldownTicks);
         }
         // Visual hint
-        ((net.minecraft.world.server.ServerWorld) level).sendParticles(net.minecraft.particles.ParticleTypes.END_ROD,
-                pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
-                80, 2.0, 0.8, 2.0, 0.05);
-        ((net.minecraft.world.server.ServerWorld) level).sendParticles(net.minecraft.particles.ParticleTypes.PORTAL,
-                pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                40, 1.2, 0.4, 1.2, 0.05);
+        if (thaumcraft.common.config.ModConfig.CLIENT.enableParticles.get()) {
+            ((net.minecraft.world.server.ServerWorld) level).sendParticles(net.minecraft.particles.ParticleTypes.END_ROD,
+                    pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
+                    80, 2.0, 0.8, 2.0, 0.05);
+            ((net.minecraft.world.server.ServerWorld) level).sendParticles(net.minecraft.particles.ParticleTypes.PORTAL,
+                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    40, 1.2, 0.4, 1.2, 0.05);
+        }
         ItemStack stack = ctx.getItemInHand();
         if (!stack.isEmpty() && (player == null || !player.isCreative())) stack.hurtAndBreak(1, player, p -> {});
         return ActionResultType.CONSUME;
     }
 }
+
 
 

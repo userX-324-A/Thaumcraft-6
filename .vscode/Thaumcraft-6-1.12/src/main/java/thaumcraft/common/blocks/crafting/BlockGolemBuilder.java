@@ -108,3 +108,4 @@ public class BlockGolemBuilder extends BlockTCDevice implements IBlockFacingHori
         BlockGolemBuilder.ignore = false;
     }
 }
+

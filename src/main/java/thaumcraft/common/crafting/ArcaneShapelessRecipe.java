@@ -89,3 +89,4 @@ public class ArcaneShapelessRecipe extends ShapelessRecipe implements IArcaneRec
         }
     }
 } 
+

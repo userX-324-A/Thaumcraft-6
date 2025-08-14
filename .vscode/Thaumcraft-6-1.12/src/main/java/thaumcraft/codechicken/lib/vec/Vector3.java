@@ -466,3 +466,4 @@ public class Vector3 implements Copyable<Vector3>
         Vector3.center = new Vector3(0.5, 0.5, 0.5);
     }
 }
+

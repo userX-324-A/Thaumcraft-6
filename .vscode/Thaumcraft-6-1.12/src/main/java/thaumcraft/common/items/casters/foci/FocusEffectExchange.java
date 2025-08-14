@@ -94,3 +94,4 @@ public class FocusEffectExchange extends FocusEffect implements IFocusBlockPicke
         caster.world.playSound(null, caster.getPosition().up(), SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 0.2f, 2.0f + (float)(caster.world.rand.nextGaussian() * 0.05000000074505806));
     }
 }
+

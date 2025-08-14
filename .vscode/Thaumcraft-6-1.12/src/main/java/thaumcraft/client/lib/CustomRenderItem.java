@@ -82,3 +82,4 @@ public class CustomRenderItem extends RenderItem
         Minecraft.getMinecraft().getRenderItem().onResourceManagerReload(resourceManager);
     }
 }
+

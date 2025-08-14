@@ -50,3 +50,4 @@ public class BlockPlantCinderpearl extends BlockBush
         return Block.EnumOffsetType.XZ;
     }
 }
+

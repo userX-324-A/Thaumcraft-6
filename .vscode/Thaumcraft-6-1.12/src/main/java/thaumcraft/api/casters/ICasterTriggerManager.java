@@ -15,3 +15,4 @@ public interface ICasterTriggerManager {
 			BlockPos pos, EnumFacing side, int event);
 	
 }
+

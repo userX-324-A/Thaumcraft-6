@@ -1,0 +1,10 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "thaumcraft:block/plank_greatwood",
+    "top": "thaumcraft:block/plank_greatwood",
+    "side": "thaumcraft:block/plank_greatwood"
+  }
+}
+
+

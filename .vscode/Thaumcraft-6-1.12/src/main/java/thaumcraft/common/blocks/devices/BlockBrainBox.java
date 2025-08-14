@@ -91,3 +91,4 @@ public class BlockBrainBox extends BlockTC implements IBlockFacingHorizontal, IB
         return new AxisAlignedBB(0.1875, 0.1875, 0.1875, 0.8125, 0.8125, 0.8125);
     }
 }
+

@@ -98,3 +98,4 @@ public class Rectangle4i
         return w * h;
     }
 }
+

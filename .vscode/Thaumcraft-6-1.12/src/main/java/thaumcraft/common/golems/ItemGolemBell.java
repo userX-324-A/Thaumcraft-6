@@ -193,3 +193,4 @@ public class ItemGolemBell extends ItemTCBase implements ISealDisplayer
         return new RayTraceResult(vec9.addVector(pos.getX(), pos.getY(), pos.getZ()), enumfacing, pos);
     }
 }
+

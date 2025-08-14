@@ -81,3 +81,4 @@ public class CraftingEvents implements IFuelHandler
         }
     }
 }
+

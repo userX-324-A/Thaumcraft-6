@@ -227,3 +227,4 @@ public class EntityGrapple extends EntityThrowable implements IEntityAdditionalS
         EntityGrapple.grapples = new HashMap<Integer, Integer>();
     }
 }
+

@@ -12,3 +12,4 @@ public interface IArcaneRecipe extends IRecipe<CraftingInventory> {
     AspectList getCrystals();
 }
 
+

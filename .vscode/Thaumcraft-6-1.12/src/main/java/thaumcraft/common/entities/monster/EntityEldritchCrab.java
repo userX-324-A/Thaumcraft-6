@@ -242,3 +242,4 @@ public class EntityEldritchCrab extends EntityMob implements IEldritchMob
         RIDING = EntityDataManager.createKey(EntityEldritchCrab.class, DataSerializers.VARINT);
     }
 }
+

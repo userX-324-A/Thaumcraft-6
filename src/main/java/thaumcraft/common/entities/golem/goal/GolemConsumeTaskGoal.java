@@ -54,3 +54,4 @@ public class GolemConsumeTaskGoal extends Goal {
 }
 
 
+

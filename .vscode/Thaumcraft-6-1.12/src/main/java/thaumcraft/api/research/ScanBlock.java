@@ -36,3 +36,4 @@ public class ScanBlock implements IScanThing {
 		return research;
 	}
 }
+

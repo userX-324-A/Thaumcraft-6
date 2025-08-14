@@ -48,3 +48,4 @@ public abstract class Transformation extends ITransformation<Vector3, Transforma
         operationIndex = CCRenderState.registerOperation();
     }
 }
+

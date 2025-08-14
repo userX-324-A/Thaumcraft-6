@@ -74,3 +74,4 @@ public class Vertex5 implements Copyable<Vertex5>
         return this;
     }
 }
+

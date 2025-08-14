@@ -322,3 +322,4 @@ public class SealBaseGUI extends GuiContainer
         }
     }
 }
+

@@ -192,3 +192,4 @@ public class SealUse extends SealFiltered implements ISealConfigToggles
         props[indx].setValue(value);
     }
 }
+

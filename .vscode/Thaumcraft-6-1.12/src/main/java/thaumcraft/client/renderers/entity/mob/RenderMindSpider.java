@@ -48,3 +48,4 @@ public class RenderMindSpider extends RenderSpider
         GL11.glDepthMask(true);
     }
 }
+

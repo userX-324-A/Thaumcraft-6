@@ -257,3 +257,4 @@ public class EntityTaintSwarm extends EntityMob implements ITaintedMob
         SUMMONED = EntityDataManager.createKey(EntityTaintSwarm.class, DataSerializers.BOOLEAN);
     }
 }
+

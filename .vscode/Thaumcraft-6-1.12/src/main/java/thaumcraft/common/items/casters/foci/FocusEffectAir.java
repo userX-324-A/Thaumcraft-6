@@ -97,3 +97,4 @@ public class FocusEffectAir extends FocusEffect
         caster.world.playSound(null, caster.getPosition().up(), SoundsTC.wind, SoundCategory.PLAYERS, 0.125f, 2.0f);
     }
 }
+

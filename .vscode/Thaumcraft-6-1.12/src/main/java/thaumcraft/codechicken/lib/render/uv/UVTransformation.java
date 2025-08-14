@@ -36,3 +36,4 @@ public abstract class UVTransformation extends ITransformation<UV, UVTransformat
         operationIndex = CCRenderState.registerOperation();
     }
 }
+

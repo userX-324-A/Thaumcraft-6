@@ -1,22 +1,9 @@
 {
-    
-    "forge_marker": 1,
-    "variants": {
-        "half": { 
-            "bottom": { "model": "minecraft:half_slab" }, 
-            "top": { "model": "minecraft:upper_slab" } 
-        },
-        "variant": {
-            "default": {
-                "textures": {
-                    "particle": "thaumcraft:block/plank_greatwood",
-                    "bottom": "thaumcraft:block/plank_greatwood",
-                    "top": "thaumcraft:block/plank_greatwood",
-                    "side": "thaumcraft:block/plank_greatwood"
-                }
-            }
-        }        
-    }
+  "variants": {
+    "type=bottom": { "model": "thaumcraft:block/slab_greatwood" },
+    "type=top":    { "model": "thaumcraft:block/slab_greatwood", "x": 180 },
+    "type=double": { "model": "minecraft:block/oak_planks" }
+  }
 }
 
 

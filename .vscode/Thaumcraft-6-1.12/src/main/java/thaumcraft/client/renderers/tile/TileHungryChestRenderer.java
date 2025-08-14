@@ -86,3 +86,4 @@ public class TileHungryChestRenderer extends TileEntitySpecialRenderer
         textureNormal = new ResourceLocation("thaumcraft", "textures/models/chesthungry.png");
     }
 }
+

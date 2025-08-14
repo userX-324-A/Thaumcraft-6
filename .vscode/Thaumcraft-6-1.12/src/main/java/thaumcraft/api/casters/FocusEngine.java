@@ -174,3 +174,4 @@ public class FocusEngine {
 	private static ArrayList<String> damageResistList = new ArrayList<>();
 
 }
+

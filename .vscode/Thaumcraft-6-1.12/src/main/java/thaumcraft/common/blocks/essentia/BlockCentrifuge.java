@@ -34,3 +34,4 @@ public class BlockCentrifuge extends BlockTCDevice
         return BlockFaceShape.UNDEFINED;
     }
 }
+

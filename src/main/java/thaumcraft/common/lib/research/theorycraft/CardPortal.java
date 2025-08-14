@@ -51,3 +51,4 @@ public class CardPortal extends TheorycraftCard
     }
 }
 
+

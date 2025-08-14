@@ -65,3 +65,4 @@ public class ScanGeneric implements IScanThing
     }
 }
 
+

@@ -51,3 +51,4 @@ public class EntityCausalityCollapser extends EntityThrowable
         }
     }
 }
+

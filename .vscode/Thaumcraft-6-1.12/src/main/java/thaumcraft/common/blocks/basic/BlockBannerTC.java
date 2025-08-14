@@ -163,3 +163,4 @@ public class BlockBannerTC extends BlockTC implements ITileEntityProvider
         }
     }
 }
+

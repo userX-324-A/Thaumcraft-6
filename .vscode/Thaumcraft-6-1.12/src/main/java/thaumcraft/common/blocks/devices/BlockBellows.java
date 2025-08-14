@@ -57,3 +57,4 @@ public class BlockBellows extends BlockTCDevice implements IBlockFacing, IBlockE
         return bs;
     }
 }
+

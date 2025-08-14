@@ -424,3 +424,4 @@ public class GuiGolemBuilder extends GuiContainer
         GuiGolemBuilder.addonIndex = 0;
     }
 }
+

@@ -70,3 +70,4 @@ public class ItemChunksEdible extends ItemFood implements IThaumcraftItems
         return new ModelResourceLocation("thaumcraft:chunk", variant);
     }
 }
+

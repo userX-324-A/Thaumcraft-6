@@ -100,3 +100,4 @@ public class ModelArcaneBore extends ModelBase
         base.rotateAngleX = headyaw / 57.295776f;
     }
 }
+

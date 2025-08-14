@@ -44,3 +44,4 @@ public class SealBreakerAdvanced extends SealBreaker
         return new EnumGolemTrait[] { EnumGolemTrait.BREAKER, EnumGolemTrait.SMART };
     }
 }
+

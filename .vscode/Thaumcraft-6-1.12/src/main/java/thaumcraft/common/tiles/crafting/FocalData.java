@@ -10,3 +10,4 @@ public class FocalData
         hexes = new HashMap<String, String>();
     }
 }
+

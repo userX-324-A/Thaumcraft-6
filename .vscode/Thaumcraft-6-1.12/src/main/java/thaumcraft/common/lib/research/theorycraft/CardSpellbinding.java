@@ -43,3 +43,4 @@ public class CardSpellbinding extends TheorycraftCard
         return true;
     }
 }
+

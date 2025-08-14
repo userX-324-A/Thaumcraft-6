@@ -64,3 +64,4 @@ public class TileThaumatoriumRenderer extends TileEntitySpecialRenderer
         renderTileEntityAt((TileThaumatorium)te, x, y, z, partialTicks);
     }
 }
+

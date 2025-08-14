@@ -39,3 +39,4 @@ public class CardScripting extends TheorycraftCard
         return false;
     }
 }
+

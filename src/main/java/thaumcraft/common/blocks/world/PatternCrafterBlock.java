@@ -20,3 +20,4 @@ public class PatternCrafterBlock extends Block implements IForgeBlock {
     }
 }
 
+

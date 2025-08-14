@@ -45,3 +45,4 @@ public class BlockGrassAmbient extends BlockGrass
         }
     }
 }
+

@@ -81,3 +81,4 @@ public class BlockFluidPure extends BlockFluidClassic
         FLUID_PURE_MATERIAL = new MaterialLiquid(MapColor.SILVER);
     }
 }
+

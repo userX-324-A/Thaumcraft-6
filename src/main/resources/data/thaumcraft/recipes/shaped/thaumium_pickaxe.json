@@ -2,16 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
-    " # ",
-    " # "
+    " S ",
+    " S "
   ],
   "key": {
     "X": {
       "item": "thaumcraft:thaumium_ingot"
     },
-    " # ": {
-      "item": "minecraft:stick"
-    }
+    "S": { "item": "minecraft:stick" }
   },
   "result": {
     "item": "thaumcraft:thaumium_pickaxe"

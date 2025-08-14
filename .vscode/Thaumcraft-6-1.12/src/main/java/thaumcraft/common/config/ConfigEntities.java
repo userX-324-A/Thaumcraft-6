@@ -251,3 +251,4 @@ public class ConfigEntities
         ConfigEntities.championModWhitelist = new HashMap<Class, Integer>();
     }
 }
+

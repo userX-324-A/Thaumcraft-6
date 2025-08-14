@@ -41,14 +41,18 @@ public class AuraHelper {
 
     public static boolean drainVis(World world, BlockPos pos, float amount, boolean simulate) {
         if (world instanceof ServerWorld) {
-            return AuraWorldData.get((ServerWorld) world).drainVis(pos, amount, simulate);
+            double mul = thaumcraft.common.config.ModConfig.COMMON.auraDrainMultiplier.get();
+            float tuned = (float) (amount * mul);
+            return AuraWorldData.get((ServerWorld) world).drainVis(pos, tuned, simulate);
         }
         return false;
     }
 
     public static float drainVis(World world, BlockPos pos, float amount) {
         if (world instanceof ServerWorld) {
-            return AuraWorldData.get((ServerWorld) world).drainVis(pos, amount);
+            double mul = thaumcraft.common.config.ModConfig.COMMON.auraDrainMultiplier.get();
+            float tuned = (float) (amount * mul);
+            return AuraWorldData.get((ServerWorld) world).drainVis(pos, tuned);
         }
         return 0f;
     }
@@ -75,4 +79,5 @@ public class AuraHelper {
         return false;
     }
 }
+
 

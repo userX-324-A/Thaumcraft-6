@@ -112,3 +112,4 @@ public class ContainerGolemBuilder extends Container
         ContainerGolemBuilder.redo = false;
     }
 }
+

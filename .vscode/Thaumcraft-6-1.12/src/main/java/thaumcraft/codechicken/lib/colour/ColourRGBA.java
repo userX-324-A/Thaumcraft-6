@@ -54,3 +54,4 @@ public class ColourRGBA extends Colour
         return r << 24 | g << 16 | b << 8 | (c & 0xFF);
     }
 }
+

@@ -35,3 +35,4 @@ public class ChampionModInfested implements IChampionModifierEffect
     public void preRender(EntityLivingBase boss, RenderLivingBase renderLivingBase) {
     }
 }
+

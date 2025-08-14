@@ -86,3 +86,4 @@ public class ItemGrappleGun extends ItemTCBase implements IRechargable
         return newStack.getItem() != oldStack.getItem();
     }
 }
+

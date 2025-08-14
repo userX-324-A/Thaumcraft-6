@@ -18,3 +18,4 @@ public interface IStabilizable {
 		VERY_STABLE, STABLE, UNSTABLE, VERY_UNSTABLE 
 	}
 }
+

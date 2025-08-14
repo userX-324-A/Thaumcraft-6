@@ -266,3 +266,4 @@ public class BlockJar extends BlockTCTile implements ILabelable
         return super.getComparatorInputOverride(state, world, pos);
     }
 }
+

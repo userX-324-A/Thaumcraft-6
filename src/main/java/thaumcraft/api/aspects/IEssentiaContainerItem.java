@@ -42,3 +42,4 @@ public interface IEssentiaContainerItem {
 	@Override
 	public boolean ignoreContainedAspects() {return false;}
 */
+

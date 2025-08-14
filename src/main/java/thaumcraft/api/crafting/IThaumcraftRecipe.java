@@ -6,3 +6,4 @@ public interface IThaumcraftRecipe  {
 	public String getGroup();
 }
 
+
