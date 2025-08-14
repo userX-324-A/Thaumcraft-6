@@ -45,6 +45,33 @@ public class ArcaneEarBlockEntity extends TileEntity implements ITickableTileEnt
         tag.putInt("Note", note);
         return super.save(tag);
     }
+
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+		tag.putString("Mode", mode.name());
+		tag.putInt("Note", note);
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+		try { mode = Mode.valueOf(tag.getString("Mode")); } catch (Exception ignored) {}
+		note = tag.getInt("Note");
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 }
 
 

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:void_nuggetthaumcraft:void_nuggetthaumcraft:void_nuggetthaumcraft:void_nugget"
+    "replace": false,
+    "values": [
+        "thaumcraft:void_nugget"
+    ]
 }

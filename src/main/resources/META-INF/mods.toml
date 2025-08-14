@@ -24,6 +24,27 @@ Thaumcraft introduces the arcane arts to Minecraft. Explore aspects, research, a
 [[dependencies.thaumcraft]]
     modId="curios"
     mandatory=false
-    versionRange="[4.0.8.2,)"
+    versionRange="[1.16.5-4.0.5.3,)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.thaumcraft]]
+    modId="jei"
+    mandatory=false
+    versionRange="[7.7.0,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.thaumcraft]]
+    modId="jade"
+    mandatory=false
+    versionRange="[2.8.0,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.thaumcraft]]
+    modId="wthit"
+    mandatory=false
+    versionRange="[2.10.0,)"
+    ordering="NONE"
+    side="CLIENT"

@@ -1,0 +1,10 @@
+entity.BrainyZombie.name
+entity.EldritchCrab.name
+entity.EldritchGuardian.name
+entity.Firebat.name
+entity.Taintacle.name
+entity.TaintCrawler.name
+entity.TaintSeed.name
+entity.TaintSwarm.name
+entity.ThaumSlime.name
+entity.Wisp.name

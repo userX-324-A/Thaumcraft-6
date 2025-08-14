@@ -112,6 +112,37 @@ public class EssentiaCentrifugeBlockEntity extends TileEntity implements ITickab
         return super.save(tag);
     }
 
+    @Override
+    public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+        net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+        Aspect type = tank.getEssentiaType(null);
+        if (type != null) tag.putString("aspect", type.getTag());
+        tag.putInt("amount", tank.getEssentiaAmount(null));
+        tag.putInt("suction", tank.getSuction());
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+        super.handleUpdateTag(state, tag);
+        Aspect type = tag.contains("aspect") ? Aspect.getAspect(tag.getString("aspect")) : null;
+        int amount = tag.getInt("amount");
+        tank.setStored(type, amount);
+        tank.setSuction(tag.getInt("suction"));
+    }
+
+    @Override
+    public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+        net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+        save(tag);
+        return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+        this.load(getBlockState(), pkt.getTag());
+    }
+
     private void setChangedAndUpdate() {
         setChanged();
         if (level != null && !level.isClientSide) {

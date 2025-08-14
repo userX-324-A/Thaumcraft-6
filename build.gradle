@@ -24,8 +24,9 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            jvmArgs '-XX:+UnlockDiagnosticVMOptions', '-XX:+DebugNonSafepoints'
             mods {
                 thaumcraft {
                     source sourceSets.main
@@ -35,8 +36,10 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            args 'nogui'
+            jvmArgs '-XX:+UnlockDiagnosticVMOptions', '-XX:+DebugNonSafepoints'
             mods {
                 thaumcraft {
                     source sourceSets.main
@@ -62,17 +65,15 @@ minecraft {
 sourceSets {
     main {
         java {
-            // Enable theorycraft now that a minimal subset compiles
-            // Casters now ported enough to compile
-            // Casters are enabled for port work
-            // Legacy arcane workbench removed; using common/* implementation
-            // Removed legacy duplicate registry class
-            // Re-enable AspectSourceHelper now that it is ported to 1.16.5 TE APIs
-            // Caster messages are now stubbed to NBT toggles; safe to include during port
-            // Temporarily exclude unported legacy utils; keep modernized ones like TagUtils
-            // BlockUtils ported to 1.16.5
-            // CropUtils has been ported
-            // Utils and EntityUtils ported
+            // Enable optional integrations only when building with -PincludeOptionalMods=true
+            if (project.hasProperty('includeOptionalMods') && project.property('includeOptionalMods').toString().toBoolean()) {
+                srcDirs += ['src/integration/java']
+            }
+        }
+        resources {
+            if (project.hasProperty('includeOptionalMods') && project.property('includeOptionalMods').toString().toBoolean()) {
+                srcDirs += ['src/integration/resources']
+            }
         }
     }
 }
@@ -102,12 +103,21 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
-    // Optional: Curios API for baubles-like compatibility (only used if present)
-    compileOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3')
-    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3')
-    // Optional: JEI for dev runtime integration/testing
-    compileOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152:api')
-    runtimeOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
+    // Optional: Curios and JEI are gated behind -PincludeOptionalMods=true for isolation during troubleshooting
+    if (project.hasProperty('includeOptionalMods') && project.property('includeOptionalMods').toString().toBoolean()) {
+        // Curios API for baubles-like compatibility (only used if present)
+        compileOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.8.2')
+        runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.16.5-4.0.8.2')
+        // JEI for dev runtime integration/testing
+        compileOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152:api')
+        runtimeOnly fg.deobf('mezz.jei:jei-1.16.5:7.7.1.152')
+        // Jade (client tooltip API)
+        compileOnly fg.deobf('snownee.jade:jade-forge:2.8.5')
+        runtimeOnly fg.deobf('snownee.jade:jade-forge:2.8.5')
+        // WTHIT (optional alternative HUD)
+        compileOnly fg.deobf('mcp.mobius.waila:wthit:2.11.3')
+        runtimeOnly fg.deobf('mcp.mobius.waila:wthit:2.11.3')
+    }
 }
 
 jar {

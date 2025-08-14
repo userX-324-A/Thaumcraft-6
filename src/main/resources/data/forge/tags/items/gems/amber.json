@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:amberthaumcraft:amberthaumcraft:amberthaumcraft:amber"
+    "replace": false,
+    "values": [
+        "thaumcraft:amber"
+    ]
 }

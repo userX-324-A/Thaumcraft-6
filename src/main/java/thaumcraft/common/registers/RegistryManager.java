@@ -36,6 +36,21 @@ public class RegistryManager {
         MENUS.register(eventBus);
         SOUNDS.register(eventBus);
         ModFeatures.FEATURES.register(eventBus);
+        // Gate biomes/structures registration behind config toggles
+        boolean registerBiomes = thaumcraft.common.config.ModConfig.COMMON.wgEnableMagicalBiomes.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableMagicalForest.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableEerie.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableOuterLands.get();
+        if (registerBiomes) {
+            thaumcraft.common.world.biome.ModBiomes.register(eventBus);
+        }
+        boolean registerStructures = thaumcraft.common.config.ModConfig.COMMON.wgEnableStructures.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableObelisks.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableMounds.get()
+                || thaumcraft.common.config.ModConfig.COMMON.wgEnableDungeons.get();
+        if (registerStructures) {
+            thaumcraft.common.worldgen.structure.ModStructures.register(eventBus);
+        }
     }
 
     @Mod.EventBusSubscriber(modid = thaumcraft.Thaumcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -91,11 +106,24 @@ public class RegistryManager {
             // Worldgen: crystals in overworld caves, low chance in nether
             net.minecraft.world.gen.GenerationStage.Decoration decoUnderground = net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_DECORATION;
             if (thaumcraft.common.config.ModConfig.COMMON.wgEnableCrystals.get() && event.getCategory() != net.minecraft.world.biome.Biome.Category.THEEND) {
-                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> visCrystals = ModFeatures.VIS_CRYSTAL_CLUSTER.get()
-                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
-                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
-                        .count(thaumcraft.common.config.ModConfig.COMMON.wgCrystalsPerChunk.get());
-                event.getGeneration().addFeature(decoUnderground, visCrystals);
+                // Feature handles attempts/nether rarity/cap; invoke once per chunk
+                if (event.getCategory() != net.minecraft.world.biome.Biome.Category.NETHER) {
+                    net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> visCrystals = ModFeatures.VIS_CRYSTAL_CLUSTER.get()
+                            .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                            .decorated(net.minecraft.world.gen.placement.Placement.RANGE.configured(
+                                    new net.minecraft.world.gen.placement.TopSolidRangeConfig(5, 5, 48)))
+                            .squared()
+                            .count(1);
+                    event.getGeneration().addFeature(decoUnderground, visCrystals);
+                } else {
+                    net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> visCrystalsNether = ModFeatures.VIS_CRYSTAL_CLUSTER.get()
+                            .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                            .decorated(net.minecraft.world.gen.placement.Placement.RANGE.configured(
+                                    new net.minecraft.world.gen.placement.TopSolidRangeConfig(10, 10, 64)))
+                            .squared()
+                            .count(1);
+                    event.getGeneration().addFeature(decoUnderground, visCrystalsNether);
+                }
             }
 
             // Worldgen: aura seeding sparse near surface
@@ -108,34 +136,82 @@ public class RegistryManager {
             }
 
             // Worldgen: trees
-            if (thaumcraft.common.config.ModConfig.COMMON.wgEnableTrees.get() && (event.getCategory() == net.minecraft.world.biome.Biome.Category.FOREST || event.getCategory() == net.minecraft.world.biome.Biome.Category.PLAINS || event.getCategory() == net.minecraft.world.biome.Biome.Category.TAIGA)) {
-                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> greatwood = ModFeatures.GREATWOOD_TREE.get()
-                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
-                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
-                        .count(thaumcraft.common.config.ModConfig.COMMON.wgGreatwoodPerChunk.get());
-                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, greatwood);
+			if (thaumcraft.common.config.ModConfig.COMMON.wgEnableTrees.get()) {
+				// Greatwood in FOREST/PLAINS/TAIGA
+				if (event.getCategory() == net.minecraft.world.biome.Biome.Category.FOREST || event.getCategory() == net.minecraft.world.biome.Biome.Category.PLAINS || event.getCategory() == net.minecraft.world.biome.Biome.Category.TAIGA) {
+					int chanceGW = thaumcraft.common.config.ModConfig.COMMON.wgGreatwoodChanceChunks.get();
+					net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> greatwood = ModFeatures.GREATWOOD_TREE.get()
+							.configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+							.decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE);
+					if (chanceGW > 0) {
+						greatwood = greatwood.decorated(net.minecraft.world.gen.placement.Placement.CHANCE.configured(new net.minecraft.world.gen.placement.ChanceConfig(chanceGW)));
+					} else {
+						greatwood = greatwood.count(thaumcraft.common.config.ModConfig.COMMON.wgGreatwoodPerChunk.get());
+					}
+					event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, greatwood);
+				}
+                // Silverwood: prefer Magical Forest when enabled; rarer in other FOREST biomes
+                if (event.getCategory() == net.minecraft.world.biome.Biome.Category.FOREST) {
+                    boolean magicalBiomesEnabled = thaumcraft.common.config.ModConfig.COMMON.wgEnableMagicalBiomes.get()
+                            && thaumcraft.common.config.ModConfig.COMMON.wgEnableMagicalForest.get();
+                    boolean isMagicalForest = false;
+                    if (magicalBiomesEnabled && event.getName() != null) {
+                        net.minecraft.util.ResourceLocation name = event.getName();
+                        isMagicalForest = name.getNamespace().equals(thaumcraft.Thaumcraft.MODID) && name.getPath().equals("magical_forest");
+                    }
 
-                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> silverwood = ModFeatures.SILVERWOOD_TREE.get()
-                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
-                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
-                        .count(thaumcraft.common.config.ModConfig.COMMON.wgSilverwoodPerChunk.get());
-                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, silverwood);
-            }
+                    int baseChance = thaumcraft.common.config.ModConfig.COMMON.wgSilverwoodChanceChunks.get();
+                    int appliedChance = baseChance;
+                    // If using chance-based spawning, bias towards Magical Forest (roughly 2x more common),
+                    // and make it rarer elsewhere to better match 1.12 feel
+                    if (baseChance > 0) {
+                        if (isMagicalForest) {
+                            appliedChance = Math.max(8, baseChance / 2);
+                        } else {
+                            // Slightly rarer outside Magical Forest
+                            appliedChance = Math.max(baseChance, (int)Math.ceil(baseChance * 1.5));
+                        }
+                    }
+
+                    net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> silverwood = ModFeatures.SILVERWOOD_TREE.get()
+                            .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+                            .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE);
+                    if (baseChance > 0) {
+                        silverwood = silverwood.decorated(net.minecraft.world.gen.placement.Placement.CHANCE.configured(new net.minecraft.world.gen.placement.ChanceConfig(appliedChance)));
+                    } else {
+                        int count = Math.max(0, thaumcraft.common.config.ModConfig.COMMON.wgSilverwoodPerChunk.get());
+                        if (isMagicalForest && count > 0) count += 1;
+                        silverwood = silverwood.count(count);
+                    }
+                    event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, silverwood);
+                }
+			}
 
             // Worldgen: plants
-            if (thaumcraft.common.config.ModConfig.COMMON.wgEnablePlants.get() && (event.getCategory() == net.minecraft.world.biome.Biome.Category.DESERT || event.getCategory() == net.minecraft.world.biome.Biome.Category.SAVANNA)) {
-                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> cinder = ModFeatures.CINDERPEARL.get()
-                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
-                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
-                        .count(thaumcraft.common.config.ModConfig.COMMON.wgCinderpearlPerChunk.get());
-                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, cinder);
-            } else if (thaumcraft.common.config.ModConfig.COMMON.wgEnablePlants.get()) {
-                net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> shimmer = ModFeatures.SHIMMERLEAF.get()
-                        .configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
-                        .decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE)
-                        .count(thaumcraft.common.config.ModConfig.COMMON.wgShimmerleafPerChunk.get());
-                event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, shimmer);
-            }
+			if (thaumcraft.common.config.ModConfig.COMMON.wgEnablePlants.get() && (event.getCategory() == net.minecraft.world.biome.Biome.Category.DESERT || event.getCategory() == net.minecraft.world.biome.Biome.Category.SAVANNA)) {
+				int chanceC = thaumcraft.common.config.ModConfig.COMMON.wgCinderpearlChanceChunks.get();
+				net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> cinder = ModFeatures.CINDERPEARL.get()
+						.configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+						.decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE);
+				if (chanceC > 0) {
+					cinder = cinder.decorated(net.minecraft.world.gen.placement.Placement.CHANCE.configured(new net.minecraft.world.gen.placement.ChanceConfig(chanceC)));
+				} else {
+					cinder = cinder.count(thaumcraft.common.config.ModConfig.COMMON.wgCinderpearlPerChunk.get());
+				}
+				event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, cinder);
+			}
+			if (thaumcraft.common.config.ModConfig.COMMON.wgEnablePlants.get() && event.getCategory() != net.minecraft.world.biome.Biome.Category.DESERT && event.getCategory() != net.minecraft.world.biome.Biome.Category.SAVANNA) {
+				int chanceS = thaumcraft.common.config.ModConfig.COMMON.wgShimmerleafChanceChunks.get();
+				net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> shimmer = ModFeatures.SHIMMERLEAF.get()
+						.configured(net.minecraft.world.gen.feature.NoFeatureConfig.INSTANCE)
+						.decorated(net.minecraft.world.gen.feature.Features.Placements.HEIGHTMAP_SQUARE);
+				if (chanceS > 0) {
+					shimmer = shimmer.decorated(net.minecraft.world.gen.placement.Placement.CHANCE.configured(new net.minecraft.world.gen.placement.ChanceConfig(chanceS)));
+				} else {
+					shimmer = shimmer.count(thaumcraft.common.config.ModConfig.COMMON.wgShimmerleafPerChunk.get());
+				}
+				event.getGeneration().addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, shimmer);
+			}
 
             if (thaumcraft.common.config.ModConfig.COMMON.wgEnablePlants.get() && event.getCategory() != net.minecraft.world.biome.Biome.Category.THEEND) {
                 net.minecraft.world.gen.feature.ConfiguredFeature<?, ?> vishroom = ModFeatures.VISHROOM.get()

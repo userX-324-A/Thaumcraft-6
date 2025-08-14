@@ -22,6 +22,7 @@ public final class AuraEvents {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (thaumcraft.common.Diag.disableAll() || thaumcraft.common.Diag.disableAuraEvents()) return;
         if (event.phase != TickEvent.Phase.END) return;
         tickCounter++;
         // Configurable cadence for aura sync to clients (HUD)
@@ -32,6 +33,9 @@ public final class AuraEvents {
         net.minecraft.server.MinecraftServer server = net.minecraftforge.fml.server.ServerLifecycleHooks.getCurrentServer();
         if (server == null) return;
         for (ServerWorld world : server.getAllLevels()) {
+            if (world == null) continue;
+            // Avoid ticking during world creation bootstrap
+            if (!world.getServer().isRunning()) continue;
             AuraWorldData data = AuraWorldData.get(world);
             for (ServerPlayerEntity player : world.players()) {
                 BlockPos pos = player.blockPosition();

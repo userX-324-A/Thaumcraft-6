@@ -1,6 +1,8 @@
 package thaumcraft.api.research;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
 public class ResearchAddendum {
@@ -15,7 +17,8 @@ public class ResearchAddendum {
 		return text;
 	}
 	
-	public String getTextLocalized() {
+    @OnlyIn(Dist.CLIENT)
+    public String getTextLocalized() {
 		return I18n.get(getText());
 	}
 	/**

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "minecraft:glass_paneminecraft:glass_paneminecraft:glass_pane"
+    "replace": false,
+    "values": [
+        "minecraft:glass_pane"
+    ]
 }

@@ -1,6 +1,8 @@
 package thaumcraft.api.golems;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
 public enum EnumGolemTrait {
@@ -42,11 +44,13 @@ public enum EnumGolemTrait {
 		this.icon = icon;
 	}
 	
-	public String getLocalizedName() {
+    @OnlyIn(Dist.CLIENT)
+    public String getLocalizedName() {
 		return I18n.get("golem.trait."+ name().toLowerCase());
 	}
 	
-	public String getLocalizedDescription() {
+    @OnlyIn(Dist.CLIENT)
+    public String getLocalizedDescription() {
 		return I18n.get("golem.trait.text."+ name().toLowerCase());
 	}
 }

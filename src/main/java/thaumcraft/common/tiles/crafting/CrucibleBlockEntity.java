@@ -2,7 +2,6 @@ package thaumcraft.common.tiles.crafting;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +23,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.ItemStack;
-import java.util.List;
 import java.util.Collection;
 
 public class CrucibleBlockEntity extends TileEntity implements ITickableTileEntity {
@@ -217,5 +215,29 @@ public class CrucibleBlockEntity extends TileEntity implements ITickableTileEnti
         if (tag.contains("Aspects")) {
             aspects.readFromNBT(tag.getCompound("Aspects"));
         }
+    }
+
+    // Client sync for visible state (heat, water level, aspects summary)
+    @Override
+    public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = new CompoundNBT();
+        save(tag);
+        return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+        this.load(getBlockState(), pkt.getTag());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = new CompoundNBT();
+        return save(tag);
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        load(state, tag);
     }
 }

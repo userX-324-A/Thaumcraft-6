@@ -82,12 +82,8 @@ public class ItemSealPlacer extends Item {
                 NetworkHooks.openGui((net.minecraft.entity.player.ServerPlayerEntity) player, (INamedContainerProvider) custom, (packetBuffer) -> {});
                 return ActionResultType.SUCCESS;
             }
-            // Client-only custom GUI support
+            // Client-only custom GUI support is handled via network on the client; avoid direct client class references here
             Object gui = existing.getSeal() == null ? null : existing.getSeal().returnGui(world, player, pos, face, existing);
-            if (gui instanceof net.minecraft.client.gui.screen.Screen) {
-                // Ask client to open its own screen via a simple container to carry context
-                // For now, fall back to default SealContainer; a custom ClientOpen message could be added later
-            }
 
             INamedContainerProvider provider = new INamedContainerProvider() {
                 @Override

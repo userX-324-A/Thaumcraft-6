@@ -7,7 +7,6 @@ import net.minecraftforge.registries.ObjectHolder;
 import java.util.HashMap;
 import java.util.Map;
 
-@ObjectHolder("thaumcraft")
 public class BlocksTC {
     public static final Map<DyeColor, Block> candles = new HashMap<>();
 }

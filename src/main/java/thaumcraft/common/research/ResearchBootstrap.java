@@ -41,7 +41,11 @@ public final class ResearchBootstrap {
 
     @SubscribeEvent
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
-        event.addListener((net.minecraft.resources.IFutureReloadListener) new ResearchReloadListener());
+        if (!thaumcraft.common.Diag.disableAll() && !thaumcraft.common.Diag.disableResearchReload()) {
+            event.addListener((net.minecraft.resources.IFutureReloadListener) new ResearchReloadListener());
+        } else {
+            thaumcraft.Thaumcraft.LOGGER.warn("Diagnostics: datapack research reload listener disabled via config");
+        }
     }
 }
 

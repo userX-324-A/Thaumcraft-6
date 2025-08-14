@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "minecraft:stoneminecraft:stoneminecraft:stone"
+    "replace": false,
+    "values": [
+        "minecraft:stone"
+    ]
 }

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:block_voidthaumcraft:block_voidthaumcraft:block_void"
+    "replace": false,
+    "values": [
+        "thaumcraft:block_void"
+    ]
 }

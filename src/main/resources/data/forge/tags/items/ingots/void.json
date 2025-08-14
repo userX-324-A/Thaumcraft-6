@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:void_ingotthaumcraft:void_ingotthaumcraft:void_ingotthaumcraft:void_ingot"
+    "replace": false,
+    "values": [
+        "thaumcraft:void_ingot"
+    ]
 }

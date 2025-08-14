@@ -57,10 +57,22 @@ public class EssentiaFilterBlockEntity extends TileEntity {
         if (tag.contains("filter")) this.filter = Aspect.getAspect(tag.getString("filter"));
         this.getCapability(EssentiaTransportCapability.ESSENTIA_TRANSPORT).ifPresent(cap -> {
             thaumcraft.api.aspects.Aspect type = tag.contains("aspect") ? Aspect.getAspect(tag.getString("aspect")) : null;
-            tank.setStored(type, tag.getInt("amount"));
+			tank.setStored(type, tag.getInt("amount"));
             tank.setSuction(tag.getInt("suction"));
         });
     }
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 
     private class FilteredTransport implements thaumcraft.api.aspects.IEssentiaTransport {
         @Override public boolean isConnectable(net.minecraft.util.Direction face) { return tank.isConnectable(face); }

@@ -29,6 +29,28 @@ public class EverfullUrnBlockEntity extends TileEntity implements ITickableTileE
             LazyOptional<IFluidHandler> fh = neighbor.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite());
             fh.ifPresent(handler -> handler.fill(new FluidStack(net.minecraft.fluid.Fluids.WATER, 50), IFluidHandler.FluidAction.EXECUTE));
         }
-    }
+	}
+
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		return super.getUpdateTag();
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 }
 

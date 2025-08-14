@@ -37,6 +37,8 @@ public class InfusionMatrixBlockEntity extends TileEntity implements ITickableTi
         this.tickCounter++;
 
         if (!this.crafting) {
+            // Throttle expensive environment scans while idle
+            if ((this.tickCounter % thaumcraft.common.config.ModConfig.COMMON.infusionScanIntervalTicks.get()) != 0) return;
             // Try to locate a valid infusion setup
             PedestalBlockEntity center = getCentralPedestal(level, worldPosition);
             if (center == null) return;
@@ -241,5 +243,29 @@ public class InfusionMatrixBlockEntity extends TileEntity implements ITickableTi
         if (activeRecipeId != null) nbt.putString("Recipe", activeRecipeId.toString());
         nbt.putInt("Delay", consumeDelay);
         return super.save(nbt);
+    }
+
+    // Client sync for visual state
+    @Override
+    public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = new CompoundNBT();
+        save(tag);
+        return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+        this.load(getBlockState(), pkt.getTag());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = new CompoundNBT();
+        return save(tag);
+    }
+
+    @Override
+    public void handleUpdateTag(net.minecraft.block.BlockState state, CompoundNBT tag) {
+        load(state, tag);
     }
 }

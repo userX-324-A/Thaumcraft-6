@@ -149,6 +149,35 @@ public class ArcaneFurnaceBlockEntity extends TileEntity implements ITickableTil
         return super.save(tag);
     }
 
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+		tag.putInt("Burn", burnTime);
+		tag.putInt("Cook", cookTime);
+		tag.putInt("CookTot", cookTimeTotal);
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+		if (tag.contains("Burn")) burnTime = tag.getInt("Burn");
+		if (tag.contains("Cook")) cookTime = tag.getInt("Cook");
+		if (tag.contains("CookTot")) cookTimeTotal = tag.getInt("CookTot");
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
+
     // Comparator helpers
     public int getCookTime() { return cookTime; }
     public int getCookTimeTotal() { return cookTimeTotal; }

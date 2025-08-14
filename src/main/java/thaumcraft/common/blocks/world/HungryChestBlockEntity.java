@@ -94,4 +94,29 @@ public class HungryChestBlockEntity extends TileEntity implements ITickableTileE
         }
         return super.getCapability(cap, side);
     }
+
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+		tag.put("Items", inventory.serializeNBT());
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+		if (tag.contains("Items")) inventory.deserializeNBT(tag.getCompound("Items"));
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 } 

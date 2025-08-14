@@ -37,7 +37,9 @@ public class TubeBlockEntity extends TileEntity implements ITickableTileEntity {
             if (mySuction <= otherSuction) continue;
             Aspect type = other.getEssentiaType(side.getOpposite());
             if (type == null) continue;
-            int moved = other.takeEssentia(type, 1, side.getOpposite());
+            int pull = Math.max(0, thaumcraft.common.config.ModConfig.COMMON.tubePullRate.get());
+            if (pull <= 0) continue;
+            int moved = other.takeEssentia(type, pull, side.getOpposite());
             if (moved > 0) {
                 tank.addEssentia(type, moved, side);
                 setChangedAndUpdate();
@@ -54,7 +56,9 @@ public class TubeBlockEntity extends TileEntity implements ITickableTileEntity {
                 int mySuction = tank.getSuctionAmount(side);
                 int otherSuction = other.getSuctionAmount(side.getOpposite());
                 if (otherSuction <= mySuction) continue;
-                int offered = Math.min(2, tank.getEssentiaAmount(side));
+                int push = Math.max(0, thaumcraft.common.config.ModConfig.COMMON.tubePushRate.get());
+                if (push <= 0) continue;
+                int offered = Math.min(push, tank.getEssentiaAmount(side));
                 if (offered <= 0) continue;
                 int accepted = other.addEssentia(stored, offered, side.getOpposite());
                 if (accepted > 0) {

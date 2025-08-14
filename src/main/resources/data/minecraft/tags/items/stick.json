@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "minecraft:stick"
+    "replace": false,
+    "values": [
+        "minecraft:stick"
+    ]
 }

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:thaumium_nuggetthaumcraft:thaumium_nuggetthaumcraft:thaumium_nuggetthaumcraft:thaumium_nugget"
+    "replace": false,
+    "values": [
+        "thaumcraft:thaumium_nugget"
+    ]
 }

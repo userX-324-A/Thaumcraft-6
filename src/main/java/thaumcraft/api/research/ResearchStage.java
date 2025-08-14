@@ -2,6 +2,8 @@ package thaumcraft.api.research;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thaumcraft.api.capabilities.IPlayerKnowledge.EnumKnowledgeType;
 
 
@@ -23,7 +25,8 @@ public class ResearchStage {
 		return text;
 	}
 	
-	public String getTextLocalized() {
+    @OnlyIn(Dist.CLIENT)
+    public String getTextLocalized() {
 		return I18n.get(getText());
 	}
 	/**

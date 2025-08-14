@@ -39,28 +39,41 @@ public class VisCrystalClusterFeature extends Feature<NoFeatureConfig> {
 
     @Override
     public boolean place(ISeedReader level, ChunkGenerator generator, Random random, BlockPos origin, NoFeatureConfig config) {
-        // Try a few candidates near origin to find stone-adjacent pockets
+        // Parity with 1.12 behavior:
+        // - attempts ~ t (8 overworld; 1 nether)
+        // - adjacency to stone-like blocks
+        // - cap total placed per chunk
+        int maxPerChunk = thaumcraft.common.config.ModConfig.COMMON.wgCrystalsMaxPerChunk.get();
+        int attempts = thaumcraft.common.config.ModConfig.COMMON.wgCrystalsAttemptsPerChunk.get();
+        // If in Nether, reduce attempts by divisor
+        net.minecraft.world.biome.Biome.Category cat = level.getBiome(origin).getBiomeCategory();
+        if (cat == net.minecraft.world.biome.Biome.Category.NETHER) {
+            int div = Math.max(1, thaumcraft.common.config.ModConfig.COMMON.wgCrystalsNetherDivisor.get());
+            attempts = Math.max(1, attempts / div);
+        }
+
         boolean placedAny = false;
-        int attempts = 6 + random.nextInt(5);
-        for (int a = 0; a < attempts; a++) {
+        int placedTotal = 0;
+        for (int a = 0; a < attempts && placedTotal < maxPerChunk; a++) {
             BlockPos base = origin.offset(random.nextInt(12) - 6, random.nextInt(20) - 10, random.nextInt(12) - 6);
             int clusterSize = 6 + random.nextInt(8);
             Block crystal = CRYSTAL_BLOCKS.get(random.nextInt(CRYSTAL_BLOCKS.size()));
-            placedAny |= placeCluster(level, random, base, clusterSize, crystal);
+            placedTotal += placeCluster(level, random, base, clusterSize, crystal, maxPerChunk - placedTotal);
+            if (placedTotal > 0) placedAny = true;
         }
         return placedAny;
     }
 
-    private boolean placeCluster(ISeedReader level, Random random, BlockPos center, int size, Block crystal) {
-        boolean placed = false;
-        for (int i = 0; i < size; i++) {
+    private int placeCluster(ISeedReader level, Random random, BlockPos center, int size, Block crystal, int remainingBudget) {
+        int placed = 0;
+        for (int i = 0; i < size && placed < remainingBudget; i++) {
             BlockPos p = center.offset(random.nextInt(3) - 1, random.nextInt(3) - 1, random.nextInt(3) - 1);
             if (!level.isEmptyBlock(p) && !canReplace(level.getBlockState(p))) continue;
             if (!isTouchingSolid(level, p)) continue;
             BlockState state = crystal.defaultBlockState();
             if (state.getBlock() instanceof FlowingFluidBlock) continue;
             level.setBlock(p, state, 2);
-            placed = true;
+            placed++;
         }
         return placed;
     }
@@ -73,7 +86,7 @@ public class VisCrystalClusterFeature extends Feature<NoFeatureConfig> {
     private boolean isTouchingSolid(ISeedReader level, BlockPos pos) {
         for (BlockPos off : new BlockPos[]{pos.above(), pos.below(), pos.north(), pos.south(), pos.east(), pos.west()}) {
             BlockState bs = level.getBlockState(off);
-            if (bs.getMaterial().isSolid()) return true;
+            if (bs.getMaterial() == Material.STONE) return true;
         }
         return false;
     }

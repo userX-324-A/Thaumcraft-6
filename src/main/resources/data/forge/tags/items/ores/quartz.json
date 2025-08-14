@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:ore_quartzthaumcraft:ore_quartzthaumcraft:ore_quartzthaumcraft:ore_quartz"
+    "replace": false,
+    "values": [
+        "thaumcraft:ore_quartz"
+    ]
 }

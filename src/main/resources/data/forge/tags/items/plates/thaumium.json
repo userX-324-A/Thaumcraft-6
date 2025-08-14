@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:plate_thaumiumthaumcraft:plate_thaumiumthaumcraft:plate_thaumiumthaumcraft:plate_thaumium"
+    "replace": false,
+    "values": [
+        "thaumcraft:plate_thaumium"
+    ]
 }

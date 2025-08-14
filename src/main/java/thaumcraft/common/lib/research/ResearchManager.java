@@ -191,7 +191,7 @@ public class ResearchManager
                             }
                             for (ResearchAddendum addendum : ri.getAddenda()) {
                                 if (addendum.getResearch() != null && Arrays.asList(addendum.getResearch()).contains(researchkey)) {
-                                    ITextComponent text = new TranslationTextComponent("tc.addaddendum", ri.getLocalizedName());
+                                    ITextComponent text = new TranslationTextComponent("tc.addaddendum", new TranslationTextComponent(ri.getName()));
                                     player.sendMessage(text, player.getUUID());
                                     knowledge.setResearchFlag(ri.getKey(), IPlayerKnowledge.EnumResearchFlag.PAGE);
                                     break;
@@ -465,7 +465,33 @@ public class ResearchManager
     private static ResourceLocation[] arrayJsonToResourceLocations(JsonArray jsonArray) {
         ArrayList<ResourceLocation> out = new ArrayList<ResourceLocation>();
         for (JsonElement element : jsonArray) {
-            out.add(new ResourceLocation(element.getAsString()));
+            String raw = element.getAsString();
+            try {
+                // Be tolerant of legacy/camel-case ids in embedded research JSON by validating per-entry
+                // and skipping invalid resource locations instead of failing the entire research entry.
+                ResourceLocation rl;
+                // tryParse returns null on invalid; available in 1.16.5 official mappings
+                try {
+                    rl = ResourceLocation.tryParse(raw);
+                } catch (Throwable t) {
+                    rl = null;
+                }
+                if (rl == null) {
+                    // Fall back to strict constructor to surface clear message if it happens to succeed
+                    try {
+                        rl = new ResourceLocation(raw);
+                    } catch (Throwable ignored) {
+                        rl = null;
+                    }
+                }
+                if (rl != null) {
+                    out.add(rl);
+                } else {
+                    thaumcraft.Thaumcraft.LOGGER.warn("Skipping invalid resource location in research recipes: {}", raw);
+                }
+            } catch (Throwable t) {
+                thaumcraft.Thaumcraft.LOGGER.warn("Skipping invalid resource location in research recipes: {} ({})", raw, t.getMessage());
+            }
         }
         return (out.size() == 0) ? null : out.toArray(new ResourceLocation[out.size()]);
     }

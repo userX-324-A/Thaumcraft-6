@@ -30,6 +30,40 @@ public class EssentiaBufferBlockEntity extends TileEntity {
         super.setRemoved();
         transport.invalidate();
     }
+
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+		this.getCapability(EssentiaTransportCapability.ESSENTIA_TRANSPORT).ifPresent(cap -> {
+			thaumcraft.api.aspects.Aspect type = cap.getEssentiaType(null);
+			if (type != null) tag.putString("aspect", type.getTag());
+			tag.putInt("amount", cap.getEssentiaAmount(null));
+			tag.putInt("suction", cap.getSuction());
+		});
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(net.minecraft.block.BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+		this.getCapability(EssentiaTransportCapability.ESSENTIA_TRANSPORT).ifPresent(cap -> {
+			thaumcraft.api.aspects.Aspect type = tag.contains("aspect") ? thaumcraft.api.aspects.Aspect.getAspect(tag.getString("aspect")) : null;
+			((EssentiaTransportCapability.BasicEssentiaTransport) cap).setStored(type, tag.getInt("amount"));
+			cap.setSuction(tag.getInt("suction"));
+		});
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 }
 
 

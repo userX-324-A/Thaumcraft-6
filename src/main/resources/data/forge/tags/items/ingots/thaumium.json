@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:thaumium_ingotthaumcraft:thaumium_ingotthaumcraft:thaumium_ingotthaumcraft:thaumium_ingot"
+    "replace": false,
+    "values": [
+        "thaumcraft:thaumium_ingot"
+    ]
 }

@@ -2,6 +2,8 @@ package thaumcraft.api.research;
 import java.util.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thaumcraft.api.research.ResearchStage.Knowledge;
 
 
@@ -125,7 +127,8 @@ public class ResearchEntry
 	/**
 	 * @return the name
 	 */
-	public String getLocalizedName() {
+    @OnlyIn(Dist.CLIENT)
+    public String getLocalizedName() {
 		return I18n.get(getName());
 	}
 

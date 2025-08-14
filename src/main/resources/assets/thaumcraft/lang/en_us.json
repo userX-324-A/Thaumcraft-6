@@ -1,18 +1,26 @@
 {
-  "item.thaumcraft.seal_placer": "Seal Placer",
-  "item.thaumcraft.seal_fetch": "Seal: Fetch",
-  "item.thaumcraft.seal_guard": "Seal: Guard",
-  "item.thaumcraft.seal_harvest": "Seal: Harvest",
-  "item.thaumcraft.seal_empty": "Seal: Empty",
-  "gui.thaumcraft.seal.priority": "Priority",
-  "gui.thaumcraft.seal.color": "Color",
-  "gui.thaumcraft.seal.locked": "Locked",
-  "gui.thaumcraft.seal.redstone": "Redstone",
-  "gui.thaumcraft.seal.area": "Area",
-  "gui.thaumcraft.seal.owner_only": "Only owner or creative may edit",
-  "gui.thaumcraft.seal.toggle": "Toggle",
-  "gui.thaumcraft.seal.blacklist": "Blacklist"
+    "gui.thaumcraft.seal.area":  "Area",
+    "gui.thaumcraft.seal.blacklist":  "Blacklist",
+    "gui.thaumcraft.seal.color":  "Color",
+    "gui.thaumcraft.seal.locked":  "Locked",
+    "gui.thaumcraft.seal.owner_only":  "Only owner or creative may edit",
+    "gui.thaumcraft.seal.priority":  "Priority",
+    "gui.thaumcraft.seal.redstone":  "Redstone",
+    "gui.thaumcraft.seal.toggle":  "Toggle",
+    "item.thaumcraft.seal_empty":  "Seal: Empty",
+    "item.thaumcraft.seal_fetch":  "Seal: Fetch",
+    "item.thaumcraft.seal_guard":  "Seal: Guard",
+    "item.thaumcraft.seal_harvest":  "Seal: Harvest",
+    "item.thaumcraft.seal_placer":  "Seal Placer",
+    "jei.thaumcraft.category.arcane":  "Arcane Workbench",
+    "jei.thaumcraft.category.crucible":  "Crucible",
+    "jei.thaumcraft.category.infusion":  "Infusion",
+    "tc.research_category.ALCHEMY":  "Alchemy",
+    "tc.research_category.ARTIFICE":  "Artifice",
+    "tc.research_category.AUROMANCY":  "Auromancy",
+    "tc.research_category.BASICS":  "Basics",
+    "tc.research_category.ELDRITCH":  "Eldritch",
+    "tc.research_category.GOLEMANCY":  "Golemancy",
+    "tc.research_category.INFUSION":  "Infusion",
+    "tooltip.thaumcraft.curios_hint":  "Install Curios for equipment slots"
 }
-
-
-

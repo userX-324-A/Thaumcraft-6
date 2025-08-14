@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:plate_brassthaumcraft:plate_brassthaumcraft:plate_brassthaumcraft:plate_brass"
+    "replace": false,
+    "values": [
+        "thaumcraft:plate_brass"
+    ]
 }

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "#thaumcraft:crystals"
+    "replace": false,
+    "values": [
+        "#thaumcraft:crystals"
+    ]
 }

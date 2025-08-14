@@ -20,9 +20,12 @@ public final class SealEngine {
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
+        if (thaumcraft.common.Diag.disableAll() || thaumcraft.common.Diag.disableSealEngine()) return;
         if (event.side != LogicalSide.SERVER || event.phase != TickEvent.Phase.END) return;
         if (!(event.world instanceof ServerWorld)) return;
         ServerWorld world = (ServerWorld) event.world;
+        // Avoid early ticks while server is not fully started to prevent chunk loads during bootstrap
+        if (!world.getServer().isRunning()) return;
         SealWorldData data = SealWorldData.get(world);
         data.all().forEach(se -> {
             // Only tick if the seal's chunk is loaded and placement is still valid
@@ -53,6 +56,7 @@ public final class SealEngine {
 
     @SubscribeEvent
     public static void onBlockBroken(BlockEvent.BreakEvent event) {
+        if (thaumcraft.common.Diag.disableAll() || thaumcraft.common.Diag.disableSealEngine()) return;
         if (!(event.getWorld() instanceof ServerWorld)) return;
         ServerWorld world = (ServerWorld) event.getWorld();
         BlockPos pos = event.getPos();

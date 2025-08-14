@@ -97,6 +97,31 @@ public class VisGeneratorBlockEntity extends TileEntity implements ITickableTile
         tag.putInt("Energy", energy);
         return super.save(tag);
     }
+
+	@Override
+	public net.minecraft.nbt.CompoundNBT getUpdateTag() {
+		net.minecraft.nbt.CompoundNBT tag = super.getUpdateTag();
+		tag.putInt("Energy", energy);
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(BlockState state, net.minecraft.nbt.CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
+		if (tag.contains("Energy")) energy = tag.getInt("Energy");
+	}
+
+	@Override
+	public net.minecraft.network.play.server.SUpdateTileEntityPacket getUpdatePacket() {
+		net.minecraft.nbt.CompoundNBT tag = new net.minecraft.nbt.CompoundNBT();
+		save(tag);
+		return new net.minecraft.network.play.server.SUpdateTileEntityPacket(this.worldPosition, 0, tag);
+	}
+
+	@Override
+	public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+		this.load(getBlockState(), pkt.getTag());
+	}
 }
 
 

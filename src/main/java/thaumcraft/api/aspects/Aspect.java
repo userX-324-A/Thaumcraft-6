@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.text.WordUtils;
 import thaumcraft.api.research.ScanAspect;
 import thaumcraft.api.research.ScanningManager;
@@ -81,7 +83,8 @@ public class Aspect {
 		return WordUtils.capitalizeFully(tag);
 	}
 	
-	public String getLocalizedDescription() {
+    @OnlyIn(Dist.CLIENT)
+    public String getLocalizedDescription() {
 		return I18n.get("tc.aspect."+tag);
 	}
 	

@@ -1,4 +1,6 @@
 {
-    "replace":  false,
-    "values":  "thaumcraft:block_brassthaumcraft:block_brassthaumcraft:block_brass"
+    "replace": false,
+    "values": [
+        "thaumcraft:block_brass"
+    ]
 }
